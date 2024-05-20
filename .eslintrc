@@ -2,7 +2,9 @@
   "extends": ["airbnb", "airbnb-typescript"],
   "parserOptions": {
     "project": ["**/tsconfig.json"],
+    "extraFileExtensions": [".html"],
   },
+  "files": ["**/*.ts", "**/*.tsx"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
@@ -22,6 +24,7 @@
     "jsx-a11y/label-has-associated-control": "off",
     "react-hooks/exhaustive-deps": "off",
     "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+    "linebreak-style": ["error", "windows"],
   },
   "settings": {
     "import/resolver": {
