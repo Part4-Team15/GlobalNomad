@@ -4,7 +4,6 @@
     "project": ["**/tsconfig.json"],
     "extraFileExtensions": [".html"],
   },
-  "files": ["**/*.ts", "**/*.tsx"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
