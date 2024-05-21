@@ -1,13 +1,16 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
+import { AxiosError } from 'axios';
+import axios from '../../lib/axios';
+
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
-    id: '',
+    email: '',
     nickname: '',
     password: '',
   });
 
-  const { id, nickname, password } = inputs;
+  const { email, nickname, password } = inputs;
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -17,15 +20,24 @@ const SignupForm = () => {
     });
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try {
+      await axios.post('/users', { email, nickname, password });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.error('에러 발생:', error.message);
+      } else {
+        console.error('에러 발생:', error);
+      }
+    }
   };
   return (
     <div>
       <form onSubmit={onSubmit}>
         <div>
-          <label htmlFor="id">아이디</label>
-          <input name="id" type="text" id="id" onChange={onChangeInput} value={id} />
+          <label htmlFor="email">아이디</label>
+          <input name="email" type="email" id="email" onChange={onChangeInput} value={email} />
         </div>
         <div>
           <label htmlFor="nickname">닉네임</label>
