@@ -3,7 +3,7 @@ import LoginForm from '../components/login/LoginForm';
 
 const LoginPage = () => (
   <div>
-    로그인을 진행해주세요
+    <div className="text-3xl font-bold underline text-yellow-500">로그인을 진행해주세요</div>
     <LoginForm />
   </div>
 );
