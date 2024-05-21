@@ -23,7 +23,7 @@
     "react-hooks/exhaustive-deps": "off",
     "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
     "linebreak-style": ["error", "windows"],
-    "comma-dangling": "always-multiline",
+    "@typescript-eslint/comma-dangle": ["off"],
   },
   "settings": {
     "import/resolver": {

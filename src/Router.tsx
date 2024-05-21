@@ -25,12 +25,11 @@ const AppRouter = () => (
         {/* 예약 내역 */}
         <Route path="reservations" element={<ReservationsPage />} />
         {/* 내 체험 관리 */}
-        <Route path="my-activity" element={<MyActivityPage />}>
-          {/* 내 체험 관리 - 체험 등록 */}
-          <Route path="assgin" element={<AssignActivityPage />} />
-          {/* 내 체험 관리 - 체험 수정 */}
-          <Route path="modify" element={<ModifyActivityPage />} />
-        </Route>
+        <Route path="my-activity" element={<MyActivityPage />} />
+        {/* 내 체험 관리 - 체험 등록 */}
+        <Route path="my-activity/assign" element={<AssignActivityPage />} />
+        {/* 내 체험 관리 - 체험 수정 */}
+        <Route path="my-activity/modify" element={<ModifyActivityPage />} />
         {/* 예약 현황 */}
         <Route path="reserve-status" element={<ReserveStatusPage />} />
       </Route>
