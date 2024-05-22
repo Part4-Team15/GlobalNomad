@@ -1,9 +1,15 @@
+import LinkToLoginPage from '../components/signup/LinkToLoginPage';
 import SignupForm from '../components/signup/SignupForm';
 
 const SignupPage = () => (
   <div>
-    <div>회원가입을 진행해 주세요</div>
+    <img
+      src="/assets/logo.svg"
+      alt="logo"
+      className="ml-auto mr-auto mt-[104px] mb-[40px]"
+    />
     <SignupForm />
+    <LinkToLoginPage />
   </div>
 );
 
