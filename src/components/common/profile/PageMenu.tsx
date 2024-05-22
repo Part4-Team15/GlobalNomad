@@ -7,7 +7,12 @@ interface PageMenuProp {
   name: string;
 }
 
-const PageMenu = ({ linkTo, icon, activeIcon, name }: PageMenuProp) => {
+const PageMenu = ({
+  linkTo,
+  icon,
+  activeIcon,
+  name,
+}: PageMenuProp) => {
   const location = useLocation();
   const isActive = location.pathname.startsWith(linkTo);
   return (

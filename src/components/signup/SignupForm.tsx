@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { AxiosError } from 'axios';
-import axios from '../../lib/axios';
+import axios from '../../lib/axiosInstance';
 import AuthInputBox from '../common/AuthInputBox';
 import AuthButton from '../common/AuthButton';
 
