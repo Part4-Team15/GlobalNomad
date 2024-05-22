@@ -10,5 +10,6 @@
       "@/*": ["./src/*"]
     },
     "jsx": "preserve"
-  }
+  },
+  "include": ["src", "src/custom.d.ts"]
 }

@@ -21,9 +21,17 @@
     "no-console": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "react-hooks/exhaustive-deps": "off",
-    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": "arrow-function" },
+    ],
     "linebreak-style": ["error", "windows"],
-    "comma-dangling": "always-multiline",
+    "@typescript-eslint/comma-dangle": ["off"],
+    //중괄호 줄바꿈 표시 -> 한줄로 되게끔 해주기
+    "object-curly-newline": [
+      "error",
+      { "multiline": true, "consistent": true },
+    ],
   },
   "settings": {
     "import/resolver": {
