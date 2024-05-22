@@ -12,7 +12,7 @@ import calendarIconGray from '../../assets/calendar_check_icon_gray.svg';
 
 const Profile = () => (
   // 여기에서 profileImage에 api에서 받아온 프로필을 설정할 수 있음
-  <div className="flex w-96 p-6 flex-col justify-center items-start gap-6 border rounded-xl border-gray-50 bg-white shadow-md">
+  <div className="md:flex sm:hidden lg:w-96 md:w-[251px] p-6 flex-col justify-center items-start gap-6 border rounded-xl border-gray-50 bg-white shadow-md">
     <div className="flex justify-center items-start gap-[227px] self-stretch">
       <div className="flex flex-col justify-center items-center gap-6">
         <div

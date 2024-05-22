@@ -10,8 +10,7 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
         black: '#171717',
@@ -36,6 +35,11 @@ module.exports = {
         'blue-20': '#2EB4FF',
         'blue-10': '#E5F3FF',
       },
+    },
+    screens: {
+      sm: { max: '768px' },
+      md: { min: '769px', max: '1023px' },
+      lg: { min: '1024px' },
     },
   },
 
