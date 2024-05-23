@@ -1,7 +1,7 @@
 import TopBanner from '../components/activity/TopBanner';
 import Description from '../components/activity/Description';
+import Reviews from '../components/activity/Reviews';
 // import ReserveForm from '../components/activity/ReserveForm';
-// import Reviews from '../components/activity/Reviews';
 
 const ActivityPage = () => {
   console.log('hi');
@@ -11,10 +11,12 @@ const ActivityPage = () => {
       <div className="w-[1200px] flex-col flex justify-center items-center gap-20">
         <TopBanner />
         <div className="flex w-full">
-          <Description />
+          <div className="flex w-2/3 flex-col">
+            <Description />
+            <Reviews />
+          </div>
           {/* <ReserveForm /> */}
         </div>
-        {/* <Reviews /> */}
       </div>
     </div>
   );
