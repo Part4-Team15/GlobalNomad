@@ -11,5 +11,5 @@
     },
     "jsx": "preserve"
   },
-  "include": ["src", "src/custom.d.ts", "tailwind.config.js"]
+  "include": ["src", "src/custom.d.ts"],
 }
