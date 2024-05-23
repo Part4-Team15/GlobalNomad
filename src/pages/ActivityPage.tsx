@@ -10,14 +10,16 @@ const ActivityPage = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <>
+    <div className="flex flex-col justify-center items-center w-screen">
       <h1>{id}번째 체험 상세 페이지입니다</h1>
-      <TopBanner />
-      {/* <Details />
+      <div className="w-[1200px] flex justify-center items-center">
+        <TopBanner />
+        {/* <Details />
       <Map />
       <ReserveForm />
       <Reviews /> */}
-    </>
+      </div>
+    </div>
   );
 };
 
