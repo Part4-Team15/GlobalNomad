@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
+import type { Config } from 'tailwindcss';
 
-module.exports = {
+const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
 
   theme: {
@@ -14,6 +14,7 @@ module.exports = {
       },
       colors: {
         black: '#171717',
+        'nomad-black': '#333236',
         'gray-80': '#4B4B4B',
         'gray-70': '#79747E',
         'gray-60': '#A4A1AA',
@@ -24,7 +25,7 @@ module.exports = {
         'gray-10': '#FAFAFA',
         white: '#FFFFFF',
         'red-40': '#FF472E',
-        'red-10': '#FFE4E0',  
+        'red-10': '#FFE4E0',
         'orange-40': '#FF7C1D',
         'orange-10': '#FFF4E8',
         yellow: '#FFC23D',
@@ -45,3 +46,5 @@ module.exports = {
 
   plugins: [],
 };
+
+export default config;
