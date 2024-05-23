@@ -1,3 +1,4 @@
+import ActivitySearch from '../components/mainpage/ActivitySearch';
 import MainBanner from '../components/mainpage/MainBanner';
 
 const MainPage = () => {
@@ -5,7 +6,7 @@ const MainPage = () => {
   return (
     <>
       <MainBanner />
-      <div>search</div>
+      <ActivitySearch />
       <div>인기 체험🔥</div>
       <div>cardList</div>
       <div>
