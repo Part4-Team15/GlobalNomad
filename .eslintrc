@@ -33,6 +33,7 @@
       "error",
       { "multiline": true, "consistent": true },
     ],
+    "react/prop-types": "off", // PropTypes 검사 비활성화
   },
   "settings": {
     "import/resolver": {

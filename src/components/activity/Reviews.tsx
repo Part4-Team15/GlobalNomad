@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from '../../lib/axios';
 
-const Reviews = () => {
+interface ReviewsProps {
+  id: string;
+}
+
+const Reviews: React.FC<ReviewsProps> = ({ id }) => {
   const [reviewData, setReviewData] = useState({
     averageRating: 0,
     totalCount: 0,
@@ -43,7 +47,7 @@ const Reviews = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get('/activities/901/reviews');
+      const response = await axios.get(`/activities/${id}/reviews`);
       setReviewData(response.data);
     };
 

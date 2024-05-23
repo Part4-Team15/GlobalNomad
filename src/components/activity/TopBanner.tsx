@@ -1,31 +1,25 @@
-import { useEffect, useState } from 'react';
-import axios from '../../lib/axios';
+interface Activity {
+  title: string;
+  category: string;
+  rating: string;
+  address: string;
+  reviewCount: string;
+  description: string;
+}
 
-const TopBanner = () => {
-  const [banner, setBanner] = useState({
-    title: '',
-    category: '',
-    rating: '',
-    address: '',
-    reviewCount: '',
-    // bannerImageUrl: '',
-    // subImages: [],
-  });
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get('/activities/901');
-      setBanner(response.data);
-    };
+interface TopBannerProps {
+  activity: Activity;
+}
 
-    getData();
-  }, []);
+const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
+  const { title, category, rating, address, reviewCount } = activity;
 
   return (
     <div className="w-full">
       {/* Banner Title */}
       <div className="flex flex-col w-full gap-2.5">
-        <span className="text-gray-80 font-normal">{banner.category}</span>
-        <h1 className="text-4xl font-bold">{banner.title}</h1>
+        <span className="text-gray-80 font-normal">{category}</span>
+        <h1 className="text-4xl font-bold">{title}</h1>
         <div className="flex justify-between items-center">
           <div className="flex gap-1">
             <div className="flex">
@@ -34,10 +28,10 @@ const TopBanner = () => {
                 src="/assets/star_on_icon.svg"
                 alt="rating star"
               />
-              {banner.rating}({banner.reviewCount})
+              {rating}({reviewCount})
             </div>
             <img src="/assets/location_icon.svg" alt="location icon" />
-            <span className="text-gray-80">{banner.address}</span>
+            <span className="text-gray-80">{address}</span>
           </div>
           <img className="w-10" src="/assets/kebab_icon.svg" alt="kebab icon" />
         </div>
@@ -72,8 +66,8 @@ const TopBanner = () => {
             alt="sub4"
           />
         </div>
-        {/* <img src={banner.bannerImageUrl} alt="Banner Main" />
-        {banner.subImages.map(({ imageUrl }) => (
+        {/* <img src={bannerImageUrl} alt="Banner Main" />
+        {subImages.map(({ imageUrl }) => (
           <img src={imageUrl} alt="Banner Sub" />
         ))} */}
       </div>

@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
-import axios from '../../lib/axios';
 import Map from './Map';
 
-const Description = () => {
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get('/activities/901');
-      setDescription(response.data.description);
-      setLocation(response.data.address);
-    };
+interface Activity {
+  title: string;
+  category: string;
+  rating: string;
+  address: string;
+  reviewCount: string;
+  description: string;
+}
 
-    getData();
-  }, []);
+interface DescriptionProps {
+  activity: Activity;
+}
+
+const Description: React.FC<DescriptionProps> = ({ activity }) => {
+  const { address: location, description } = activity;
 
   return (
     <div className="flex flex-col w-full gap-4">

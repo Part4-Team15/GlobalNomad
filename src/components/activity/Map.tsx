@@ -4,12 +4,11 @@ interface MapProps {
   location: string;
 }
 
-const Map: React.FC<MapProps> = ({ location }: { location: string }) => {
+const Map: React.FC<MapProps> = ({ location }) => {
   const { naver } = window;
 
   useEffect(() => {
     const mapDiv = document.getElementById('map');
-    // (() => new window.naver.maps.Map(mapDiv as HTMLElement))();
     const map = new naver.maps.Map(mapDiv as HTMLElement);
 
     if (location) {

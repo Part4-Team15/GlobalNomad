@@ -1,21 +1,41 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import TopBanner from '../components/activity/TopBanner';
 import Description from '../components/activity/Description';
 import Reviews from '../components/activity/Reviews';
-// import ReserveForm from '../components/activity/ReserveForm';
+import ReserveForm from '../components/activity/ReserveForm';
+import axios from '../lib/axios';
 
 const ActivityPage = () => {
-  console.log('hi');
+  const { id } = useParams() as { id: string };
+
+  const [activity, setActivity] = useState({
+    title: '',
+    category: '',
+    rating: '',
+    address: '',
+    reviewCount: '',
+    description: '',
+  });
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios.get(`/activities/${id}`);
+      setActivity(response.data);
+    };
+    getData();
+  }, [id]);
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
       <div className="w-[1200px] flex-col flex justify-center items-center gap-20">
-        <TopBanner />
+        <TopBanner activity={activity} />
         <div className="flex w-full">
           <div className="flex w-2/3 flex-col">
-            <Description />
-            <Reviews />
+            <Description activity={activity} />
+            <Reviews id={id} />
           </div>
-          {/* <ReserveForm /> */}
+          <ReserveForm />
         </div>
       </div>
     </div>
