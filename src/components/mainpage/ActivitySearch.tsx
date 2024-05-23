@@ -5,11 +5,12 @@ const ActivitySearch = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
+    console.log(searchWord);
   };
 
   return (
-    <div className="relative flex justify-center bg-white">
-      <form className="absolute -top-14 flex flex-col gap-8 w-[1200px] px-6 py-8 shadow-lg rounded-2xl bg-white">
+    <div className="relative bg-white w-[1200px] pb-32">
+      <form className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-lg rounded-2xl bg-white">
         <label className="text-black text-xl font-bold">무엇을 체험하고 싶으신가요?</label>
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -32,7 +33,6 @@ const ActivitySearch = () => {
             검색하기
           </button>
         </div>
-        <div>{searchWord}</div>
       </form>
     </div>
   );
