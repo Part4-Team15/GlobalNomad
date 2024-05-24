@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import TopBanner from '../components/activity/TopBanner';
-import Description from '../components/activity/Description';
-import Reviews from '../components/activity/Reviews';
-import ReserveForm from '../components/activity/ReserveForm';
-import axios from '../lib/axios';
+import ReserveForm from '@/components/activity/ReserveForm';
+import TopBanner from '@/components/activity/TopBanner';
+import Description from '@/components/activity/Description';
+import Reviews from '@/components/activity/Reviews';
+import axios from '@/lib/axios';
 
 const ActivityPage = () => {
   const { id } = useParams() as { id: string };

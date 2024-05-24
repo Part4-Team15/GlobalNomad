@@ -2,6 +2,8 @@ import moment from 'moment';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+// import '../../styles/tailwind-calendar.css';
+import '../../styles/tailwind-calendar.css';
 
 interface Activity {
   title: string;
@@ -33,7 +35,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
       <div>₩{price} /인</div>
       <div>날짜</div>
       <Calendar
-        className="w-full"
+        className="react-calendar w-full"
         tileClassName="bg-gray-40"
         onChange={handleDateChange}
         value={selectedDate}
