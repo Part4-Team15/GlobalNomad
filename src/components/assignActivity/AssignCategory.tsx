@@ -19,7 +19,7 @@ const AssignCategory = () => {
   };
 
   return (
-    <>
+    <div className=" w-[100%] relative">
       <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
         <input
           className="w-[100%] outline-none"
@@ -35,7 +35,7 @@ const AssignCategory = () => {
         </button>
       </div>
       {isDropDown && (
-        <ul className="flex flex-col w-[100%] p-2 items-start gap-[2px] shrink-0 rounded-md bg-white shadow-md">
+        <ul className=" absolute z-10 flex flex-col w-[100%] p-2 items-start gap-[2px] shrink-0 rounded-md bg-white shadow-md">
           {category.map((item) => (
             <button
               key={item}
@@ -61,7 +61,7 @@ const AssignCategory = () => {
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 };
 
