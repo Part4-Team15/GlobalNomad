@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import MainPage from './pages/MainPage';
+import ActivityPage from './pages/ActivityPage';
 import Layout from './pages/Layout';
 import MyPage from './pages/MyPage';
 import ReservationsPage from './pages/ReservationsPage';
@@ -20,6 +21,8 @@ const AppRouter = () => (
       <Route path="/" element={<Layout />}>
         {/* 메인 페이지 */}
         <Route index element={<MainPage />} />
+        {/* 체험 상세 페이지 */}
+        <Route path="activity/:id" element={<ActivityPage />} />
         {/* 내 정보 */}
         <Route path="my-page" element={<MyPage />} />
         {/* 예약 내역 */}
