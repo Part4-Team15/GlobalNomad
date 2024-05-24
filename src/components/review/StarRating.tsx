@@ -9,7 +9,7 @@ const StarRating: React.FC<StarRatingProps> = ({ onRatingChange }) => {
   const [hover, setHover] = useState(0);
 
   return (
-    <div className="flex justify-center">
+    <div className="h-[6.25rem] flex justify-center items-center mb-6">
       {[...Array(5)].map((_, index) => {
         const ratingValue = index + 1;
         return (
