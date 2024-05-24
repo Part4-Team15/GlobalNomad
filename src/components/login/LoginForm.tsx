@@ -112,7 +112,6 @@ const LoginForm = () => {
     mutate({ email, password });
   };
 
-  console.log(errorData);
   return (
     <form
       onSubmit={onSubmit}
