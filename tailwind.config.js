@@ -15,6 +15,7 @@ module.exports = {
       },
       colors: {
         black: '#171717',
+        'nomad-black': '#333236',
         'gray-80': '#4B4B4B',
         'gray-70': '#79747E',
         'gray-60': '#A4A1AA',
