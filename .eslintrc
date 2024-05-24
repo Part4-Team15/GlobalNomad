@@ -1,5 +1,6 @@
 {
   "extends": ["airbnb", "airbnb-typescript"],
+  "ignorePatterns": ["craco.config.js"],
   "parserOptions": {
     "project": ["**/tsconfig.json"],
   },
@@ -7,6 +8,7 @@
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -32,6 +34,7 @@
       "error",
       { "multiline": true, "consistent": true },
     ],
+    "react/prop-types": "off", // PropTypes 검사 비활성화
   },
   "settings": {
     "import/resolver": {
