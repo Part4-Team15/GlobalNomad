@@ -10,7 +10,8 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
         black: '#171717',
@@ -24,7 +25,7 @@ module.exports = {
         'gray-10': '#FAFAFA',
         white: '#FFFFFF',
         'red-40': '#FF472E',
-        'red-10': '#FFE4E0',  
+        'red-10': '#FFE4E0',
         'orange-40': '#FF7C1D',
         'orange-10': '#FFF4E8',
         yellow: '#FFC23D',
