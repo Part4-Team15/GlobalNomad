@@ -1,14 +1,14 @@
 import React from 'react';
-import AssignTitle from '../components/assignActivity/AssignTitle';
-import AssignHeader from '../components/assignActivity/AssignHeader';
-import Profile from '../components/common/profile/Profile';
-import AssignCategory from '../components/assignActivity/AssignCategory';
-import AssignDescription from '../components/assignActivity/AssignDescription';
-import AssignPrice from '../components/assignActivity/AssignPrice';
-import AssignAddress from '../components/assignActivity/AssignAddress';
-import AssignReservationTime from '../components/assignActivity/AssignReservationTime';
-import AssignAddImage from '../components/assignActivity/AssignAddImage';
-import AssignIntroImage from '../components/assignActivity/AssignIntroImage';
+import AssignTitle from '@/components/assignActivity/AssignTitle';
+import AssignHeader from '@/components/assignActivity/AssignHeader';
+import Profile from '@/components/common/profile/Profile';
+import AssignCategory from '@/components/assignActivity/AssignCategory';
+import AssignDescription from '@/components/assignActivity/AssignDescription';
+import AssignPrice from '@/components/assignActivity/AssignPrice';
+import AssignAddress from '@/components/assignActivity/AssignAddress';
+import AssignReservationTime from '@/components/assignActivity/AssignReservationTime';
+import AssignAddImage from '@/components/assignActivity/AssignAddImage';
+import AssignIntroImage from '@/components/assignActivity/AssignIntroImage';
 
 const AssignActivityPage = () => (
   <div className="h-[100%] lg:pr-[150px] md:pr-[30px] sm:pr-[24px] lg:pl-[150px] md:pl-[30px] sm:pl-[24px]">
