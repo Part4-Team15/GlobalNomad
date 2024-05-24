@@ -16,6 +16,7 @@ const ActivityPage = () => {
     address: '',
     reviewCount: '',
     description: '',
+    price: 0,
   });
 
   useEffect(() => {
@@ -35,7 +36,9 @@ const ActivityPage = () => {
             <Description activity={activity} />
             <Reviews id={id} />
           </div>
-          <ReserveForm />
+          <div className="w-1/3">
+            <ReserveForm activity={activity} />
+          </div>
         </div>
       </div>
     </div>
