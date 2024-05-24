@@ -124,6 +124,7 @@ const LoginForm = () => {
         value={email}
         labelName="이메일"
         errorData={errorData}
+        setErrorData={setErrorData}
       />
 
       <AuthInputBox
@@ -132,6 +133,7 @@ const LoginForm = () => {
         value={password}
         labelName="비밀번호"
         errorData={errorData}
+        setErrorData={setErrorData}
       />
 
       <AuthButton>로그인</AuthButton>

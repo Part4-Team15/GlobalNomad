@@ -8,6 +8,7 @@ interface AuthInputBoxProps {
   value: string;
   labelName: string;
   errorData: LoginErrorType | null;
+  setErrorData: React.Dispatch<React.SetStateAction<LoginErrorType>>;
 }
 
 const AuthInputBox = ({
@@ -16,10 +17,24 @@ const AuthInputBox = ({
   value,
   labelName,
   errorData,
+  setErrorData,
 }: AuthInputBoxProps) => {
   const [isShowInputValue, setIsShowInputValue] = useState(false);
   const [inputType, setInputType] = useState(inputName);
 
+  const onClickInput = () => {
+    if (inputName === 'email') {
+      setErrorData((prev) => ({
+        ...prev,
+        emailErrorMessage: null,
+      }));
+    } else {
+      setErrorData((prev) => ({
+        ...prev,
+        passwordErrorMessage: null,
+      }));
+    }
+  };
   const onClickEyeIcon = () => {
     if (inputType === 'password') {
       setInputType('text');
@@ -47,6 +62,7 @@ const AuthInputBox = ({
           onChange={onChangeInput}
           value={value}
           className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass}`}
+          onClick={onClickInput}
         />
         {labelName === '비밀번호' && (
           <button
