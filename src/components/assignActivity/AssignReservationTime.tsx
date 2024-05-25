@@ -5,12 +5,23 @@ import EndTimeDropDown from './dropDown/EndTimeDropDown';
 const AssignReservationTime = () => {
   const [isStartTimeDropDown, setIsStartTimeDropDown] = useState(false);
   const [isEndTimeDropDown, setIsEndTimeDropDown] = useState(false);
+  const [time, setTime] = useState({ startTime: '', endTime: '' });
 
   const handleStartTimeDropDown = () => {
     setIsStartTimeDropDown(!isStartTimeDropDown);
   };
 
   const handleEndTimeDropDown = () => {
+    setIsEndTimeDropDown(!isEndTimeDropDown);
+  };
+
+  const handleSelectStart = (startTime: string, endTime: string) => {
+    setTime({ startTime, endTime });
+    setIsStartTimeDropDown(!isStartTimeDropDown);
+  };
+
+  const handleSelectEnd = (startTime: string, endTime: string) => {
+    setTime({ startTime, endTime });
     setIsEndTimeDropDown(!isEndTimeDropDown);
   };
 
@@ -33,7 +44,12 @@ const AssignReservationTime = () => {
               <div className="flex w-[100%] flex-col ">
                 <span>시작 시간</span>
                 <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
-                  <input className="w-[100%] outline-none" placeholder="0:00" />
+                  <input
+                    className="w-[100%] outline-none"
+                    placeholder="0:00"
+                    value={time.startTime}
+                    readOnly
+                  />
                   <button type="button" onClick={handleStartTimeDropDown}>
                     <img
                       src={
@@ -46,7 +62,9 @@ const AssignReservationTime = () => {
                   </button>
                 </div>
               </div>
-              {isStartTimeDropDown && <StartTimeDropDown />}
+              {isStartTimeDropDown && (
+                <StartTimeDropDown onSelect={handleSelectStart} />
+              )}
             </div>
 
             <span className=" mt-4">~</span>
@@ -55,7 +73,12 @@ const AssignReservationTime = () => {
               <div className="flex w-[100%] flex-col ">
                 <span>종료 시간</span>
                 <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
-                  <input className="w-[100%] outline-none" placeholder="0:00" />
+                  <input
+                    className="w-[100%] outline-none"
+                    placeholder="0:00"
+                    value={time.endTime}
+                    readOnly
+                  />
                   <button type="button" onClick={handleEndTimeDropDown}>
                     <img
                       src={
@@ -68,7 +91,9 @@ const AssignReservationTime = () => {
                   </button>
                 </div>
               </div>
-              {isEndTimeDropDown && <EndTimeDropDown />}
+              {isEndTimeDropDown && (
+                <EndTimeDropDown onSelect={handleSelectEnd} />
+              )}
             </div>
           </div>
 
