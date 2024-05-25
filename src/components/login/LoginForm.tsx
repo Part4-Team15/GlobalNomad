@@ -17,10 +17,12 @@ const LoginForm = () => {
     passwordErrorMessage: null,
     unexpectedErrorMessage: null,
   });
+
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
   });
+
   const { mutate } = useMutation({
     mutationFn: handleLogin,
     onSuccess: (data) => {
