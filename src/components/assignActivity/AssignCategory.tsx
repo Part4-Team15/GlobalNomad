@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Category from './dropDown/Category';
+import CategoryDropDown from './dropDown/CategoryDropDown';
 
 const AssignCategory = () => {
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
@@ -11,6 +11,7 @@ const AssignCategory = () => {
 
   const handleSelect = (value: string) => {
     setSelectedValue(value);
+    setIsDropDown(!isDropDown);
   };
 
   return (
@@ -20,6 +21,7 @@ const AssignCategory = () => {
           className="w-[100%] outline-none"
           value={selectedValue}
           placeholder="카테고리"
+          readOnly
         />
         <button type="button" onClick={handleDropDown}>
           <img
@@ -28,7 +30,7 @@ const AssignCategory = () => {
           />
         </button>
       </div>
-      {isDropDown && <Category onSelect={handleSelect} />}
+      {isDropDown && <CategoryDropDown onSelect={handleSelect} />}
     </div>
   );
 };

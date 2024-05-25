@@ -4,7 +4,7 @@ interface CategoryProps {
   onSelect: (value: string) => void;
 }
 
-const Category = ({ onSelect }: CategoryProps) => {
+const CategoryDropDown = ({ onSelect }: CategoryProps) => {
   const category = ['문화 예술', '식음료', '스포츠', '투어', '관광'];
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
@@ -22,8 +22,8 @@ const Category = ({ onSelect }: CategoryProps) => {
           type="button"
           className={
             selectedCategory === item
-              ? 'flex items-center w-[100%] pl-[36px] pt-2 pb-[6px] gap-2 rounded-md bg-black text-white'
-              : 'flex items-center w-[100%] pl-[36px] pt-2 pb-[6px] gap-2 rounded-md'
+              ? 'flex items-center w-[100%] pl-[36px] pt-2 pb-[6px] gap-2 rounded-md bg-black text-white hover:bg-gray-30'
+              : 'flex items-center w-[100%] pl-[36px] pt-2 pb-[6px] gap-2 rounded-md hover:bg-gray-30'
           }
         >
           {selectedCategory === item ? (
@@ -42,4 +42,4 @@ const Category = ({ onSelect }: CategoryProps) => {
   );
 };
 
-export default Category;
+export default CategoryDropDown;
