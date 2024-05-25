@@ -4,20 +4,21 @@ const ActivityCard = () => {
   const starScore = 4.9;
   const popularScore = 793;
   return (
-    <div className="relative">
-      <div className="absolute bottom-8 left-5 flex flex-col gap-5 w-[230px] text-white z-10">
+    <div>
+      <img className="w-full rounded-3xl" src="/assets/banner.jpg" alt="activity" />
+      <div className="flex flex-col gap-[10px] w-[282px] text-black">
         <div className="flex gap-1">
           <img src="/assets/bold_star.svg" alt="little-star" />
-          <p className="text-sm font-bold">{`${starScore} (${popularScore})`}</p>
+          <p className="text-sm font-bold">
+            {starScore}
+            <span className="text-gray-60">{` (${popularScore})`}</span>
+          </p>
         </div>
-        <div className="text-3xl font-bold">{description}</div>
-        <div className="flex items-center gap-1 text-xl font-bold">
+        <div className="text-2xl font-bold">{description}</div>
+        <div className="flex items-center gap-1 text-[28px] font-bold">
           {`₩ ${price}`}
-          <span className="text-sm text-gray-60">/인</span>
+          <span className="text-xl text-gray-80">/인</span>
         </div>
-      </div>
-      <div className="relative w-96 h-96 bg-cover bg-center rounded-3xl" style={{ backgroundImage: "url('/assets/banner.jpg')" }}>
-        <div className="absolute inset-0 bg-black opacity-30 rounded-3xl" />
       </div>
     </div>
   );
