@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { AxiosError } from 'axios';
-import axios from '../../lib/axios';
-import AuthInputBox from '../common/AuthInputBox';
+import axios from '../../lib/axiosInstance';
+
 import AuthButton from '../common/AuthButton';
+import SignupInputBox from './SignupInputBox';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -40,19 +41,19 @@ const SignupForm = () => {
         onSubmit={onSubmit}
         className="flex flex-col gap-7 w-[40rem] mx-auto"
       >
-        <AuthInputBox
+        <SignupInputBox
           inputName="email"
           onChangeInput={onChangeInput}
           value={email}
           labelName="이메일"
         />
-        <AuthInputBox
+        <SignupInputBox
           inputName="nickname"
           onChangeInput={onChangeInput}
           value={nickname}
           labelName="닉네임"
         />
-        <AuthInputBox
+        <SignupInputBox
           inputName="password"
           onChangeInput={onChangeInput}
           value={password}
