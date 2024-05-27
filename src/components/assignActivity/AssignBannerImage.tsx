@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 const AssignBannerImage = () => {
-  const [bannerImage, setBannerImage] = useState<string | undefined>(undefined);
+  const [bannerImage, setBannerImage] = useState<string | null>(null);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBannerImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -12,12 +12,12 @@ const AssignBannerImage = () => {
         setBannerImage(dataURL);
       };
       reader.readAsDataURL(file);
-      console.log(bannerImage);
     }
+    console.log(bannerImage);
   };
 
   const handleRemoveImage = () => {
-    setBannerImage(undefined);
+    setBannerImage(null);
   };
 
   return (
@@ -27,17 +27,17 @@ const AssignBannerImage = () => {
         <div>
           <label
             className=" flex flex-col items-center justify-center p-[38px] gap-[30px] rounded-xl border border-dashed border-gray-80 cursor-pointer"
-            htmlFor="imageInput"
+            htmlFor="bannerImageInput"
           >
             <img src="/assets/plus_icon.svg" alt="plusIcon" />
             <span>이미지 등록</span>
           </label>
           <input
-            id="imageInput"
+            id="bannerImageInput"
             type="file"
             accept="image/*"
             style={{ display: 'none' }}
-            onChange={handleImageUpload}
+            onChange={handleBannerImageUpload}
           />
         </div>
         {/* 배너 이미지 띄우기 */}
