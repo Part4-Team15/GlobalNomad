@@ -2,7 +2,7 @@ import FooterSocialIcon from '../footer/FooterSocialIcon';
 
 const Footer = () => (
   <div className="flex bg-black sm:gap-3 md:px-[111px] md:justify-between lg:px-[104px] pt-8 text-[#676767] justify-around h-40 text-base relative">
-    <div>©codeit - 2023</div>
+    <div>&copy;codeit - 2024</div>
     <div className="flex gap-[30px]">
       <div className="capitalize">privacy policy</div>
       <div className="uppercase">faq</div>
