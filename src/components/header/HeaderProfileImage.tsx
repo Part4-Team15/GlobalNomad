@@ -1,7 +1,17 @@
 import React from 'react';
+import NoProfileImage from './NoProfileImage';
 
-const HeaderProfileImage = ({ nickname }: { nickname: string }) => (
-  <div>{nickname}</div>
-);
+const HeaderProfileImage = ({
+  nickname,
+  profileImageUrl,
+}: {
+  nickname: string;
+  profileImageUrl: string;
+}) => {
+  if (!profileImageUrl) {
+    return <NoProfileImage nickname={nickname} />;
+  }
+  return <img src={profileImageUrl} alt="Profile" />;
+};
 
 export default HeaderProfileImage;
