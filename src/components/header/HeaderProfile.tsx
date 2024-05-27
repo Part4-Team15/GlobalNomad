@@ -8,7 +8,6 @@ const HeaderProfile = () => {
     queryFn: getUserInfo,
   });
 
-  console.log(data);
   if (isLoading) {
     return <div>프로필을 불러오고 있습니다</div>;
   }
@@ -18,12 +17,13 @@ const HeaderProfile = () => {
   }
 
   return (
-    <div>
+    <div className="flex gap-[10px] items-center">
       <HeaderProfileImage
         nickname={data.nickname}
         profileImageUrl={data.profileImageUrl}
       />
-      <div>{data?.email}</div>
+
+      <div className="text-sm">{data?.nickname}</div>
     </div>
   );
 };
