@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from '@/lib/axios';
+import axiosInstance from '@/lib/axiosInstance';
 
 interface ReviewsProps {
   id: string;
@@ -47,7 +47,7 @@ const Reviews: React.FC<ReviewsProps> = ({ id }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(`/activities/${id}/reviews`);
+      const response = await axiosInstance.get(`/activities/${id}/reviews`);
       setReviewData(response.data);
     };
 
