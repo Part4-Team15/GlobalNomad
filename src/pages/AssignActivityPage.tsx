@@ -7,7 +7,7 @@ import AssignDescription from '@/components/assignActivity/AssignDescription';
 import AssignPrice from '@/components/assignActivity/AssignPrice';
 import AssignAddress from '@/components/assignActivity/AssignAddress';
 import AssignReservationTime from '@/components/assignActivity/AssignReservationTime';
-import AssignAddImage from '@/components/assignActivity/AssignAddImage';
+import AssignBannerImage from '@/components/assignActivity/AssignBannerImage';
 import AssignIntroImage from '@/components/assignActivity/AssignIntroImage';
 
 const AssignActivityPage = () => (
@@ -24,7 +24,7 @@ const AssignActivityPage = () => (
         <AssignPrice />
         <AssignAddress />
         <AssignReservationTime />
-        <AssignAddImage />
+        <AssignBannerImage />
         <AssignIntroImage />
         <span className=" text-gray-80 text-lg">
           *이미지는 최대 4개까지 등록 가능합니다.

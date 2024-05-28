@@ -25,7 +25,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
         onChange={(e) => setReview(e.target.value)}
       />
       <button
-        type="submit"
+        type="button"
         className="w-full h-[3.5rem] justify-center items-center rounded-md bg-[#121] text-white"
         onClick={handleSubmit}
       >
