@@ -1,10 +1,10 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import axiosInstance from '@/lib/axiosInstance';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import '@/styles/tailwind-calendar.css';
 import priceToWon from '@/utils/priceToWon';
+import getAvailableSchdule from '@/api/getAvailableSchedule';
 
 interface Activity {
   title: string;
@@ -63,14 +63,12 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
       getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
     const fetchAvailableTimes = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/activities/${id}/available-schedule?year=${selectedYear}&month=${selectedMonth}`,
-        );
-        setAvailableTimes(response.data);
-      } catch (error) {
-        console.error('에러가 발생했습니다', error);
-      }
+      const availableScheduleData = await getAvailableSchdule({
+        id,
+        selectedYear,
+        selectedMonth,
+      });
+      setAvailableTimes(availableScheduleData);
     };
     fetchAvailableTimes();
   }, [selectedDate]);
@@ -78,8 +76,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
   useEffect(() => {
     if (attendeeCount < 2) {
       setIsReduceDisabled(true);
-    }
-    if (attendeeCount >= 2) {
+    } else {
       setIsReduceDisabled(false);
     }
     setTotalPrice(price * attendeeCount);
