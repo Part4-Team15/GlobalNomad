@@ -3,7 +3,7 @@ import DaumPostcode, { Address } from 'react-daum-postcode';
 
 const AssignAddress = () => {
   const [isOpenPost, setIsOpenPost] = useState<boolean>(false);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState<string>('');
 
   const handleOpenPost = () => {
     setIsOpenPost(!isOpenPost);

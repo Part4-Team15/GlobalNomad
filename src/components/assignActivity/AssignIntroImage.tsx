@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import profileImage from '../common/profile/profileTestImage.svg';
 
 const MAX_SIZE = 4;
 
