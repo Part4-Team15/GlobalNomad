@@ -5,7 +5,7 @@ const PopularActivityList = () => {
   const { activities } = EXAMPLE_ACTIVITY;
 
   return (
-    <>
+    <div className="mt-10 mb-[60px]">
       <div className="flex justify-between">
         <div className="text-4xl font-bold mb-[33px]">🔥인기 체험</div>
         <div>
@@ -18,7 +18,7 @@ const PopularActivityList = () => {
           <PopularActivityCard cardData={activity} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

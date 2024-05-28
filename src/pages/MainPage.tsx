@@ -8,8 +8,8 @@ const MainPage = () => (
   <>
     <MainBanner />
     <div className="flex flex-col items-center">
-      <ActivitySearch />
-      <div className="w-[1200px] mt-10">
+      <div className="w-pc mb-32">
+        <ActivitySearch />
         <PopularActivityList />
         <CategoryFilter />
         <div className="text-4xl font-bold mt-10 mb-[33px]">🛼 모든 체험</div>

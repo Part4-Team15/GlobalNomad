@@ -6,7 +6,7 @@ const ActivityCardList = () => {
   const { activities, totalCount } = EXAMPLE_ACTIVITY;
   return (
     <>
-      <div className="grid grid-cols-4 gap-6 w-pc">
+      <div className="grid grid-cols-4 gap-6 mb-[72px]">
         {activities.map((activity) => (
           <ActivityCard cardData={activity} />
         ))}
