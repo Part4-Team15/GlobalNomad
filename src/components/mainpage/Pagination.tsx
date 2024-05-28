@@ -42,7 +42,9 @@ const Pagination = ({ totalCount, limit }: PaginationProp) => {
 
   // 오른쪽 arrow 버튼으로 이동 시 실행할 함수
   const handleRightArrowBtnClick = () => {
-    if ((currentPage % 5) === 4) setCurrentPageGroup(currentPageGroup + 1);
+    if (currentPage !== (pageNumber.length - 1) && (currentPage % 5) === 4) {
+      setCurrentPageGroup(currentPageGroup + 1);
+    }
     if (currentPage === (pageNumber.length - 1)) return;
     setCurrentPage(currentPage + 1);
   };
