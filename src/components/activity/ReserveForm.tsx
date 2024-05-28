@@ -4,6 +4,7 @@ import Calendar from 'react-calendar';
 import axiosInstance from '@/lib/axiosInstance';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import '@/styles/tailwind-calendar.css';
+import priceToWon from '@/utils/priceToWon';
 
 interface Activity {
   title: string;
@@ -88,7 +89,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
       <div className="flex flex-col gap-4 p-6">
         <div className="font-bold text-3xl">
-          ₩{price.toLocaleString()}
+          {priceToWon(price)}
           <span className="font-normal text-xl"> / 인</span>
         </div>
         <div className="w-full h-[1px] bg-gray-40" />
@@ -149,7 +150,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
         <div className="w-full h-[1px] bg-gray-40" />
         <div className="flex justify-between font-bold text-xl">
           <div>총 합계</div>
-          <div>₩{totalPrice.toLocaleString()}</div>
+          <div>{priceToWon(totalPrice)}</div>
         </div>
       </div>
     </div>
