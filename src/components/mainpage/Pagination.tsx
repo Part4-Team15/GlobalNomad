@@ -6,7 +6,6 @@ interface PaginationProp {
 }
 
 /**
- *
  * @param {number} totalCount 총 데이터의 개수. 데이터 패칭 도입 이후 넘겨받는 값이 달라질 수 있음.
  * @param {number} limit 한 페이지 당 나타낼 데이터의 개수.
  */

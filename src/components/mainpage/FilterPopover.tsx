@@ -1,5 +1,3 @@
-import React from 'react';
-
 const POPOVER_VALUES = ['가격 낮은 순', '가격 높은 순'];
 interface FilterPopoverProp {
   isOpen: boolean;
