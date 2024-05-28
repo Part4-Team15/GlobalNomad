@@ -13,7 +13,6 @@ const AssignBannerImage = () => {
       };
       reader.readAsDataURL(file);
     }
-    console.log(bannerImage);
   };
 
   const handleRemoveImage = () => {

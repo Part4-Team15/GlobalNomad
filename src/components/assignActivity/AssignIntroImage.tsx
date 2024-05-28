@@ -18,7 +18,6 @@ const AssignIntroImage = () => {
         }
       };
       reader.readAsDataURL(file);
-      console.log(introImage);
     }
   };
 

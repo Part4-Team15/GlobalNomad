@@ -4,8 +4,11 @@ interface CategoryProps {
   onSelect: (value: string) => void;
 }
 
+// 카테고리 타입 정의
+const CATEGORIES = ['문화 예술', '식음료', '스포츠', '투어', '관광', '웰빙'];
+export type Category = (typeof CATEGORIES)[number];
+
 const CategoryDropDown = ({ onSelect }: CategoryProps) => {
-  const category = ['문화 예술', '식음료', '스포츠', '투어', '관광'];
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const handleSelectedCategory = (item: string) => () => {
@@ -15,7 +18,7 @@ const CategoryDropDown = ({ onSelect }: CategoryProps) => {
 
   return (
     <ul className=" absolute z-10 flex flex-col w-[100%] p-2 items-start gap-[2px] shrink-0 rounded-md bg-white shadow-md">
-      {category.map((item) => (
+      {CATEGORIES.map((item) => (
         <button
           key={item}
           onClick={handleSelectedCategory(item)}
