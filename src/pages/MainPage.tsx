@@ -2,8 +2,7 @@ import CategoryFilter from '@/components/mainpage/CategoryFilter';
 import PopularActivityCard from '@/components/mainpage/PopularActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import MainBanner from '@/components/mainpage/MainBanner';
-import Pagination from '@/components/mainpage/Pagination';
-import ActivityCard from '@/components/mainpage/ActivityCard';
+import ActivityCardList from '@/components/mainpage/ActivityCardList';
 
 const MainPage = () => (
   <>
@@ -15,8 +14,7 @@ const MainPage = () => (
         <PopularActivityCard />
         <CategoryFilter />
         <div className="text-4xl font-bold mt-10 mb-[33px]">🛼 모든 체험</div>
-        <ActivityCard />
-        <Pagination count={8} />
+        <ActivityCardList />
       </div>
     </div>
   </>
