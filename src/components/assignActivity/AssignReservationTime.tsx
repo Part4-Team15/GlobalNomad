@@ -63,6 +63,7 @@ const AssignReservationTime = () => {
             </div>
             {isOpenCalendar && <CalendarModal onSelect={handleDateSelect} />}
           </div>
+          {/* 날짜 */}
 
           <div className=" flex h-[70px] w-[100%] items-center gap-3">
             {/* 시작 시간 */}
@@ -92,6 +93,7 @@ const AssignReservationTime = () => {
                 <StartTimeDropDown onSelect={handleSelectStart} />
               )}
             </div>
+            {/* 시작 시간 */}
 
             <span className=" mt-4">~</span>
             {/* 종료 시간 */}
@@ -121,6 +123,7 @@ const AssignReservationTime = () => {
                 <EndTimeDropDown onSelect={handleSelectEnd} />
               )}
             </div>
+            {/* 종료 시간 */}
           </div>
 
           <img
