@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import axios from '@/lib/axiosInstance';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
-import axios from 'axios';
 import BookingHistory from './BookingHistory';
 
 interface BookingData {
@@ -76,7 +76,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
               <p className="text-[1.75rem] font-bold leading-[1.625rem]">
                 후기 작성
               </p>
-              <button className="text-gray-80" onClick={onClose}>
+              <button type="button" className="text-gray-80" onClick={onClose}>
                 <img src="/assets/x_btn.svg" alt="xBtn" />
               </button>
             </div>
