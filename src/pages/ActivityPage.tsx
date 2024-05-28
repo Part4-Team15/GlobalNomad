@@ -4,7 +4,7 @@ import ReserveForm from '@/components/activity/ReserveForm';
 import TopBanner from '@/components/activity/TopBanner';
 import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
-import axios from '@/lib/axios';
+import axiosInstance from '@/lib/axiosInstance';
 
 const ActivityPage = () => {
   const { id } = useParams() as { id: string };
@@ -21,7 +21,7 @@ const ActivityPage = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(`/activities/${id}`);
+      const response = await axiosInstance.get(`/activities/${id}`);
       setActivity(response.data);
     };
     getData();
