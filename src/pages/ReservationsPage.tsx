@@ -42,14 +42,14 @@ const ReservationsPage: React.FC = () => {
     null,
   );
 
-  {
-    /* 후기 작성 버튼에 연결되도록 해야 함 */
-  }
+  /* 후기 작성 버튼에 연결되도록 해야 함 */
+
   const handleReviewClick = (bookingId: number) => {
     const booking = bookings.find((b) => b.id === bookingId);
     if (booking) {
       setSelectedBooking(booking);
       setIsModalOpen(true);
+      setBookings([]); // 오류때문에 넣었음.
     }
   };
 
@@ -60,10 +60,10 @@ const ReservationsPage: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => handleReviewClick(1)}>
+      <button type="button" onClick={() => handleReviewClick(1)}>
         예약 내역 1 리뷰 작성
       </button>
-      <button onClick={() => handleReviewClick(2)}>
+      <button type="button" onClick={() => handleReviewClick(2)}>
         예약 내역 2 리뷰 작성
       </button>
       <ModalPortal>
