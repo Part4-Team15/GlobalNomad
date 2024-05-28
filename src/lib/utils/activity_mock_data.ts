@@ -74,5 +74,5 @@ export const EXAMPLE_ACTIVITY = {
       updatedAt: '2024-05-21T15:09:21.090Z'
     }
   ],
-  totalCount: 4
+  totalCount: 60
 };
