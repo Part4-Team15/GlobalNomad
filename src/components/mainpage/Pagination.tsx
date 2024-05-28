@@ -1,19 +1,19 @@
 import { MouseEvent, useState } from 'react';
 
 interface PaginationProp {
-  count: number;
+  totalCount: number;
 }
 
 /**
  *
- * @param {number} count 총 페이지의 개수. 데이터 패칭 도입 이후 넘겨받는 값이 달라질 수 있음.
+ * @param {number} totalCount 총 페이지의 개수. 데이터 패칭 도입 이후 넘겨받는 값이 달라질 수 있음.
  */
 
-const Pagination = ({ count }: PaginationProp) => {
+const Pagination = ({ totalCount }: PaginationProp) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   // 넘겨받은 총 페이지 수에 대한 배열 만들기
-  const pageNumber = new Array(count).fill(0).map((num, i) => num + i);
+  const pageNumber = new Array(totalCount).fill(0).map((num, i) => num + i);
 
   // 현재 선택한 페이지 수를 저장
   const handlePageBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
