@@ -1,4 +1,4 @@
-interface ActivityCardProps {
+export interface ActivityCardProps {
   cardData: {
     id: number;
     title: string;
