@@ -35,6 +35,9 @@
       { "multiline": true, "consistent": true },
     ],
     "react/prop-types": "off", // PropTypes 검사 비활성화
+    "arrow-body-style": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "operator-linebreak": "off",
   },
   "settings": {
     "import/resolver": {

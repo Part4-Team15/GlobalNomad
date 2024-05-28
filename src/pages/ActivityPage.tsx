@@ -37,7 +37,7 @@ const ActivityPage = () => {
             <Reviews id={id} />
           </div>
           <div className="w-1/3">
-            <ReserveForm activity={activity} />
+            <ReserveForm activity={activity} id={id} />
           </div>
         </div>
       </div>

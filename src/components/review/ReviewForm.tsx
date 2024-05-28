@@ -23,8 +23,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
         placeholder="후기를 작성해주세요"
         value={review}
         onChange={(e) => setReview(e.target.value)}
-      ></textarea>
+      />
       <button
+        type="submit"
         className="w-full h-[3.5rem] justify-center items-center rounded-md bg-[#121] text-white"
         onClick={handleSubmit}
       >
