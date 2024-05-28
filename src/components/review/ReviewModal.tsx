@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import axios from 'axios';
+import axios from '@/lib/axiosInstance';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
