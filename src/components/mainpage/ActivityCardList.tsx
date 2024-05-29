@@ -11,7 +11,7 @@ const ActivityCardList = () => {
   const [count, setCount] = useState(1);
 
   // 처음으로 렌더링 시 1페이지 데이터를 불러오는 함수.
-  async function getActivityData() {
+  async function getFirstPageActivity() {
     const res = await axiosInstance.get<ActivityResponse>(
       `/activities?method=offset&page=1&size=${OFFSET_LIMIT}`
     );
@@ -19,7 +19,7 @@ const ActivityCardList = () => {
   }
 
   // 페이지를 넘길 때마다 해당 페이지의 데이터를 불러오는 함수.
-  const handlePageData = async (pageNum: number, size: number) => {
+  const getPageData = async (pageNum: number, size: number) => {
     try {
       const res = await axiosInstance.get<ActivityResponse>(
         `/activities?method=offset&page=${pageNum + 1}&size=${size}`
@@ -33,7 +33,7 @@ const ActivityCardList = () => {
 
   useEffect(() => {
     const fetchPageData = async () => {
-      const data = await getActivityData();
+      const data = await getFirstPageActivity();
       setCurrentData(data.activities);
       setCount(data.totalCount);
     };
@@ -47,7 +47,7 @@ const ActivityCardList = () => {
           <ActivityCard cardData={activity} />
         ))}
       </div>
-      <Pagination totalCount={count} limit={OFFSET_LIMIT} setActivityList={handlePageData} />
+      <Pagination totalCount={count} limit={OFFSET_LIMIT} setActivityList={getPageData} />
     </>
   );
 };
