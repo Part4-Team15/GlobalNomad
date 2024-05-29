@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { AssignData } from '@/types/assignActivityPage';
+import mergeAssignData from './utils/mergeAssignData';
 
 const AssignBannerImage = () => {
+  const queryClient = useQueryClient();
   const [bannerImage, setBannerImage] = useState<string | null>(null);
 
   const handleBannerImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,6 +14,9 @@ const AssignBannerImage = () => {
       reader.onload = () => {
         const dataURL = reader.result as string;
         setBannerImage(dataURL);
+        queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+          return mergeAssignData(oldData, { bannerImageUrl: dataURL });
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -17,6 +24,9 @@ const AssignBannerImage = () => {
 
   const handleRemoveImage = () => {
     setBannerImage(null);
+    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+      return mergeAssignData(oldData, { bannerImageUrl: undefined });
+    });
   };
 
   return (

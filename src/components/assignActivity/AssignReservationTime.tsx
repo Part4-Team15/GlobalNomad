@@ -4,11 +4,15 @@ import EndTimeDropDown from './dropDown/EndTimeDropDown';
 import CalendarModal from './modal/CalendarModal';
 
 const AssignReservationTime = () => {
-  const [isStartTimeDropDown, setIsStartTimeDropDown] = useState(false);
-  const [isEndTimeDropDown, setIsEndTimeDropDown] = useState(false);
-  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  const [time, setTime] = useState({ startTime: '', endTime: '' });
-  const [selectedDate, setSelectedDate] = useState('');
+  const [isStartTimeDropDown, setIsStartTimeDropDown] =
+    useState<boolean>(false);
+  const [isEndTimeDropDown, setIsEndTimeDropDown] = useState<boolean>(false);
+  const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
+  const [time, setTime] = useState<{ startTime: string; endTime: string }>({
+    startTime: '',
+    endTime: '',
+  });
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
   // 시작 시간 밑의 드랍다운
   const handleStartTimeDropDown = () => {
@@ -130,6 +134,7 @@ const AssignReservationTime = () => {
             className="mt-6 h-[46px]"
             src="/assets/plus_time_btn.svg"
             alt="plusTimeBtn"
+            // onClick={handleAssignReservation}
           />
         </div>
         {/*  */}

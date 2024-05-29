@@ -42,6 +42,7 @@ const AssignAddress = () => {
           className="w-[100%] outline-none"
           placeholder="주소를 입력해주세요"
           value={address}
+          readOnly
         />
       </div>
       {isOpenPost && (
