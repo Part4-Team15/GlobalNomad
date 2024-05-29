@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
+import { useParams } from 'react-router-dom';
 
-interface ReviewsProps {
-  id: string;
-}
+const Reviews = () => {
+  const { id } = useParams<{ id: string }>();
 
-const Reviews: React.FC<ReviewsProps> = ({ id }) => {
   const [reviewData, setReviewData] = useState({
     averageRating: 0,
     totalCount: 0,

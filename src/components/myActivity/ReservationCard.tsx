@@ -1,3 +1,5 @@
+import priceToWon from '@/utils/priceToWon';
+
 interface Activity {
   id: number;
   userId: number;
@@ -78,10 +80,8 @@ const ReservationCard = ({ activity }: { activity: Activity }) => {
           <p className="mb-3 text-xl font-bold">{activity.title}</p>
         </div>
         <div className="flex justify-between items-start">
-          <p className="font-medium text-2xl">
-            ₩{activity.price.toLocaleString()}
-          </p>
-          <button>
+          <p className="font-medium text-2xl">{priceToWon(activity.price)}</p>
+          <button type="button">
             <img src="/assets/kebab_icon.svg" alt="kebabIcon" />
           </button>
         </div>

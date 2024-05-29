@@ -9,7 +9,7 @@ const ActivitySearch = () => {
   };
 
   return (
-    <div className="relative bg-white w-[1200px] pb-32">
+    <div className="relative bg-white pb-32">
       <form className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-lg rounded-2xl bg-white">
         <label className="text-black text-xl font-bold">무엇을 체험하고 싶으신가요?</label>
         <div className="flex items-center gap-3">
