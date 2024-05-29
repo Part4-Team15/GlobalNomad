@@ -7,7 +7,7 @@ const defaultAssignData: AssignData = {
   price: 0,
   address: '',
   bannerImageUrl: '',
-  introImageUrl: '',
+  introImageUrl: [],
   reservationTime: [],
 };
 

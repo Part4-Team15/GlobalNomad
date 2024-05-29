@@ -11,6 +11,6 @@ export interface AssignData {
   price: number;
   address: string;
   bannerImageUrl: string;
-  introImageUrl?: string;
+  introImageUrl?: string[];
   reservationTime: ReservationTime[];
 }
