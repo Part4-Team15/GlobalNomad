@@ -37,3 +37,25 @@ export interface AvailableTimesType {
     },
   ];
 }
+
+interface User {
+  id: number;
+  nickname: string;
+  profileImageUrl: string | null;
+}
+
+interface Review {
+  id: number;
+  user: User;
+  activityId: number;
+  content: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ActivityReviewsType {
+  reviews: Review[];
+  totalCount: number;
+  averageRating: number;
+}
