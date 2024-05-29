@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
+import { useQueryClient } from '@tanstack/react-query';
+import { AssignData } from '@/types/assignActivityPage';
+import mergeAssignData from './utils/mergeAssignData';
 
 const AssignAddress = () => {
+  const queryClient = useQueryClient();
   const [isOpenPost, setIsOpenPost] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
 
@@ -11,15 +15,14 @@ const AssignAddress = () => {
 
   const handleAddressSelect = (data: Address) => {
     setAddress(data.address);
+    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+      return mergeAssignData(oldData, { address: data.address });
+    });
     setIsOpenPost(false);
   };
 
   const closeModal = (): void => {
     setIsOpenPost(false);
-  };
-
-  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value);
   };
 
   return (
@@ -39,7 +42,6 @@ const AssignAddress = () => {
           className="w-[100%] outline-none"
           placeholder="주소를 입력해주세요"
           value={address}
-          onChange={handleAddressChange}
         />
       </div>
       {isOpenPost && (
