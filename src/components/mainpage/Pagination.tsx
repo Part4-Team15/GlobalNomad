@@ -3,12 +3,13 @@ import { MouseEvent, useState } from 'react';
 interface PaginationProp {
   totalCount: number;
   limit: number;
-  setActivityList: (pageNum: number) => void;
+  setActivityList: (pageNum: number, size: number) => void;
 }
 
 /**
  * @param {number} totalCount 총 데이터의 개수.
  * @param {number} limit 한 페이지 당 나타낼 데이터의 개수.
+ * @param {StateSetFunction} setActivityList 현재 페이지에서 보여줄 데이터를 설정하는 함수.
  */
 
 const Pagination = ({ totalCount, limit, setActivityList }: PaginationProp) => {
@@ -32,7 +33,7 @@ const Pagination = ({ totalCount, limit, setActivityList }: PaginationProp) => {
   const handlePageBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     setCurrentPage(+button.id);
-    setActivityList(+button.id);
+    setActivityList(+button.id, limit);
   };
 
   // 왼쪽 arrow 버튼으로 이동 시 실행할 함수
@@ -40,7 +41,7 @@ const Pagination = ({ totalCount, limit, setActivityList }: PaginationProp) => {
     if (currentPage !== 0 && (currentPage % 5) === 0) setCurrentPageGroup(currentPageGroup - 1);
     if (currentPage === 0) return;
     setCurrentPage(currentPage - 1);
-    setActivityList(currentPage - 1);
+    setActivityList(currentPage - 1, limit);
   };
 
   // 오른쪽 arrow 버튼으로 이동 시 실행할 함수
@@ -50,7 +51,7 @@ const Pagination = ({ totalCount, limit, setActivityList }: PaginationProp) => {
     }
     if (currentPage === (pageNumber.length - 1)) return;
     setCurrentPage(currentPage + 1);
-    setActivityList(currentPage + 1);
+    setActivityList(currentPage + 1, limit);
   };
 
   return (
