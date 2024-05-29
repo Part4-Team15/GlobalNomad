@@ -1,8 +1,8 @@
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
-import { ActivityInfo, ActivityResponse } from '@/lib/utils/activity_mock_data';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
+import { ActivityInfo, ActivityResponse } from '@/types/mainPage';
 
 const OFFSET_LIMIT = 8;
 
