@@ -12,15 +12,7 @@ const ActivityCardList = () => {
   const [currenData, setCurrentData] = useState<any[]>([]);
   const [count, setCount] = useState(1);
 
-  // const pageDataList: any[] = [];
-  // for (let i = 0; i < totalCount; i += 8) {
-  //   pageDataList.push(activities.slice(i, i + 8));
-  // }
-
-  // const handlePageData = (pageNum: number) => {
-  //   setCurrentData(pageDataList[pageNum]);
-  // };
-
+  // 처음으로 렌더링 시 1페이지 데이터를 불러오는 함수.
   async function getActivityData() {
     const res = await axiosInstance.get<ActivityResponse>(
       `/activities?method=offset&page=1&size=${OFFSET_LIMIT}`
@@ -28,7 +20,7 @@ const ActivityCardList = () => {
     return res.data;
   }
 
-  // api 함수 연결했을 때 예시
+  // 페이지를 넘길 때마다 해당 페이지의 데이터를 불러오는 함수.
   const handlePageData = async (pageNum: number, size: number) => {
     try {
       const res = await axiosInstance.get<ActivityResponse>(
@@ -41,7 +33,6 @@ const ActivityCardList = () => {
     }
   };
 
-  // api 연결 이후에 맞춰서 다시 변경 예정
   useEffect(() => {
     const fetchPageData = async () => {
       const data = await getActivityData();
