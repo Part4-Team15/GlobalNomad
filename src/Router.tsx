@@ -11,6 +11,7 @@ import MyActivityPage from './pages/MyActivityPage';
 import AssignActivityPage from './pages/AssignActivityPage';
 import ModifyActivityPage from './pages/ModifyActivityPage';
 import ReserveStatusPage from './pages/ReserveStatusPage';
+import Error404 from './pages/Error404';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -35,6 +36,7 @@ const AppRouter = () => (
         <Route path="my-activity/modify" element={<ModifyActivityPage />} />
         {/* 예약 현황 */}
         <Route path="reserve-status" element={<ReserveStatusPage />} />
+        <Route path="*" element={<Error404 />} />
       </Route>
     </Routes>
   </BrowserRouter>

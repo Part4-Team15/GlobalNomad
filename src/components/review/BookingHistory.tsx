@@ -1,3 +1,4 @@
+import priceToWon from '@/utils/priceToWon';
 import React from 'react';
 
 interface BookingData {
@@ -38,7 +39,7 @@ const BookingHistory: React.FC<BookingHistoryProps> = ({ booking }) => {
         </div>
         <div className="w-full h-[0.0625rem] bg-[#121] opacity-10" />
         <p className="text-right text-2xl font-bold">
-          ₩{booking.price.toLocaleString()}
+          {priceToWon(booking.price)}
         </p>
       </div>
     </div>
