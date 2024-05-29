@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { AssignData } from '@/types/assignActivityPage';
+import mergeAssignData from '../utils/mergeAssignData';
 
 interface CategoryProps {
   onSelect: (value: string) => void;
@@ -9,10 +12,12 @@ const CATEGORIES = ['문화 예술', '식음료', '스포츠', '투어', '관광
 export type Category = (typeof CATEGORIES)[number];
 
 const CategoryDropDown = ({ onSelect }: CategoryProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const queryClient = useQueryClient();
 
   const handleSelectedCategory = (item: string) => () => {
-    setSelectedCategory(item);
+    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+      return mergeAssignData(oldData, { category: item });
+    });
     onSelect(item);
   };
 
@@ -23,21 +28,8 @@ const CategoryDropDown = ({ onSelect }: CategoryProps) => {
           key={item}
           onClick={handleSelectedCategory(item)}
           type="button"
-          className={
-            selectedCategory === item
-              ? 'flex items-center w-[100%] pl-[36px] pt-2 pb-[6px] gap-2 rounded-md bg-black text-white hover:bg-gray-30'
-              : 'flex items-center w-[100%] pl-[36px] pt-2 pb-[6px] gap-2 rounded-md hover:bg-gray-30'
-          }
+          className="flex items-center w-[100%] pl-[36px] pt-2 pb-[6px] gap-2 rounded-md hover:bg-gray-30"
         >
-          {selectedCategory === item ? (
-            <img
-              className=" w-[20px] h-[20px]"
-              src="/assets/check_icon.svg"
-              alt="checkIcon"
-            />
-          ) : (
-            ''
-          )}
           <li className="flex text-[20px]">{item}</li>
         </button>
       ))}
