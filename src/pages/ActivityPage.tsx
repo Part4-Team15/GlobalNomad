@@ -49,7 +49,7 @@ const ActivityPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="w-[1200px] flex-col flex justify-center items-center gap-20">
+      <div className="w-[1200px] flex-col flex justify-center items-center gap-20 mb-40">
         <TopBanner activity={activity} />
         <div className="flex w-full gap-6">
           <div className="flex w-2/3 flex-col">

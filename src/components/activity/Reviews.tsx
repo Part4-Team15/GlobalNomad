@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import getActivityReviews from '@/api/getActivityReviews';
-import { ActivityReviewsType } from '@/types/activityPage';
+import { ActivityReviewsType, Review } from '@/types/activityPage';
 import getFormatDate from '@/utils/getFormatDate';
+import Pagination from '../mainpage/Pagination';
+
+const OFFSET_LIMIT = 8;
 
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +29,7 @@ const Reviews = () => {
     totalCount: 0,
     averageRating: 0,
   });
+  const [currentReviews, setCurrentReviews] = useState<Review[]>();
 
   const ratingToText = (averageRating: number) => {
     if (averageRating >= 4) {
@@ -64,6 +68,16 @@ const Reviews = () => {
 
   const { averageRating, totalCount, reviews } = reviewData;
 
+  const pageDataList: any[] = [];
+
+  for (let i = 0; i < totalCount; i += 8) {
+    pageDataList.push(reviews.slice(i, i + 8));
+  }
+
+  const handlePageData = (pageNum: number) => {
+    setCurrentReviews(pageDataList[pageNum]);
+  };
+
   return (
     <div className="flex flex-col w-full gap-4">
       <h2 className="text-xl font-bold pt-6">후기</h2>
@@ -79,35 +93,38 @@ const Reviews = () => {
       </div>
       {/* 리뷰 List */}
       {totalCount > 0 ? (
-        <div className="w-full">
-          {reviews.map((review) => (
-            <div key={review.id} className="flex flex-col gap-4">
-              <div className="flex w-full gap-4">
-                {review.user.profileImageUrl ? (
-                  <div
-                    className="w-1/6 h-8 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
-                    style={{
-                      backgroundImage: `url(${review.user.profileImageUrl})`,
-                      backgroundColor: '#E3E5E8',
-                    }}
-                  />
-                ) : (
-                  <div className="w-1/6 h-8 bg-slate-400 rounded-full flex items-center justify-center text-white">
-                    {review.user.nickname[0]}
+        <div className="flex flex-col justify-center items-center gap-8">
+          <div className="w-full">
+            {currentReviews?.map((review) => (
+              <div key={review.id} className="flex flex-col gap-4">
+                <div className="flex w-full gap-4">
+                  {review.user.profileImageUrl ? (
+                    <div
+                      className="w-1/6 h-8 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+                      style={{
+                        backgroundImage: `url(${review.user.profileImageUrl})`,
+                        backgroundColor: '#E3E5E8',
+                      }}
+                    />
+                  ) : (
+                    <div className="w-1/6 h-8 bg-slate-400 rounded-full flex items-center justify-center text-white">
+                      {review.user.nickname[0]}
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-1">
+                      <div className="font-bold">{review.user.nickname}</div>
+                      <div>|</div>
+                      <div className="text-gray-60">{getFormatDate(review.updatedAt)}</div>
+                    </div>
+                    <div>{review.content}</div>
                   </div>
-                )}
-                <div className="flex flex-col gap-2">
-                  <div className="flex gap-1">
-                    <div className="font-bold">{review.user.nickname}</div>
-                    <div>|</div>
-                    <div className="text-gray-60">{getFormatDate(review.updatedAt)}</div>
-                  </div>
-                  <div>{review.content}</div>
                 </div>
+                <div className="w-full h-[1px] bg-gray-40" />
               </div>
-              <div className="w-full h-[1px] bg-gray-40" />
-            </div>
-          ))}
+            ))}
+          </div>
+          <Pagination totalCount={totalCount} limit={OFFSET_LIMIT} setActivityList={handlePageData} />
         </div>
       ) : null}
     </div>

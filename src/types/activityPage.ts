@@ -44,7 +44,7 @@ interface User {
   profileImageUrl: string | null;
 }
 
-interface Review {
+export interface Review {
   id: number;
   user: User;
   activityId: number;
