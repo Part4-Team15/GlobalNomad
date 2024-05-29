@@ -13,6 +13,7 @@ export type ActivityResponse = {
     createdAt: string;
     updatedAt: string;
   }[]
+  totalCount: number;
 };
 
 export const EXAMPLE_ACTIVITY = {
