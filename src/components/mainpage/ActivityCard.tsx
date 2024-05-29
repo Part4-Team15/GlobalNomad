@@ -1,3 +1,5 @@
+import priceToWon from '@/utils/priceToWon';
+
 export interface ActivityCardProps {
   cardData: {
     id: number;
@@ -46,7 +48,7 @@ const ActivityCard = ({ cardData }: ActivityCardProps) => {
         </div>
         <div className="text-2xl font-bold">{title}</div>
         <div className="flex items-center gap-1 text-[28px] font-bold">
-          {`₩ ${price}`}
+          {priceToWon(price)}
           <span className="text-xl text-gray-80">/인</span>
         </div>
       </div>
