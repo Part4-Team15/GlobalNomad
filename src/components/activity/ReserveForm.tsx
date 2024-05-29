@@ -6,30 +6,10 @@ import '@/styles/tailwind-calendar.css';
 import priceToWon from '@/utils/priceToWon';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
 import { useParams } from 'react-router-dom';
-
-interface Activity {
-  title: string;
-  category: string;
-  rating: string;
-  address: string;
-  reviewCount: string;
-  description: string;
-  price: number;
-}
+import { ActivityType, AvailableTimesType } from '@/types/activityPage';
 
 interface ReserveFormProps {
-  activity: Activity;
-}
-
-interface AvailableTimes {
-  date: string;
-  times: [
-    {
-      id: number;
-      startTime: string;
-      endTime: string;
-    },
-  ];
+  activity: ActivityType;
 }
 
 type DatePiece = Date | null;
@@ -40,9 +20,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const { price } = activity;
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
-  const [availableTimes, setAvailableTimes] = useState<AvailableTimes[] | null>(
-    null,
-  );
+  const [availableTimes, setAvailableTimes] = useState<AvailableTimesType[] | null>(null);
   const [attendeeCount, setAttendeeCount] = useState<number>(1);
   const [isReduceDisabled, setIsReduceDisabled] = useState<boolean>(true);
   const [totalPrice, setTotalPrice] = useState<number>(price);
@@ -63,8 +41,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     if (!id) {
       return;
     }
-    const { selectedYMD, selectedYear, selectedMonth } =
-      getMonthAndYear(selectedDate);
+    const { selectedYMD, selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
     const fetchAvailableTimes = async () => {
       const availableScheduleData = await getAvailableSchdule({
@@ -132,11 +109,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         <div className="w-full h-[1px] bg-gray-40" />
         <div className="font-bold text-xl">참여 인원 수</div>
         <div className="flex justify-between items-center w-1/3 border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3">
-          <button
-            type="button"
-            onClick={handleReduceAttendee}
-            disabled={isReduceDisabled}
-          >
+          <button type="button" onClick={handleReduceAttendee} disabled={isReduceDisabled}>
             -
           </button>
           <div className="text-lg">{attendeeCount}</div>
@@ -145,9 +118,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
           </button>
         </div>
         {/* 예약하기 버튼 */}
-        <div className="w-full bg-nomad-black rounded text-white text-center p-3 font-bold text-base">
-          예약하기
-        </div>
+        <div className="w-full bg-nomad-black rounded text-white text-center p-3 font-bold text-base">예약하기</div>
         <div className="w-full h-[1px] bg-gray-40" />
         <div className="flex justify-between font-bold text-xl">
           <div>총 합계</div>

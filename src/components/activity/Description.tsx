@@ -1,16 +1,8 @@
+import { ActivityType } from '@/types/activityPage';
 import Map from './Map';
 
-interface Activity {
-  title: string;
-  category: string;
-  rating: string;
-  address: string;
-  reviewCount: string;
-  description: string;
-}
-
 interface DescriptionProps {
-  activity: Activity;
+  activity: ActivityType;
 }
 
 const Description: React.FC<DescriptionProps> = ({ activity }) => {
