@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import Profile from '@/components/common/profile/Profile';
+import { useQuery } from '@tanstack/react-query';
+import getMyReservation from '@/api/getMyReservation';
+import ReservationList from '@/components/myreservation/ReservationContent';
+import ReservationContent from '@/components/myreservation/ReservationContent';
 import ReviewModal from '../components/review/ReviewModal';
 import ModalPortal from '../components/review/ModalPortal';
 
@@ -13,8 +18,14 @@ interface BookingData {
   price: number;
 }
 
-const ReservationsPage: React.FC = () => {
+const ReservationsPage = () => {
   // 임시데이터
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['reservation'],
+    queryFn: getMyReservation,
+  });
+
   const [bookings, setBookings] = useState<BookingData[]>([
     {
       id: 1,
@@ -57,15 +68,20 @@ const ReservationsPage: React.FC = () => {
     setIsModalOpen(false);
     setSelectedBooking(null);
   };
+  if (isLoading) {
+    return <div>프로필을 불러오고 있습니다</div>;
+  }
+
+  if (isError || !data) {
+    return <div>프로필을 불러오는데 실패했습니다</div>;
+  }
+
+  console.log(data);
 
   return (
-    <div>
-      <button type="button" onClick={() => handleReviewClick(1)}>
-        예약 내역 1 리뷰 작성
-      </button>
-      <button type="button" onClick={() => handleReviewClick(2)}>
-        예약 내역 2 리뷰 작성
-      </button>
+    <div className="flex gap-6 justify-center bg-[#FAFAFA] pt-[65px]">
+      <Profile />
+      <ReservationContent />
       <ModalPortal>
         <ReviewModal
           isOpen={isModalOpen}

@@ -26,7 +26,7 @@ const AppRouter = () => (
         {/* 내 정보 */}
         <Route path="my-page" element={<MyPage />} />
         {/* 예약 내역 */}
-        <Route path="reservations" element={<ReservationsPage />} />
+        <Route path="my-reservation" element={<ReservationsPage />} />
         {/* 내 체험 관리 */}
         <Route path="my-activity" element={<MyActivityPage />} />
         {/* 내 체험 관리 - 체험 등록 */}

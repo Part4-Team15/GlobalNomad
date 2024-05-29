@@ -1,5 +1,10 @@
+import Profile from '@/components/common/profile/Profile';
 import React from 'react';
 
-const ReserveStatusPage = () => <div>예약 현황 페이지!</div>;
+const ReserveStatusPage = () => (
+  <div>
+    <Profile />
+  </div>
+);
 
 export default ReserveStatusPage;
