@@ -15,8 +15,8 @@ const MyActivityPage = () => {
               내 체험 관리
             </h2>
             <button
-              type="button"
               className="flex w-[7.5rem] h-12 p-2.5 justify-center items-center gap-1 self-stretch rounded bg-[#121] text-white"
+              type="button"
             >
               체험 등록하기
             </button>
