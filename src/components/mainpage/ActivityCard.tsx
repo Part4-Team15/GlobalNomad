@@ -1,3 +1,5 @@
+import priceToWon from '@/utils/priceToWon';
+
 export interface ActivityCardProps {
   cardData: {
     id: number;
@@ -35,7 +37,7 @@ const ActivityCard = ({ cardData }: ActivityCardProps) => {
 
   return (
     <div id={String(id)} className="flex flex-col gap-4">
-      <div className="w-72 h-72 bg-cover bg-center rounded-3xl" style={{ backgroundImage: `url('${bannerImageUrl}')` }} />
+      <div className="w-72 h-72 bg-cover bg-center rounded-3xl" style={{ backgroundImage: `url(${bannerImageUrl})` }} />
       <div className="flex flex-col gap-[10px] w-[282px] text-black">
         <div className="flex gap-1">
           <img src="/assets/bold_star.svg" alt="little-star" />
@@ -46,7 +48,7 @@ const ActivityCard = ({ cardData }: ActivityCardProps) => {
         </div>
         <div className="text-2xl font-bold">{title}</div>
         <div className="flex items-center gap-1 text-[28px] font-bold">
-          {`₩ ${price}`}
+          {priceToWon(price)}
           <span className="text-xl text-gray-80">/인</span>
         </div>
       </div>

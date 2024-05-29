@@ -1,37 +1,39 @@
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
-import { EXAMPLE_MORE_ACTIVITIES } from '@/lib/utils/activity_mock_data';
 import { useEffect, useState } from 'react';
+import axiosInstance from '@/lib/axiosInstance';
+import { ActivityInfo, ActivityResponse } from '@/types/mainPage';
+import getCurrentPageActivity from '@/api/getCurrentPageActivity';
 
 const OFFSET_LIMIT = 8;
 
-// 우선 임의로 any 타입 지정. 후에 수정이 필요함.
-
 const ActivityCardList = () => {
-  const [currenData, setCurrentData] = useState<any[]>();
-  const { activities, totalCount } = EXAMPLE_MORE_ACTIVITIES;
+  const [currenData, setCurrentData] = useState<ActivityInfo[]>([]);
+  const [count, setCount] = useState(1);
 
-  const pageDataList: any[] = [];
-  for (let i = 0; i < totalCount; i += 8) {
-    pageDataList.push(activities.slice(i, i + 8));
+  // 처음으로 렌더링 시 1페이지 데이터를 불러오는 함수.
+  async function getFirstPageActivity() {
+    const res = await axiosInstance.get<ActivityResponse>(
+      `/activities?method=offset&page=1&size=${OFFSET_LIMIT}`
+    );
+    return res.data;
   }
 
-  const handlePageData = (pageNum: number) => {
-    setCurrentData(pageDataList[pageNum]);
+  // 페이지를 넘길 때마다 해당 페이지의 데이터를 불러오는 함수.
+  const getPageData = async (pageNum: number, size: number) => {
+    try {
+      const { activities } = await getCurrentPageActivity(pageNum, size);
+      setCurrentData(activities);
+    } catch (e) {
+      console.error('Error: ', e);
+    }
   };
 
-  // api 함수 연결했을 때 예시
-  // const handlePageData = (pageNum: number, size: number) => {
-  //   const { activities } = axios.get(
-  //   `/activities?method=offset&page=${pageNum}&size=${OFFSET_LIMIT}`
-  // );
-  //   setApplyData(res);
-  // };
-
-  // api 연결 이후에 맞춰서 다시 변경 예정
   useEffect(() => {
     const fetchPageData = async () => {
-      setCurrentData(pageDataList[0]);
+      const data = await getFirstPageActivity();
+      setCurrentData(data.activities);
+      setCount(data.totalCount);
     };
     fetchPageData();
   }, []);
@@ -43,7 +45,7 @@ const ActivityCardList = () => {
           <ActivityCard cardData={activity} />
         ))}
       </div>
-      <Pagination totalCount={totalCount} limit={OFFSET_LIMIT} setActivityList={handlePageData} />
+      <Pagination totalCount={count} limit={OFFSET_LIMIT} setActivityList={getPageData} />
     </>
   );
 };

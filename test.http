@@ -1,0 +1,59 @@
+###
+POST https://sp-globalnomad-api.vercel.app/4-15/activities
+Content-Type: application/json; charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE2OTYwNTIwLCJleHAiOjE3MTY5NjIzMjAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.tumu_LlyugBdTqWYMr-etK13m-PCSFjjMqNBCtx5z_I
+
+{
+  "title": "KBO 직관",
+  "category": "스포츠",
+  "description": "KBO 직관",
+  "address": "서울특별시 강남구 테헤란로 427",
+  "price": 10000,
+  "schedules": [
+    {
+      "date": "2024-12-01",
+      "startTime": "12:00",
+      "endTime": "13:00"
+    },
+    {
+      "date": "2024-12-05",
+      "startTime": "12:00",
+      "endTime": "13:00"
+    },
+    {
+      "date": "2024-12-05",
+      "startTime": "13:00",
+      "endTime": "14:00"
+    },
+    {
+      "date": "2024-12-05",
+      "startTime": "14:00",
+      "endTime": "15:00"
+    }
+  ],
+  "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+  "subImageUrls": [
+    "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+  ]
+}
+
+###
+POST https://sp-globalnomad-api.vercel.app/4-15/activities/935/reservations
+Content-Type: application/json; charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE2OTYwNTIwLCJleHAiOjE3MTY5NjIzMjAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.tumu_LlyugBdTqWYMr-etK13m-PCSFjjMqNBCtx5z_I
+
+{
+  "scheduleId": 3304,
+  "headCount": 0
+}
+###
+GET https://sp-globalnomad-api.vercel.app/4-15/activities?method=cursor&cursorId=0&page=1&size=20
+
+###
+GET https://sp-globalnomad-api.vercel.app/4-15/my-reservations?size=10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE2OTU5OTE3LCJleHAiOjE3MTY5NjE3MTcsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.devhWrvdkHDnjcbgPnH5-iFljOAjzi3srW1UwQBxb9A
+
+###
+GET https://sp-globalnomad-api.vercel.app/4-15/activities/933
