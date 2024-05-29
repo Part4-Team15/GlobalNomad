@@ -81,7 +81,7 @@ const ReservationCard = ({ activity }: { activity: Activity }) => {
           <p className="font-medium text-2xl">
             ₩{activity.price.toLocaleString()}
           </p>
-          <button>
+          <button type="button">
             <img src="/assets/kebab_icon.svg" alt="kebabIcon" />
           </button>
         </div>
