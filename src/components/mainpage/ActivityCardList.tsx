@@ -3,6 +3,7 @@ import ActivityCard from '@/components/mainpage/ActivityCard';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
 import { ActivityInfo, ActivityResponse } from '@/types/mainPage';
+import getCurrentPageActivity from '@/api/getCurrentPageActivity';
 
 const OFFSET_LIMIT = 8;
 
@@ -21,10 +22,7 @@ const ActivityCardList = () => {
   // 페이지를 넘길 때마다 해당 페이지의 데이터를 불러오는 함수.
   const getPageData = async (pageNum: number, size: number) => {
     try {
-      const res = await axiosInstance.get<ActivityResponse>(
-        `/activities?method=offset&page=${pageNum + 1}&size=${size}`
-      );
-      const { activities } = res.data;
+      const { activities } = await getCurrentPageActivity(pageNum, size);
       setCurrentData(activities);
     } catch (e) {
       console.error('Error: ', e);
