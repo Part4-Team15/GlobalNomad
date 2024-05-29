@@ -15,7 +15,7 @@ const ReservationList = () => {
   const { reservations } = data;
   return (
     <ul className="flex flex-col gap-6">
-      {reservations.map((item) => {
+      {reservations.map((item: any) => {
         return (
           <ReservationItem
             title={item.activity.title}
