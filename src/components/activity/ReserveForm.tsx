@@ -5,6 +5,7 @@ import getMonthAndYear from '@/utils/getMonthAndYear';
 import '@/styles/tailwind-calendar.css';
 import priceToWon from '@/utils/priceToWon';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
+import { useParams } from 'react-router-dom';
 
 interface Activity {
   title: string;
@@ -18,7 +19,6 @@ interface Activity {
 
 interface ReserveFormProps {
   activity: Activity;
-  id: string;
 }
 
 interface AvailableTimes {
@@ -35,7 +35,8 @@ interface AvailableTimes {
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
-const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
+const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
+  const { id } = useParams<{ id: string }>();
   const { price } = activity;
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
@@ -59,6 +60,9 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
   };
 
   useEffect(() => {
+    if (!id) {
+      return;
+    }
     const { selectedYMD, selectedYear, selectedMonth } =
       getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
