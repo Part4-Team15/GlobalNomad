@@ -1,15 +1,13 @@
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
-import { ActivityResponse } from '@/lib/utils/activity_mock_data';
+import { ActivityInfo, ActivityResponse } from '@/lib/utils/activity_mock_data';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
 
 const OFFSET_LIMIT = 8;
 
-// 우선 임의로 any 타입 지정. 후에 수정이 필요함.
-
 const ActivityCardList = () => {
-  const [currenData, setCurrentData] = useState<any[]>([]);
+  const [currenData, setCurrentData] = useState<ActivityInfo[]>([]);
   const [count, setCount] = useState(1);
 
   // 처음으로 렌더링 시 1페이지 데이터를 불러오는 함수.
