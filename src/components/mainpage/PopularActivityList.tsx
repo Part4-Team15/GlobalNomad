@@ -15,7 +15,7 @@ const PopularActivityList = () => {
       </div>
       <div className="grid grid-cols-3 gap-6 w-pc">
         {activities.map((activity) => (
-          <PopularActivityCard cardData={activity} />
+          <PopularActivityCard key={activity.id} cardData={activity} />
         ))}
       </div>
     </div>

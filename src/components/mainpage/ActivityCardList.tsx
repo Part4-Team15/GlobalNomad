@@ -42,7 +42,7 @@ const ActivityCardList = () => {
     <>
       <div className="grid grid-cols-4 gap-6 mb-[72px]">
         {currenData?.map((activity) => (
-          <ActivityCard cardData={activity} />
+          <ActivityCard key={activity.id} cardData={activity} />
         ))}
       </div>
       <Pagination totalCount={count} limit={OFFSET_LIMIT} setActivityList={getPageData} />
