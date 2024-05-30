@@ -69,10 +69,10 @@ const ReservationItem = ({
     }
   }, [status]);
   return (
-    <div
+    <li
       className="flex w-full rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17, 34, 17, 0.05);
 
-    ]  bg-white "
+    ]  bg-white"
     >
       <img
         className="w-[204px] h-[204px]"
@@ -91,7 +91,7 @@ const ReservationItem = ({
           ₩{totalPrice}원
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 
