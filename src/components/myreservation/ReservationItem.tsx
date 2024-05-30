@@ -27,12 +27,13 @@ const ReservationItem = ({
   });
 
   const { textColor, reservationStatusText } = reservationStatus;
+
   useEffect(() => {
     switch (status) {
       case 'pending':
         setReservationStatus({
           textColor: '#555555',
-          reservationStatusText: '예약 대기',
+          reservationStatusText: '예약 신청',
         });
         break;
       case 'confirmed':
