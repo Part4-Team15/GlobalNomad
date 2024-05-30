@@ -39,7 +39,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     setAttendeeCount((prev) => prev + 1);
   };
 
-  const handleTimeId: React.MouseEventHandler<HTMLDivElement> = (event) => {
+  const handleSelectTime: React.MouseEventHandler<HTMLDivElement> = (event) => {
     const timeId = event.currentTarget.getAttribute('data-time-id');
     setSelectedTimeId(Number(timeId));
   };
@@ -117,12 +117,14 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
           {availableTimes?.map((availableTime) => {
             if (availableTime.date === yearMonthDay) {
               return availableTime.times.map((time) => {
+                const isSelected = selectedTimeId === time.id;
                 return (
                   <div
                     key={time.id}
-                    className="w-1/3 bg-white border-2 border-solid border-nomad-black rounded-lg text-nomad-black text-center p-2.5
-                    hover:bg-nomad-black hover:text-white"
-                    onClick={handleTimeId}
+                    className={`w-1/3 border-2 border-solid rounded-lg text-center p-2.5
+                    ${isSelected ? 'bg-nomad-black text-white' : 'bg-white text-nomad-black'}
+                    hover:bg-nomad-black hover:text-white`}
+                    onClick={handleSelectTime}
                     data-time-id={time.id}
                   >
                     {`${time.startTime}~${time.endTime}`}
