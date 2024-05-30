@@ -1,9 +1,11 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import axiosInstance from '@/lib/axiosInstance';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import '@/styles/tailwind-calendar.css';
+import priceToWon from '@/utils/priceToWon';
+import getAvailableSchdule from '@/api/getAvailableSchedule';
+import { useParams } from 'react-router-dom';
 
 interface Activity {
   title: string;
@@ -17,7 +19,6 @@ interface Activity {
 
 interface ReserveFormProps {
   activity: Activity;
-  id: string;
 }
 
 interface AvailableTimes {
@@ -34,7 +35,8 @@ interface AvailableTimes {
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
-const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
+const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
+  const { id } = useParams<{ id: string }>();
   const { price } = activity;
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
@@ -58,18 +60,19 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
   };
 
   useEffect(() => {
+    if (!id) {
+      return;
+    }
     const { selectedYMD, selectedYear, selectedMonth } =
       getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
     const fetchAvailableTimes = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/activities/${id}/available-schedule?year=${selectedYear}&month=${selectedMonth}`,
-        );
-        setAvailableTimes(response.data);
-      } catch (error) {
-        console.error('에러가 발생했습니다', error);
-      }
+      const availableScheduleData = await getAvailableSchdule({
+        id,
+        selectedYear,
+        selectedMonth,
+      });
+      setAvailableTimes(availableScheduleData);
     };
     fetchAvailableTimes();
   }, [selectedDate]);
@@ -77,8 +80,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
   useEffect(() => {
     if (attendeeCount < 2) {
       setIsReduceDisabled(true);
-    }
-    if (attendeeCount >= 2) {
+    } else {
       setIsReduceDisabled(false);
     }
     setTotalPrice(price * attendeeCount);
@@ -88,7 +90,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
       <div className="flex flex-col gap-4 p-6">
         <div className="font-bold text-3xl">
-          ₩{price.toLocaleString()}
+          {priceToWon(price)}
           <span className="font-normal text-xl"> / 인</span>
         </div>
         <div className="w-full h-[1px] bg-gray-40" />
@@ -149,7 +151,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity, id }) => {
         <div className="w-full h-[1px] bg-gray-40" />
         <div className="flex justify-between font-bold text-xl">
           <div>총 합계</div>
-          <div>₩{totalPrice.toLocaleString()}</div>
+          <div>{priceToWon(totalPrice)}</div>
         </div>
       </div>
     </div>
