@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import EndTimeDropDown from '../dropDown/EndTimeDropDown';
 
 const ReservationEndTime = () => {
+  const queryClient = useQueryClient();
   const [isEndTimeDropDown, setIsEndTimeDropDown] = useState<boolean>(false);
-  const [time, setTime] = useState<{ startTime: string; endTime: string }>({
-    startTime: '',
-    endTime: '',
-  });
+  const [endTime, setEndTime] = useState<string>('');
 
   // 종료 시간 밑의 드랍다운
   const handleEndTimeDropDown = () => {
     setIsEndTimeDropDown(!isEndTimeDropDown);
   };
 
-  const handleSelectEnd = (startTime: string, endTime: string) => {
-    setTime({ startTime, endTime });
+  const handleSelectEnd = (time: string) => {
+    setEndTime(time);
+    queryClient.setQueryData(['assign/EndTime'], time);
     setIsEndTimeDropDown(!isEndTimeDropDown);
   };
 
@@ -26,7 +26,7 @@ const ReservationEndTime = () => {
           <input
             className="w-[100%] outline-none"
             placeholder="0:00"
-            value={time.endTime}
+            value={endTime}
             readOnly
           />
           <button type="button" onClick={handleEndTimeDropDown}>
