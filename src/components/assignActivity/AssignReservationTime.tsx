@@ -1,10 +1,54 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { AssignData, ReservationTime } from '@/types/assignActivityPage';
+import mergeAssignData from './utils/mergeAssignData';
 import ReservationDate from './reservation/ReservationDate';
 import ReservationStartTime from './reservation/ReservationStartTime';
 import ReservationEndTime from './reservation/ReservationEndTime';
 
 const AssignReservationTime = () => {
+  const queryClient = useQueryClient();
+  const [time, setTime] = useState<ReservationTime[]>([]);
+  const { data: reservationDate } = useQuery({ queryKey: ['assign/Date'] });
+  const { data: reservationStartTime } = useQuery({
+    queryKey: ['assign/StartTime'],
+  });
+  const { data: reservationEndTime } = useQuery({
+    queryKey: ['assign/EndTime'],
+  });
+
+  const handleAssignTime = () => {
+    if (reservationDate && reservationStartTime && reservationEndTime) {
+      const newReservationTime: ReservationTime = {
+        reservationDate: reservationDate as string,
+        startTime: reservationStartTime as string,
+        endTime: reservationEndTime as string,
+      };
+      const isDuplicate = time.some(
+        // 시간대 중복 로직
+        (t) =>
+          t.reservationDate === newReservationTime.reservationDate &&
+          t.startTime === newReservationTime.startTime &&
+          t.endTime === newReservationTime.endTime,
+      );
+      if (isDuplicate) {
+        alert('동일한 날짜 및 시간대는 중복될 수 없습니다.');
+        return;
+      }
+      queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+        setTime((prev) => [...prev, newReservationTime]);
+        return mergeAssignData(oldData, {
+          reservationTime: [
+            ...(oldData?.reservationTime || []),
+            newReservationTime,
+          ],
+        });
+      });
+    } else {
+      alert('날짜와 시간대는 필수입니다.');
+    }
+  };
+
   return (
     <div className=" flex w-[100%] flex-col items-start gap-6">
       <span className=" text-black text-2xl font-bold">예약 가능한 시간대</span>
@@ -29,6 +73,7 @@ const AssignReservationTime = () => {
             className="mt-6 h-[46px]"
             src="/assets/plus_time_btn.svg"
             alt="plusTimeBtn"
+            onClick={handleAssignTime}
           />
         </div>
         {/*  */}
