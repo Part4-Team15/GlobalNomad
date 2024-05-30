@@ -43,6 +43,7 @@
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
     "no-param-reassign": ["error", { "props": false }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }], // 종속성 관련 에러 비활성화
   },
   "settings": {
     "import/resolver": {

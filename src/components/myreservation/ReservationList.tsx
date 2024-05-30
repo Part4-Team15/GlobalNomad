@@ -1,5 +1,7 @@
 import getMyReservation from '@/api/getMyReservation';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import ReservationItem from './ReservationItem';
 import NoReservation from './NoReservation';
 
@@ -20,41 +22,49 @@ interface Reservation {
 interface ReservationListProps {
   status: string;
 }
+
 const ReservationList = ({ status }: ReservationListProps) => {
-  const { data, isLoading } = useQuery({
+  const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: ['reservations', status],
     queryFn: getMyReservation,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.cursorId,
   });
 
-  if (isLoading) {
-    return <div>예약 목록을 불러오고 있습니다...</div>;
-  }
+  const { ref, inView } = useInView();
 
-  const { reservations } = data;
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
+
+  const reservations = data?.pages.flatMap((page) => page.reservations) || [];
+
   return (
-    <div>
+    <div className="h-[544px] overflow-y-auto">
       {reservations.length !== 0 ? (
         <ul className="flex flex-col gap-6">
-          {reservations.map((item: Reservation) => {
-            return (
-              <ReservationItem
-                title={item.activity.title}
-                bannerImageUrl={item.activity.bannerImageUrl}
-                status={item.status}
-                date={item.date}
-                headCount={item.headCount}
-                totalPrice={item.totalPrice}
-                startTime={item.startTime}
-                endTime={item.endTime}
-                key={item.id}
-              />
-            );
-          })}
+          {reservations.map((item: Reservation) => (
+            <ReservationItem
+              title={item.activity.title}
+              bannerImageUrl={item.activity.bannerImageUrl}
+              status={item.status}
+              date={item.date}
+              headCount={item.headCount}
+              totalPrice={item.totalPrice}
+              startTime={item.startTime}
+              endTime={item.endTime}
+              key={item.id}
+            />
+          ))}
         </ul>
       ) : (
         <NoReservation />
       )}
+      <div ref={ref} className="h-[10px]" />
     </div>
   );
 };
+
 export default ReservationList;
