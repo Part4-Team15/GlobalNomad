@@ -11,6 +11,7 @@ import MyActivityPage from './pages/MyActivityPage';
 import AssignActivityPage from './pages/AssignActivityPage';
 import ModifyActivityPage from './pages/ModifyActivityPage';
 import ReserveStatusPage from './pages/ReserveStatusPage';
+import Error404 from './pages/Error404';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -26,7 +27,7 @@ const AppRouter = () => (
         {/* 내 정보 */}
         <Route path="my-page" element={<MyPage />} />
         {/* 예약 내역 */}
-        <Route path="reservations" element={<ReservationsPage />} />
+        <Route path="my-reservation" element={<ReservationsPage />} />
         {/* 내 체험 관리 */}
         <Route path="my-activity" element={<MyActivityPage />} />
         {/* 내 체험 관리 - 체험 등록 */}
@@ -35,6 +36,7 @@ const AppRouter = () => (
         <Route path="my-activity/modify" element={<ModifyActivityPage />} />
         {/* 예약 현황 */}
         <Route path="reserve-status" element={<ReserveStatusPage />} />
+        <Route path="*" element={<Error404 />} />
       </Route>
     </Routes>
   </BrowserRouter>

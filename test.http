@@ -1,0 +1,59 @@
+###
+POST https://sp-globalnomad-api.vercel.app/4-15/activities
+Content-Type: application/json; charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDQxOTM1LCJleHAiOjE3MTcwNDM3MzUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.gs2gq1jmRuDxNofQ5wgBrE0fF6bkUJ-Kyph6iHeqHIs
+
+{
+  "title": "KBO 직관",
+  "category": "스포츠",
+  "description": "KBO 직관",
+  "address": "서울특별시 강남구 테헤란로 427",
+  "price": 10000,
+  "schedules": [
+    {
+      "date": "2024-06-11",
+      "startTime": "19:00",
+      "endTime": "20:00"
+    },
+      {
+     "date": "2024-06-11",
+      "startTime": "11:00",
+      "endTime": "12:00"
+    },
+     {
+     "date": "2024-06-11",
+      "startTime": "13:00",
+      "endTime": "14:00"
+    },
+    {
+      "date": "2024-06-11",
+      "startTime": "15:00",
+      "endTime": "16:00"
+    }
+  ],
+  "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+  "subImageUrls": [
+    "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+  ]
+}
+
+###
+POST https://sp-globalnomad-api.vercel.app/4-15/activities/947/reservations
+Content-Type: application/json; charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDQxOTM1LCJleHAiOjE3MTcwNDM3MzUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.gs2gq1jmRuDxNofQ5wgBrE0fF6bkUJ-Kyph6iHeqHIs
+
+{
+  "scheduleId": 3349,
+  "headCount": 0
+}
+###
+GET https://sp-globalnomad-api.vercel.app/4-15/activities?method=cursor&cursorId=0&page=1&size=20
+
+###
+GET https://sp-globalnomad-api.vercel.app/4-15/my-reservations?size=10&status=pending
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDE1MTI1LCJleHAiOjE3MTcwMTY5MjUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.PCBXxLotW9AB_lSA_5rrz3kDIRkzEHAgk8HIvLSvSDk
+
+###
+GET https://sp-globalnomad-api.vercel.app/4-15/activities/933

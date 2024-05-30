@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReserveForm from '@/components/activity/ReserveForm';
 import TopBanner from '@/components/activity/TopBanner';
 import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
-import axiosInstance from '@/lib/axiosInstance';
+import getActivity from '@/api/getActivity';
 
 const ActivityPage = () => {
-  const { id } = useParams() as { id: string };
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   const [activity, setActivity] = useState({
     title: '',
@@ -20,11 +21,22 @@ const ActivityPage = () => {
   });
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await axiosInstance.get(`/activities/${id}`);
-      setActivity(response.data);
+    if (!id) {
+      navigate('/Error404');
+      return;
+    }
+
+    const fetchActivity = async () => {
+      try {
+        const activityData = await getActivity(id);
+        setActivity(activityData);
+      } catch (error) {
+        console.error('Activity 데이터를 가져오는 데 실패했습니다:', error);
+        navigate('/Error404');
+      }
     };
-    getData();
+
+    fetchActivity();
   }, [id]);
 
   return (
@@ -34,7 +46,7 @@ const ActivityPage = () => {
         <div className="flex w-full">
           <div className="flex w-2/3 flex-col">
             <Description activity={activity} />
-            <Reviews id={id} />
+            <Reviews />
           </div>
           <div className="w-1/3">
             <ReserveForm activity={activity} />

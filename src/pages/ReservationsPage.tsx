@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import Profile from '@/components/common/profile/Profile';
+import { useQuery } from '@tanstack/react-query';
+import getMyReservation from '@/api/getMyReservation';
+import ReservationContent from '@/components/myreservation/ReservationContent';
 import ReviewModal from '../components/review/ReviewModal';
 import ModalPortal from '../components/review/ModalPortal';
 
@@ -13,30 +17,14 @@ interface BookingData {
   price: number;
 }
 
-const ReservationsPage: React.FC = () => {
+const ReservationsPage = () => {
   // 임시데이터
-  const [bookings, setBookings] = useState<BookingData[]>([
-    {
-      id: 1,
-      image: 'https://via.placeholder.com/150/FF0000',
-      title: '예약 1',
-      date: '2023-06-01',
-      startTime: '10:00',
-      endTime: '11:00',
-      people: 2,
-      price: 50000,
-    },
-    {
-      id: 2,
-      image: 'https://via.placeholder.com/150/F0F0F0',
-      title: '예약 2',
-      date: '2023-06-15',
-      startTime: '14:00',
-      endTime: '15:00',
-      people: 4,
-      price: 100000,
-    },
-  ]);
+  const [status, setStatus] = useState<string>('');
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['reservation'],
+    queryFn: getMyReservation,
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<BookingData | null>(
     null,
@@ -44,28 +32,31 @@ const ReservationsPage: React.FC = () => {
 
   /* 후기 작성 버튼에 연결되도록 해야 함 */
 
-  const handleReviewClick = (bookingId: number) => {
-    const booking = bookings.find((b) => b.id === bookingId);
-    if (booking) {
-      setSelectedBooking(booking);
-      setIsModalOpen(true);
-      setBookings([]); // 오류때문에 넣었음.
-    }
-  };
+  // const handleReviewClick = (bookingId: number) => {
+  //   const booking = bookings.find((b) => b.id === bookingId);
+  //   if (booking) {
+  //     setSelectedBooking(booking);
+  //     setIsModalOpen(true);
+  //     setBookings([]); // 오류때문에 넣었음.
+  //   }
+  // };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedBooking(null);
   };
+  if (isLoading) {
+    return <div>프로필을 불러오고 있습니다</div>;
+  }
+
+  if (isError || !data) {
+    return <div>프로필을 불러오는데 실패했습니다</div>;
+  }
 
   return (
-    <div>
-      <button type="button" onClick={() => handleReviewClick(1)}>
-        예약 내역 1 리뷰 작성
-      </button>
-      <button type="button" onClick={() => handleReviewClick(2)}>
-        예약 내역 2 리뷰 작성
-      </button>
+    <div className="flex gap-6 justify-center bg-[#FAFAFA] pt-[65px]">
+      <Profile />
+      <ReservationContent status={status} setStatus={setStatus} />
       <ModalPortal>
         <ReviewModal
           isOpen={isModalOpen}
