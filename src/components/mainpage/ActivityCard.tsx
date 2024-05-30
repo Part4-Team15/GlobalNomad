@@ -1,4 +1,5 @@
 import priceToWon from '@/utils/priceToWon';
+import { Link } from 'react-router-dom';
 
 export interface ActivityCardProps {
   cardData: {
@@ -36,23 +37,25 @@ const ActivityCard = ({ cardData }: ActivityCardProps) => {
   const { id, title, price, bannerImageUrl, rating, reviewCount } = cardData;
 
   return (
-    <div id={String(id)} className="flex flex-col gap-4">
-      <div className="w-72 h-72 bg-cover bg-center rounded-3xl" style={{ backgroundImage: `url(${bannerImageUrl})` }} />
-      <div className="flex flex-col gap-[10px] w-[282px] text-black">
-        <div className="flex gap-1">
-          <img src="/assets/bold_star.svg" alt="little-star" />
-          <p className="text-sm font-bold">
-            {rating}
-            <span className="text-gray-60">{` (${reviewCount})`}</span>
-          </p>
-        </div>
-        <div className="text-2xl font-bold">{title}</div>
-        <div className="flex items-center gap-1 text-[28px] font-bold">
-          {priceToWon(price)}
-          <span className="text-xl text-gray-80">/인</span>
+    <Link to={`/activity/${id}`}>
+      <div className="flex flex-col gap-4">
+        <div className="w-72 h-72 bg-cover bg-center rounded-3xl" style={{ backgroundImage: `url(${bannerImageUrl})` }} />
+        <div className="flex flex-col gap-[10px] w-[282px] text-black">
+          <div className="flex gap-1">
+            <img src="/assets/bold_star.svg" alt="little-star" />
+            <p className="text-sm font-bold">
+              {rating}
+              <span className="text-gray-60">{` (${reviewCount})`}</span>
+            </p>
+          </div>
+          <div className="text-2xl font-bold">{title}</div>
+          <div className="flex items-center gap-1 text-[28px] font-bold">
+            {priceToWon(price)}
+            <span className="text-xl text-gray-80">/인</span>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
