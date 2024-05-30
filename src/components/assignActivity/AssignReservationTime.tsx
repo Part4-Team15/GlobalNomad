@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { AssignData, ReservationTime } from '@/types/assignActivityPage';
 import mergeAssignData from './utils/mergeAssignData';
 import ReservationDate from './reservation/ReservationDate';
 import ReservationStartTime from './reservation/ReservationStartTime';
 import ReservationEndTime from './reservation/ReservationEndTime';
+import ReservationForm from './reservation/ReservationForm';
 
 const AssignReservationTime = () => {
   const queryClient = useQueryClient();
-  const [time, setTime] = useState<ReservationTime[]>([]);
+  const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
+  const time: ReservationTime[] = data ? data.reservationTime : [];
   const { data: reservationDate } = useQuery({ queryKey: ['assign/Date'] });
   const { data: reservationStartTime } = useQuery({
     queryKey: ['assign/StartTime'],
@@ -26,7 +28,7 @@ const AssignReservationTime = () => {
       };
       const isDuplicate = time.some(
         // 시간대 중복 로직
-        (t) =>
+        (t: ReservationTime) =>
           t.reservationDate === newReservationTime.reservationDate &&
           t.startTime === newReservationTime.startTime &&
           t.endTime === newReservationTime.endTime,
@@ -36,7 +38,6 @@ const AssignReservationTime = () => {
         return;
       }
       queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-        setTime((prev) => [...prev, newReservationTime]);
         return mergeAssignData(oldData, {
           reservationTime: [
             ...(oldData?.reservationTime || []),
@@ -77,6 +78,7 @@ const AssignReservationTime = () => {
           />
         </div>
         {/*  */}
+        {data && data.reservationTime.length > 0 && <ReservationForm />}
       </div>
     </div>
   );
