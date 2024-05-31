@@ -3,13 +3,15 @@ import CategoryDropDown, { Category } from './dropDown/CategoryDropDown';
 
 const AssignCategory = () => {
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<Category>('');
+  const [selectedValue, setSelectedValue] = useState<Category | undefined>(
+    undefined,
+  );
 
   const handleDropDown = () => {
     setIsDropDown(!isDropDown);
   };
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (value: Category) => {
     setSelectedValue(value);
     setIsDropDown(false);
   };
