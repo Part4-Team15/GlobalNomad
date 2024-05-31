@@ -47,6 +47,7 @@ const ProfileImage = ({
       style={{
         backgroundImage: `url(${uploadedImage || profileImageUrl})`,
         backgroundColor: '#E3E5E8',
+        backgroundSize: 'contain',
       }}
     >
       <input
