@@ -3,9 +3,7 @@ import CategoryDropDown, { Category } from './dropDown/CategoryDropDown';
 
 const AssignCategory = () => {
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<Category | undefined>(
-    undefined,
-  );
+  const [selectedValue, setSelectedValue] = useState<Category | null>(null);
 
   const handleDropDown = () => {
     setIsDropDown(!isDropDown);
@@ -21,7 +19,7 @@ const AssignCategory = () => {
       <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
         <input
           className="w-[100%] outline-none"
-          value={selectedValue}
+          value={selectedValue || ''}
           placeholder="카테고리"
           readOnly
         />

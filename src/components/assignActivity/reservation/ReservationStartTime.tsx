@@ -7,7 +7,7 @@ const ReservationStartTime = () => {
   const [isStartTimeDropDown, setIsStartTimeDropDown] =
     useState<boolean>(false);
 
-  const { data: startTime } = useQuery<string>({
+  const { data: startTime = '' } = useQuery<string>({
     queryKey: ['assign/StartTime'],
   });
 

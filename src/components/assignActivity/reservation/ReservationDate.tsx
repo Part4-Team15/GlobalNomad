@@ -5,7 +5,7 @@ import CalendarModal from '../modal/CalendarModal';
 const ReservationDate = () => {
   const queryClient = useQueryClient();
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
-  const { data: selectedDate } = useQuery<string>({
+  const { data: selectedDate = '' } = useQuery<string>({
     queryKey: ['assign/Date'],
   });
 

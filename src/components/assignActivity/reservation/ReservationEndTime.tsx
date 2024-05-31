@@ -5,7 +5,7 @@ import EndTimeDropDown from '../dropDown/EndTimeDropDown';
 const ReservationEndTime = () => {
   const queryClient = useQueryClient();
   const [isEndTimeDropDown, setIsEndTimeDropDown] = useState<boolean>(false);
-  const { data: endTime } = useQuery<string>({
+  const { data: endTime = '' } = useQuery<string>({
     queryKey: ['assign/EndTime'],
   });
 

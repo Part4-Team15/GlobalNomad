@@ -1,12 +1,15 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
+import checkRequireData from './utils/checkRequireData';
 
 const AssignHeader = () => {
   const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
 
   const handleAssignData = () => {
-    console.log(data);
+    if (checkRequireData(data)) {
+      console.log('통과');
+    }
   };
 
   return (

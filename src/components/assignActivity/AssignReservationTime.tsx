@@ -52,7 +52,7 @@ const AssignReservationTime = () => {
       queryClient.setQueryData(['assign/StartTime'], '');
       queryClient.setQueryData(['assign/EndTime'], '');
     } else {
-      alert('날짜와 시간대는 필수입니다.');
+      alert('날짜와 시간대는 필수 입력 사항입니다.');
     }
   };
 
