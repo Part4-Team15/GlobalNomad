@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { AssignData } from '@/types/assignActivityPage';
+import mergeAssignData from './utils/mergeAssignData';
 
 const MAX_SIZE = 4;
 
 const AssignIntroImage = () => {
+  const queryClient = useQueryClient();
   const [introImage, setIntroImage] = useState<string[]>([]);
 
   const handleIntroImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,18 +18,29 @@ const AssignIntroImage = () => {
         if (introImage?.length === MAX_SIZE) {
           // alert('소개 이미지는 최대 4개까지 등록 가능합니다.');
         } else {
-          setIntroImage((prevImages) => [...prevImages, dataURL]);
+          setIntroImage((prevImages) => {
+            const updatedImages = [...prevImages, dataURL];
+            queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+              return mergeAssignData(oldData, { introImageUrl: updatedImages });
+            });
+            return updatedImages;
+          });
         }
       };
       reader.readAsDataURL(file);
-      console.log(introImage);
     }
   };
 
   const handleRemoveImage = (index: number): void => {
-    setIntroImage((prevImages: string[]) =>
-      prevImages.filter((_: string, i: number) => i !== index),
-    );
+    setIntroImage((prevImages: string[]) => {
+      const updatedImages = prevImages.filter(
+        (_: string, i: number) => i !== index,
+      );
+      queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+        return mergeAssignData(oldData, { introImageUrl: updatedImages });
+      });
+      return updatedImages;
+    });
   };
 
   return (

@@ -1,43 +1,53 @@
-import React, { useState } from 'react';
-import StartTimeDropDown from './dropDown/StartTimeDropDown';
-import EndTimeDropDown from './dropDown/EndTimeDropDown';
-import CalendarModal from './modal/CalendarModal';
+import React from 'react';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { AssignData, ReservationTime } from '@/types/assignActivityPage';
+import mergeAssignData from './utils/mergeAssignData';
+import ReservationDate from './reservation/ReservationDate';
+import ReservationStartTime from './reservation/ReservationStartTime';
+import ReservationEndTime from './reservation/ReservationEndTime';
+import ReservationForm from './reservation/ReservationForm';
 
 const AssignReservationTime = () => {
-  const [isStartTimeDropDown, setIsStartTimeDropDown] = useState(false);
-  const [isEndTimeDropDown, setIsEndTimeDropDown] = useState(false);
-  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  const [time, setTime] = useState({ startTime: '', endTime: '' });
-  const [selectedDate, setSelectedDate] = useState('');
+  const queryClient = useQueryClient();
+  const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
+  const time: ReservationTime[] = data ? data.reservationTime : [];
+  const { data: reservationDate } = useQuery({ queryKey: ['assign/Date'] });
+  const { data: reservationStartTime } = useQuery({
+    queryKey: ['assign/StartTime'],
+  });
+  const { data: reservationEndTime } = useQuery({
+    queryKey: ['assign/EndTime'],
+  });
 
-  // 시작 시간 밑의 드랍다운
-  const handleStartTimeDropDown = () => {
-    setIsStartTimeDropDown(!isStartTimeDropDown);
-  };
-
-  // 종료 시간 밑의 드랍다운
-  const handleEndTimeDropDown = () => {
-    setIsEndTimeDropDown(!isEndTimeDropDown);
-  };
-
-  // 날짜 모달
-  const handleCalendar = () => {
-    setIsOpenCalendar(!isOpenCalendar);
-  };
-
-  const handleSelectStart = (startTime: string, endTime: string) => {
-    setTime({ startTime, endTime });
-    setIsStartTimeDropDown(!isStartTimeDropDown);
-  };
-
-  const handleSelectEnd = (startTime: string, endTime: string) => {
-    setTime({ startTime, endTime });
-    setIsEndTimeDropDown(!isEndTimeDropDown);
-  };
-
-  const handleDateSelect = (date: string) => {
-    setSelectedDate(date);
-    setIsOpenCalendar(!isOpenCalendar);
+  const handleAssignTime = () => {
+    if (reservationDate && reservationStartTime && reservationEndTime) {
+      const newReservationTime: ReservationTime = {
+        reservationDate: reservationDate as string,
+        startTime: reservationStartTime as string,
+        endTime: reservationEndTime as string,
+      };
+      const isDuplicate = time.some(
+        // 시간대 중복 로직
+        (t: ReservationTime) =>
+          t.reservationDate === newReservationTime.reservationDate &&
+          t.startTime === newReservationTime.startTime &&
+          t.endTime === newReservationTime.endTime,
+      );
+      if (isDuplicate) {
+        alert('동일한 날짜 및 시간대는 중복될 수 없습니다.');
+        return;
+      }
+      queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+        return mergeAssignData(oldData, {
+          reservationTime: [
+            ...(oldData?.reservationTime || []),
+            newReservationTime,
+          ],
+        });
+      });
+    } else {
+      alert('날짜와 시간대는 필수입니다.');
+    }
   };
 
   return (
@@ -46,83 +56,17 @@ const AssignReservationTime = () => {
       <div className=" flex w-[100%] flex-col items-start gap-[21px]">
         <div className="flex w-[100%] items-start gap-5">
           {/* 날짜 */}
-          <div className=" w-[100%] relative">
-            <div className="flex w-[100%] flex-col">
-              <span>날짜</span>
-              <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
-                <input
-                  className="w-[100%] outline-none"
-                  placeholder="YY/MM/DD"
-                  value={selectedDate}
-                  readOnly
-                />
-                <button type="button" onClick={handleCalendar}>
-                  <img src="/assets/calendar_icon.svg" alt="calendarIcon" />
-                </button>
-              </div>
-            </div>
-            {isOpenCalendar && <CalendarModal onSelect={handleDateSelect} />}
-          </div>
+          <ReservationDate />
           {/* 날짜 */}
 
           <div className=" flex h-[70px] w-[100%] items-center gap-3">
             {/* 시작 시간 */}
-            <div className=" w-[100%] relative">
-              <div className="flex w-[100%] flex-col ">
-                <span>시작 시간</span>
-                <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
-                  <input
-                    className="w-[100%] outline-none"
-                    placeholder="0:00"
-                    value={time.startTime}
-                    readOnly
-                  />
-                  <button type="button" onClick={handleStartTimeDropDown}>
-                    <img
-                      src={
-                        isStartTimeDropDown
-                          ? '/assets/arrow_up.svg'
-                          : '/assets/arrow_down.svg'
-                      }
-                      alt="arrowIcon"
-                    />
-                  </button>
-                </div>
-              </div>
-              {isStartTimeDropDown && (
-                <StartTimeDropDown onSelect={handleSelectStart} />
-              )}
-            </div>
+            <ReservationStartTime />
             {/* 시작 시간 */}
 
             <span className=" mt-4">~</span>
             {/* 종료 시간 */}
-            <div className=" w-[100%] relative">
-              <div className="flex w-[100%] flex-col ">
-                <span>종료 시간</span>
-                <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
-                  <input
-                    className="w-[100%] outline-none"
-                    placeholder="0:00"
-                    value={time.endTime}
-                    readOnly
-                  />
-                  <button type="button" onClick={handleEndTimeDropDown}>
-                    <img
-                      src={
-                        isEndTimeDropDown
-                          ? '/assets/arrow_up.svg'
-                          : '/assets/arrow_down.svg'
-                      }
-                      alt="arrowIcon"
-                    />
-                  </button>
-                </div>
-              </div>
-              {isEndTimeDropDown && (
-                <EndTimeDropDown onSelect={handleSelectEnd} />
-              )}
-            </div>
+            <ReservationEndTime />
             {/* 종료 시간 */}
           </div>
 
@@ -130,9 +74,11 @@ const AssignReservationTime = () => {
             className="mt-6 h-[46px]"
             src="/assets/plus_time_btn.svg"
             alt="plusTimeBtn"
+            onClick={handleAssignTime}
           />
         </div>
         {/*  */}
+        {data && data.reservationTime.length > 0 && <ReservationForm />}
       </div>
     </div>
   );

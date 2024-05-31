@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import CategoryDropDown from './dropDown/CategoryDropDown';
+import CategoryDropDown, { Category } from './dropDown/CategoryDropDown';
 
 const AssignCategory = () => {
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedValue, setSelectedValue] = useState<Category>('');
 
   const handleDropDown = () => {
     setIsDropDown(!isDropDown);
@@ -11,7 +11,7 @@ const AssignCategory = () => {
 
   const handleSelect = (value: string) => {
     setSelectedValue(value);
-    setIsDropDown(!isDropDown);
+    setIsDropDown(false);
   };
 
   return (
