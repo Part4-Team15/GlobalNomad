@@ -57,6 +57,12 @@ const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
               ...prev,
               nicknameErrorMessage: '닉네임을 입력해주세요.',
             }));
+            if (newPassword.length === 0) {
+              setEditInformationErrorMessage((prev) => ({
+                ...prev,
+                passwordErrorMessageErrorMessage: '비밀번호를 입력해주세요.',
+              }));
+            }
           } else if (nickname.length > 10) {
             setEditInformationErrorMessage((prev) => ({
               ...prev,
