@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 // import postAssignImage from '@/api/postAssignImage';
+import convertDate from '@/utils/convertDate';
 import checkRequireData from './utils/checkRequireData';
 
 const AssignHeader = () => {
@@ -9,7 +10,12 @@ const AssignHeader = () => {
 
   const handleAssignData = () => {
     if (checkRequireData(data)) {
-      console.log('통과');
+      const resultArray = data.reservationTime.map((time) => {
+        return time;
+      });
+      resultArray.forEach(({ reservationDate }) => {
+        console.log(convertDate(reservationDate));
+      });
       // 날짜변환 + 이미지 변환 후 post요청
       // const convertedImage = postAssignImage(data.bannerImageUrl);
       // console.log(convertedImage);
