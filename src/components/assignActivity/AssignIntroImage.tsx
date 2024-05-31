@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
+import postAssignImage from '@/api/postAssignImage';
 import mergeAssignData from './utils/mergeAssignData';
 
 const MAX_SIZE = 4;
@@ -8,26 +9,44 @@ const MAX_SIZE = 4;
 const AssignIntroImage = () => {
   const queryClient = useQueryClient();
   const [introImage, setIntroImage] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleIntroImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIntroImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (introImage?.length === MAX_SIZE) {
+      alert('소개 이미지는 최대 4개까지 등록 가능합니다.');
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
+      return;
+    }
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataURL = reader.result as string;
-        if (introImage?.length === MAX_SIZE) {
-          // alert('소개 이미지는 최대 4개까지 등록 가능합니다.');
-        } else {
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+        const response = await postAssignImage(formData);
+        if (response && response.activityImageUrl) {
+          const imageUrl = response.activityImageUrl;
+
           setIntroImage((prevImages) => {
-            const updatedImages = [...prevImages, dataURL];
+            const updatedImages = [...prevImages, imageUrl];
             queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-              return mergeAssignData(oldData, { introImageUrl: updatedImages });
+              return mergeAssignData(oldData, {
+                introImageUrl: updatedImages,
+              });
             });
             return updatedImages;
           });
         }
-      };
-      reader.readAsDataURL(file);
+
+        if (inputRef.current) {
+          inputRef.current.value = '';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -56,6 +75,7 @@ const AssignIntroImage = () => {
             <span>이미지 등록</span>
           </label>
           <input
+            ref={inputRef}
             id="introImageInput"
             type="file"
             accept="image/*"
