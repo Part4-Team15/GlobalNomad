@@ -45,7 +45,7 @@ const ActivityCardList = () => {
           <ActivityCard key={activity.id} cardData={activity} />
         ))}
       </div>
-      <Pagination totalCount={count} limit={OFFSET_LIMIT} setActivityList={getPageData} />
+      <Pagination totalCount={count} offsetLimit={OFFSET_LIMIT} setActivityList={getPageData} />
     </>
   );
 };
