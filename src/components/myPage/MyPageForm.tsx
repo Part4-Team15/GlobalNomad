@@ -114,7 +114,7 @@ const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const profileImageUrl = uploadedImage ?? data?.profileImageUrl ?? '';
+    const profileImageUrl = uploadedImage ?? data?.profileImageUrl ?? null;
     if (newPassword !== newPasswordConfirm) {
       if (newPassword.length > 0 && newPassword.length < PASSWORD_MIN_LENGTH) {
         setEditInformationErrorMessage((prev) => ({
