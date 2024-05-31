@@ -127,7 +127,7 @@ const SignupInputBox = ({
           <div className="text-red-40 text-xs ml-1">
             {signupErrorMessage.passwordConfirmErrorMessage}
           </div>
-        )}
+      )}
     </div>
   );
 };
