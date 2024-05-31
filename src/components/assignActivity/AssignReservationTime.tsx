@@ -35,6 +35,9 @@ const AssignReservationTime = () => {
       );
       if (isDuplicate) {
         alert('동일한 날짜 및 시간대는 중복될 수 없습니다.');
+        queryClient.setQueryData(['assign/Date'], '');
+        queryClient.setQueryData(['assign/StartTime'], '');
+        queryClient.setQueryData(['assign/EndTime'], '');
         return;
       }
       queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
@@ -45,6 +48,9 @@ const AssignReservationTime = () => {
           ],
         });
       });
+      queryClient.setQueryData(['assign/Date'], '');
+      queryClient.setQueryData(['assign/StartTime'], '');
+      queryClient.setQueryData(['assign/EndTime'], '');
     } else {
       alert('날짜와 시간대는 필수입니다.');
     }
