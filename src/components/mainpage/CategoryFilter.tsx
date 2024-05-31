@@ -8,8 +8,7 @@ const CategoryFilter = () => {
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (isOpen) return setIsOpen(false);
-    return setIsOpen(true);
+    setIsOpen(!isOpen);
   };
 
   return (
