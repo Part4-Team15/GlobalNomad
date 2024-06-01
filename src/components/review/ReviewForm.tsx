@@ -16,10 +16,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col flex-grow">
       <StarRating onRatingChange={(value) => setRating(value)} />
       <textarea
-        className="w-full h-[15rem] pt-2 pr-4 pb-2 pl-4 border border-gray-300 rounded mb-6 resize-none"
+        className="w-full mob:h-[15rem] flex-grow pt-2 pr-4 pb-2 pl-4 border border-gray-300 rounded mb-6 resize-none"
         placeholder="후기를 작성해주세요"
         value={review}
         onChange={(e) => setReview(e.target.value)}

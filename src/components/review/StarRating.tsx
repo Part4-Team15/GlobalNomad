@@ -9,11 +9,11 @@ const StarRating: React.FC<StarRatingProps> = ({ onRatingChange }) => {
   const [hover, setHover] = useState(0);
 
   return (
-    <div className="h-[6.25rem] flex justify-center items-center mb-6">
+    <div className="h-[6.25rem] flex justify-around mob:justify-center items-center mb-6">
       {[...Array(5)].map((_, index) => {
         const ratingValue = index + 1;
         return (
-          <label key={index}>
+          <label key={ratingValue}>
             <input
               type="radio"
               name="rating"
