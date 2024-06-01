@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import getActivityReviews from '@/api/getActivityReviews';
 import { ActivityReviewsType, Review } from '@/types/activityPage';
 import getFormatDate from '@/utils/getFormatDate';
+import ratingToText from '@/utils/ratingToText';
+import getFirstPageReviews from '@/api/getFirstPageReviews';
 import Pagination from '../mainpage/Pagination';
 
 const OFFSET_LIMIT = 8;
@@ -30,25 +32,7 @@ const Reviews = () => {
     averageRating: 0,
   });
   const [currentReviews, setCurrentReviews] = useState<Review[]>();
-
-  const ratingToText = (averageRating: number) => {
-    if (averageRating >= 4) {
-      return '매우 만족';
-    }
-    if (averageRating >= 3.5 && averageRating < 4) {
-      return '만족';
-    }
-    if (averageRating >= 3 && averageRating < 3.5) {
-      return '보통';
-    }
-    if (averageRating >= 2.5 && averageRating < 3) {
-      return '불만족';
-    }
-    if (averageRating < 2.5) {
-      return '매우 불만족';
-    }
-    return null;
-  };
+  const [count, setCount] = useState<number>(1);
 
   useEffect(() => {
     if (!id) {
@@ -56,26 +40,23 @@ const Reviews = () => {
     }
 
     const getReviews = async () => {
-      try {
-        const reviewsData = await getActivityReviews(id);
-        setReviewData(reviewsData);
-      } catch (error) {
-        console.error('Reviews 데이터를 가져오는 데 실패했습니다:', error);
-      }
+      const data = await getFirstPageReviews(Number(id));
+      setReviewData(data);
+      setCurrentReviews(data.reviews);
+      setCount(data.totalCount);
     };
     getReviews();
   }, []);
 
-  const { averageRating, totalCount, reviews } = reviewData;
+  const { averageRating, totalCount } = reviewData;
 
-  const pageDataList: any[] = [];
-
-  for (let i = 0; i < totalCount; i += 8) {
-    pageDataList.push(reviews.slice(i, i + 8));
-  }
-
-  const handlePageData = (pageNum: number) => {
-    setCurrentReviews(pageDataList[pageNum]);
+  const handlePageData = async (pageNum: number, size: number) => {
+    try {
+      const { reviews } = await getActivityReviews(Number(id), pageNum, size);
+      setCurrentReviews(reviews);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -124,7 +105,7 @@ const Reviews = () => {
               </div>
             ))}
           </div>
-          <Pagination totalCount={totalCount} limit={OFFSET_LIMIT} setActivityList={handlePageData} />
+          <Pagination totalCount={count} limit={OFFSET_LIMIT} setActivityList={handlePageData} />
         </div>
       ) : null}
     </div>
