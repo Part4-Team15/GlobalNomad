@@ -1,7 +1,7 @@
 import axiosInstance from '@/lib/axiosInstance';
 import { AssignData } from '@/types/assignActivityPage';
 
-const postMyActivity = async (myActivity: AssignData) => {
+const postAssignMyActivity = async (myActivity: AssignData) => {
   try {
     const res = await axiosInstance.post('/activities', myActivity);
     return res.data;
@@ -11,4 +11,4 @@ const postMyActivity = async (myActivity: AssignData) => {
   }
 };
 
-export default postMyActivity;
+export default postAssignMyActivity;

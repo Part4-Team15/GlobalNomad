@@ -1,24 +1,27 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
-// import postAssignImage from '@/api/postAssignImage';
 import convertDate from '@/utils/convertDate';
+import postAssignMyActivity from '@/api/postMyActivity';
 import checkRequireData from './utils/checkRequireData';
 
 const AssignHeader = () => {
   const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
 
-  const handleAssignData = () => {
+  const handleAssignData = async () => {
     if (checkRequireData(data)) {
-      const resultArray = data.schedules.map((time) => {
-        return time;
-      });
-      resultArray.forEach(({ date }) => {
-        console.log(convertDate(date));
-      });
-      // 날짜변환 + 이미지 변환 후 post요청
-      // const convertedImage = postAssignImage(data.bannerImageUrl);
-      // console.log(convertedImage);
+      data.schedules = data.schedules.map((schedule) => ({
+        ...schedule,
+        date: convertDate(schedule.date),
+      })); // 날짜변환
+      try {
+        const response = await postAssignMyActivity(data);
+        if (response) {
+          alert('등록 성공!!'); // 성공 시 모달 열기
+        }
+      } catch (e) {
+        console.error('Error:', e);
+      }
     }
   };
 
