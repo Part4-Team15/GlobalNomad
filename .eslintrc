@@ -23,17 +23,11 @@
     "no-console": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "react-hooks/exhaustive-deps": "off",
-    "react/function-component-definition": [
-      2,
-      { "namedComponents": "arrow-function" },
-    ],
+    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
     "linebreak-style": ["error", "windows"],
     "@typescript-eslint/comma-dangle": ["off"],
     //중괄호 줄바꿈 표시 -> 한줄로 되게끔 해주기
-    "object-curly-newline": [
-      "error",
-      { "multiline": true, "consistent": true },
-    ],
+    "object-curly-newline": ["error", { "multiline": true, "consistent": true }],
     "react/prop-types": "off", // PropTypes 검사 비활성화
     "operator-linebreak": "off",
     "jsx-a11y/click-events-have-key-events": "off",
@@ -43,6 +37,7 @@
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
     "no-param-reassign": ["error", { "props": false }],
+    "no-alert": 0, //alert 경고문구 비활성화
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }], // 종속성 관련 에러 비활성화
   },
   "settings": {

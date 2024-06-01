@@ -25,15 +25,11 @@ const getNewTokens = async () => {
   }
 
   // 새로운 토큰을 요청합니다.
-  const response = await axios.post(
-    'https://sp-globalnomad-api.vercel.app/4-15/auth/tokens',
-    null,
-    {
-      headers: {
-        Authorization: `Bearer ${storedRefreshToken}`,
-      },
+  const response = await axios.post('https://sp-globalnomad-api.vercel.app/4-15/auth/tokens', null, {
+    headers: {
+      Authorization: `Bearer ${storedRefreshToken}`,
     },
-  );
+  });
 
   // 응답에서 새로운 accessToken과 refreshToken을 가져옵니다.
   const { accessToken, refreshToken: newRefreshToken } = response.data;
