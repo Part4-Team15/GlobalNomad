@@ -63,35 +63,35 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 
   if (!isOpen) return null;
 
+  const handleClick = (event: any) => event.stopPropagation();
+
   return (
-    <>
-      <ModalBackground onClose={onClose} />
-      <div className="fixed inset-0 flex items-center justify-center z-50">
-        <div
-          className="w-full h-full mob:w-[30rem] mob:h-[46.875rem] mob:rounded-3xl bg-white pt-7 pr-6 pb-[2.875rem] pl-6"
-          ref={modalRef}
-        >
-          <div className="w-full h-full flex flex-col items-start gap-[2.5625rem]">
-            <div className="w-full flex justify-between items-center">
-              <p className="text-[1.75rem] font-bold leading-[1.625rem]">
-                후기 작성
-              </p>
-              <button type="button" className="text-gray-80" onClick={onClose}>
-                <img src="/assets/x_btn.svg" alt="xBtn" />
-              </button>
-            </div>
-            {booking ? (
-              <div className="flex flex-col h-full">
-                <BookingHistory booking={booking} />
-                <ReviewForm onSubmit={handleSubmit} />
-              </div>
-            ) : (
-              <div>예약 정보가 없습니다.</div>
-            )}
+    <ModalBackground onClose={onClose}>
+      <div
+        className="w-full h-full mob:w-[30rem] mob:h-[46.875rem] mob:rounded-3xl bg-white pt-7 pr-6 pb-[2.875rem] pl-6"
+        ref={modalRef}
+        onClick={handleClick}
+      >
+        <div className="w-full h-full flex flex-col items-start gap-[2.5625rem]">
+          <div className="flex items-center justify-between w-full">
+            <p className="text-[1.75rem] font-bold leading-[1.625rem]">
+              후기 작성
+            </p>
+            <button type="button" className="text-gray-80" onClick={onClose}>
+              <img src="/assets/x_btn.svg" alt="xBtn" />
+            </button>
           </div>
+          {booking ? (
+            <div className="flex flex-col w-full h-full">
+              <BookingHistory booking={booking} />
+              <ReviewForm onSubmit={handleSubmit} />
+            </div>
+          ) : (
+            <div>예약 정보가 없습니다.</div>
+          )}
         </div>
       </div>
-    </>
+    </ModalBackground>
   );
 };
 
