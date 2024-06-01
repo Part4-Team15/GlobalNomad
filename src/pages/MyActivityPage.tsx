@@ -25,7 +25,7 @@ const MyActivityPage = () => {
           <section className="w-full">
             <ul className="flex flex-col gap-6">
               {activities.map((activity) => (
-                <ReservationCard activity={activity} />
+                <ReservationCard key={activity.id} activity={activity} />
               ))}
             </ul>
           </section>

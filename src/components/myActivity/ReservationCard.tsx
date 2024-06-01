@@ -1,4 +1,5 @@
 import priceToWon from '@/utils/priceToWon';
+import CustomKebabMenu from './CustomKebabMenu';
 
 interface Activity {
   id: number;
@@ -89,9 +90,12 @@ const ReservationCard = ({ activity }: { activity: Activity }) => {
           <p className="font-medium text-[1.5rem] md:text-[1.25rem] sm:text-[1rem]">
             {priceToWon(activity.price)}
           </p>
-          <button type="button" className="sm:w-8 sm:h-8">
-            <img src="/assets/kebab_icon.svg" alt="kebabIcon" />
-          </button>
+          <CustomKebabMenu
+            options={[
+              { label: '수정하기', onClick: () => console.log('안녕') },
+              { label: '삭제하기', onClick: () => console.log('안녕') },
+            ]}
+          />
         </div>
       </div>
     </li>
