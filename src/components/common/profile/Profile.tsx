@@ -1,10 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import getUserInfo from '@/api/getUserInfo';
-import PageMenu from './PageMenu';
 
+import PageMenu from './PageMenu';
 import ProfileImage from './ProfileImage';
 
-const Profile = () => {
+const Profile = ({
+  uploadedImage = null,
+  setUploadedImage,
+}: {
+  uploadedImage?: string | null;
+  setUploadedImage?: React.Dispatch<React.SetStateAction<string | null>>;
+}) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user'],
     queryFn: getUserInfo,
@@ -18,13 +24,14 @@ const Profile = () => {
     return <div>프로필을 불러오는데 실패했습니다</div>;
   }
   return (
-    // 여기에서 profileImage에 api에서 받아온 프로필을 설정할 수 있음
     <div className="flex sm:hidden md:w-[251px] lg:w-96 p-6 flex-col justify-center items-start gap-6 border rounded-xl border-gray-50 bg-white shadow-md self-start">
       <div className="flex justify-center items-start gap-[227px] self-stretch">
         <div className="flex flex-col justify-center items-center gap-6">
           <ProfileImage
             nickname={data.nickname}
             profileImageUrl={data.profileImageUrl}
+            uploadedImage={uploadedImage}
+            setUploadedImage={setUploadedImage}
           />
         </div>
       </div>
