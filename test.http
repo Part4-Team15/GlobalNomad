@@ -2,7 +2,7 @@
 POST https://sp-globalnomad-api.vercel.app/4-15/activities
 Content-Type: application/json; charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE2OTYwNTIwLCJleHAiOjE3MTY5NjIzMjAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.tumu_LlyugBdTqWYMr-etK13m-PCSFjjMqNBCtx5z_I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDQxOTM1LCJleHAiOjE3MTcwNDM3MzUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.gs2gq1jmRuDxNofQ5wgBrE0fF6bkUJ-Kyph6iHeqHIs
 
 {
   "title": "KBO 직관",
@@ -12,24 +12,24 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtS
   "price": 10000,
   "schedules": [
     {
-      "date": "2024-12-01",
-      "startTime": "12:00",
-      "endTime": "13:00"
+      "date": "2024-06-11",
+      "startTime": "19:00",
+      "endTime": "20:00"
     },
-    {
-      "date": "2024-12-05",
-      "startTime": "12:00",
-      "endTime": "13:00"
+      {
+     "date": "2024-06-11",
+      "startTime": "11:00",
+      "endTime": "12:00"
     },
-    {
-      "date": "2024-12-05",
+     {
+     "date": "2024-06-11",
       "startTime": "13:00",
       "endTime": "14:00"
     },
     {
-      "date": "2024-12-05",
-      "startTime": "14:00",
-      "endTime": "15:00"
+      "date": "2024-06-11",
+      "startTime": "15:00",
+      "endTime": "16:00"
     }
   ],
   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
@@ -39,13 +39,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtS
 }
 
 ###
-POST https://sp-globalnomad-api.vercel.app/4-15/activities/935/reservations
+POST https://sp-globalnomad-api.vercel.app/4-15/activities/947/reservations
 Content-Type: application/json; charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE2OTYwNTIwLCJleHAiOjE3MTY5NjIzMjAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.tumu_LlyugBdTqWYMr-etK13m-PCSFjjMqNBCtx5z_I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDQxOTM1LCJleHAiOjE3MTcwNDM3MzUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.gs2gq1jmRuDxNofQ5wgBrE0fF6bkUJ-Kyph6iHeqHIs
 
 {
-  "scheduleId": 3304,
+  "scheduleId": 3349,
   "headCount": 0
 }
 ###
