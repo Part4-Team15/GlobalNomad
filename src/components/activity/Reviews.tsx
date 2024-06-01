@@ -105,7 +105,11 @@ const Reviews = () => {
               </div>
             ))}
           </div>
-          <Pagination totalCount={count} limit={OFFSET_LIMIT} setActivityList={handlePageData} />
+          <Pagination
+            totalCount={count}
+            offsetLimit={OFFSET_LIMIT}
+            setActivityList={handlePageData}
+          />
         </div>
       ) : null}
     </div>
