@@ -1,14 +1,7 @@
-interface Activity {
-  title: string;
-  category: string;
-  rating: string;
-  address: string;
-  reviewCount: string;
-  description: string;
-}
+import { ActivityType } from '@/types/activityPage';
 
 interface TopBannerProps {
-  activity: Activity;
+  activity: ActivityType;
 }
 
 const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {

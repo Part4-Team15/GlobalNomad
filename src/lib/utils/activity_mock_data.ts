@@ -17,47 +17,61 @@ export const EXAMPLE_ACTIVITY = {
     {
       id: 901,
       userId: 292,
-      title: '0520의 체험',
+      title: '테스트용 체험2',
       description: '0520과 함께 체험해봐요!',
       category: '투어',
       price: 10000,
       address: '서울특별시 강남구 테헤란로 427',
-      bannerImageUrl: '/assets/banner.jpg',
+      bannerImageUrl: '/assets/samples/sub_img1.png',
       rating: 0,
       reviewCount: 0,
       createdAt: '2024-05-21T15:09:21.090Z',
       updatedAt: '2024-05-21T15:09:21.090Z'
     },
     {
-      id: 901,
+      id: 902,
       userId: 292,
-      title: '0520의 체험',
+      title: '테스트용 체험3',
       description: '0520과 함께 체험해봐요!',
       category: '투어',
       price: 10000,
       address: '서울특별시 강남구 테헤란로 427',
-      bannerImageUrl: '/assets/banner.jpg',
+      bannerImageUrl: '/assets/samples/sub_img2.png',
       rating: 0,
       reviewCount: 0,
       createdAt: '2024-05-21T15:09:21.090Z',
       updatedAt: '2024-05-21T15:09:21.090Z'
     },
     {
-      id: 901,
+      id: 903,
       userId: 292,
-      title: '0520의 체험',
+      title: '테스트용 체험4',
       description: '0520과 함께 체험해봐요!',
       category: '투어',
       price: 10000,
       address: '서울특별시 강남구 테헤란로 427',
-      bannerImageUrl: '/assets/banner.jpg',
+      bannerImageUrl: '/assets/samples/sub_img3.png',
+      rating: 0,
+      reviewCount: 0,
+      createdAt: '2024-05-21T15:09:21.090Z',
+      updatedAt: '2024-05-21T15:09:21.090Z'
+    },
+    {
+      id: 904,
+      userId: 292,
+      title: '테스트용 체험5',
+      description: '0520과 함께 체험해봐요!',
+      category: '투어',
+      price: 10000,
+      address: '서울특별시 강남구 테헤란로 427',
+      bannerImageUrl: '/assets/samples/sub_img4.png',
       rating: 0,
       reviewCount: 0,
       createdAt: '2024-05-21T15:09:21.090Z',
       updatedAt: '2024-05-21T15:09:21.090Z'
     }
   ],
-  totalCount: 4
+  totalCount: 5
 };
 
 export const EXAMPLE_MORE_ACTIVITIES = {

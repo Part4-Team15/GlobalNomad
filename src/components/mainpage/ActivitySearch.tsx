@@ -16,7 +16,7 @@ const ActivitySearch = () => {
           <div className="relative">
             <input
               className="w-[62.5rem] h-14 border border-gray-60 border-solid rounded-md px-4 py-2 placeholder:pl-5 focus:outline-none focus:border-green-40"
-              type="text"
+              type="search"
               onChange={handleChange}
               placeholder="내가 원하는 체험은"
             />
@@ -27,7 +27,7 @@ const ActivitySearch = () => {
             />
           </div>
           <button
-            type="button"
+            type="submit"
             className="bg-nomad-black rounded-md w-[136px] h-14 px-10 py-2 text-white font-bold"
           >
             검색하기
