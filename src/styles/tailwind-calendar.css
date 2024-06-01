@@ -41,11 +41,6 @@
   font-weight: 800;
 }
 
-/* 날짜 간 간격 */
-.react-calendar__month-view__days {
-  /* background-color: red; */
-}
-
 /* 날짜의 글자 스타일 */
 .react-calendar__month-view__days__day-names,
 .react-calendar__month-view__days__day {
@@ -60,14 +55,7 @@
   border-radius: 8px;
 }
 
-/* 날짜에 대한 호버 스타일 */
-.react-calendar__tile:hover {
-  background-color: #ced8d5;
-  color: #0b3b2d;
-}
-
 /* 호버 및 액티브 스타일 */
-.react-calendar__tile--active:active,
 .react-calendar__tile:focus,
 .react-calendar__tile:hover {
   background-color: #0b3b2d;

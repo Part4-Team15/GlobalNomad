@@ -5,19 +5,27 @@ import TopBanner from '@/components/activity/TopBanner';
 import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
 import getActivity from '@/api/getActivity';
+import { ActivityType } from '@/types/activityPage';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  const [activity, setActivity] = useState({
+  const [activity, setActivity] = useState<ActivityType>({
+    id: 0,
+    userId: 0,
     title: '',
-    category: '',
-    rating: '',
-    address: '',
-    reviewCount: '',
     description: '',
+    category: '',
     price: 0,
+    address: '',
+    bannerImageUrl: '',
+    rating: 0,
+    reviewCount: 0,
+    createdAt: '',
+    updatedAt: '',
+    subImages: [],
+    schedules: [],
   });
 
   useEffect(() => {
@@ -41,9 +49,9 @@ const ActivityPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="w-[1200px] flex-col flex justify-center items-center gap-20">
+      <div className="w-[1200px] flex-col flex justify-center items-center gap-20 mb-40">
         <TopBanner activity={activity} />
-        <div className="flex w-full">
+        <div className="flex w-full gap-6">
           <div className="flex w-2/3 flex-col">
             <Description activity={activity} />
             <Reviews />

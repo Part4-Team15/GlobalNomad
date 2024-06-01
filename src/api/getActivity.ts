@@ -1,16 +1,7 @@
 import axiosInstance from '@/lib/axiosInstance';
+import { ActivityType } from '@/types/activityPage';
 
-interface Activity {
-  title: string;
-  category: string;
-  rating: string;
-  address: string;
-  reviewCount: string;
-  description: string;
-  price: number;
-}
-
-const getActivity = async (id: string): Promise<Activity> => {
+const getActivity = async (id: string): Promise<ActivityType> => {
   try {
     const response = await axiosInstance.get(`/activities/${id}`);
     return response.data;

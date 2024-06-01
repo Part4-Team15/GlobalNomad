@@ -13,7 +13,7 @@ const StarRating: React.FC<StarRatingProps> = ({ onRatingChange }) => {
       {[...Array(5)].map((_, index) => {
         const ratingValue = index + 1;
         return (
-          <label key={index}>
+          <label>
             <input
               type="radio"
               name="rating"
