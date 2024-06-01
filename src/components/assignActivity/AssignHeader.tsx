@@ -10,12 +10,15 @@ const AssignHeader = () => {
 
   const handleAssignData = async () => {
     if (checkRequireData(data)) {
-      data.schedules = data.schedules.map((schedule) => ({
-        ...schedule,
-        date: convertDate(schedule.date),
-      })); // 날짜변환
+      const transformedData: AssignData = {
+        ...data,
+        schedules: data.schedules.map((schedule) => ({
+          ...schedule,
+          date: convertDate(schedule.date),
+        })),
+      }; // 새로운 객체를 생성하여 날짜 변환
       try {
-        const response = await postAssignMyActivity(data);
+        const response = await postAssignMyActivity(transformedData);
         if (response) {
           alert('등록 성공!!'); // 성공 시 모달 열기
         }

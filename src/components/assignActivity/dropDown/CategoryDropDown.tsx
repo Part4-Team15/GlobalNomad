@@ -9,7 +9,7 @@ interface CategoryProps {
 
 // 카테고리 타입 정의
 const CATEGORIES = [
-  '문화 예술',
+  '문화 · 예술',
   '식음료',
   '스포츠',
   '투어',
