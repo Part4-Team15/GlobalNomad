@@ -19,18 +19,6 @@ interface BookingData {
 
 const ReservationsPage = () => {
   // 임시데이터
-  const [bookings, setBookings] = useState<BookingData[]>([
-    {
-      id: 1,
-      image: 'https://via.placeholder.com/150/FF0000',
-      title: '예약 1',
-      date: '2023-06-01',
-      startTime: '10:00',
-      endTime: '11:00',
-      people: 2,
-      price: 50000,
-    },
-  ]);
 
   const [status, setStatus] = useState<string>('');
   const { data, isLoading, isError } = useQuery({
@@ -38,11 +26,10 @@ const ReservationsPage = () => {
     queryFn: getMyReservation,
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<BookingData | null>(
-    bookings[0],
+    null,
   );
-  console.log(setBookings);
 
   /* 후기 작성 버튼에 연결되도록 해야 함 */
 
