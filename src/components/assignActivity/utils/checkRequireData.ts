@@ -19,7 +19,7 @@ const checkRequireData = (assignData: AssignData | undefined): boolean => {
       alert(message);
       return false;
     }
-    if (assignData.reservationTime.length === 0) {
+    if (assignData.schedules.length === 0) {
       alert('예약 가능한 시간대는 필수 입력 사항입니다.');
       return false;
     }

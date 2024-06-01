@@ -10,11 +10,11 @@ const AssignHeader = () => {
 
   const handleAssignData = () => {
     if (checkRequireData(data)) {
-      const resultArray = data.reservationTime.map((time) => {
+      const resultArray = data.schedules.map((time) => {
         return time;
       });
-      resultArray.forEach(({ reservationDate }) => {
-        console.log(convertDate(reservationDate));
+      resultArray.forEach(({ date }) => {
+        console.log(convertDate(date));
       });
       // 날짜변환 + 이미지 변환 후 post요청
       // const convertedImage = postAssignImage(data.bannerImageUrl);

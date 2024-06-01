@@ -34,7 +34,7 @@ const AssignIntroImage = () => {
             const updatedImages = [...prevImages, imageUrl];
             queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
               return mergeAssignData(oldData, {
-                introImageUrl: updatedImages,
+                subImageUrls: updatedImages,
               });
             });
             return updatedImages;
@@ -56,7 +56,7 @@ const AssignIntroImage = () => {
         (_: string, i: number) => i !== index,
       );
       queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-        return mergeAssignData(oldData, { introImageUrl: updatedImages });
+        return mergeAssignData(oldData, { subImageUrls: updatedImages });
       });
       return updatedImages;
     });

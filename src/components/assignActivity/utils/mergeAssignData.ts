@@ -7,8 +7,8 @@ const defaultAssignData: AssignData = {
   price: 0,
   address: '',
   bannerImageUrl: '',
-  introImageUrl: [],
-  reservationTime: [],
+  subImageUrls: [],
+  schedules: [],
 };
 
 const mergeAssignData = (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { AssignData, ReservationTime } from '@/types/assignActivityPage';
+import { AssignData, Schedule } from '@/types/assignActivityPage';
 import mergeAssignData from '../utils/mergeAssignData';
 
 // 추가된 시간대 내역들 보여주는 컴포넌트
@@ -8,12 +8,12 @@ const ReservationForm = () => {
   const queryClient = useQueryClient();
 
   const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
-  const time: ReservationTime[] = data ? data.reservationTime : [];
+  const time: Schedule[] = data ? data.schedules : [];
 
   const handleRemoveReservationTime = (index: number): void => {
     const updatedTimes = time.filter((_, i) => i !== index);
     queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { reservationTime: updatedTimes });
+      return mergeAssignData(oldData, { schedules: updatedTimes });
     });
   };
 
@@ -23,11 +23,7 @@ const ReservationForm = () => {
 
       {time.map((reservation, index) => (
         <div
-          key={
-            reservation.reservationDate +
-            reservation.startTime +
-            reservation.endTime
-          }
+          key={reservation.date + reservation.startTime + reservation.endTime}
           className="flex w-[100%] items-center gap-5"
         >
           {/* 날짜 */}
@@ -35,7 +31,7 @@ const ReservationForm = () => {
             <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
               <input
                 className="w-[100%] outline-none"
-                value={reservation.reservationDate}
+                value={reservation.date}
                 readOnly
               />
             </div>
