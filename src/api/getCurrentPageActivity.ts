@@ -14,7 +14,7 @@ const getCurrentPageActivity = async (
 ): Promise<ActivityResponse> => {
   const urlSearchParams = new URLSearchParams({
     method: 'offset',
-    page: String(pageNum),
+    page: String(pageNum + 1),
     size: String(size),
   });
 
