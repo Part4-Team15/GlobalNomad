@@ -10,7 +10,7 @@ const getCurrentPageActivity = async (
   pageNum: number,
   size: number,
   category?: string,
-  keyword?: string
+  sort?: string,
 ): Promise<ActivityResponse> => {
   const urlSearchParams = new URLSearchParams({
     method: 'offset',
@@ -19,7 +19,7 @@ const getCurrentPageActivity = async (
   });
 
   if (category) urlSearchParams.append('category', category);
-  if (keyword) urlSearchParams.append('keyword', keyword);
+  if (sort) urlSearchParams.append('sort', sort);
 
   try {
     const res = await axiosInstance.get<ActivityResponse>(
@@ -31,17 +31,5 @@ const getCurrentPageActivity = async (
     return defaultActivityResponse;
   }
 };
-
-// export const getActivity = async (pageNum: number, size: number): Promise<ActivityResponse> => {
-//   try {
-//     const res = await axiosInstance.get<ActivityResponse>(
-//       `/activities?method=offset&page=${pageNum + 1}&size=${size}`
-//     );
-//     return res.data;
-//   } catch (e) {
-//     console.error('Error: ', e);
-//     return defaultActivityResponse;
-//   }
-// };
 
 export default getCurrentPageActivity;
