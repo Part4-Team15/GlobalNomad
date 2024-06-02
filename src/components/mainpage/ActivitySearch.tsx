@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ActivitySearch = () => {
@@ -12,6 +12,12 @@ const ActivitySearch = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/search?keyword=${searchWord}`);
+  };
+
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (searchWord === '') navigate('/');
+    else navigate(`/search?keyword=${searchWord}`);
   };
 
   return (
@@ -39,6 +45,7 @@ const ActivitySearch = () => {
           <button
             className="bg-nomad-black rounded-md w-[136px] h-14 px-10 py-2 text-white font-bold"
             type="submit"
+            onClick={handleClick}
           >
             검색하기
           </button>
