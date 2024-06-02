@@ -24,7 +24,7 @@ const BookingHistory: React.FC<BookingHistoryProps> = ({ booking }) => {
         alt="Booking"
         className="w-[6.25rem] h-[6.25rem] mob:w-[7.875rem] mob:h-[7.875rem] rounded-[0.75rem]"
       />
-      <div className="flex flex-col w-full justify-center items-start gap-3 font-Pretendard text-[#121]">
+      <div className="flex flex-col w-full justify-center items-start gap-3 text-[#121]">
         <h2 className="text-[1.25rem] font-bold leading-[1.625rem]">
           {booking.title}
         </h2>

@@ -47,11 +47,11 @@ const ReservationsPage = () => {
     setSelectedBooking(null);
   };
   if (isLoading) {
-    return <div>프로필을 불러오고 있습니다</div>;
+    return <div>예약 목록을 불러오고 있습니다...</div>;
   }
 
   if (isError || !data) {
-    return <div>프로필을 불러오는데 실패했습니다</div>;
+    return <div>예약 목록을 불러오는데 실패했습니다</div>;
   }
 
   return (

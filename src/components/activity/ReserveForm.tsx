@@ -6,30 +6,11 @@ import '@/styles/tailwind-calendar.css';
 import priceToWon from '@/utils/priceToWon';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
 import { useParams } from 'react-router-dom';
-
-interface Activity {
-  title: string;
-  category: string;
-  rating: string;
-  address: string;
-  reviewCount: string;
-  description: string;
-  price: number;
-}
+import { ActivityType, AvailableTimesType } from '@/types/activityPage';
+import postActivityReservation from '@/api/postActivityReservation';
 
 interface ReserveFormProps {
-  activity: Activity;
-}
-
-interface AvailableTimes {
-  date: string;
-  times: [
-    {
-      id: number;
-      startTime: string;
-      endTime: string;
-    },
-  ];
+  activity: ActivityType;
 }
 
 type DatePiece = Date | null;
@@ -40,12 +21,11 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const { price } = activity;
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
-  const [availableTimes, setAvailableTimes] = useState<AvailableTimes[] | null>(
-    null,
-  );
+  const [availableTimes, setAvailableTimes] = useState<AvailableTimesType[] | null>(null);
   const [attendeeCount, setAttendeeCount] = useState<number>(1);
   const [isReduceDisabled, setIsReduceDisabled] = useState<boolean>(true);
   const [totalPrice, setTotalPrice] = useState<number>(price);
+  const [selectedTimeId, setSelectedTimeId] = useState<number>();
 
   const handleDateChange = (newDate: SelectedDate) => {
     setSelectedDate(newDate);
@@ -59,12 +39,32 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     setAttendeeCount((prev) => prev + 1);
   };
 
+  const handleSelectTime: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    const timeId = event.currentTarget.getAttribute('data-time-id');
+    setSelectedTimeId(Number(timeId));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (!selectedTimeId) {
+        console.error('예약 가능한 시간을 선택해주세요.');
+        return;
+      }
+      if (typeof id === 'string') {
+        console.log(selectedTimeId);
+        console.log(attendeeCount);
+        postActivityReservation({ selectedTimeId, attendeeCount, id });
+      }
+    } catch (error) {
+      console.error('예약 요청 중 오류 발생');
+    }
+  };
+
   useEffect(() => {
     if (!id) {
       return;
     }
-    const { selectedYMD, selectedYear, selectedMonth } =
-      getMonthAndYear(selectedDate);
+    const { selectedYMD, selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
     const fetchAvailableTimes = async () => {
       const availableScheduleData = await getAvailableSchdule({
@@ -94,6 +94,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
           <span className="font-normal text-xl"> / 인</span>
         </div>
         <div className="w-full h-[1px] bg-gray-40" />
+        {/* 예약 현황 캘린더 */}
         <div className="font-bold text-xl">날짜</div>
         <Calendar
           className="react-calendar w-full"
@@ -111,17 +112,22 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
           prev2Label={null}
         />
         <div className="font-bold text-lg">예약 가능한 시간</div>
+        {/* 예약 시간 선택 */}
         <div className="flex gap-2">
           {availableTimes?.map((availableTime) => {
             if (availableTime.date === yearMonthDay) {
               return availableTime.times.map((time) => {
+                const isSelected = selectedTimeId === time.id;
                 return (
                   <div
                     key={time.id}
-                    className="w-1/3 bg-white border-2 border-solid border-nomad-black rounded-lg text-nomad-black text-center p-2.5
-                    hover:bg-nomad-black hover:text-white"
+                    className={`w-1/3 border-2 border-solid rounded-lg text-center p-2.5
+                    ${isSelected ? 'bg-nomad-black text-white' : 'bg-white text-nomad-black'}
+                    hover:bg-nomad-black hover:text-white`}
+                    onClick={handleSelectTime}
+                    data-time-id={time.id}
                   >
-                    {time.startTime}~{time.endTime}
+                    {`${time.startTime}~${time.endTime}`}
                   </div>
                 );
               });
@@ -130,13 +136,10 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
           })}
         </div>
         <div className="w-full h-[1px] bg-gray-40" />
+        {/* 참여 인원 수 */}
         <div className="font-bold text-xl">참여 인원 수</div>
         <div className="flex justify-between items-center w-1/3 border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3">
-          <button
-            type="button"
-            onClick={handleReduceAttendee}
-            disabled={isReduceDisabled}
-          >
+          <button type="button" onClick={handleReduceAttendee} disabled={isReduceDisabled}>
             -
           </button>
           <div className="text-lg">{attendeeCount}</div>
@@ -145,10 +148,15 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
           </button>
         </div>
         {/* 예약하기 버튼 */}
-        <div className="w-full bg-nomad-black rounded text-white text-center p-3 font-bold text-base">
+        <button
+          type="submit"
+          className="w-full bg-nomad-black rounded text-white text-center p-3 font-bold text-base"
+          onClick={handleSubmit}
+        >
           예약하기
-        </div>
+        </button>
         <div className="w-full h-[1px] bg-gray-40" />
+        {/* 총 합계 가격 */}
         <div className="flex justify-between font-bold text-xl">
           <div>총 합계</div>
           <div>{priceToWon(totalPrice)}</div>

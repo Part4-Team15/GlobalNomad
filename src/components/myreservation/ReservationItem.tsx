@@ -68,6 +68,10 @@ const ReservationItem = ({
         break;
     }
   }, [status]);
+
+  // 추후에 삭제
+  console.log(bannerImageUrl);
+
   return (
     <li
       className="flex w-full rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17, 34, 17, 0.05);
@@ -80,16 +84,12 @@ const ReservationItem = ({
         alt="activity_banner_image"
       />
       <div className="flex flex-col py-[25.5px]">
-        <div className={`text-${textColor} font-bold mb-2`}>
-          {reservationStatusText}
-        </div>
+        <div className={`text-${textColor} font-bold mb-2`}>{reservationStatusText}</div>
         <div className="text-xl font-bold text-[#121] mb-3">{title}</div>
         <div className="mb-4">
           {date} {startTime} - {endTime} {headCount}명
         </div>
-        <div className="text-[#1b1b1b] text-2xl font-medium py-[5px]">
-          ₩{totalPrice}원
-        </div>
+        <div className="text-[#1b1b1b] text-2xl font-medium py-[5px]">₩{totalPrice}원</div>
       </div>
     </li>
   );
