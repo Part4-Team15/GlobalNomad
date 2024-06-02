@@ -9,6 +9,8 @@ interface ReservationItemProps {
   headCount: number;
   startTime: string;
   endTime: string;
+  id: number;
+  onReviewClick: (id: number) => void;
 }
 
 const ReservationItem = ({
@@ -20,6 +22,8 @@ const ReservationItem = ({
   headCount,
   startTime,
   endTime,
+  id,
+  onReviewClick,
 }: ReservationItemProps) => {
   const [reservationStatus, setReservationStatus] = useState({
     textColor: '',
@@ -27,6 +31,10 @@ const ReservationItem = ({
   });
 
   const { textColor, reservationStatusText } = reservationStatus;
+
+  const handleReviewClick = () => {
+    onReviewClick(id);
+  };
 
   useEffect(() => {
     switch (status) {
@@ -83,13 +91,23 @@ const ReservationItem = ({
         src="https://picsum.photos/200/300"
         alt="activity_banner_image"
       />
-      <div className="flex flex-col py-[25.5px]">
+      <div className="w-full flex flex-col py-[25.5px] mr-6">
         <div className={`text-${textColor} font-bold mb-2`}>{reservationStatusText}</div>
         <div className="text-xl font-bold text-[#121] mb-3">{title}</div>
         <div className="mb-4">
           {date} {startTime} - {endTime} {headCount}명
         </div>
-        <div className="text-[#1b1b1b] text-2xl font-medium py-[5px]">₩{totalPrice}원</div>
+        <div className="flex justify-between items-center">
+          <div className="text-[#1b1b1b] text-2xl font-medium py-[5px]">₩{totalPrice}원</div>
+          {status === 'completed' && (
+            <button
+              onClick={handleReviewClick}
+              className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm"
+            >
+              후기 작성
+            </button>
+          )}
+        </div>
       </div>
     </li>
   );

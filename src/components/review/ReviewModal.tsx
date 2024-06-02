@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from '@/lib/axiosInstance';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
+import { isAxiosError } from 'axios';
 
 interface BookingData {
   id: number;
@@ -21,19 +22,12 @@ interface ReviewModalProps {
   booking: BookingData | null;
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({
-  isOpen,
-  onClose,
-  booking,
-}) => {
+const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
@@ -47,23 +41,29 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  const handleSubmit = async (review: string, rating: number) => {
+  const handleSubmit = async (content: string, rating: number) => {
     try {
       if (booking) {
         await axios.post(`/my-reservations/${booking.id}/reviews`, {
-          review,
           rating,
+          content,
         });
         onClose();
       }
-    } catch (error) {
-      console.error('리뷰 제출 실패:', error);
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        if (error.response && error.response.status === 409) {
+          alert('이미 작성된 후기가 있습니다.');
+        } else {
+          console.error('리뷰 제출 실패:', error);
+        }
+      } else {
+        console.error('리뷰 제출 실패:', error);
+      }
     }
   };
 
-  if (!isOpen) return null;
-
-  const handleClick = (event: any) => event.stopPropagation();
+  const handleClick = (event: React.MouseEvent) => event.stopPropagation();
 
   return (
     <ModalBackground onClose={onClose}>
@@ -74,9 +74,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
       >
         <div className="w-full h-full flex flex-col items-start gap-[2.5625rem]">
           <div className="flex items-center justify-between w-full">
-            <p className="text-[1.75rem] font-bold leading-[1.625rem]">
-              후기 작성
-            </p>
+            <p className="text-[1.75rem] font-bold leading-[1.625rem]">후기 작성</p>
             <button type="button" className="text-gray-80" onClick={onClose}>
               <img src="/assets/x_btn.svg" alt="xBtn" />
             </button>

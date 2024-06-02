@@ -6,13 +6,18 @@ interface ReviewFormProps {
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
-  const [review, setReview] = useState('');
+  const [content, setContent] = useState('');
   const [rating, setRating] = useState(0);
 
   const handleSubmit = () => {
-    onSubmit(review, rating);
-    setReview('');
-    setRating(0);
+    const trimmedContent = content.trim();
+    if (trimmedContent) {
+      onSubmit(trimmedContent, rating);
+      setContent('');
+      setRating(0);
+    } else {
+      alert('공백이 아닌 내용을 입력해주세요.');
+    }
   };
 
   return (
@@ -21,8 +26,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
       <textarea
         className="w-full mob:h-[15rem] flex-grow pt-2 pr-4 pb-2 pl-4 border border-gray-300 rounded mb-6 resize-none"
         placeholder="후기를 작성해주세요"
-        value={review}
-        onChange={(e) => setReview(e.target.value)}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
       />
       <button
         type="button"
