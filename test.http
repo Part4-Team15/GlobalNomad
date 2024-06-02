@@ -2,11 +2,6 @@ POST https://sp-globalnomad-api.vercel.app/4-15/auth/login
 accept: application/json
 Content-Type: application/json
 
-{
-  "email": "test235@gmail.com",
-  "password": "test235!"
-}
-
 # --- 응답
 # {
 #   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjEwMTM3LCJleHAiOjE3MTcyMTE5MzcsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.Eu4D4YRGoE5bg3OUaXbTigGz4OhJLd_Tu0958MWB7dE",
