@@ -35,6 +35,13 @@ const SearchResultPage = () => {
       <div className="flex flex-col items-center">
         <div className="w-pc mb-32">
           <ActivitySearch />
+          <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-[60px]">
+            <div className="text-[2rem]">
+              <span className="font-bold">{keyword}</span>
+              으로 검색한 결과입니다.
+            </div>
+            <div>총 {count}개의 결과</div>
+          </div>
           {count ? (
             <>
               <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
