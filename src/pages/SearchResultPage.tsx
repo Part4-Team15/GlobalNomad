@@ -13,17 +13,16 @@ const SearchResultPage = () => {
   const [currenData, setCurrentData] = useState<ActivityInfo[]>([]);
   const [count, setCount] = useState(1);
   const [searchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword');
 
   const handlePageActivity = async (pageNum: number, size: number) => {
-    const searchQuery = searchParams.get('keyword');
-    const { activities } = await getSearchResult(searchQuery as string, pageNum, size);
+    const { activities } = await getSearchResult(keyword as string, pageNum, size);
     setCurrentData(activities);
   };
 
   useEffect(() => {
     const fetchPageData = async () => {
-      const searchQuery = searchParams.get('keyword');
-      const data = await getSearchResult(searchQuery as string, 0, OFFSET_LIMIT);
+      const data = await getSearchResult(keyword as string, 0, OFFSET_LIMIT);
       setCurrentData(data.activities);
       setCount(data.totalCount);
     };
@@ -36,16 +35,22 @@ const SearchResultPage = () => {
       <div className="flex flex-col items-center">
         <div className="w-pc mb-32">
           <ActivitySearch />
-          <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
-            {currenData.map((activity) => (
-              <ActivityCard key={activity.id} cardData={activity} />
-            ))}
-          </div>
-          <Pagination
-            totalCount={count}
-            offsetLimit={OFFSET_LIMIT}
-            setActivityList={handlePageActivity}
-          />
+          {count ? (
+            <>
+              <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
+                {currenData.map((activity) => (
+                  <ActivityCard key={activity.id} cardData={activity} />
+                ))}
+              </div>
+              <Pagination
+                totalCount={count}
+                offsetLimit={OFFSET_LIMIT}
+                setActivityList={handlePageActivity}
+              />
+            </>
+          ) : (
+            <div>데이터가 없습니다.</div>
+          )}
         </div>
       </div>
     </div>
