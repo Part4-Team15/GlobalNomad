@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import priceToWon from '@/utils/priceToWon';
 import CustomKebabMenu from './CustomKebabMenu';
 
@@ -17,6 +19,8 @@ export interface Activity {
 }
 
 const ReservationCard = ({ activity }: { activity: Activity }) => {
+  const navigate = useNavigate();
+
   return (
     <li className="rounded-3xl flex w-full h-[12.75rem] md:h-[9.75rem] sm:h-32 sm:min-w-[21.5rem] shadow-md">
       <div className="rounded-l-3xl w-[12.75rem] h-[12.75rem] md:w-[9.75rem] md:h-[9.75rem] sm:w-32 sm:h-32">
@@ -46,7 +50,13 @@ const ReservationCard = ({ activity }: { activity: Activity }) => {
           </p>
           <CustomKebabMenu
             options={[
-              { label: '수정하기', onClick: () => console.log('안녕') },
+              {
+                label: '수정하기',
+                onClick: () =>
+                  navigate('/my-activity/modify', {
+                    state: { ...activity },
+                  }),
+              },
               { label: '삭제하기', onClick: () => console.log('안녕') },
             ]}
           />
