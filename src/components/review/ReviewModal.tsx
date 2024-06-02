@@ -65,6 +65,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
 
   const handleClick = (event: React.MouseEvent) => event.stopPropagation();
 
+  if (!isOpen) return null;
+
   return (
     <ModalBackground onClose={onClose}>
       <div
