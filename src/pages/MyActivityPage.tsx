@@ -10,13 +10,13 @@ const MyActivityPage = () => {
         <Profile />
         {/* 내 체험 관리 헤더 */}
         <div className="w-full">
-          <div className="flex justify-between mb-6">
+          <div className="min-w-[21.5rem] flex justify-between mb-6">
             <h2 className=" text-black font-bold text-[32px] self-start">
               내 체험 관리
             </h2>
             <button
               type="button"
-              className="flex w-[7.5rem] h-12 p-2.5 justify-center items-center gap-1 self-stretch rounded bg-[#121] text-white"
+              className="flex min-w-[7.5rem] h-12 p-2.5 justify-center items-center gap-1 self-stretch rounded bg-[#121] text-white"
             >
               체험 등록하기
             </button>
@@ -25,7 +25,7 @@ const MyActivityPage = () => {
           <section className="w-full">
             <ul className="flex flex-col gap-6">
               {activities.map((activity) => (
-                <ReservationCard activity={activity} />
+                <ReservationCard key={activity.id} activity={activity} />
               ))}
             </ul>
           </section>
