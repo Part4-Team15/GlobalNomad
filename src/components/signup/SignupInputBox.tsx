@@ -112,6 +112,14 @@ const SignupInputBox = ({
           {signupErrorMessage.passwordConfirmErrorMessage}
         </div>
       )}
+
+      {inputName === 'passwordConfirm' &&
+        signupErrorMessage?.passwordConfirmErrorMessage && (
+          <div className="text-red-40 text-xs ml-1">
+            {signupErrorMessage.passwordConfirmErrorMessage}
+          </div>
+      )}
+
     </div>
   );
 };

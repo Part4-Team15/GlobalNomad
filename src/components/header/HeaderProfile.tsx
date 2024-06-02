@@ -1,5 +1,6 @@
 import getUserInfo from '@/api/getUserInfo';
 import { useQuery } from '@tanstack/react-query';
+
 import HeaderProfileImage from './HeaderProfileImage';
 
 const HeaderProfile = () => {
