@@ -19,6 +19,7 @@ interface BookingData {
 
 const ReservationsPage = () => {
   // 임시데이터
+
   const [status, setStatus] = useState<string>('');
   const { data, isLoading, isError } = useQuery({
     queryKey: ['reservation'],

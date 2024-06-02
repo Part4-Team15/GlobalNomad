@@ -14,9 +14,9 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       width: {
-        'pc': '1200px',
-        'tab': '744px',
-        'mob': '375px',
+        pc: '1200px',
+        tab: '744px',
+        mob: '375px',
       },
       colors: {
         black: '#171717',
@@ -44,6 +44,7 @@ module.exports = {
       },
     },
     screens: {
+      mob: '500px',
       sm: { max: '768px' },
       md: { min: '769px', max: '1023px' },
       lg: { min: '1024px' },
