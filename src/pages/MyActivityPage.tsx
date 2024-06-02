@@ -2,6 +2,7 @@ import Profile from '@/components/common/profile/Profile';
 import ReservationCard, { Activity } from '@/components/myActivity/ReservationCard';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 interface ApiResponse {
   cursorId: number;
@@ -10,6 +11,7 @@ interface ApiResponse {
 }
 
 const MyActivityPage = () => {
+  const navigate = useNavigate();
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
@@ -25,6 +27,10 @@ const MyActivityPage = () => {
     fetchActivities();
   }, []);
 
+  const handleAssignClick = () => {
+    navigate('/my-activity/assign');
+  };
+
   return (
     <section className=" bg-gray-10 px-4 py-16">
       <div className="flex max-w-[75rem] mx-auto gap-6 items-start">
@@ -36,6 +42,7 @@ const MyActivityPage = () => {
             <button
               type="button"
               className="flex min-w-[7.5rem] h-12 p-2.5 justify-center items-center gap-1 self-stretch rounded bg-[#121] text-white"
+              onClick={handleAssignClick}
             >
               체험 등록하기
             </button>
