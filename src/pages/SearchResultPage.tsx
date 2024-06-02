@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { ActivityInfo } from '@/types/mainPage';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import MainBanner from '@/components/mainpage/MainBanner';
 import Pagination from '@/components/mainpage/Pagination';
-import { ActivityInfo } from '@/types/mainPage';
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 const OFFSET_LIMIT = 16;
 
@@ -38,7 +38,7 @@ const SearchResultPage = () => {
           <ActivitySearch />
           <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
             {currenData.map((activity) => (
-              <ActivityCard cardData={activity} />
+              <ActivityCard key={activity.id} cardData={activity} />
             ))}
           </div>
           <Pagination
