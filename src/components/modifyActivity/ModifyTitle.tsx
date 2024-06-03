@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
-import mergeAssignData from './utils/mergeAssignData';
+import { ModifyData } from '@/types/modifyActivityPage';
+import mergeModifyData from './utils/mergeModifyData';
 
 interface ModifyTitleProps {
   title: string;
@@ -9,10 +9,13 @@ interface ModifyTitleProps {
 
 const ModifyTitle = ({ title }: ModifyTitleProps) => {
   const queryClient = useQueryClient();
+  const [localTitle, setLocalTitle] = useState(title);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { title: e.target.value });
+    const newTitle = e.target.value;
+    setLocalTitle(newTitle);
+    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      return mergeModifyData(oldData, { title: newTitle });
     });
   };
 
@@ -20,7 +23,7 @@ const ModifyTitle = ({ title }: ModifyTitleProps) => {
     <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
       <input
         className="w-[100%] outline-none"
-        value={title}
+        value={localTitle}
         onChange={handleChangeTitle}
         placeholder="제목"
       />

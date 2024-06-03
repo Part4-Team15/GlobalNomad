@@ -1,4 +1,4 @@
-import { ModifyData } from '@/types/modifyAcitvityPage';
+import { ModifyData } from '@/types/modifyActivityPage';
 
 const defaultModifyData: ModifyData = {
   title: '',
