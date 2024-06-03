@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { AssignData, ReservationTime } from '@/types/assignActivityPage';
+import { AssignData, Schedule } from '@/types/assignActivityPage';
 import mergeAssignData from './utils/mergeAssignData';
 import ReservationDate from './reservation/ReservationDate';
 import ReservationStartTime from './reservation/ReservationStartTime';
@@ -10,7 +10,7 @@ import ReservationForm from './reservation/ReservationForm';
 const AssignReservationTime = () => {
   const queryClient = useQueryClient();
   const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
-  const time: ReservationTime[] = data ? data.reservationTime : [];
+  const time: Schedule[] = data ? data.schedules : [];
   const { data: reservationDate } = useQuery({ queryKey: ['assign/Date'] });
   const { data: reservationStartTime } = useQuery({
     queryKey: ['assign/StartTime'],
@@ -21,32 +21,35 @@ const AssignReservationTime = () => {
 
   const handleAssignTime = () => {
     if (reservationDate && reservationStartTime && reservationEndTime) {
-      const newReservationTime: ReservationTime = {
-        reservationDate: reservationDate as string,
+      const newReservationTime: Schedule = {
+        date: reservationDate as string,
         startTime: reservationStartTime as string,
         endTime: reservationEndTime as string,
       };
       const isDuplicate = time.some(
         // 시간대 중복 로직
-        (t: ReservationTime) =>
-          t.reservationDate === newReservationTime.reservationDate &&
+        (t: Schedule) =>
+          t.date === newReservationTime.date &&
           t.startTime === newReservationTime.startTime &&
           t.endTime === newReservationTime.endTime,
       );
       if (isDuplicate) {
         alert('동일한 날짜 및 시간대는 중복될 수 없습니다.');
+        queryClient.setQueryData(['assign/Date'], '');
+        queryClient.setQueryData(['assign/StartTime'], '');
+        queryClient.setQueryData(['assign/EndTime'], '');
         return;
       }
       queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
         return mergeAssignData(oldData, {
-          reservationTime: [
-            ...(oldData?.reservationTime || []),
-            newReservationTime,
-          ],
+          schedules: [...(oldData?.schedules || []), newReservationTime],
         });
       });
+      queryClient.setQueryData(['assign/Date'], '');
+      queryClient.setQueryData(['assign/StartTime'], '');
+      queryClient.setQueryData(['assign/EndTime'], '');
     } else {
-      alert('날짜와 시간대는 필수입니다.');
+      alert('날짜와 시간대는 필수 입력 사항입니다.');
     }
   };
 
@@ -78,7 +81,7 @@ const AssignReservationTime = () => {
           />
         </div>
         {/*  */}
-        {data && data.reservationTime.length > 0 && <ReservationForm />}
+        {data && data.schedules.length > 0 && <ReservationForm />}
       </div>
     </div>
   );

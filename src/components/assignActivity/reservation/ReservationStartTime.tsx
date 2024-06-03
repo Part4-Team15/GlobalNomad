@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import StartTimeDropDown from '../dropDown/StartTimeDropDown';
 
 const ReservationStartTime = () => {
@@ -7,7 +7,9 @@ const ReservationStartTime = () => {
   const [isStartTimeDropDown, setIsStartTimeDropDown] =
     useState<boolean>(false);
 
-  const [startTime, setStartTime] = useState<string>('');
+  const { data: startTime = '' } = useQuery<string>({
+    queryKey: ['assign/StartTime'],
+  });
 
   // 시작 시간 밑의 드랍다운
   const handleStartTimeDropDown = () => {
@@ -15,7 +17,6 @@ const ReservationStartTime = () => {
   };
 
   const handleSelectStart = (time: string) => {
-    setStartTime(time);
     queryClient.setQueryData(['assign/StartTime'], time);
     setIsStartTimeDropDown(!isStartTimeDropDown);
   };

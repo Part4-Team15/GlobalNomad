@@ -1,24 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
+import postAssignImage from '@/api/postAssignImage';
 import mergeAssignData from './utils/mergeAssignData';
 
 const AssignBannerImage = () => {
   const queryClient = useQueryClient();
   const [bannerImage, setBannerImage] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleBannerImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBannerImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataURL = reader.result as string;
-        setBannerImage(dataURL);
-        queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-          return mergeAssignData(oldData, { bannerImageUrl: dataURL });
-        });
-      };
-      reader.readAsDataURL(file);
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+        const response = await postAssignImage(formData);
+        if (response && response.activityImageUrl) {
+          const imageUrl = response.activityImageUrl;
+          setBannerImage(imageUrl);
+          queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+            return mergeAssignData(oldData, { bannerImageUrl: imageUrl });
+          });
+        }
+        if (inputRef.current) {
+          inputRef.current.value = '';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -42,6 +54,7 @@ const AssignBannerImage = () => {
             <span>이미지 등록</span>
           </label>
           <input
+            ref={inputRef}
             id="bannerImageInput"
             type="file"
             accept="image/*"
