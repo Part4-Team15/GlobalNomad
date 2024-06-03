@@ -33,7 +33,7 @@ const AppRouter = () => (
         {/* 내 체험 관리 - 체험 등록 */}
         <Route path="my-activity/assign" element={<AssignActivityPage />} />
         {/* 내 체험 관리 - 체험 수정 */}
-        <Route path="my-activity/modify" element={<ModifyActivityPage />} />
+        <Route path="my-activity/modify/:id" element={<ModifyActivityPage />} />
         {/* 예약 현황 */}
         <Route path="reserve-status" element={<ReserveStatusPage />} />
         <Route path="*" element={<Error404 />} />
