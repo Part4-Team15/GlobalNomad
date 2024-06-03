@@ -22,7 +22,7 @@ const ModifyDescription = ({ description }: ModifyDescriptionProps) => {
     const newDescription = e.target.value;
     setLocalDescription(newDescription);
     queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { description: e.target.value });
+      return mergeModifyData(oldData, { description: newDescription });
     });
   };
 
