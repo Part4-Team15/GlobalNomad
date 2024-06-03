@@ -1,11 +1,16 @@
+import ActivityDropDownListItem from './ActivityDropDownListItem';
+
 const ActivityDrownDownList = () => (
-  <ul className="bg-red-400">
-    <li>체험1</li>
-    <li>체험2</li>
-    <li>체험3</li>
-    <li>체험4</li>
-    <li>체험5</li>
-    <li>체험6</li>
+  <ul className="flex flex-col bg-white rounded absolute w-full top-[80px] border border-gray-70 h-[400px] overflow-y-auto">
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
+    <ActivityDropDownListItem />
   </ul>
 );
 
