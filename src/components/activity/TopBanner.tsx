@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { ActivityType, SubImage } from '@/types/activityPage';
+import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
   activity: ActivityType;
@@ -39,6 +41,8 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
 const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
   const { title, category, rating, address, reviewCount, bannerImageUrl, subImages } = activity;
 
+  const navigate = useNavigate();
+
   return (
     <div className="w-full">
       {/* Banner Title */}
@@ -54,7 +58,19 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
             <img src="/assets/location_icon.svg" alt="location icon" />
             <span className="text-gray-80">{address}</span>
           </div>
-          <img className="w-10" src="/assets/kebab_icon.svg" alt="kebab icon" />
+          {/* <img className="w-10" src="/assets/kebab_icon.svg" alt="kebab icon" /> */}
+          <CustomKebabMenu
+            options={[
+              {
+                label: '수정하기',
+                onClick: () =>
+                  navigate('/my-activity/modify', {
+                    state: { ...activity },
+                  }),
+              },
+              { label: '삭제하기', onClick: () => console.log('안녕') },
+            ]}
+          />
         </div>
       </div>
       {/* Banner Images */}

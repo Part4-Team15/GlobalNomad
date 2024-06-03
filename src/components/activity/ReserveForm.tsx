@@ -19,6 +19,7 @@ type SelectedDate = DatePiece | [DatePiece, DatePiece];
 const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const { id } = useParams<{ id: string }>();
   const { price } = activity;
+
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
   const [availableTimes, setAvailableTimes] = useState<AvailableTimesType[] | null>(null);
@@ -56,7 +57,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         postActivityReservation({ selectedTimeId, attendeeCount, id });
       }
     } catch (error) {
-      console.error('예약 요청 중 오류 발생');
+      alert(error);
     }
   };
 
@@ -139,7 +140,12 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         {/* 참여 인원 수 */}
         <div className="font-bold text-xl">참여 인원 수</div>
         <div className="flex justify-between items-center w-1/3 border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3">
-          <button type="button" onClick={handleReduceAttendee} disabled={isReduceDisabled}>
+          <button
+            className={`${isReduceDisabled ? 'disabled:opacity-50' : ''}`}
+            type="button"
+            onClick={handleReduceAttendee}
+            disabled={isReduceDisabled}
+          >
             -
           </button>
           <div className="text-lg">{attendeeCount}</div>
