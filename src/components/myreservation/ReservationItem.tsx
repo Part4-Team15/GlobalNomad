@@ -101,6 +101,7 @@ const ReservationItem = ({
           <div className="text-[#1b1b1b] text-2xl font-medium py-[5px]">₩{totalPrice}원</div>
           {status === 'completed' && (
             <button
+              type="button"
               onClick={handleReviewClick}
               className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm"
             >
