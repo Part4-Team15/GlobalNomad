@@ -1,5 +1,5 @@
 import Profile from '@/components/common/profile/Profile';
-import ReserveStatusContent from '@/components/reserveStatus/ReserveStatysContent';
+import ReserveStatusContent from '@/components/reserveStatus/ReserveStatusContent';
 import React from 'react';
 
 const ReserveStatusPage = () => (
