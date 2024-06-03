@@ -88,7 +88,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
 
   return (
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
-      <div className="flex flex-col gap-4 p-6">
+      <div className="flex flex-col gap-4 p-4">
         <div className="font-bold text-3xl">
           {priceToWon(price)}
           <span className="font-normal text-xl"> / 인</span>
@@ -113,7 +113,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         />
         <div className="font-bold text-lg">예약 가능한 시간</div>
         {/* 예약 시간 선택 */}
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {availableTimes?.map((availableTime) => {
             if (availableTime.date === yearMonthDay) {
               return availableTime.times.map((time) => {
@@ -121,7 +121,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
                 return (
                   <div
                     key={time.id}
-                    className={`w-1/3 border-2 border-solid rounded-lg text-center p-2.5
+                    className={`w-28 border-2 border-solid rounded-lg text-center p-2.5
                     ${isSelected ? 'bg-nomad-black text-white' : 'bg-white text-nomad-black'}
                     hover:bg-nomad-black hover:text-white`}
                     onClick={handleSelectTime}
