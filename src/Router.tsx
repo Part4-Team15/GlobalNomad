@@ -12,6 +12,7 @@ import AssignActivityPage from './pages/AssignActivityPage';
 import ModifyActivityPage from './pages/ModifyActivityPage';
 import ReserveStatusPage from './pages/ReserveStatusPage';
 import Error404 from './pages/Error404';
+import SearchResultPage from './pages/SearchResultPage';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -22,6 +23,8 @@ const AppRouter = () => (
       <Route path="/" element={<Layout />}>
         {/* 메인 페이지 */}
         <Route index element={<MainPage />} />
+        {/* 메인 검색 페이지 */}
+        <Route path="search" element={<SearchResultPage />} />
         {/* 체험 상세 페이지 */}
         <Route path="activity/:id" element={<ActivityPage />} />
         {/* 내 정보 */}

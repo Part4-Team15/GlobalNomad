@@ -6,20 +6,17 @@ const defaultActivityResponse: ActivityResponse = {
   totalCount: 0,
 };
 
-const getCurrentPageActivity = async (
+const getSearchResult = async (
+  keyword: string,
   pageNum: number,
   size: number,
-  category?: string,
-  sort?: string,
 ): Promise<ActivityResponse> => {
   const urlSearchParams = new URLSearchParams({
     method: 'offset',
+    keyword,
     page: String(pageNum + 1),
     size: String(size),
   });
-
-  if (category) urlSearchParams.append('category', category);
-  if (sort) urlSearchParams.append('sort', sort);
 
   try {
     const res = await axiosInstance.get<ActivityResponse>(
@@ -32,4 +29,4 @@ const getCurrentPageActivity = async (
   }
 };
 
-export default getCurrentPageActivity;
+export default getSearchResult;
