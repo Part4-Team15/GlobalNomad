@@ -1,59 +1,489 @@
-###
-POST https://sp-globalnomad-api.vercel.app/4-15/activities
-Content-Type: application/json; charset=UTF-8
+POST https://sp-globalnomad-api.vercel.app/4-15/auth/login
+accept: application/json
+Content-Type: application/json
+
+# --- 응답
+# {
+#   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjEwMTM3LCJleHAiOjE3MTcyMTE5MzcsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.Eu4D4YRGoE5bg3OUaXbTigGz4OhJLd_Tu0958MWB7dE",
+#   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjEwMTM3LCJleHAiOjE3MTg0MTk3MzcsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.ghTZyA2QgrOEe2UqpqyMLnBrZ3cnkzE9RhKW5KTAd54",
+#   "user": {
+#     "id": 330,
+#     "email": "test235@gmail.com",
+#     "nickname": "test235",
+#     "profileImageUrl": null,
+#     "createdAt": "2024-05-31T00:41:34.137Z",
+#     "updatedAt": "2024-05-31T00:41:34.137Z"
+#   }
+# }
+
+
+
+### Register an Activity
+# POST https://sp-globalnomad-api.vercel.app/4-15/activities
+# Content-Type: application/json
+# Accept: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjA4MTcwLCJleHAiOjE3MTcyMDk5NzAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.CFvOjTCel8nCCjpHe-n6kTCNNkkCR_N2ss0sKSMIyD8
+
+# {
+#   "title": "오늘의 스트릿댄스 1",
+#   "category": "투어",
+#   "description": "신나는 스트릿댄스 수업",
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "price": 10000,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00"
+#     }
+#   ],
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "subImageUrls": [
+#     "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#   ]
+# }
+# {
+#   "title": "오늘의 스트릿댄스 2",
+#   "category": "투어",
+#   "description": "즐거운 스트릿댄스 수업",
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "price": 10000,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00"
+#     }
+#   ],
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "subImageUrls": [
+#     "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#   ]
+# }
+# {
+#   "title": "오늘의 스트릿댄스 3",
+#   "category": "투어",
+#   "description": "활기찬 스트릿댄스 수업",
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "price": 10000,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00"
+#     }
+#   ],
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "subImageUrls": [
+#     "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#   ]
+# }
+# {
+#   "title": "오늘의 스트릿댄스 4",
+#   "category": "투어",
+#   "description": "열정적인 스트릿댄스 수업",
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "price": 10000,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00"
+#     }
+#   ],
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "subImageUrls": [
+#     "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#   ]
+# }
+
+
+
+# # -- 응답
+# {
+#   "id": 956,
+#   "userId": 330,
+#   "title": "오늘의 스트릿댄스 1",
+#   "description": "신나는 스트릿댄스 수업",
+#   "category": "투어",
+#   "price": 10000,
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "createdAt": "2024-06-01T11:38:20.213Z",
+#   "updatedAt": "2024-06-01T11:38:20.213Z",
+#   "rating": 0,
+#   "reviewCount": 0,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "times": [
+#         {
+#           "id": 3386,
+#           "startTime": "11:45",
+#           "endTime": "12:00"
+#         }
+#       ]
+#     }
+#   ],
+#   "subImages": [
+#     {
+#       "id": 1158,
+#       "imageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#     }
+#   ]
+# }
+# {
+#   "id": 957,
+#   "userId": 330,
+#   "title": "오늘의 스트릿댄스 2",
+#   "description": "즐거운 스트릿댄스 수업",
+#   "category": "투어",
+#   "price": 10000,
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "createdAt": "2024-06-01T11:39:07.925Z",
+#   "updatedAt": "2024-06-01T11:39:07.925Z",
+#   "rating": 0,
+#   "reviewCount": 0,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "times": [
+#         {
+#           "id": 3387,
+#           "startTime": "11:45",
+#           "endTime": "12:00"
+#         }
+#       ]
+#     }
+#   ],
+#   "subImages": [
+#     {
+#       "id": 1159,
+#       "imageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#     }
+#   ]
+# }
+# {
+#   "id": 958,
+#   "userId": 330,
+#   "title": "오늘의 스트릿댄스 3",
+#   "description": "활기찬 스트릿댄스 수업",
+#   "category": "투어",
+#   "price": 10000,
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "createdAt": "2024-06-01T11:39:43.469Z",
+#   "updatedAt": "2024-06-01T11:39:43.469Z",
+#   "rating": 0,
+#   "reviewCount": 0,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "times": [
+#         {
+#           "id": 3388,
+#           "startTime": "11:45",
+#           "endTime": "12:00"
+#         }
+#       ]
+#     }
+#   ],
+#   "subImages": [
+#     {
+#       "id": 1160,
+#       "imageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#     }
+#   ]
+# }
+# {
+#   "id": 959,
+#   "userId": 330,
+#   "title": "오늘의 스트릿댄스 4",
+#   "description": "열정적인 스트릿댄스 수업",
+#   "category": "투어",
+#   "price": 10000,
+#   "address": "서울특별시 강남구 테헤란로 427",
+#   "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
+#   "createdAt": "2024-06-01T11:40:21.292Z",
+#   "updatedAt": "2024-06-01T11:40:21.292Z",
+#   "rating": 0,
+#   "reviewCount": 0,
+#   "schedules": [
+#     {
+#       "date": "2024-06-01",
+#       "times": [
+#         {
+#           "id": 3389,
+#           "startTime": "11:45",
+#           "endTime": "12:00"
+#         }
+#       ]
+#     }
+#   ],
+#   "subImages": [
+#     {
+#       "id": 1161,
+#       "imageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
+#     }
+#   ]
+# }
+
+
+## Book an Activity
+# POST https://sp-globalnomad-api.vercel.app/4-15/activities/956/reservations
+# Content-Type: application/json
+# Accept: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjA4MTcwLCJleHAiOjE3MTcyMDk5NzAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.CFvOjTCel8nCCjpHe-n6kTCNNkkCR_N2ss0sKSMIyD8
+
+# {
+#   "scheduleId": 3386,
+#   "headCount": 1
+# }
+
+# -- 응답
+# {
+#   "id": 1423,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 956,
+#   "scheduleId": 3386,
+#   "status": "pending",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:42:07.635Z",
+#   "updatedAt": "2024-06-01T11:42:07.635Z"
+# }
+# {
+#   "id": 1424,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 957,
+#   "scheduleId": 3387,
+#   "status": "pending",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:43:37.901Z",
+#   "updatedAt": "2024-06-01T11:43:37.901Z"
+# }
+# {
+#   "id": 1425,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 958,
+#   "scheduleId": 3388,
+#   "status": "pending",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:44:24.360Z",
+#   "updatedAt": "2024-06-01T11:44:24.360Z"
+# }
+# {
+#   "id": 1426,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 959,
+#   "scheduleId": 3389,
+#   "status": "pending",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:44:43.152Z",
+#   "updatedAt": "2024-06-01T11:44:43.152Z"
+# }
+
+# GET https://sp-globalnomad-api.vercel.app/4-15/my-activities?cursorId=0&size=20
+# Content-Type: application/json
+# Accept: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjEwMTM3LCJleHAiOjE3MTcyMTE5MzcsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.Eu4D4YRGoE5bg3OUaXbTigGz4OhJLd_Tu0958MWB7dE
+
+# -- 응답
+# {
+#   "activities": [],
+#   "totalCount": 6,
+#   "cursorId": null
+# }
+
+# GET https://sp-globalnomad-api.vercel.app/4-15/my-reservations?size=10
+# Content-Type: application/json
+# Accept: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjEwMTM3LCJleHAiOjE3MTcyMTE5MzcsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.Eu4D4YRGoE5bg3OUaXbTigGz4OhJLd_Tu0958MWB7dE
+
+# {
+#   "totalCount": 4,
+#   "reservations": [
+#     {
+#       "activity": {
+#         "id": 959,
+#         "title": "오늘의 스트릿댄스 4",
+#         "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png"
+#       },
+#       "scheduleId": 3389,
+#       "id": 1426,
+#       "teamId": "4-15",
+#       "userId": 330,
+#       "status": "pending",
+#       "reviewSubmitted": false,
+#       "totalPrice": 10000,
+#       "headCount": 1,
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00",
+#       "createdAt": "2024-06-01T11:44:43.152Z",
+#       "updatedAt": "2024-06-01T11:44:43.152Z"
+#     },
+#     {
+#       "activity": {
+#         "id": 958,
+#         "title": "오늘의 스트릿댄스 3",
+#         "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png"
+#       },
+#       "scheduleId": 3388,
+#       "id": 1425,
+#       "teamId": "4-15",
+#       "userId": 330,
+#       "status": "pending",
+#       "reviewSubmitted": false,
+#       "totalPrice": 10000,
+#       "headCount": 1,
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00",
+#       "createdAt": "2024-06-01T11:44:24.360Z",
+#       "updatedAt": "2024-06-01T11:44:24.360Z"
+#     },
+#     {
+#       "activity": {
+#         "id": 957,
+#         "title": "오늘의 스트릿댄스 2",
+#         "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png"
+#       },
+#       "scheduleId": 3387,
+#       "id": 1424,
+#       "teamId": "4-15",
+#       "userId": 330,
+#       "status": "pending",
+#       "reviewSubmitted": false,
+#       "totalPrice": 10000,
+#       "headCount": 1,
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00",
+#       "createdAt": "2024-06-01T11:43:37.901Z",
+#       "updatedAt": "2024-06-01T11:43:37.901Z"
+#     },
+#     {
+#       "activity": {
+#         "id": 956,
+#         "title": "오늘의 스트릿댄스 1",
+#         "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png"
+#       },
+#       "scheduleId": 3386,
+#       "id": 1423,
+#       "teamId": "4-15",
+#       "userId": 330,
+#       "status": "pending",
+#       "reviewSubmitted": false,
+#       "totalPrice": 10000,
+#       "headCount": 1,
+#       "date": "2024-06-01",
+#       "startTime": "11:45",
+#       "endTime": "12:00",
+#       "createdAt": "2024-06-01T11:42:07.635Z",
+#       "updatedAt": "2024-06-01T11:42:07.635Z"
+#     }
+#   ],
+#   "cursorId": null
+# }
+
+
+
+
+PATCH https://sp-globalnomad-api.vercel.app/4-15/my-activities/956/reservations/1423
+Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDQxOTM1LCJleHAiOjE3MTcwNDM3MzUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.gs2gq1jmRuDxNofQ5wgBrE0fF6bkUJ-Kyph6iHeqHIs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjEwMTM3LCJleHAiOjE3MTcyMTE5MzcsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.Eu4D4YRGoE5bg3OUaXbTigGz4OhJLd_Tu0958MWB7dE
 
 {
-  "title": "KBO 직관",
-  "category": "스포츠",
-  "description": "KBO 직관",
-  "address": "서울특별시 강남구 테헤란로 427",
-  "price": 10000,
-  "schedules": [
-    {
-      "date": "2024-06-11",
-      "startTime": "19:00",
-      "endTime": "20:00"
-    },
-      {
-     "date": "2024-06-11",
-      "startTime": "11:00",
-      "endTime": "12:00"
-    },
-     {
-     "date": "2024-06-11",
-      "startTime": "13:00",
-      "endTime": "14:00"
-    },
-    {
-      "date": "2024-06-11",
-      "startTime": "15:00",
-      "endTime": "16:00"
-    }
-  ],
-  "bannerImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/a.png",
-  "subImageUrls": [
-    "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/b.png"
-  ]
+  "status": "confirmed"
 }
 
-###
-POST https://sp-globalnomad-api.vercel.app/4-15/activities/947/reservations
-Content-Type: application/json; charset=UTF-8
-Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDQxOTM1LCJleHAiOjE3MTcwNDM3MzUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.gs2gq1jmRuDxNofQ5wgBrE0fF6bkUJ-Kyph6iHeqHIs
-
-{
-  "scheduleId": 3349,
-  "headCount": 0
-}
-###
-GET https://sp-globalnomad-api.vercel.app/4-15/activities?method=cursor&cursorId=0&page=1&size=20
-
-###
-GET https://sp-globalnomad-api.vercel.app/4-15/my-reservations?size=10&status=pending
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MDE1MTI1LCJleHAiOjE3MTcwMTY5MjUsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.PCBXxLotW9AB_lSA_5rrz3kDIRkzEHAgk8HIvLSvSDk
-
-###
-GET https://sp-globalnomad-api.vercel.app/4-15/activities/933
+# {
+#   "id": 1426,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 959,
+#   "scheduleId": 3389,
+#   "status": "completed",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:44:43.152Z",
+#   "updatedAt": "2024-06-01T12:00:51.916Z"
+# }
+# {
+#   "id": 1425,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 958,
+#   "scheduleId": 3388,
+#   "status": "completed",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:44:24.360Z",
+#   "updatedAt": "2024-06-01T12:01:21.695Z"
+# }
+# {
+#   "id": 1424,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 957,
+#   "scheduleId": 3387,
+#   "status": "completed",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:43:37.901Z",
+#   "updatedAt": "2024-06-01T12:01:45.788Z"
+# }
+# {
+#   "id": 1423,
+#   "teamId": "4-15",
+#   "userId": 330,
+#   "activityId": 956,
+#   "scheduleId": 3386,
+#   "status": "completed",
+#   "reviewSubmitted": false,
+#   "totalPrice": 10000,
+#   "headCount": 1,
+#   "date": "2024-06-01",
+#   "startTime": "11:45",
+#   "endTime": "12:00",
+#   "createdAt": "2024-06-01T11:42:07.635Z",
+#   "updatedAt": "2024-06-01T12:02:03.410Z"
+# }

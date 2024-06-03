@@ -11,7 +11,15 @@ const HeaderProfileImage = ({
   if (!profileImageUrl) {
     return <NoProfileImage nickname={nickname} />;
   }
-  return <img src={profileImageUrl} alt="Profile" />;
+  return (
+    <div
+      className="w-8 h-8 rounded-full overflow-hidden bg-cover bg-no-repeat"
+      style={{
+        backgroundImage: `url(${profileImageUrl})`,
+        backgroundSize: 'contain',
+      }}
+    />
+  );
 };
 
 export default HeaderProfileImage;

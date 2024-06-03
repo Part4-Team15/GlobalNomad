@@ -21,9 +21,10 @@ interface Reservation {
 }
 interface ReservationListProps {
   status: string;
+  onReviewClick: (bookingId: number) => void;
 }
 
-const ReservationList = ({ status }: ReservationListProps) => {
+const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: ['reservations', status],
     queryFn: getMyReservation,
@@ -47,6 +48,8 @@ const ReservationList = ({ status }: ReservationListProps) => {
         <ul className="flex flex-col gap-6">
           {reservations.map((item: Reservation) => (
             <ReservationItem
+              key={item.id}
+              id={item.id}
               title={item.activity.title}
               bannerImageUrl={item.activity.bannerImageUrl}
               status={item.status}
@@ -55,7 +58,7 @@ const ReservationList = ({ status }: ReservationListProps) => {
               totalPrice={item.totalPrice}
               startTime={item.startTime}
               endTime={item.endTime}
-              key={item.id}
+              onReviewClick={onReviewClick}
             />
           ))}
         </ul>
