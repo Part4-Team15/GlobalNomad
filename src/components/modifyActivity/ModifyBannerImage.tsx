@@ -1,13 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
-import mergeAssignData from './utils/mergeAssignData';
+import { ModifyData } from '@/types/modifyActivityPage';
+import mergeModifyData from './utils/mergeModifyData';
 
-const ModifyBannerImage = () => {
+interface ModifyBannerImageProps {
+  bannerImageUrl: string;
+}
+
+const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
   const queryClient = useQueryClient();
-  const [bannerImage, setBannerImage] = useState<string | null>(null);
+  const [localBannerImage, setLocalBannerImage] = useState<string | null>(bannerImageUrl);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // 리액트 쿼리 초기값 설정
+  useEffect(() => {
+    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      return mergeModifyData(oldData, { bannerImageUrl });
+    });
+  }, []);
 
   const handleBannerImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -18,9 +29,9 @@ const ModifyBannerImage = () => {
         const response = await postAssignImage(formData);
         if (response && response.activityImageUrl) {
           const imageUrl = response.activityImageUrl;
-          setBannerImage(imageUrl);
-          queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-            return mergeAssignData(oldData, { bannerImageUrl: imageUrl });
+          setLocalBannerImage(imageUrl);
+          queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+            return mergeModifyData(oldData, { bannerImageUrl: imageUrl });
           });
         }
         if (inputRef.current) {
@@ -33,9 +44,9 @@ const ModifyBannerImage = () => {
   };
 
   const handleRemoveImage = () => {
-    setBannerImage(null);
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { bannerImageUrl: undefined });
+    setLocalBannerImage(null);
+    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      return mergeModifyData(oldData, { bannerImageUrl: undefined });
     });
   };
 
@@ -61,11 +72,11 @@ const ModifyBannerImage = () => {
           />
         </div>
         {/* 배너 이미지 띄우기 */}
-        {bannerImage && (
+        {localBannerImage && (
           <div
             className=" relative rounded-xl bg-no-repeat bg-contain bg-center"
             style={{
-              backgroundImage: `url(${bannerImage})`,
+              backgroundImage: `url(${localBannerImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               width: '100%',
