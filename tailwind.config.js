@@ -15,8 +15,8 @@ module.exports = {
       },
       width: {
         pc: '1200px',
-        tab: '744px',
-        mob: '375px',
+        tab: '696px',
+        mob: '343px',
       },
       colors: {
         black: '#171717',
