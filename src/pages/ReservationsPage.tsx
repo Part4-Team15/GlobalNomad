@@ -27,9 +27,7 @@ const ReservationsPage = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBooking, setSelectedBooking] = useState<BookingData | null>(
-    null,
-  );
+  const [selectedBooking, setSelectedBooking] = useState<BookingData | null>(null);
 
   /* 후기 작성 버튼에 연결되도록 해야 함 */
 
@@ -59,11 +57,7 @@ const ReservationsPage = () => {
       <Profile />
       <ReservationContent status={status} setStatus={setStatus} />
       <ModalPortal>
-        <ReviewModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          booking={selectedBooking}
-        />
+        <ReviewModal isOpen={isModalOpen} onClose={handleModalClose} booking={selectedBooking} />
       </ModalPortal>
     </div>
   );
