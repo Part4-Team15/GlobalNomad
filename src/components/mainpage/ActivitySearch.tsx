@@ -23,14 +23,14 @@ const ActivitySearch = () => {
   return (
     <div className="relative bg-white pb-32">
       <form
-        className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-lg rounded-2xl bg-white"
+        className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-lg rounded-2xl bg-white sm:gap-[15px] sm:py-4"
         onSubmit={handleSubmit}
       >
-        <label className="text-black text-xl font-bold">무엇을 체험하고 싶으신가요?</label>
+        <label className="text-black text-xl font-bold sm:text-base">무엇을 체험하고 싶으신가요?</label>
         <div className="flex items-center gap-3">
           <div className="relative">
             <input
-              className="w-[62.5rem] h-14 border border-gray-60 border-solid rounded-md px-4 py-2 placeholder:pl-5 focus:outline-none focus:border-green-40"
+              className="w-[1000px] h-14 border border-gray-60 border-solid rounded-md px-4 py-2 placeholder:pl-5 focus:outline-none focus:border-green-40 md:w-[500px] sm:w-[187px]"
               type="search"
               value={searchWord}
               onChange={handleChange}
@@ -43,7 +43,7 @@ const ActivitySearch = () => {
             />
           </div>
           <button
-            className="bg-nomad-black rounded-md w-[136px] h-14 px-10 py-2 text-white font-bold"
+            className="bg-nomad-black rounded-md w-[136px] h-14 px-10 py-2 text-white font-bold sm:w-24 sm:px-5"
             type="submit"
             onClick={handleClick}
           >
