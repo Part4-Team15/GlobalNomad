@@ -50,7 +50,7 @@ const ModifyActivityPage = () => {
         <div className="w-[100%] flex flex-col items-start gap-6">
           <ModifyHeader />
           <ModifyTitle title={activityData.title} />
-          <ModifyCategory />
+          <ModifyCategory category={activityData.category} />
           <ModifyDescription />
           <ModifyPrice />
           <ModifyAddress />

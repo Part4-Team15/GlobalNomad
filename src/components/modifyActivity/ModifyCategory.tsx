@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import CategoryDropDown, { Category } from './dropDown/CategoryDropDown';
 
-const ModifyCategory = () => {
+interface ModifyCategoryProps {
+  category: string;
+}
+
+const ModifyCategory = ({ category }: ModifyCategoryProps) => {
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<Category | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(category);
 
   const handleDropDown = () => {
     setIsDropDown(!isDropDown);
