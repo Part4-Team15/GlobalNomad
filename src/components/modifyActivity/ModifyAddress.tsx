@@ -1,22 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
-import mergeAssignData from './utils/mergeAssignData';
+import { ModifyData } from '@/types/modifyActivityPage';
+import mergeModifyData from './utils/mergeModifyData';
 
-const ModifyAddress = () => {
+interface ModifyAddressProps {
+  address: string;
+}
+
+const ModifyAddress = ({ address }: ModifyAddressProps) => {
   const queryClient = useQueryClient();
   const [isOpenPost, setIsOpenPost] = useState<boolean>(false);
-  const [address, setAddress] = useState<string>('');
+  const [localAddress, setLocalAddress] = useState<string>(address);
+
+  // 리액트 쿼리 초기값 설정
+  useEffect(() => {
+    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      return mergeModifyData(oldData, { address });
+    });
+  }, []);
 
   const handleOpenPost = () => {
     setIsOpenPost(!isOpenPost);
   };
 
   const handleAddressSelect = (data: Address) => {
-    setAddress(data.address);
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { address: data.address });
+    setLocalAddress(data.address);
+    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      return mergeModifyData(oldData, { address: data.address });
     });
     setIsOpenPost(false);
   };
@@ -41,7 +52,7 @@ const ModifyAddress = () => {
         <input
           className="w-[100%] outline-none"
           placeholder="주소를 입력해주세요"
-          value={address}
+          value={localAddress}
           readOnly
         />
       </div>

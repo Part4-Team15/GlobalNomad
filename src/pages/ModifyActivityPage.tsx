@@ -53,7 +53,7 @@ const ModifyActivityPage = () => {
           <ModifyCategory category={activityData.category} />
           <ModifyDescription description={activityData.description} />
           <ModifyPrice price={activityData.price} />
-          <ModifyAddress />
+          <ModifyAddress address={activityData.address} />
           <ModifyReservationTime />
           <ModifyBannerImage />
           <ModifyIntroImage />
