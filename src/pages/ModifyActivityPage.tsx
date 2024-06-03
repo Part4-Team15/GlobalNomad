@@ -51,7 +51,7 @@ const ModifyActivityPage = () => {
           <ModifyHeader />
           <ModifyTitle title={activityData.title} />
           <ModifyCategory category={activityData.category} />
-          <ModifyDescription />
+          <ModifyDescription description={activityData.description} />
           <ModifyPrice />
           <ModifyAddress />
           <ModifyReservationTime />
