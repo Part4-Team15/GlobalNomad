@@ -4,14 +4,12 @@ import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
 import mergeAssignData from './utils/mergeAssignData';
 
-const AssignBannerImage = () => {
+const ModifyBannerImage = () => {
   const queryClient = useQueryClient();
   const [bannerImage, setBannerImage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleBannerImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleBannerImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       try {
@@ -87,4 +85,4 @@ const AssignBannerImage = () => {
   );
 };
 
-export default AssignBannerImage;
+export default ModifyBannerImage;

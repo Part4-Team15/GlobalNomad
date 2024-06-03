@@ -3,12 +3,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 import mergeAssignData from './utils/mergeAssignData';
 
-const AssignDescription = () => {
+const ModifyDescription = () => {
   const queryClient = useQueryClient();
 
-  const handleChangeDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const handleChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
       return mergeAssignData(oldData, { description: e.target.value });
     });
@@ -25,4 +23,4 @@ const AssignDescription = () => {
   );
 };
 
-export default AssignDescription;
+export default ModifyDescription;

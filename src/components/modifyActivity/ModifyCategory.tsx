@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CategoryDropDown, { Category } from './dropDown/CategoryDropDown';
 
-const AssignCategory = () => {
+const ModifyCategory = () => {
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<Category | null>(null);
 
@@ -35,4 +35,4 @@ const AssignCategory = () => {
   );
 };
 
-export default AssignCategory;
+export default ModifyCategory;

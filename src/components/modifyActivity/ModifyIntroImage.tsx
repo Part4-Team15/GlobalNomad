@@ -6,14 +6,12 @@ import mergeAssignData from './utils/mergeAssignData';
 
 const MAX_SIZE = 4;
 
-const AssignIntroImage = () => {
+const ModifyIntroImage = () => {
   const queryClient = useQueryClient();
   const [introImage, setIntroImage] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleIntroImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleIntroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (introImage?.length === MAX_SIZE) {
       alert('소개 이미지는 최대 4개까지 등록 가능합니다.');
       if (inputRef.current) {
@@ -52,9 +50,7 @@ const AssignIntroImage = () => {
 
   const handleRemoveImage = (index: number): void => {
     setIntroImage((prevImages: string[]) => {
-      const updatedImages = prevImages.filter(
-        (_: string, i: number) => i !== index,
-      );
+      const updatedImages = prevImages.filter((_: string, i: number) => i !== index);
       queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
         return mergeAssignData(oldData, { subImageUrls: updatedImages });
       });
@@ -110,4 +106,4 @@ const AssignIntroImage = () => {
   );
 };
 
-export default AssignIntroImage;
+export default ModifyIntroImage;

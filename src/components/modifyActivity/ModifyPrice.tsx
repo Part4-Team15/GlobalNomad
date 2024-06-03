@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 import mergeAssignData from './utils/mergeAssignData';
 
-const AssignPrice = () => {
+const ModifyPrice = () => {
   const queryClient = useQueryClient();
 
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,4 +26,4 @@ const AssignPrice = () => {
   );
 };
 
-export default AssignPrice;
+export default ModifyPrice;

@@ -5,7 +5,7 @@ import convertDate from '@/utils/convertDate';
 import postAssignMyActivity from '@/api/postMyActivity';
 import checkRequireData from './utils/checkRequireData';
 
-const AssignHeader = () => {
+const ModifyHeader = () => {
   const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
 
   const handleAssignData = async () => {
@@ -42,4 +42,4 @@ const AssignHeader = () => {
   );
 };
 
-export default AssignHeader;
+export default ModifyHeader;

@@ -7,7 +7,7 @@ import ReservationStartTime from './reservation/ReservationStartTime';
 import ReservationEndTime from './reservation/ReservationEndTime';
 import ReservationForm from './reservation/ReservationForm';
 
-const AssignReservationTime = () => {
+const ModifyReservationTime = () => {
   const queryClient = useQueryClient();
   const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
   const time: Schedule[] = data ? data.schedules : [];
@@ -87,4 +87,4 @@ const AssignReservationTime = () => {
   );
 };
 
-export default AssignReservationTime;
+export default ModifyReservationTime;

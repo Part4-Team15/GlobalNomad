@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 import mergeAssignData from './utils/mergeAssignData';
 
-const AssignAddress = () => {
+const ModifyAddress = () => {
   const queryClient = useQueryClient();
   const [isOpenPost, setIsOpenPost] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
@@ -64,4 +64,4 @@ const AssignAddress = () => {
   );
 };
 
-export default AssignAddress;
+export default ModifyAddress;
