@@ -1,12 +1,18 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import HeaderProfile from './HeaderProfile';
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div className="flex py-[19px] justify-around md:px-[24px] md:justify-between items-center">
-      <img src="/assets/logo_small.svg" alt="logo_small_icon" />
+      <img
+        className="cursor-pointer"
+        src="/assets/logo_small.svg"
+        alt="logo_small_icon"
+        onClick={() => navigate('/')}
+      />
       {location.pathname === '/' ? (
         <div className="flex gap-[25px] text-[14px] font-medium text-[#1B1B1B]">
           <Link to="/login">로그인</Link>
