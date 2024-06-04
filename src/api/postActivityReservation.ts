@@ -23,7 +23,7 @@ const postActivityReservation = async ({
     const response = await axiosInstance.post(`/activities/${id}/reservations`, requestBody);
     return response.data;
   } catch (error) {
-    console.error('예약 요청 중 오류 발생');
+    alert(error);
     throw error;
   }
 };
