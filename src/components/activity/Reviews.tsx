@@ -62,16 +62,20 @@ const Reviews = () => {
   return (
     <div className="flex flex-col w-full gap-4">
       <h2 className="text-xl font-bold pt-6">후기</h2>
-      <div className="flex gap-4">
-        <p className="text-5xl font-bold">{averageRating}</p>
-        <div>
-          <p className="text-base font-normal">{ratingToText(averageRating)}</p>
-          <p className="flex gap-2 text-base font-normal">
-            <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
-            {totalCount}개 후기
-          </p>
+      {totalCount ? (
+        <div className="flex gap-4">
+          <p className="text-5xl font-bold">{averageRating}</p>
+          <div>
+            <p className="text-base font-normal">{ratingToText(averageRating)}</p>
+            <p className="flex gap-2 text-base font-normal">
+              <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
+              {totalCount}개 후기
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>후기 없음</div>
+      )}
       {/* 리뷰 List */}
       {totalCount > 0 ? (
         <div className="flex flex-col justify-center items-center gap-8">

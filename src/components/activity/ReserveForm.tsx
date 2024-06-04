@@ -19,6 +19,7 @@ type SelectedDate = DatePiece | [DatePiece, DatePiece];
 const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const { id } = useParams<{ id: string }>();
   const { price } = activity;
+
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
   const [availableTimes, setAvailableTimes] = useState<AvailableTimesType[] | null>(null);
@@ -56,7 +57,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         postActivityReservation({ selectedTimeId, attendeeCount, id });
       }
     } catch (error) {
-      console.error('예약 요청 중 오류 발생');
+      alert(error);
     }
   };
 
@@ -88,7 +89,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
 
   return (
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
-      <div className="flex flex-col gap-4 p-6">
+      <div className="flex flex-col gap-4 p-4">
         <div className="font-bold text-3xl">
           {priceToWon(price)}
           <span className="font-normal text-xl"> / 인</span>
@@ -113,7 +114,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         />
         <div className="font-bold text-lg">예약 가능한 시간</div>
         {/* 예약 시간 선택 */}
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {availableTimes?.map((availableTime) => {
             if (availableTime.date === yearMonthDay) {
               return availableTime.times.map((time) => {
@@ -121,7 +122,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
                 return (
                   <div
                     key={time.id}
-                    className={`w-1/3 border-2 border-solid rounded-lg text-center p-2.5
+                    className={`w-28 border-2 border-solid rounded-lg text-center p-2.5
                     ${isSelected ? 'bg-nomad-black text-white' : 'bg-white text-nomad-black'}
                     hover:bg-nomad-black hover:text-white`}
                     onClick={handleSelectTime}
@@ -139,7 +140,12 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         {/* 참여 인원 수 */}
         <div className="font-bold text-xl">참여 인원 수</div>
         <div className="flex justify-between items-center w-1/3 border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3">
-          <button type="button" onClick={handleReduceAttendee} disabled={isReduceDisabled}>
+          <button
+            className={`${isReduceDisabled ? 'disabled:opacity-50' : ''}`}
+            type="button"
+            onClick={handleReduceAttendee}
+            disabled={isReduceDisabled}
+          >
             -
           </button>
           <div className="text-lg">{attendeeCount}</div>
