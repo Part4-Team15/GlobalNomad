@@ -51,8 +51,8 @@ const ActivityCardList = () => {
         onSelectCategory={handleCategoryClick}
         onSetSort={handleSortClick}
       />
-      <div className="text-4xl font-bold mt-10 mb-[33px]">🛼 모든 체험</div>
-      <div className="grid grid-cols-4 gap-6 mb-[72px]">
+      <div className="text-4xl font-bold mt-10 mb-8 sm:text-lg sm:my-6">🛼 모든 체험</div>
+      <div className="grid grid-cols-4 gap-6 h-[890px] mb-[72px] md:grid-cols-3 md:gap-4 md:h-[1154px] sm:grid-cols-2 sm:gap-2 sm:h-[572px] sm:mb-[62px]">
         {currenData.map((activity) => (
           <ActivityCard key={activity.id} cardData={activity} />
         ))}
@@ -60,7 +60,7 @@ const ActivityCardList = () => {
       <Pagination totalCount={count} offsetLimit={OFFSET_LIMIT} setActivityList={handlePageData} />
     </>
   ) : (
-    <div>데이터가 없습니다.</div>
+    <div className="flex justify-center items-center">데이터가 없습니다.</div>
   );
 };
 

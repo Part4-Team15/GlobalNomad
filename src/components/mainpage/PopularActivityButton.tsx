@@ -10,13 +10,13 @@ const PopularActivityButton = ({ onLeftClick, onRightClick }: PopularActivityBut
         type="button"
         onClick={onLeftClick}
       >
-        <img src="/assets/arrow_left.svg" alt="left Arrow Btn" />
+        <img className="sm:w-[22px]" src="/assets/arrow_left.svg" alt="left Arrow Btn" />
       </button>
       <button
         type="button"
         onClick={onRightClick}
       >
-        <img src="/assets/arrow_right.svg" alt="right Arrow Btn" />
+        <img className="sm:w-[22px]" src="/assets/arrow_right.svg" alt="right Arrow Btn" />
       </button>
     </div>
   );
