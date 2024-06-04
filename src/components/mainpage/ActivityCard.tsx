@@ -39,19 +39,22 @@ const ActivityCard = ({ cardData }: ActivityCardProps) => {
   return (
     <Link to={`/activity/${id}`}>
       <div className="flex flex-col gap-4">
-        <div className="w-72 h-72 bg-cover bg-center rounded-3xl" style={{ backgroundImage: `url(${bannerImageUrl})` }} />
-        <div className="flex flex-col gap-[10px] w-[282px] text-black">
+        <div
+          className="w-[282px] h-[282px] bg-cover bg-center rounded-3xl md:w-56 md:h-56 sm:w-[168px] sm:h-[168px]"
+          style={{ backgroundImage: `url(${bannerImageUrl})` }}
+        />
+        <div className="flex flex-col gap-[10px] w-[282px] text-black md:w-56 sm:w-[168px]">
           <div className="flex gap-1">
             <img src="/assets/bold_star.svg" alt="little-star" />
-            <p className="text-sm font-bold">
+            <p className="font-medium">
               {rating}
               <span className="text-gray-60">{` (${reviewCount})`}</span>
             </p>
           </div>
-          <div className="text-2xl font-bold">{title}</div>
-          <div className="flex items-center gap-1 text-[28px] font-bold">
+          <div className="text-2xl font-semibold mb-[5px] sm:text-lg">{title}</div>
+          <div className="flex items-center gap-1 text-[28px] font-bold sm:text-xl">
             {priceToWon(price)}
-            <span className="text-xl text-gray-80">/인</span>
+            <span className="text-xl text-gray-80 sm:text-base">/인</span>
           </div>
         </div>
       </div>
