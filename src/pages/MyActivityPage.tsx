@@ -31,6 +31,11 @@ const MyActivityPage = () => {
     navigate('/my-activity/assign');
   };
 
+  const handleDeleteActivity = (id: number) => {
+    const updatedActivities = activities.filter((activity) => activity.id !== id);
+    setActivities(updatedActivities);
+  };
+
   return (
     <section className=" bg-gray-10 px-4 py-16">
       <div className="flex max-w-[75rem] mx-auto gap-6 items-start">
@@ -51,7 +56,11 @@ const MyActivityPage = () => {
           <section className="w-full">
             <ul className="flex flex-col gap-6">
               {activities.map((activity) => (
-                <ReservationCard key={activity.id} activity={activity} />
+                <ReservationCard
+                  key={activity.id}
+                  activity={activity}
+                  onDelete={handleDeleteActivity}
+                />
               ))}
             </ul>
           </section>
