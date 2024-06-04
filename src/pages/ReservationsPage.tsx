@@ -3,9 +3,9 @@ import Profile from '@/components/common/profile/Profile';
 import { useQuery } from '@tanstack/react-query';
 import getMyReservation from '@/api/getMyReservation';
 import ReservationContent from '@/components/myreservation/ReservationContent';
+import { ActivityType } from '@/types/activityPage';
 import ReviewModal from '../components/review/ReviewModal';
 import ModalPortal from '../components/review/ModalPortal';
-import { ActivityType } from '@/types/activityPage';
 
 interface Reservation {
   id: number;
@@ -42,7 +42,8 @@ const ReservationsPage = () => {
     queryFn: getMyReservation,
   });
 
-  const reservations = data ? Object.values(data) : [];
+  // never used 라고 떠서, 주석 처리해뒀어요 @채민
+  // const reservations = data ? Object.values(data) : [];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<BookingData | null>(null);
 

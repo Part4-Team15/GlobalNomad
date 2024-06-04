@@ -1,11 +1,47 @@
-import { ActivityType } from '@/types/activityPage';
+import { useNavigate } from 'react-router-dom';
+import { ActivityType, SubImage } from '@/types/activityPage';
+import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
   activity: ActivityType;
 }
 
+interface SubImagesBannerProps {
+  subImages: SubImage[];
+}
+
+const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Element => {
+  const newSubImages = [];
+
+  for (let index = 0; index < 4; index += 1) {
+    if (subImages[index]) {
+      newSubImages.push(
+        <img
+          className={`w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
+            index === 3 ? 'rounded-br-xl' : ''
+          }`}
+          src={subImages[index].imageUrl}
+          alt={`Sub Banner Img ${index + 1}`}
+        />,
+      );
+    } else {
+      newSubImages.push(
+        <div
+          className={`bg-green-80 w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
+            index === 3 ? 'rounded-br-xl' : ''
+          }`}
+        />,
+      );
+    }
+  }
+
+  return <div className="w-1/2 grid grid-cols-2 gap-3">{newSubImages}</div>;
+};
+
 const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
-  const { title, category, rating, address, reviewCount } = activity;
+  const { title, category, rating, address, reviewCount, bannerImageUrl, subImages } = activity;
+
+  const navigate = useNavigate();
 
   return (
     <div className="w-full">
@@ -16,53 +52,35 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
         <div className="flex justify-between items-center">
           <div className="flex gap-1">
             <div className="flex">
-              <img
-                className="w-4"
-                src="/assets/star_on_icon.svg"
-                alt="rating star"
-              />
+              <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
               {rating}({reviewCount})
             </div>
             <img src="/assets/location_icon.svg" alt="location icon" />
             <span className="text-gray-80">{address}</span>
           </div>
-          <img className="w-10" src="/assets/kebab_icon.svg" alt="kebab icon" />
+          {/* <img className="w-10" src="/assets/kebab_icon.svg" alt="kebab icon" /> */}
+          <CustomKebabMenu
+            options={[
+              {
+                label: '수정하기',
+                onClick: () =>
+                  navigate('/my-activity/modify', {
+                    state: { ...activity },
+                  }),
+              },
+              { label: '삭제하기', onClick: () => console.log('안녕') },
+            ]}
+          />
         </div>
       </div>
       {/* Banner Images */}
-      <div className="flex w-full rounded-lg gap-3 mt-8">
-        {/* <img src="../samples/main_img.png" alt="main" /> */}
+      <div className="flex w-full h-[534px] rounded-lg gap-3 mt-8">
         <img
-          className="w-[600px] rounded-l-xl"
-          src="/assets/samples/main_img.png"
-          alt="main"
+          className="w-1/2 object-cover rounded-l-xl"
+          src={bannerImageUrl}
+          alt="Main Banner Img"
         />
-        <div className="grid grid-cols-2 gap-3">
-          <img
-            className="w-full h-full"
-            src="/assets/samples/sub_img1.png"
-            alt="sub1"
-          />
-          <img
-            className="w-full h-full rounded-tr-xl"
-            src="/assets/samples/sub_img2.png"
-            alt="sub2"
-          />
-          <img
-            className="w-full h-full"
-            src="/assets/samples/sub_img3.png"
-            alt="sub3"
-          />
-          <img
-            className="w-full h-full rounded-br-xl"
-            src="/assets/samples/sub_img4.png"
-            alt="sub4"
-          />
-        </div>
-        {/* <img src={bannerImageUrl} alt="Banner Main" />
-        {subImages.map(({ imageUrl }) => (
-          <img src={imageUrl} alt="Banner Sub" />
-        ))} */}
+        <SubImagesBanner subImages={subImages} />
       </div>
     </div>
   );

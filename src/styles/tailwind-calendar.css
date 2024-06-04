@@ -53,6 +53,8 @@
 /* 달력 타일 */
 .react-calendar__tile {
   border-radius: 8px;
+  width: 100px;
+  height: 154px;
 }
 
 /* 호버 및 액티브 스타일 */
@@ -66,4 +68,12 @@
 .react-calendar__tile--now {
   background-color: #ced8d5;
   color: #0b3b2d;
+}
+
+.hidden-date {
+  visibility: hidden;
+}
+
+.custom-tile {
+  border: 1px solid black;
 }
