@@ -5,8 +5,10 @@ import CalendarModal from '../modal/CalendarModal';
 const ReservationDate = () => {
   const queryClient = useQueryClient();
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
+
+  // 초기값 지정
   const { data: selectedDate = '' } = useQuery<string>({
-    queryKey: ['assign/Date'],
+    queryKey: ['modifyData/Schedule/Date'],
   });
 
   // 날짜 모달
@@ -15,7 +17,7 @@ const ReservationDate = () => {
   };
 
   const handleDateSelect = (date: string) => {
-    queryClient.setQueryData(['assign/Date'], date);
+    queryClient.setQueryData(['modifyData/Schedule/Date'], date);
     setIsOpenCalendar(false);
   };
 

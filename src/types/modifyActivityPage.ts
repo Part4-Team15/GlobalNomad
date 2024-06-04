@@ -1,4 +1,5 @@
 export interface Schedule {
+  id?: number;
   date: string; // 예약 날짜
   startTime: string; // 시작 시간
   endTime: string; // 종료 시간
@@ -11,8 +12,8 @@ export interface ModifyData {
   price: number;
   address: string;
   bannerImageUrl: string;
-  subImageIdsToRemove?: [];
+  subImageIdsToRemove?: number[];
   subImageUrlsToAdd?: [];
-  scheduleIdsToRemove: Schedule[];
+  scheduleIdsToRemove: number[];
   schedulesToAdd: Schedule[];
 }

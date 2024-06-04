@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
+import dateToString from '@/utils/dateToString';
 import '@/styles/ReactCalendar.module.css';
 
 type DatePiece = Date | null;
@@ -13,17 +14,10 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ onSelect }) => {
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
 
   const formatDate = (date: SelectedDate): string => {
-    const formatSingleDate = (d: Date): string => {
-      const year = d.getFullYear().toString().slice(2); // 연도 두 자리
-      const month = (d.getMonth() + 1).toString().padStart(2, '0'); // 월 두 자리
-      const day = d.getDate().toString().padStart(2, '0'); // 일 두 자리
-      return `${year}/${month}/${day}`;
-    };
-
     if (Array.isArray(date)) {
-      return `${formatSingleDate(date[0] as Date)} - ${formatSingleDate(date[1] as Date)}`;
+      return `${dateToString(date[0] as Date)} - ${dateToString(date[1] as Date)}`;
     }
-    return date ? formatSingleDate(date as Date) : '';
+    return date ? dateToString(date as Date) : '';
   };
 
   const handleDateChange = (newDate: SelectedDate) => {

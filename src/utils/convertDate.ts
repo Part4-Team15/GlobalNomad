@@ -1,4 +1,5 @@
 const convertDate = (inputDate: string) => {
+  // 24/05/28 -> 2024-05-28
   const parts = inputDate.split('/');
 
   const yearPart = parts[0];
@@ -7,9 +8,7 @@ const convertDate = (inputDate: string) => {
 
   // 년도를 두 자리에서 네 자리로 확장합니다.
   const year =
-    yearPart.length === 2
-      ? (parseInt(yearPart, 10) > 50 ? '19' : '20') + yearPart
-      : yearPart;
+    yearPart.length === 2 ? (parseInt(yearPart, 10) > 50 ? '19' : '20') + yearPart : yearPart;
 
   // 형식에 맞춰서 날짜를 재구성합니다.
   const formattedDate = `${year}-${month}-${day}`;
@@ -18,3 +17,5 @@ const convertDate = (inputDate: string) => {
 };
 
 export default convertDate;
+
+// 안씀.
