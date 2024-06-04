@@ -3,6 +3,7 @@ import ReservationCard, { Activity } from '@/components/myActivity/ReservationCa
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import NoReservation from '@/components/myreservation/NoReservation';
 
 interface ApiResponse {
   cursorId: number;
@@ -54,15 +55,19 @@ const MyActivityPage = () => {
           </div>
           {/* 체험 리스트 */}
           <section className="w-full">
-            <ul className="flex flex-col gap-6">
-              {activities.map((activity) => (
-                <ReservationCard
-                  key={activity.id}
-                  activity={activity}
-                  onDelete={handleDeleteActivity}
-                />
-              ))}
-            </ul>
+            {activities.length !== 0 ? (
+              <ul className="flex flex-col gap-6">
+                {activities.map((activity) => (
+                  <ReservationCard
+                    key={activity.id}
+                    activity={activity}
+                    onDelete={handleDeleteActivity}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <NoReservation />
+            )}
           </section>
         </div>
       </div>
