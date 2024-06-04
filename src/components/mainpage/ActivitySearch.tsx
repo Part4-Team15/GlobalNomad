@@ -21,9 +21,9 @@ const ActivitySearch = () => {
   };
 
   return (
-    <div className="relative bg-white pb-32">
+    <div className="relative bg-white pb-[118px] sm:pb-[73px]">
       <form
-        className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-lg rounded-2xl bg-white sm:gap-[15px] sm:py-4"
+        className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-md rounded-2xl bg-white lg:shadow-lg sm:gap-[15px] sm:py-4"
         onSubmit={handleSubmit}
       >
         <label className="text-black text-xl font-bold sm:text-base">무엇을 체험하고 싶으신가요?</label>
