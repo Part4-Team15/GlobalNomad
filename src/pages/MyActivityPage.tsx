@@ -1,4 +1,3 @@
-import InfiniteScroll from 'react-infinite-scroll-component';
 import Profile from '@/components/common/profile/Profile';
 import ReservationCard, { Activity } from '@/components/myActivity/ReservationCard';
 import { useEffect, useState } from 'react';
@@ -76,23 +75,15 @@ const MyActivityPage = () => {
           {/* 체험 리스트 */}
           <section className="w-full">
             {activities.length !== 0 ? (
-              <InfiniteScroll
-                dataLength={activities.length}
-                next={fetchMoreData}
-                hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-                endMessage={<p>No more activities to show</p>}
-              >
-                <ul className="flex flex-col gap-6">
-                  {activities.map((activity) => (
-                    <ReservationCard
-                      key={activity.id}
-                      activity={activity}
-                      onDelete={handleDeleteActivity}
-                    />
-                  ))}
-                </ul>
-              </InfiniteScroll>
+              <ul className="flex flex-col gap-6">
+                {activities.map((activity) => (
+                  <ReservationCard
+                    key={activity.id}
+                    activity={activity}
+                    onDelete={handleDeleteActivity}
+                  />
+                ))}
+              </ul>
             ) : (
               <NoReservation />
             )}
