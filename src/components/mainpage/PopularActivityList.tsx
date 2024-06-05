@@ -41,7 +41,7 @@ const PopularActivityList = () => {
         <div className="text-4xl font-bold mb-8 sm:text-lg sm:mb-6">🔥인기 체험</div>
         <PopularActivityButton onLeftClick={handleLeftClick} onRightClick={handleRightClick} />
       </div>
-      <div className="grid grid-cols-3 gap-6 w-pc md:grid-cols-2 md:w-tab sm:w-mob">
+      <div className="grid grid-cols-3 gap-6 w-pc overflow-hidden md:grid-cols-2 md:w-tab sm:w-mob">
         {pageActivityList.map((info) => (
           <PopularActivityCard key={info.id} cardData={info} />
         ))}

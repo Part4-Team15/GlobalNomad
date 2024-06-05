@@ -15,10 +15,10 @@ const PopularActivityCard = ({ cardData }: ActivityCardProps) => {
           <div className="text-3xl font-bold sm:text-lg">{title}</div>
           <div className="flex items-center gap-1 text-xl font-bold sm:text-base">
             {`₩ ${price}`}
-            <span className="text-sm text-gray-80">/인</span>
+            <span className="text-sm">/인</span>
           </div>
         </div>
-        <div className="relative w-96 h-96 bg-cover bg-center rounded-3xl sm:w-[186px] sm:h-[186px]" style={{ backgroundImage: `url('${bannerImageUrl}')` }}>
+        <div className="relative w-96 h-96 bg-cover bg-center bg-no-repeat rounded-3xl hover:bg-extend sm:w-[186px] sm:h-[186px]" style={{ backgroundImage: `url('${bannerImageUrl}')` }}>
           <div className="absolute inset-0 bg-black opacity-30 rounded-3xl" />
         </div>
       </div>
