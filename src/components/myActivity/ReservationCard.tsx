@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import priceToWon from '@/utils/priceToWon';
 import CustomKebabMenu from './CustomKebabMenu';
+import ExperienceDeleteModal from './ExperienceDeleteModal';
+import ModalPortal from '../review/ModalPortal';
 
 export interface Activity {
   id: number;
@@ -18,8 +21,24 @@ export interface Activity {
   updatedAt: string;
 }
 
-const ReservationCard = ({ activity }: { activity: Activity }) => {
+const ReservationCard = ({
+  activity,
+  onDelete,
+}: {
+  activity: Activity;
+  onDelete: (id: number) => void;
+}) => {
   const navigate = useNavigate();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    onDelete(activity.id);
+    setIsDeleteModalOpen(false);
+  };
 
   return (
     <li className="rounded-3xl flex w-full h-[12.75rem] md:h-[9.75rem] sm:h-32 sm:min-w-[21.5rem] shadow-md">
@@ -57,11 +76,19 @@ const ReservationCard = ({ activity }: { activity: Activity }) => {
                     state: { ...activity },
                   }),
               },
-              { label: '삭제하기', onClick: () => console.log('안녕') },
+              { label: '삭제하기', onClick: handleDeleteClick },
             ]}
           />
         </div>
       </div>
+      <ModalPortal>
+        <ExperienceDeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          activityId={activity.id}
+          onDelete={handleDeleteConfirm}
+        />
+      </ModalPortal>
     </li>
   );
 };
