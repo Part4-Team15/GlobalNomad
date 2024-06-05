@@ -17,7 +17,8 @@ const FilterPopover = ({ isOpen, onSetSort }: FilterPopoverProp) => {
       className="absolute top-[66px] flex flex-col text-green-80"
     >
       <button
-        className="w-[127px] bg-white border border-gray-30 rounded-t-xl py-4 hover:bg-green-10"
+        className="w-[127px] bg-white border border-gray-30 rounded-t-xl text-lg font-medium py-[18px]
+        hover:bg-green-10 md:w-[120px] sm:w-[90px] sm:text-sm"
         type="button"
         value={POPOVER_VALUES[0].sortKey}
         onClick={onSetSort}
@@ -25,7 +26,8 @@ const FilterPopover = ({ isOpen, onSetSort }: FilterPopoverProp) => {
         {POPOVER_VALUES[0].buttonName}
       </button>
       <button
-        className="w-[127px] bg-white border border-gray-30 rounded-b-xl py-4 hover:bg-green-10"
+        className="w-[127px] bg-white border border-gray-30 rounded-b-xl text-lg font-medium py-[18px]
+        hover:bg-green-10 md:w-[120px] sm:w-[90px] sm:text-sm"
         type="button"
         value={POPOVER_VALUES[1].sortKey}
         onClick={onSetSort}
