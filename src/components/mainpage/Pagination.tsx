@@ -67,9 +67,9 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex gap-[10px]">
+    <div className="flex justify-center gap-[10px]">
       <button
-        className="flex justify-center items-center w-[55px] h-[55px] border border-green-80 rounded-2xl"
+        className="flex justify-center items-center w-[55px] h-[55px] bg-white border border-green-80 rounded-2xl sm:w-10 sm:h-10"
         onClick={handleLeftArrowBtnClick}
         type="button"
       >
@@ -77,7 +77,8 @@ const Pagination = ({
       </button>
       {pageGroup[currentPageGroup].map((pageNum) => (
         <button
-          className={`w-[55px] h-[55px] text-lg border border-green-80 rounded-2xl hover:bg-green-80 hover:text-white ${currentPage === pageNum ? 'bg-green-80 text-white' : 'bg-white text-green-80'}`}
+          className={`w-[55px] h-[55px] text-lg border border-green-80 rounded-2xl hover:bg-green-80 hover:text-white sm:w-10 sm:h-10
+          ${currentPage === pageNum ? 'bg-green-80 text-white' : 'bg-white text-green-80'}`}
           onClick={handlePageBtnClick}
           type="button"
           id={pageNum}
@@ -87,7 +88,7 @@ const Pagination = ({
         </button>
       ))}
       <button
-        className="flex justify-center items-center w-[55px] h-[55px] border border-green-80 rounded-2xl"
+        className="flex justify-center items-center w-[55px] h-[55px] bg-white border border-green-80 rounded-2xl sm:w-10 sm:h-10"
         onClick={handleRightArrowBtnClick}
         type="button"
       >
