@@ -48,7 +48,7 @@ const ModifyActivityPage = () => {
       <div className="w-[100%] inline-flex items-start gap-6">
         <Profile />
         <div className="w-[100%] flex flex-col items-start gap-6">
-          <ModifyHeader />
+          {id && <ModifyHeader id={id} />}
           <ModifyTitle title={activityData.title} />
           <ModifyCategory category={activityData.category} />
           <ModifyDescription description={activityData.description} />

@@ -1,26 +1,22 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
-import convertDate from '@/utils/convertDate';
-import postAssignMyActivity from '@/api/postMyActivity';
+import { ModifyData } from '@/types/modifyActivityPage';
+import patchModifyMyActivity from '@/api/patchMyActivity';
 import checkRequireData from './utils/checkRequireData';
 
-const ModifyHeader = () => {
-  const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
+interface ModifyHeaderProps {
+  id: string;
+}
 
-  const handleAssignData = async () => {
+const ModifyHeader = ({ id }: ModifyHeaderProps) => {
+  const data = useQuery({ queryKey: ['modifyData'] }).data as ModifyData;
+
+  const handleModifyData = async () => {
     if (checkRequireData(data)) {
-      const transformedData: AssignData = {
-        ...data,
-        schedules: data.schedules.map((schedule) => ({
-          ...schedule,
-          date: convertDate(schedule.date),
-        })),
-      }; // 새로운 객체를 생성하여 날짜 변환
       try {
-        const response = await postAssignMyActivity(transformedData);
+        const response = await patchModifyMyActivity(data, id);
         if (response) {
-          alert('등록 성공!!'); // 성공 시 모달 열기
+          alert('수정 완료!!'); // 성공 시 모달 열기
         }
       } catch (e) {
         console.error('Error:', e);
@@ -30,13 +26,13 @@ const ModifyHeader = () => {
 
   return (
     <div className="w-[100%] flex justify-between pr-2">
-      <span className=" text-black font-bold text-[32px]">내 체험 등록</span>
+      <span className=" text-black font-bold text-[32px]">내 체험 수정</span>
       <button
         type="button"
         className="flex h-12 px-4 py-2 content-center gap-1 items-center self-stretch rounded bg-black text-white text-base font-bold"
-        onClick={handleAssignData}
+        onClick={handleModifyData}
       >
-        등록하기
+        수정하기
       </button>
     </div>
   );
