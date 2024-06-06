@@ -1,9 +1,11 @@
 import Profile from '@/components/common/profile/Profile';
 import ReservationCard, { Activity } from '@/components/myActivity/ReservationCard';
-import { useEffect, useState } from 'react';
-import axiosInstance from '@/lib/axiosInstance';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NoReservation from '@/components/myreservation/NoReservation';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import getMyActivity from '@/api/getMyActivity';
+import { useInView } from 'react-intersection-observer';
 
 interface ApiResponse {
   cursorId: number;
@@ -13,47 +15,30 @@ interface ApiResponse {
 
 const MyActivityPage = () => {
   const navigate = useNavigate();
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const { data, fetchNextPage } = useInfiniteQuery({
+    queryKey: ['activities'],
+    queryFn: getMyActivity,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.cursorId,
+  });
+
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await axiosInstance.get<ApiResponse>('/my-activities', {
-          params: {
-            page,
-            limit: 5,
-            sort: 'createdAt,desc',
-          },
-        });
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
-        const newActivities = response.data.activities;
-        const uniqueActivities = [...activities, ...newActivities].filter(
-          (activity, index, self) => index === self.findIndex((t) => t.id === activity.id),
-        );
-
-        setActivities(uniqueActivities);
-        setHasMore(newActivities.length === 5);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchActivities();
-  }, [page]);
-
-  const fetchMoreData = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+  const activities = data?.pages.flatMap((page) => page.activities) || [];
 
   const handleAssignClick = () => {
     navigate('/my-activity/assign');
   };
 
   const handleDeleteActivity = (id: number) => {
-    const updatedActivities = activities.filter((activity) => activity.id !== id);
-    setActivities(updatedActivities);
+    // const updatedActivities = activities.filter((activity) => activity.id !== id);
+    // setActivities(updatedActivities);
   };
 
   return (
@@ -87,6 +72,7 @@ const MyActivityPage = () => {
             ) : (
               <NoReservation />
             )}
+            <div ref={ref} className="h-[10px]" />
           </section>
         </div>
       </div>
