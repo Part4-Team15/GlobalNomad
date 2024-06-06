@@ -13,7 +13,7 @@ export interface ModifyData {
   address: string;
   bannerImageUrl: string;
   subImageIdsToRemove?: number[];
-  subImageUrlsToAdd?: [];
+  subImageUrlsToAdd?: string[];
   scheduleIdsToRemove: number[];
   schedulesToAdd: Schedule[];
 }

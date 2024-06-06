@@ -1,14 +1,19 @@
 import React, { useState, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
+import { ModifyData } from '@/types/modifyActivityPage';
+import { SubImage } from '@/types/activityPage';
 import postAssignImage from '@/api/postAssignImage';
-import mergeAssignData from './utils/mergeAssignData';
+import mergeModifyData from './utils/mergeModifyData';
 
 const MAX_SIZE = 4;
 
-const ModifyIntroImage = () => {
+interface ModifyIntroImageProps {
+  subImages: SubImage[];
+}
+
+const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
   const queryClient = useQueryClient();
-  const [introImage, setIntroImage] = useState<string[]>([]);
+  const [introImage, setIntroImage] = useState<SubImage[]>(subImages);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleIntroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,13 +34,15 @@ const ModifyIntroImage = () => {
           const imageUrl = response.activityImageUrl;
 
           setIntroImage((prevImages) => {
-            const updatedImages = [...prevImages, imageUrl];
-            queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-              return mergeAssignData(oldData, {
-                subImageUrls: updatedImages,
-              });
-            });
+            const updatedImages = [...prevImages, { imageUrl }];
             return updatedImages;
+          });
+
+          queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+            const updatedData = mergeModifyData(oldData, {
+              subImageUrlsToAdd: [...(oldData?.subImageUrlsToAdd || []), imageUrl],
+            });
+            return updatedData;
           });
         }
 
@@ -49,13 +56,32 @@ const ModifyIntroImage = () => {
   };
 
   const handleRemoveImage = (index: number): void => {
-    setIntroImage((prevImages: string[]) => {
-      const updatedImages = prevImages.filter((_: string, i: number) => i !== index);
-      queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-        return mergeAssignData(oldData, { subImageUrls: updatedImages });
-      });
+    const removeIntroImage = introImage[index];
+    setIntroImage((prevImages: SubImage[]) => {
+      const updatedImages = prevImages.filter((_: SubImage, i: number) => i !== index);
       return updatedImages;
     });
+
+    if (removeIntroImage.id) {
+      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+        return mergeModifyData(oldData, {
+          subImageIdsToRemove: [
+            ...(oldData?.subImageIdsToRemove || []),
+            removeIntroImage.id as number,
+          ],
+        });
+      });
+    } else {
+      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+        const updatedSubImage = oldData?.subImageUrlsToAdd?.filter(
+          (imageUrl) => imageUrl !== removeIntroImage.imageUrl,
+        );
+
+        return mergeModifyData(oldData, {
+          subImageUrlsToAdd: updatedSubImage,
+        });
+      });
+    }
   };
 
   return (
@@ -83,10 +109,10 @@ const ModifyIntroImage = () => {
         {introImage &&
           introImage.map((image, index) => (
             <div
-              key={image}
+              key={image.imageUrl}
               className=" relative rounded-xl bg-no-repeat bg-contain bg-center"
               style={{
-                backgroundImage: `url(${image})`,
+                backgroundImage: `url(${image.imageUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 width: '100%',
