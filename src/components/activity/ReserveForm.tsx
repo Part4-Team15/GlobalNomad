@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { ActivityType, AvailableTimesType } from '@/types/activityPage';
 import postActivityReservation from '@/api/postActivityReservation';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
+import Toast from '@/utils/Toast';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -48,14 +49,16 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const handleSubmit = async () => {
     try {
       if (!selectedTimeId) {
-        console.error('예약 가능한 시간을 선택해주세요.');
+        Toast.error('예약 가능한 시간을 선택해주세요.');
         return;
       }
       if (typeof id === 'string') {
-        postActivityReservation({ selectedTimeId, attendeeCount, id });
+        await postActivityReservation({ selectedTimeId, attendeeCount, id });
+        Toast.success('예약이 되었습니다.');
       }
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      const errorMessage = error.toString();
+      Toast.error(errorMessage);
     }
   };
 

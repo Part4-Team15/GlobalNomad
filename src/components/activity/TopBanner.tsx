@@ -19,6 +19,7 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
     if (subImages[index]) {
       newSubImages.push(
         <img
+          key={index}
           className={`w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
             index === 3 ? 'rounded-br-xl' : ''
           }`}
