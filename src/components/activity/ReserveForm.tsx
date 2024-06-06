@@ -2,12 +2,12 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
-import '@/styles/tailwind-calendar.css';
 import priceToWon from '@/utils/priceToWon';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
 import { useParams } from 'react-router-dom';
 import { ActivityType, AvailableTimesType } from '@/types/activityPage';
 import postActivityReservation from '@/api/postActivityReservation';
+import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -52,8 +52,6 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         return;
       }
       if (typeof id === 'string') {
-        console.log(selectedTimeId);
-        console.log(attendeeCount);
         postActivityReservation({ selectedTimeId, attendeeCount, id });
       }
     } catch (error) {
@@ -97,21 +95,21 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         <div className="w-full h-[1px] bg-gray-40" />
         {/* 예약 현황 캘린더 */}
         <div className="font-bold text-xl">날짜</div>
-        <Calendar
-          className="react-calendar w-full"
-          tileClassName=""
-          onChange={handleDateChange}
-          value={selectedDate}
-          calendarType="gregory"
-          formatDay={(__, date) => moment(date).format('D')}
-          formatMonthYear={(__, date) => moment(date).format('MMMM YYYY')}
-          formatShortWeekday={(__, date) => moment(date).format('ddd')}
-          showNeighboringMonth={false}
-          minDetail="month"
-          minDate={new Date()}
-          next2Label={null}
-          prev2Label={null}
-        />
+        <StyledReserveCalendarWrapper>
+          <Calendar
+            onChange={handleDateChange}
+            value={selectedDate}
+            calendarType="gregory"
+            formatDay={(__, date) => moment(date).format('D')}
+            formatMonthYear={(__, date) => moment(date).format('MMMM YYYY')}
+            formatShortWeekday={(__, date) => moment(date).format('ddd')}
+            showNeighboringMonth={false}
+            minDetail="month"
+            minDate={new Date()}
+            next2Label={null}
+            prev2Label={null}
+          />
+        </StyledReserveCalendarWrapper>
         <div className="font-bold text-lg">예약 가능한 시간</div>
         {/* 예약 시간 선택 */}
         <div className="flex flex-wrap gap-2">
