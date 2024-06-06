@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ActivityType, SubImage } from '@/types/activityPage';
+import deleteMyActivity from '@/api/deleteMyActivity';
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
@@ -39,9 +40,14 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
 };
 
 const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
-  const { title, category, rating, address, reviewCount, bannerImageUrl, subImages } = activity;
+  const { id, title, category, rating, address, reviewCount, bannerImageUrl, subImages } = activity;
 
   const navigate = useNavigate();
+
+  const handleDeleteActivity = async () => {
+    await deleteMyActivity(String(id));
+    navigate('/');
+  };
 
   return (
     <div className="w-full">
@@ -58,7 +64,6 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
             <img src="/assets/location_icon.svg" alt="location icon" />
             <span className="text-gray-80">{address}</span>
           </div>
-          {/* <img className="w-10" src="/assets/kebab_icon.svg" alt="kebab icon" /> */}
           <CustomKebabMenu
             options={[
               {
@@ -68,7 +73,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
                     state: { ...activity },
                   }),
               },
-              { label: '삭제하기', onClick: () => console.log('안녕') },
+              { label: '삭제하기', onClick: handleDeleteActivity },
             ]}
           />
         </div>
