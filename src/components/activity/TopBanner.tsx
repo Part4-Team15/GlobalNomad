@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ActivityType, SubImage } from '@/types/activityPage';
 import deleteMyActivity from '@/api/deleteMyActivity';
+import Toast from '@/utils/Toast';
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
@@ -28,6 +29,7 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
     } else {
       newSubImages.push(
         <div
+          key={index}
           className={`bg-green-80 w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
             index === 3 ? 'rounded-br-xl' : ''
           }`}
@@ -45,8 +47,13 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
   const navigate = useNavigate();
 
   const handleDeleteActivity = async () => {
-    await deleteMyActivity(String(id));
-    navigate('/');
+    try {
+      await deleteMyActivity(String(id));
+      navigate('/');
+    } catch (error: any) {
+      const errorMessage = error.toString();
+      Toast.error(errorMessage);
+    }
   };
 
   return (
