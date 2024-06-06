@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderProfile from './HeaderProfile';
+import Notification from './Notification';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,8 +23,8 @@ const Header = () => {
           <Link to="/signup">회원가입</Link>
         </div>
       ) : (
-        <div className="flex gap-[25px] sm:gap-[12px]">
-          <img src="/assets/notification_icon.svg" alt="notification_icon" />
+        <div className="flex items-center gap-[25px] sm:gap-[12px] relative">
+          <Notification />
           <img src="/assets/header_bar_icon.svg" alt="header_bar_icon" />
           <HeaderProfile />
         </div>

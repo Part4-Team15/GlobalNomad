@@ -10,7 +10,7 @@ const ProfileDropdown = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 absolute top-12 right-0 z-20 w-56 rounded-md bg-white shadow-md border-2 p-3">
+    <div className="flex flex-col gap-3 absolute top-12 right-0 z-20 w-56 rounded-md bg-white shadow-md border-1 p-3">
       <PageMenu
         linkTo="/my-page"
         icon="/assets/account_check_icon_gray.svg"

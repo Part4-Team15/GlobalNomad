@@ -1,7 +1,8 @@
 import getUserInfo from '@/api/getUserInfo';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
+import useClickOutside from '@/hooks/useClickOutside';
 import HeaderProfileImage from './HeaderProfileImage';
 import ProfileDropdown from './ProfileDropdown';
 
@@ -17,18 +18,7 @@ const HeaderProfile = () => {
     setDropdownIsOpen((prev) => !prev);
   };
 
-  // Dropdown Box 외부 클릭시, 닫히게 함
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dropdownRef]);
+  useClickOutside(dropdownRef, () => setDropdownIsOpen(false));
 
   if (isLoading) {
     return <div>프로필을 불러오고 있습니다</div>;
