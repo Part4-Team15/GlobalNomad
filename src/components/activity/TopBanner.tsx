@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { ActivityType, SubImage } from '@/types/activityPage';
+import getUserInfo from '@/api/getUserInfo';
 import deleteMyActivity from '@/api/deleteMyActivity';
 import Toast from '@/utils/Toast';
-import getUserInfo from '@/api/getUserInfo';
-import { useQuery } from '@tanstack/react-query';
+
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
@@ -48,7 +49,11 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
   const { id, userId, title, category, rating, address, reviewCount, bannerImageUrl, subImages } =
     activity;
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: userInfo,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['user'],
     queryFn: getUserInfo,
   });
@@ -69,7 +74,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
     return <div>유저 정보를 불러오고 있습니다</div>;
   }
 
-  if (isError || !data) {
+  if (isError || !userInfo) {
     return <div>유저 정보를 불러오는데 실패했습니다</div>;
   }
 
@@ -88,7 +93,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
             <img src="/assets/location_icon.svg" alt="location icon" />
             <span className="text-gray-80">{address}</span>
           </div>
-          {data.id === userId && (
+          {userInfo.id === userId && (
             <CustomKebabMenu
               options={[
                 {
