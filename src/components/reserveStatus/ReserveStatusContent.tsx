@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import getReservationYearAndMonth from '@/api/getReservationYearAndMonth';
 import Calendar from 'react-calendar';
 import moment from 'moment';
+import { StyledReserveStatusCalendarWrapper } from '@/styles/StyledReserveStatusCalendar';
 import ActivityDropDownBox from './ActivityDropDownBox';
-import 'react-calendar/dist/Calendar.css';
 import PendingTileBlock from './PendingTileBlock';
 import CompletedTileBlock from './CompletedTileBlock';
 import ComfimedTileBlock from './ComfirmedTileBlock';
@@ -132,20 +132,23 @@ const ReserveStatusContent = () => {
         />
       </div>
       {selectedActivity && <div>{selectedActivity.title}</div>}
-      <Calendar
-        className="w-full p-0"
-        locale="ko"
-        formatShortWeekday={(locale, date) =>
-          ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]}
-        formatDay={(locale, date) => moment(date).format('DD')}
-        calendarType="hebrew"
-        onActiveStartDateChange={(datas) => {
-          if (datas.activeStartDate) {
-            getActiveMonth(datas.activeStartDate);
+      <StyledReserveStatusCalendarWrapper>
+        <Calendar
+          className="w-full p-0"
+          locale="ko"
+          formatShortWeekday={(__, date) =>
+            ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]
           }
-        }}
-        tileContent={tileContent}
-      />
+          formatDay={(__, date) => moment(date).format('DD')}
+          calendarType="hebrew"
+          onActiveStartDateChange={(datas) => {
+            if (datas.activeStartDate) {
+              getActiveMonth(datas.activeStartDate);
+            }
+          }}
+          tileContent={tileContent}
+        />
+      </StyledReserveStatusCalendarWrapper>
     </div>
   );
 };
