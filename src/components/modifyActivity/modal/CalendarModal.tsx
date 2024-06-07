@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import dateToString from '@/utils/dateToString';
-import '@/styles/ReactCalendar.module.css';
+import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
@@ -30,11 +30,13 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ onSelect }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black opacity-50" />
       <div className="relative bg-white rounded-lg shadow-lg w-full max-w-2xl sm:max-w-lg">
-        <Calendar
-          className="react-calendar w-full  text-xl"
-          onChange={handleDateChange}
-          value={selectedDate}
-        />
+        <StyledReserveCalendarWrapper>
+          <Calendar
+            className="react-calendar w-full  text-xl"
+            onChange={handleDateChange}
+            value={selectedDate}
+          />
+        </StyledReserveCalendarWrapper>
         <span>선택한 날짜 : {formatDate(selectedDate)}</span>
       </div>
     </div>
