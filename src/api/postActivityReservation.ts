@@ -1,4 +1,5 @@
 import axiosInstance from '@/lib/axiosInstance';
+import { AxiosError } from 'axios';
 
 interface PostActivityReservation {
   scheduleId: number;
@@ -23,8 +24,12 @@ const postActivityReservation = async ({
     const response = await axiosInstance.post(`/activities/${id}/reservations`, requestBody);
     return response.data;
   } catch (error) {
-    alert(error);
-    throw error;
+    if (error instanceof AxiosError) {
+      throw error;
+    } else {
+      console.error('An unexpected error occurred:', error);
+      throw error;
+    }
   }
 };
 
