@@ -13,8 +13,8 @@ interface FilterPopoverProp {
 const FilterPopover = ({ isOpen, onSetSort }: FilterPopoverProp) => {
   return (
     <div
-      style={{ display: isOpen ? 'block' : 'none' }}
       className="absolute top-[66px] flex flex-col text-green-80"
+      style={{ display: isOpen ? 'block' : 'none' }}
     >
       <button
         className="w-[127px] bg-white border border-gray-30 rounded-t-xl text-lg font-medium py-[18px]
