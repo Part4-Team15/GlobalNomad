@@ -10,20 +10,20 @@ import Pagination from '@/components/mainpage/Pagination';
 const OFFSET_LIMIT = 16;
 
 const SearchResultPage = () => {
-  const [currenData, setCurrentData] = useState<ActivityInfo[]>([]);
+  const [searchResult, setSearchResult] = useState<ActivityInfo[]>([]);
   const [count, setCount] = useState(1);
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
 
   const handlePageActivity = async (pageNum: number, size: number) => {
     const { activities } = await getSearchResult(keyword as string, pageNum, size);
-    setCurrentData(activities);
+    setSearchResult(activities);
   };
 
   useEffect(() => {
     const fetchPageData = async () => {
       const data = await getSearchResult(keyword as string, 0, OFFSET_LIMIT);
-      setCurrentData(data.activities);
+      setSearchResult(data.activities);
       setCount(data.totalCount);
     };
     fetchPageData();
@@ -45,7 +45,7 @@ const SearchResultPage = () => {
           {count ? (
             <>
               <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
-                {currenData.map((activity) => (
+                {searchResult.map((activity) => (
                   <ActivityCard key={activity.id} cardData={activity} />
                 ))}
               </div>
@@ -56,7 +56,7 @@ const SearchResultPage = () => {
               />
             </>
           ) : (
-            <div>데이터가 없습니다.</div>
+            <div className="flex justify-center items-center">데이터가 없습니다.</div>
           )}
         </div>
       </div>
