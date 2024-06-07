@@ -57,7 +57,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         Toast.success('예약이 되었습니다.');
       }
     } catch (error: any) {
-      const errorMessage = error.toString();
+      const errorMessage = error.response?.data?.message.toString() || 'An error occureed';
       Toast.error(errorMessage);
     }
   };
@@ -69,22 +69,22 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     const { selectedYMD, selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
     const fetchAvailableTimes = async () => {
-      const availableScheduleData = await getAvailableSchdule({
-        id,
-        selectedYear,
-        selectedMonth,
-      });
-      setAvailableTimes(availableScheduleData);
+      try {
+        const availableScheduleData = await getAvailableSchdule({
+          id,
+          selectedYear,
+          selectedMonth,
+        });
+        setAvailableTimes(availableScheduleData);
+      } catch (error) {
+        console.error('Failed to fetch available times');
+      }
     };
     fetchAvailableTimes();
   }, [selectedDate]);
 
   useEffect(() => {
-    if (attendeeCount < 2) {
-      setIsReduceDisabled(true);
-    } else {
-      setIsReduceDisabled(false);
-    }
+    setIsReduceDisabled(attendeeCount < 2);
     setTotalPrice(price * attendeeCount);
   }, [attendeeCount]);
 

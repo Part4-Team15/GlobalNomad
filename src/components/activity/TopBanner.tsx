@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { ActivityType, SubImage } from '@/types/activityPage';
 import deleteMyActivity from '@/api/deleteMyActivity';
 import Toast from '@/utils/Toast';
+import getUserInfo from '@/api/getUserInfo';
+import { useQuery } from '@tanstack/react-query';
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
@@ -43,7 +45,13 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
 };
 
 const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
-  const { id, title, category, rating, address, reviewCount, bannerImageUrl, subImages } = activity;
+  const { id, userId, title, category, rating, address, reviewCount, bannerImageUrl, subImages } =
+    activity;
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserInfo,
+  });
 
   const navigate = useNavigate();
 
@@ -56,6 +64,14 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
       Toast.error(errorMessage);
     }
   };
+
+  if (isLoading) {
+    return <div>유저 정보를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !data) {
+    return <div>유저 정보를 불러오는데 실패했습니다</div>;
+  }
 
   return (
     <div className="w-full">
@@ -72,18 +88,20 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
             <img src="/assets/location_icon.svg" alt="location icon" />
             <span className="text-gray-80">{address}</span>
           </div>
-          <CustomKebabMenu
-            options={[
-              {
-                label: '수정하기',
-                onClick: () =>
-                  navigate('/my-activity/modify', {
-                    state: { ...activity },
-                  }),
-              },
-              { label: '삭제하기', onClick: handleDeleteActivity },
-            ]}
-          />
+          {data.id === userId && (
+            <CustomKebabMenu
+              options={[
+                {
+                  label: '수정하기',
+                  onClick: () =>
+                    navigate('/my-activity/modify', {
+                      state: { ...activity },
+                    }),
+                },
+                { label: '삭제하기', onClick: handleDeleteActivity },
+              ]}
+            />
+          )}
         </div>
       </div>
       {/* Banner Images */}

@@ -24,8 +24,8 @@ const postActivityReservation = async ({
     const response = await axiosInstance.post(`/activities/${id}/reservations`, requestBody);
     return response.data;
   } catch (error) {
-    if (error instanceof AxiosError && error.response) {
-      throw error.response.data.message;
+    if (error instanceof AxiosError) {
+      throw error;
     } else {
       console.error('An unexpected error occurred:', error);
       throw error;
