@@ -6,8 +6,7 @@ import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import MainBanner from '@/components/mainpage/MainBanner';
 import Pagination from '@/components/mainpage/Pagination';
-
-const OFFSET_LIMIT = 16;
+import { SEARCH_OFFSET_LIMIT } from '@/constants/pagination_config';
 
 const SearchResultPage = () => {
   const [searchResult, setSearchResult] = useState<ActivityInfo[]>([]);
@@ -22,7 +21,7 @@ const SearchResultPage = () => {
 
   useEffect(() => {
     const fetchPageData = async () => {
-      const data = await getSearchResult(keyword as string, 0, OFFSET_LIMIT);
+      const data = await getSearchResult(keyword as string, 0, SEARCH_OFFSET_LIMIT);
       setSearchResult(data.activities);
       setCount(data.totalCount);
     };
@@ -51,7 +50,7 @@ const SearchResultPage = () => {
               </div>
               <Pagination
                 totalCount={count}
-                offsetLimit={OFFSET_LIMIT}
+                offsetLimit={SEARCH_OFFSET_LIMIT}
                 setActivityList={handlePageActivity}
               />
             </>

@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import getActivityReviews from '@/api/getActivityReviews';
+import getFirstPageReviews from '@/api/getFirstPageReviews';
 import { ActivityReviewsType, Review } from '@/types/activityPage';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
-import getFirstPageReviews from '@/api/getFirstPageReviews';
+import { OFFSET_LIMIT } from '@/constants/pagination_config';
 import Pagination from '../mainpage/Pagination';
-
-const OFFSET_LIMIT = 8;
 
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
