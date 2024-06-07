@@ -28,7 +28,7 @@ const ReservationDate = () => {
         <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
           <input
             className="w-[100%] outline-none"
-            placeholder="YY/MM/DD"
+            placeholder="YYYY-MM-DD"
             value={selectedDate}
             readOnly
           />
