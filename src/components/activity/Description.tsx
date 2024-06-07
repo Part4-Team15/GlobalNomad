@@ -6,7 +6,7 @@ interface DescriptionProps {
 }
 
 const Description: React.FC<DescriptionProps> = ({ activity }) => {
-  const { address: location, description } = activity;
+  const { address, description } = activity;
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -14,7 +14,7 @@ const Description: React.FC<DescriptionProps> = ({ activity }) => {
       <h2 className="text-xl font-bold pt-6">체험 설명</h2>
       <p className="text-base font-normal text-gray-80 pb-6">{description}</p>
       <div className="w-full h-[1px] bg-gray-40" />
-      <Map location={location} />
+      <Map location={address} />
       <div className="w-full h-[1px] bg-gray-40" />
     </div>
   );
