@@ -36,12 +36,12 @@ const PopularActivityList = () => {
   }, []);
 
   return (
-    <div className="mt-10 mb-[60px]">
+    <div className="mt-10 mb-[60px] sm:mt-6 sm:mb-10">
       <div className="flex justify-between">
-        <div className="text-4xl font-bold mb-[33px]">🔥인기 체험</div>
+        <div className="text-4xl font-bold mb-8 sm:text-lg sm:mb-6">🔥인기 체험</div>
         <PopularActivityButton onLeftClick={handleLeftClick} onRightClick={handleRightClick} />
       </div>
-      <div className="grid grid-cols-3 gap-6 w-pc">
+      <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
         {pageActivityList.map((info) => (
           <PopularActivityCard key={info.id} cardData={info} />
         ))}
