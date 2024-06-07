@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { ModifyData } from '@/types/modifyActivityPage';
 import { Category } from '@/types/category';
+import mergeModifyData from './utils/mergeModifyData';
 import CategoryDropDown from './dropDown/CategoryDropDown';
 
-const AssignCategory = () => {
+interface ModifyCategoryProps {
+  category: string;
+}
+
+const ModifyCategory = ({ category }: ModifyCategoryProps) => {
+  const queryClient = useQueryClient();
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<Category | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(category);
+
+  // 리액트 쿼리 초기값 설정
+  useEffect(() => {
+    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      return mergeModifyData(oldData, { category });
+    });
+  }, []);
 
   const handleDropDown = () => {
     setIsDropDown(!isDropDown);
@@ -36,4 +51,4 @@ const AssignCategory = () => {
   );
 };
 
-export default AssignCategory;
+export default ModifyCategory;

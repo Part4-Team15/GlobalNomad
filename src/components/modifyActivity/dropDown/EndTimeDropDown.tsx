@@ -6,10 +6,9 @@ interface EndTimeProps {
 }
 
 const EndTimeDropDown = ({ onSelect }: EndTimeProps) => {
-  const { data: startTime = '' } = useQuery<string>({
-    queryKey: ['assign/StartTime'],
+  const { data: reservationStartTime } = useQuery({
+    queryKey: ['modifyData/Schedule/StartTime'],
   });
-
   const reservationTime = [
     { endTime: '10:00' },
     { endTime: '11:00' },
@@ -28,7 +27,7 @@ const EndTimeDropDown = ({ onSelect }: EndTimeProps) => {
     return date;
   };
 
-  const startTimeDate = parseTime(startTime);
+  const startTimeDate = parseTime(reservationStartTime as string);
 
   const filteredTimes = reservationTime.filter(({ endTime }) => {
     const endTimeDate = parseTime(endTime);
