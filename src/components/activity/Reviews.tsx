@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import getActivityReviews from '@/api/getActivityReviews';
 import getFirstPageReviews from '@/api/getFirstPageReviews';
 import { ActivityReviewsType, Review } from '@/types/activityPage';
@@ -11,43 +12,24 @@ import Pagination from '../mainpage/Pagination';
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [reviewData, setReviewData] = useState<ActivityReviewsType>({
-    reviews: [
-      {
-        id: 0,
-        user: {
-          id: 0,
-          nickname: '',
-          profileImageUrl: '',
-        },
-        activityId: 0,
-        content: '',
-        rating: 0,
-        createdAt: '',
-        updatedAt: '',
-      },
-    ],
-    totalCount: 0,
-    averageRating: 0,
+  const {
+    data: reviewData,
+    isLoading,
+    isError,
+  } = useQuery<ActivityReviewsType>({
+    queryKey: ['reviews', id],
+    queryFn: () => getFirstPageReviews(Number(id)),
+    enabled: !!id,
   });
   const [currentReviews, setCurrentReviews] = useState<Review[]>();
-  const [count, setCount] = useState<number>(1);
 
   useEffect(() => {
-    if (!id) {
-      return;
-    }
-
-    const getReviews = async () => {
+    const getFirstReviews = async () => {
       const data = await getFirstPageReviews(Number(id));
-      setReviewData(data);
       setCurrentReviews(data.reviews);
-      setCount(data.totalCount);
     };
-    getReviews();
+    getFirstReviews();
   }, []);
-
-  const { averageRating, totalCount } = reviewData;
 
   const handlePageData = async (pageNum: number, size: number) => {
     try {
@@ -57,6 +39,16 @@ const Reviews = () => {
       console.error(error);
     }
   };
+
+  if (isLoading) {
+    return <div>후기를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !reviewData) {
+    return <div>후기 정보를 불러오는 중 오류가 발생했습니다</div>;
+  }
+
+  const { averageRating, totalCount } = reviewData;
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -84,7 +76,7 @@ const Reviews = () => {
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
                     <div
-                      className="w-1/6 h-8 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+                      className="w-1/12 h-10 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
                       style={{
                         backgroundImage: `url(${review.user.profileImageUrl})`,
                         backgroundColor: '#E3E5E8',
@@ -109,7 +101,7 @@ const Reviews = () => {
             ))}
           </div>
           <Pagination
-            totalCount={count}
+            totalCount={totalCount}
             offsetLimit={OFFSET_LIMIT}
             setActivityList={handlePageData}
           />
