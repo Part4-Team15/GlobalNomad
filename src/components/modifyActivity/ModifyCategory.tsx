@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { ModifyData } from '@/types/modifyActivityPage';
+import { Category } from '@/types/category';
 import mergeModifyData from './utils/mergeModifyData';
-import CategoryDropDown, { Category } from './dropDown/CategoryDropDown';
+import CategoryDropDown from './dropDown/CategoryDropDown';
 
 interface ModifyCategoryProps {
   category: string;

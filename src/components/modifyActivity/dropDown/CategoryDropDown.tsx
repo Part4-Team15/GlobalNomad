@@ -1,15 +1,12 @@
 import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { ModifyData } from '@/types/modifyActivityPage';
+import { Category, CATEGORIES } from '@/types/category';
 import mergeModifyData from '../utils/mergeModifyData';
 
 interface CategoryProps {
   onSelect: (value: Category) => void;
 }
-
-// 카테고리 타입 정의
-const CATEGORIES = ['문화 · 예술', '식음료', '스포츠', '투어', '관광', '웰빙'] as const;
-export type Category = (typeof CATEGORIES)[number];
 
 const CategoryDropDown = ({ onSelect }: CategoryProps) => {
   const queryClient = useQueryClient();
