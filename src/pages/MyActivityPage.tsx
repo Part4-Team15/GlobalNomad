@@ -3,7 +3,7 @@ import ReservationCard, { Activity } from '@/components/myActivity/ReservationCa
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NoReservation from '@/components/myreservation/NoReservation';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import getMyActivity from '@/api/getMyActivity';
 import { useInView } from 'react-intersection-observer';
 
@@ -15,6 +15,7 @@ interface ApiResponse {
 
 const MyActivityPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: ['activities'],
     queryFn: getMyActivity,
@@ -36,9 +37,8 @@ const MyActivityPage = () => {
     navigate('/my-activity/assign');
   };
 
-  const handleDeleteActivity = (id: number) => {
-    // const updatedActivities = activities.filter((activity) => activity.id !== id);
-    // setActivities(updatedActivities);
+  const handleDeleteActivity = async (id: number) => {
+    await queryClient.invalidateQueries({ queryKey: ['activities'] });
   };
 
   return (
@@ -65,7 +65,7 @@ const MyActivityPage = () => {
                   <ReservationCard
                     key={activity.id}
                     activity={activity}
-                    onDelete={handleDeleteActivity}
+                    onDelete={() => handleDeleteActivity(activity.id)}
                   />
                 ))}
               </ul>
