@@ -33,7 +33,7 @@ const SearchResultPage = () => {
     <div>
       <MainBanner />
       <div className="flex flex-col items-center">
-        <div className="w-pc mb-32">
+        <div className="w-pc mb-32 md:w-tab sm:w-mob">
           <ActivitySearch />
           <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-[60px]">
             <div className="text-[2rem]">
