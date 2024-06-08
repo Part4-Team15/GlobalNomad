@@ -37,7 +37,6 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ onSelect }) => {
             value={selectedDate}
           />
         </StyledReserveCalendarWrapper>
-        <span>선택한 날짜 : {formatDate(selectedDate)}</span>
       </div>
     </div>
   );

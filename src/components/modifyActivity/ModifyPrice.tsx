@@ -31,6 +31,7 @@ const ModifyPrice = ({ price }: ModifyPriceProps) => {
       <span className=" text-black text-2xl font-bold">가격</span>
       <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
         <input
+          type="number"
           className="w-[100%] outline-none"
           value={localPrice}
           onChange={handleChangePrice}
