@@ -1,5 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import getMyNotification from '@/api/getMyNotofication';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 import NotificationDropdownItem from './NotificationDropdownItem';
 
 interface Notifications {
@@ -19,7 +21,7 @@ interface NotificationDataType {
 }
 
 const NotificationDropdown = () => {
-  const { data } = useInfiniteQuery<NotificationDataType>({
+  const { data, fetchNextPage } = useInfiniteQuery<NotificationDataType>({
     queryKey: ['notifications'],
     queryFn: getMyNotification,
     initialPageParam: 0,
@@ -28,7 +30,13 @@ const NotificationDropdown = () => {
   const totalCount = data?.pages[0]?.totalCount || 0;
   const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 
-  console.log(data);
+  const { inView, ref } = useInView();
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
+
   return (
     <div className="flex flex-col absolute top-12 right-12 z-20 w-[368px] rounded-md bg-green-10 shadow-md border-1 py-6 px-4 gap-3 h-[300px] overflow-y-auto">
       <div className="w-full flex justify-between">
@@ -44,6 +52,7 @@ const NotificationDropdown = () => {
           />
         );
       })}
+      <div ref={ref} className="w-[5px] h-[5px]" />
     </div>
   );
 };

@@ -52,6 +52,7 @@ const NotificationDropdownItem = ({
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,
   });
+
   //   const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 
   const reservationStatus = content.slice(content.length - 8, content.length - 6);
