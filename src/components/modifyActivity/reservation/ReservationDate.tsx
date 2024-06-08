@@ -24,7 +24,7 @@ const ReservationDate = () => {
   return (
     <div className=" w-[100%] relative">
       <div className="flex w-[100%] flex-col">
-        <span>날짜</span>
+        <label>날짜</label>
         <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
           <input
             className="w-[100%] outline-none"
