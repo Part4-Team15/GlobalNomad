@@ -26,7 +26,7 @@ interface ReservationListProps {
 
 const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['reservations', status],
+    queryKey: ['reservations', 4, status],
     queryFn: getMyReservation,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,

@@ -1,14 +1,12 @@
 import axiosInstance from '@/lib/axiosInstance';
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-const getMyReservation = async ({
-  queryKey,
-  pageParam,
-}: QueryFunctionContext): Promise<any> => {
-  const [, status] = queryKey;
+const getMyReservation = async ({ queryKey, pageParam }: QueryFunctionContext): Promise<any> => {
+  const [, size, status] = queryKey;
   const cursorParam = pageParam ? `&cursorId=${pageParam}` : '';
+  const dataSize = size ? `?size=${size}` : '';
   const response = await axiosInstance.get(
-    `/my-reservations?size=4${status ? `&status=${status}` : ''}${cursorParam}`,
+    `/my-reservations${dataSize}${status ? `&status=${status}` : ''}${cursorParam}`,
   );
   return response.data;
 };
