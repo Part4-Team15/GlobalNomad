@@ -230,16 +230,16 @@ Content-Type: application/json
 # }
 
 
-## Book an Activity
-# POST https://sp-globalnomad-api.vercel.app/4-15/activities/956/reservations
-# Content-Type: application/json
-# Accept: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjA4MTcwLCJleHAiOjE3MTcyMDk5NzAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.CFvOjTCel8nCCjpHe-n6kTCNNkkCR_N2ss0sKSMIyD8
+# Book an Activity
+POST https://sp-globalnomad-api.vercel.app/4-15/activities/956/reservations
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwLCJ0ZWFtSWQiOiI0LTE1IiwiaWF0IjoxNzE3MjA4MTcwLCJleHAiOjE3MTcyMDk5NzAsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.CFvOjTCel8nCCjpHe-n6kTCNNkkCR_N2ss0sKSMIyD8
 
-# {
-#   "scheduleId": 3386,
-#   "headCount": 1
-# }
+{
+  "scheduleId": 3386,
+  "headCount": 1
+}
 
 # -- 응답
 # {

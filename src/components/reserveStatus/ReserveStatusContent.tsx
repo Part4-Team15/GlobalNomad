@@ -1,16 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
 import getMyActivity from '@/api/getMyActivity';
-import React, { useEffect, useState } from 'react';
-import getReservationYearAndMonth from '@/api/getReservationYearAndMonth';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import Calendar from 'react-calendar';
 import moment from 'moment';
+import getReservationYearAndMonth from '@/api/getReservationYearAndMonth';
 import ActivityDropDownBox from './ActivityDropDownBox';
-import 'react-calendar/dist/Calendar.css';
+import ActivityDropDown from './ActivityDropDown';
 import PendingTileBlock from './PendingTileBlock';
+import ConfimedTileBlock from './ConfirmedTileBlock';
 import CompletedTileBlock from './CompletedTileBlock';
-import ComfimedTileBlock from './ComfirmedTileBlock';
+import ReservationModal from './reservationModal/ReservationModal';
 
-interface ReservationType {
+interface ReservationData {
   date: string;
   reservations: {
     completed: number;
@@ -21,98 +23,101 @@ interface ReservationType {
 
 interface Activity {
   id: number;
+  userId: number;
   title: string;
   description: string;
   category: string;
   price: number;
-  rating: number;
-  reviewCount: number;
   address: string;
   bannerImageUrl: string;
+  rating: number;
+  reviewCount: number;
   createdAt: string;
   updatedAt: string;
-  userId: number;
 }
 
 interface ActivityData {
   activities: Activity[];
+  totalCount: number;
+  cursorId: number;
 }
-
-interface MonthInfo {
-  year: string;
-  month: string;
-}
-
 const ReserveStatusContent = () => {
-  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
-  const [activeMonth, setActiveMonth] = useState<MonthInfo>({
-    year: moment().format('YYYY'),
-    month: moment().format('MM'),
+  const currentDate = moment();
+  // 달력에서 선택된 날짜를 저장하는 state
+  const [selectedDate, setSelectedDate] = useState<{
+    year: string;
+    month: string;
+    day: string | null;
+  }>({
+    year: currentDate.format('YYYY'),
+    month: currentDate.format('MM'),
+    day: null,
   });
-  const { data, isLoading, error } = useQuery<ActivityData>({
-    queryKey: ['myActivity'],
+  // 드롭다운 state
+  const [viewActivityDropDown, setViewActivityDropDown] = useState<boolean>(false);
+
+  // 모달state
+  const [viewReservationModal, setViewReservationModal] = useState<boolean>(false);
+
+  // 선택된 activity state
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+
+  // useInfiniteQuery를 사용해 무한 스크롤 구현
+  const { data: activityData, fetchNextPage } = useInfiniteQuery<ActivityData>({
+    queryKey: ['activity', 7],
     queryFn: getMyActivity,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.cursorId,
   });
 
+  // 년도와 월을 이용해 예약 목록을 불러오는 함수
   const { data: reservationData } = useQuery({
-    queryKey: ['reservationTimeTable', selectedActivity?.id, activeMonth.year, activeMonth.month],
+    queryKey: ['reservationTimeTable', selectedActivity?.id, selectedDate.year, selectedDate.month],
     queryFn: getReservationYearAndMonth,
   });
+  const activities = activityData?.pages.flatMap((page) => page.activities) || [];
+  useEffect(() => {
+    // activities가 존재할때 첫 번째 원소를 selectedActivity에 설정
+    if (activities.length > 0 && !selectedActivity) {
+      setSelectedActivity(activities[0]);
+    }
+  }, [activities, selectedActivity]);
 
-  const getActiveMonth = (activeStartDate: Date) => {
-    const activeYearMonth = {
+  const { inView, ref } = useInView();
+  const getActiveMonth = (activeStartDate: moment.MomentInput) => {
+    const changeDate = {
       year: moment(activeStartDate).format('YYYY'),
       month: moment(activeStartDate).format('MM'),
+      day: null,
     };
-    console.log('Active Year-Month:', activeYearMonth);
-    setActiveMonth(activeYearMonth);
+    setSelectedDate(changeDate);
   };
-
-  useEffect(() => {
-    if (data && data.activities && data.activities.length > 0) {
-      setSelectedActivity(data.activities[0]);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    const currentDate = new Date();
-    const initialYearMonth = {
-      year: moment(currentDate).format('YYYY'),
-      month: moment(currentDate).format('MM'),
-    };
-    setActiveMonth(initialYearMonth);
-    console.log('Initial Year-Month:', initialYearMonth);
-  }, []);
-
-  if (isLoading) {
-    return <div>데이터 불러오는중</div>;
-  }
-
-  if (error) {
-    return <div>Error loading data</div>;
-  }
-
-  console.log(reservationData);
-  // 타일의 내용을 커스터마이즈하는 함수
+  const onClickCalendarTile = (date: Date) => {
+    setSelectedDate((prev) => ({
+      ...prev,
+      day: moment(date).format('DD'),
+    }));
+    setViewReservationModal(true);
+  };
   const tileContent = ({ date }: { date: Date }) => {
     // 일치하는 날짜가 없는 경우 빈 문자열 반환
     if (!reservationData) return '';
 
     // 예약 데이터에서 해당 날짜의 정보 가져오기
     const matchedReservation = reservationData.find(
-      (item: ReservationType) => item.date === moment(date).format('YYYY-MM-DD'),
+      (item: ReservationData) => item.date === moment(date).format('YYYY-MM-DD'),
     );
 
     // 해당 날짜에 예약 정보가 있는 경우 각 상태의 개수를 표시
     if (matchedReservation) {
       const { completed, confirmed, pending } = matchedReservation.reservations;
       return (
-        <div>
+        <div onClick={() => onClickCalendarTile(date)}>
           {pending !== 0 && <PendingTileBlock count={pending} />}
           <br />
           {completed !== 0 && <CompletedTileBlock count={completed} />}
           <br />
-          {confirmed !== 0 && <ComfimedTileBlock count={confirmed} />}
+          {confirmed !== 0 && <ConfimedTileBlock count={confirmed} />}
           <br />
         </div>
       );
@@ -122,30 +127,45 @@ const ReserveStatusContent = () => {
   };
 
   return (
-    <div className="w-[800px]">
-      <div className="flex flex-col gap-8">
-        <div className="text-[32px] font-bold">예약 현황</div>
-        <ActivityDropDownBox
-          setSelectedActivity={setSelectedActivity}
-          activities={data?.activities}
-          selectedActivity={selectedActivity}
-        />
-      </div>
-      {selectedActivity && <div>{selectedActivity.title}</div>}
+    <div className="w-[800px] relative">
+      <h1 className="text-[32px] font-bold text-black mb-8">예약 현황</h1>
+      {/* 드롭다운 박스에 선택된 activity title 표시 */}
+      <ActivityDropDownBox
+        selectedActivityTitle={selectedActivity ? selectedActivity?.title : ''}
+        setViewActivityDropDown={setViewActivityDropDown}
+      />
+
+      {/* 전체 Activity 드롭다운으로 표시 */}
+      {viewActivityDropDown && (
+        <div className="absolute w-[800px] ">
+          <ActivityDropDown
+            activities={activities}
+            inView={inView}
+            fetchNextPage={fetchNextPage}
+            ref={ref}
+            setViewActivityDropDown={setViewActivityDropDown}
+            viewActivityDropDown={viewActivityDropDown}
+            setSelectedActivity={setSelectedActivity}
+          />
+        </div>
+      )}
       <Calendar
         className="w-full p-0"
         locale="ko"
         formatShortWeekday={(locale, date) =>
           ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]}
-        formatDay={(locale, date) => moment(date).format('DD')}
         calendarType="hebrew"
-        onActiveStartDateChange={(datas) => {
-          if (datas.activeStartDate) {
-            getActiveMonth(datas.activeStartDate);
-          }
-        }}
+        onActiveStartDateChange={({ activeStartDate }) => getActiveMonth(activeStartDate)}
         tileContent={tileContent}
       />
+      {viewReservationModal && selectedActivity && (
+        <ReservationModal
+          setViewReservationModal={setViewReservationModal}
+          selectedDate={selectedDate}
+          activitiyId={selectedActivity.id}
+          viewReservationModal={viewReservationModal}
+        />
+      )}
     </div>
   );
 };
