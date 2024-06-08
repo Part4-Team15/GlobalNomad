@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
@@ -46,6 +46,12 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     },
     enabled: !!id,
   });
+
+  // 예약 가능한 날짜 배열
+  const availableDates = useMemo(() => {
+    if (!availableTimes) return [];
+    return availableTimes.map((date) => date.date);
+  }, [availableTimes]);
 
   const handleDateChange = (newDate: SelectedDate) => {
     setSelectedDate(newDate);
@@ -99,6 +105,14 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     return <div>예약 가능한 시간을 불러오는 중 오류가 발생했습니다.</div>;
   }
 
+  // 예약 가능한 시간 className 지정
+  const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    if (view === 'month' && availableDates.includes(moment(date).format('YYYY-MM-DD'))) {
+      return 'available';
+    }
+    return null;
+  };
+
   return (
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
       <div className="flex flex-col gap-4 p-4">
@@ -111,6 +125,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         <div className="font-bold text-xl">날짜</div>
         <StyledReserveCalendarWrapper>
           <Calendar
+            tileClassName={tileClassName}
             onChange={handleDateChange}
             value={selectedDate}
             calendarType="gregory"

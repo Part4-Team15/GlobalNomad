@@ -84,6 +84,10 @@ export const StyledReserveCalendarWrapper = styled.div`
     background-color: #ced8d5;
     color: #0b3b2d;
   }
+
+  .react-calendar__tile.available {
+    border: 2px solid #0b3b2d;
+  }
 `;
 
 export const StyledCalendar = styled(Calendar)<StyledCalendarProps>``;
