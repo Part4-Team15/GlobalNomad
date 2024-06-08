@@ -11,7 +11,11 @@ const ReservationDate = () => {
 
   // 날짜 모달
   const handleCalendar = () => {
-    setIsOpenCalendar(!isOpenCalendar);
+    setIsOpenCalendar(true);
+  };
+
+  const handleCloseCalendar = () => {
+    setIsOpenCalendar(false);
   };
 
   const handleDateSelect = (date: string) => {
@@ -35,7 +39,9 @@ const ReservationDate = () => {
           </button>
         </div>
       </div>
-      {isOpenCalendar && <CalendarModal onSelect={handleDateSelect} />}
+      {isOpenCalendar && (
+        <CalendarModal onSelect={handleDateSelect} onClose={handleCloseCalendar} />
+      )}
     </div>
   );
 };
