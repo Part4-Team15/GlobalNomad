@@ -6,10 +6,16 @@ import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
 import getActivity from '@/api/getActivity';
 import { ActivityType } from '@/types/activityPage';
+import getUserInfo from '@/api/getUserInfo';
+import { useQuery } from '@tanstack/react-query';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserInfo,
+  });
 
   const [activity, setActivity] = useState<ActivityType>({
     id: 0,
@@ -47,18 +53,35 @@ const ActivityPage = () => {
     fetchActivity();
   }, [id]);
 
+  if (isLoading) {
+    return <div>프로필을 불러오고 있습니다</div>;
+  }
+
+  if (isError || !data) {
+    return <div>프로필을 불러오는데 실패했습니다</div>;
+  }
+
   return (
     <div className="flex flex-col justify-center items-center w-screen">
       <div className="w-[1200px] flex-col flex justify-center items-center gap-20 mb-40">
         <TopBanner activity={activity} />
         <div className="flex w-full gap-6">
-          <div className="flex w-2/3 flex-col">
-            <Description activity={activity} />
-            <Reviews />
-          </div>
-          <div className="w-1/3">
-            <ReserveForm activity={activity} />
-          </div>
+          {activity.userId === data.id ? (
+            <div className="flex w-full flex-col">
+              <Description activity={activity} />
+              <Reviews />
+            </div>
+          ) : (
+            <>
+              <div className="flex w-2/3 flex-col">
+                <Description activity={activity} />
+                <Reviews />
+              </div>
+              <div className="w-1/3">
+                <ReserveForm activity={activity} />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

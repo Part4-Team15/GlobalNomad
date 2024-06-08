@@ -7,7 +7,7 @@ const MainPage = () => (
   <>
     <MainBanner />
     <div className="flex flex-col items-center">
-      <div className="w-pc mb-32">
+      <div className="w-pc mb-32 md:w-tab sm:w-mob">
         <ActivitySearch />
         <PopularActivityList />
         <ActivityCardList />

@@ -2,12 +2,13 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
-import '@/styles/tailwind-calendar.css';
 import priceToWon from '@/utils/priceToWon';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
 import { useParams } from 'react-router-dom';
 import { ActivityType, AvailableTimesType } from '@/types/activityPage';
 import postActivityReservation from '@/api/postActivityReservation';
+import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
+import Toast from '@/utils/Toast';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -48,16 +49,16 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const handleSubmit = async () => {
     try {
       if (!selectedTimeId) {
-        console.error('예약 가능한 시간을 선택해주세요.');
+        Toast.error('예약 가능한 시간을 선택해주세요.');
         return;
       }
       if (typeof id === 'string') {
-        console.log(selectedTimeId);
-        console.log(attendeeCount);
-        postActivityReservation({ selectedTimeId, attendeeCount, id });
+        await postActivityReservation({ selectedTimeId, attendeeCount, id });
+        Toast.success('예약이 되었습니다.');
       }
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message.toString() || 'An error occureed';
+      Toast.error(errorMessage);
     }
   };
 
@@ -68,22 +69,22 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     const { selectedYMD, selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
     const fetchAvailableTimes = async () => {
-      const availableScheduleData = await getAvailableSchdule({
-        id,
-        selectedYear,
-        selectedMonth,
-      });
-      setAvailableTimes(availableScheduleData);
+      try {
+        const availableScheduleData = await getAvailableSchdule({
+          id,
+          selectedYear,
+          selectedMonth,
+        });
+        setAvailableTimes(availableScheduleData);
+      } catch (error) {
+        console.error('Failed to fetch available times');
+      }
     };
     fetchAvailableTimes();
   }, [selectedDate]);
 
   useEffect(() => {
-    if (attendeeCount < 2) {
-      setIsReduceDisabled(true);
-    } else {
-      setIsReduceDisabled(false);
-    }
+    setIsReduceDisabled(attendeeCount < 2);
     setTotalPrice(price * attendeeCount);
   }, [attendeeCount]);
 
@@ -97,21 +98,21 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         <div className="w-full h-[1px] bg-gray-40" />
         {/* 예약 현황 캘린더 */}
         <div className="font-bold text-xl">날짜</div>
-        <Calendar
-          className="react-calendar w-full"
-          tileClassName=""
-          onChange={handleDateChange}
-          value={selectedDate}
-          calendarType="gregory"
-          formatDay={(__, date) => moment(date).format('D')}
-          formatMonthYear={(__, date) => moment(date).format('MMMM YYYY')}
-          formatShortWeekday={(__, date) => moment(date).format('ddd')}
-          showNeighboringMonth={false}
-          minDetail="month"
-          minDate={new Date()}
-          next2Label={null}
-          prev2Label={null}
-        />
+        <StyledReserveCalendarWrapper>
+          <Calendar
+            onChange={handleDateChange}
+            value={selectedDate}
+            calendarType="gregory"
+            formatDay={(__, date) => moment(date).format('D')}
+            formatMonthYear={(__, date) => moment(date).format('MMMM YYYY')}
+            formatShortWeekday={(__, date) => moment(date).format('ddd')}
+            showNeighboringMonth={false}
+            minDetail="month"
+            minDate={new Date()}
+            next2Label={null}
+            prev2Label={null}
+          />
+        </StyledReserveCalendarWrapper>
         <div className="font-bold text-lg">예약 가능한 시간</div>
         {/* 예약 시간 선택 */}
         <div className="flex flex-wrap gap-2">

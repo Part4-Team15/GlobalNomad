@@ -7,7 +7,7 @@ interface UploadImageState {
 
 const useUploadImageStore = create<UploadImageState>((set) => ({
   uploadedImage: null,
-  setUploadedImage: (imageUrl) => set({ uploadedImage: imageUrl }),
+  setUploadedImage: (imageUrl: string | null) => set({ uploadedImage: imageUrl }),
 }));
 
 export default useUploadImageStore;

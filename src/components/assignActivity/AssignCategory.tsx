@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import CategoryDropDown, { Category } from './dropDown/CategoryDropDown';
+import { Category } from '@/types/category';
+import CategoryDropDown from './dropDown/CategoryDropDown';
 
 const AssignCategory = () => {
   const [isDropDown, setIsDropDown] = useState<boolean>(false);

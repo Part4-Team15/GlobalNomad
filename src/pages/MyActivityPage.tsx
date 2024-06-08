@@ -1,9 +1,11 @@
 import Profile from '@/components/common/profile/Profile';
 import ReservationCard, { Activity } from '@/components/myActivity/ReservationCard';
-import { useEffect, useState } from 'react';
-import axiosInstance from '@/lib/axiosInstance';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import NoReservation from '@/components/myreservation/NoReservation';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import getMyActivity from '@/api/getMyActivity';
+import { useInView } from 'react-intersection-observer';
 interface ApiResponse {
   cursorId: number;
   totalCount: number;
@@ -12,24 +14,39 @@ interface ApiResponse {
 
 const MyActivityPage = () => {
   const navigate = useNavigate();
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const queryClient = useQueryClient();
+  const { data, fetchNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ['activities'],
+    queryFn: getMyActivity,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.cursorId,
+  });
+
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await axiosInstance.get<ApiResponse>('/my-activities');
-        setActivities(response.data.activities);
-      } catch (error) {
-        console.error('Error fetching activities:', error);
-      }
-    };
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
-    fetchActivities();
-  }, []);
+  const activities = data?.pages.flatMap((page) => page.activities) || [];
 
   const handleAssignClick = () => {
     navigate('/my-activity/assign');
   };
+
+  const handleDeleteActivity = async (id: number) => {
+    await queryClient.invalidateQueries({ queryKey: ['activities'] });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <img src="/assets/spinner.svg" alt="loding_spinner" />
+      </div>
+    );
+  }
 
   return (
     <section className=" bg-gray-10 px-4 py-16">
@@ -49,11 +66,27 @@ const MyActivityPage = () => {
           </div>
           {/* 체험 리스트 */}
           <section className="w-full">
-            <ul className="flex flex-col gap-6">
-              {activities.map((activity) => (
-                <ReservationCard key={activity.id} activity={activity} />
-              ))}
-            </ul>
+            {activities.length !== 0 ? (
+              <>
+                <ul className="flex flex-col gap-6">
+                  {activities.map((activity) => (
+                    <ReservationCard
+                      key={activity.id}
+                      activity={activity}
+                      onDelete={() => handleDeleteActivity(activity.id)}
+                    />
+                  ))}
+                </ul>
+                {isFetchingNextPage && (
+                  <div className="flex justify-center items-center">
+                    <img src="/assets/spinner.svg" alt="loding_spinner" />
+                  </div>
+                )}
+              </>
+            ) : (
+              <NoReservation />
+            )}
+            <div ref={ref} className="h-[10px]" />
           </section>
         </div>
       </div>
