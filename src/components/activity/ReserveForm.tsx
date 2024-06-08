@@ -4,11 +4,12 @@ import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ActivityType, AvailableTimesType } from '@/types/activityPage';
 import postActivityReservation from '@/api/postActivityReservation';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import Toast from '@/utils/Toast';
+import { useQuery } from '@tanstack/react-query';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -19,15 +20,32 @@ type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
 const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { price } = activity;
 
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
-  const [availableTimes, setAvailableTimes] = useState<AvailableTimesType[] | null>(null);
   const [attendeeCount, setAttendeeCount] = useState<number>(1);
   const [isReduceDisabled, setIsReduceDisabled] = useState<boolean>(true);
   const [totalPrice, setTotalPrice] = useState<number>(price);
   const [selectedTimeId, setSelectedTimeId] = useState<number>();
+
+  const {
+    data: availableTimes,
+    isLoading,
+    isError,
+  } = useQuery<AvailableTimesType[]>({
+    queryKey: ['availableTimes', id],
+    queryFn: () => {
+      const { selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
+      return getAvailableSchdule({
+        id: id!,
+        selectedYear,
+        selectedMonth,
+      });
+    },
+    enabled: !!id,
+  });
 
   const handleDateChange = (newDate: SelectedDate) => {
     setSelectedDate(newDate);
@@ -55,6 +73,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
       if (typeof id === 'string') {
         await postActivityReservation({ selectedTimeId, attendeeCount, id });
         Toast.success('예약이 되었습니다.');
+        navigate('/');
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.message.toString() || 'An error occureed';
@@ -63,30 +82,22 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   };
 
   useEffect(() => {
-    if (!id) {
-      return;
-    }
-    const { selectedYMD, selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
+    const { selectedYMD } = getMonthAndYear(selectedDate);
     setYearMonthDay(selectedYMD);
-    const fetchAvailableTimes = async () => {
-      try {
-        const availableScheduleData = await getAvailableSchdule({
-          id,
-          selectedYear,
-          selectedMonth,
-        });
-        setAvailableTimes(availableScheduleData);
-      } catch (error) {
-        console.error('Failed to fetch available times');
-      }
-    };
-    fetchAvailableTimes();
   }, [selectedDate]);
 
   useEffect(() => {
     setIsReduceDisabled(attendeeCount < 2);
     setTotalPrice(price * attendeeCount);
   }, [attendeeCount]);
+
+  if (isLoading) {
+    return <div>예약 가능한 시간을 불러오고 있습니다...</div>;
+  }
+
+  if (isError || !availableTimes) {
+    return <div>예약 가능한 시간을 불러오는 중 오류가 발생했습니다.</div>;
+  }
 
   return (
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
