@@ -36,7 +36,6 @@ const Notification = () => {
   });
 
   const totalCount = data?.pages[0]?.totalCount || 0;
-  const notifications = data?.pages.flatMap((page) => page.notifications) || [];
   return (
     <div ref={dropdownRef} className="relative">
       <img
@@ -52,9 +51,7 @@ const Notification = () => {
         />
       )}
 
-      {dropdownIsOpen && (
-        <NotificationDropdown notifications={notifications} totalCount={totalCount} />
-      )}
+      {dropdownIsOpen && <NotificationDropdown />}
     </div>
   );
 };
