@@ -103,7 +103,7 @@ const ReservationModal = ({
   const { inView, ref } = useInView();
   return (
     <div
-      className="border border-[#ddd] absolute top-1/2 right-[350px] w-[429px] h-[697px] bg-white rounded-3xl shadow-[0px_4px_16px_0px_rgba(17, 34, 17, 0.05)] px-[24px] pt-[31px] z-[10]"
+      className="border border-[#ddd] absolute top-1/2 right-[150px] w-[429px] h-[697px] bg-white rounded-3xl shadow-[0px_4px_16px_0px_rgba(17, 34, 17, 0.05)] px-[24px] pt-[31px] z-[10]"
       ref={modalRef}
     >
       <svg
