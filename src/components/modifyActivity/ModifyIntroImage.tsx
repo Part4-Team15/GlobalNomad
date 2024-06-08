@@ -100,7 +100,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
             ref={inputRef}
             id="introImageInput"
             type="file"
-            accept="image/*"
+            accept="image/jpeg, image/png"
             style={{ display: 'none' }}
             onChange={handleIntroImageUpload}
           />

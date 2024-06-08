@@ -9,9 +9,7 @@ const AssignBannerImage = () => {
   const [bannerImage, setBannerImage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleBannerImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleBannerImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       try {
@@ -57,7 +55,7 @@ const AssignBannerImage = () => {
             ref={inputRef}
             id="bannerImageInput"
             type="file"
-            accept="image/*"
+            accept="image/jpeg, image/png"
             style={{ display: 'none' }}
             onChange={handleBannerImageUpload}
           />
