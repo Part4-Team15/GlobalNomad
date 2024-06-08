@@ -1,13 +1,11 @@
 import axiosInstance from '@/lib/axiosInstance';
 
-const getMyActivity = async (): Promise<any> => {
-  try {
-    const response = await axiosInstance.get('/my-activities');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching My activity data:', error);
-    throw error;
-  }
+import { QueryFunctionContext } from '@tanstack/react-query';
+
+const getMyActivity = async ({ queryKey, pageParam }: QueryFunctionContext): Promise<any> => {
+  const cursorParam = pageParam ? `cursorId=${pageParam}` : '';
+  const response = await axiosInstance.get(`/my-activities?${cursorParam}&size=5`);
+  return response.data;
 };
 
 export default getMyActivity;

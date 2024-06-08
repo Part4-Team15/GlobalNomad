@@ -36,8 +36,8 @@ const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
   const handleDeleteClick = async () => {
     try {
       await axios.delete(`/my-activities/${activityId}`);
-      onClose();
       onDelete();
+      onClose();
     } catch (error) {
       console.error('삭제 실패:', error);
     }
