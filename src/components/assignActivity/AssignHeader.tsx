@@ -1,7 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
-import convertDate from '@/utils/convertDate';
 import postAssignMyActivity from '@/api/postMyActivity';
 import checkRequireData from './utils/checkRequireData';
 
@@ -10,15 +9,8 @@ const AssignHeader = () => {
 
   const handleAssignData = async () => {
     if (checkRequireData(data)) {
-      const transformedData: AssignData = {
-        ...data,
-        schedules: data.schedules.map((schedule) => ({
-          ...schedule,
-          date: convertDate(schedule.date),
-        })),
-      }; // 새로운 객체를 생성하여 날짜 변환
       try {
-        const response = await postAssignMyActivity(transformedData);
+        const response = await postAssignMyActivity(data);
         if (response) {
           alert('등록 성공!!'); // 성공 시 모달 열기
         }

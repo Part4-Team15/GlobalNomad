@@ -1,5 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { ActivityType, SubImage } from '@/types/activityPage';
+import deleteMyActivity from '@/api/deleteMyActivity';
+import Toast from '@/utils/Toast';
+import getUserInfo from '@/api/getUserInfo';
+import { useQuery } from '@tanstack/react-query';
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
@@ -17,6 +21,7 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
     if (subImages[index]) {
       newSubImages.push(
         <img
+          key={index}
           className={`w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
             index === 3 ? 'rounded-br-xl' : ''
           }`}
@@ -27,6 +32,7 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
     } else {
       newSubImages.push(
         <div
+          key={index}
           className={`bg-green-80 w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
             index === 3 ? 'rounded-br-xl' : ''
           }`}
@@ -39,9 +45,33 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
 };
 
 const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
-  const { title, category, rating, address, reviewCount, bannerImageUrl, subImages } = activity;
+  const { id, userId, title, category, rating, address, reviewCount, bannerImageUrl, subImages } =
+    activity;
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserInfo,
+  });
 
   const navigate = useNavigate();
+
+  const handleDeleteActivity = async () => {
+    try {
+      await deleteMyActivity(String(id));
+      navigate('/');
+    } catch (error: any) {
+      const errorMessage = error.toString();
+      Toast.error(errorMessage);
+    }
+  };
+
+  if (isLoading) {
+    return <div>유저 정보를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !data) {
+    return <div>유저 정보를 불러오는데 실패했습니다</div>;
+  }
 
   return (
     <div className="w-full">
@@ -58,19 +88,20 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
             <img src="/assets/location_icon.svg" alt="location icon" />
             <span className="text-gray-80">{address}</span>
           </div>
-          {/* <img className="w-10" src="/assets/kebab_icon.svg" alt="kebab icon" /> */}
-          <CustomKebabMenu
-            options={[
-              {
-                label: '수정하기',
-                onClick: () =>
-                  navigate('/my-activity/modify', {
-                    state: { ...activity },
-                  }),
-              },
-              { label: '삭제하기', onClick: () => console.log('안녕') },
-            ]}
-          />
+          {data.id === userId && (
+            <CustomKebabMenu
+              options={[
+                {
+                  label: '수정하기',
+                  onClick: () =>
+                    navigate('/my-activity/modify', {
+                      state: { ...activity },
+                    }),
+                },
+                { label: '삭제하기', onClick: handleDeleteActivity },
+              ]}
+            />
+          )}
         </div>
       </div>
       {/* Banner Images */}
