@@ -9,7 +9,7 @@ interface ModifyPriceProps {
 
 const ModifyPrice = ({ price }: ModifyPriceProps) => {
   const queryClient = useQueryClient();
-  const [localPrice, setLocalPrice] = useState<number>(price);
+  const [localPrice, setLocalPrice] = useState<number | string>(price);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
@@ -20,9 +20,14 @@ const ModifyPrice = ({ price }: ModifyPriceProps) => {
 
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPrice = e.target.value;
-    setLocalPrice(Number(newPrice) ? Number(newPrice) : 0);
+
+    // 입력된 값이 숫자가 아니면 무시
+    if (/[^0-9]/.test(newPrice)) {
+      return;
+    }
+    setLocalPrice(newPrice);
     queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { price: Number(newPrice) ? Number(newPrice) : 0 });
+      return mergeModifyData(oldData, { price: newPrice === '' ? 0 : Number(newPrice) });
     });
   };
 
