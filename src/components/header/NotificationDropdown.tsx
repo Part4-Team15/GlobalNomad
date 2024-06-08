@@ -20,7 +20,11 @@ interface NotificationDataType {
   cursorId: number;
 }
 
-const NotificationDropdown = () => {
+const NotificationDropdown = ({
+  setDropdownIsOpen,
+}: {
+  setDropdownIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { data, fetchNextPage } = useInfiniteQuery<NotificationDataType>({
     queryKey: ['notifications'],
     queryFn: getMyNotification,
@@ -30,6 +34,9 @@ const NotificationDropdown = () => {
   const totalCount = data?.pages[0]?.totalCount || 0;
   const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 
+  const handleModalClose = () => {
+    setDropdownIsOpen(false);
+  };
   const { inView, ref } = useInView();
   useEffect(() => {
     if (inView) {
@@ -39,20 +46,27 @@ const NotificationDropdown = () => {
 
   return (
     <div className="flex flex-col absolute top-12 right-12 z-20 w-[368px] rounded-md bg-green-10 shadow-md border-1 py-6 px-4 gap-3 h-[300px] overflow-y-auto">
-      <div className="w-full flex justify-between">
-        <div className="font-bold text-xl">알림 {totalCount}개</div>
-        <img className="w-5 cursor-pointer" src="/assets/x_btn.svg" alt="Close Box Button" />
-      </div>
-      {notifications.map((item) => {
-        return (
-          <NotificationDropdownItem
-            key={item.id}
-            content={item.content}
-            updatedAt={item.updatedAt}
-          />
-        );
-      })}
-      <div ref={ref} className="w-[5px] h-[5px]" />
+      {totalCount === 0 ? (
+        <div>모든 알람을 확인했습니다!</div>
+      ) : (
+        <>
+          <div className="w-full flex justify-between">
+            <div className="font-bold text-xl">알림 {totalCount}개</div>
+            <button type="button" onClick={handleModalClose}>
+              <img className="w-5 cursor-pointer" src="/assets/x_btn.svg" alt="Close Box Button" />
+            </button>
+          </div>
+          {notifications.map((item) => (
+            <NotificationDropdownItem
+              key={item.id}
+              content={item.content}
+              updatedAt={item.updatedAt}
+              notificationId={item.id}
+            />
+          ))}
+          <div ref={ref} className="w-[5px] h-[5px]" />
+        </>
+      )}
     </div>
   );
 };
