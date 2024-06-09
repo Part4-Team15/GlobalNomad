@@ -1,75 +1,52 @@
-import { useEffect, useState } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import getActivityReviews from '@/api/getActivityReviews';
-import { ActivityReviewsType, Review } from '@/types/activityPage';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
-import getFirstPageReviews from '@/api/getFirstPageReviews';
 import Pagination from '../mainpage/Pagination';
 
-const OFFSET_LIMIT = 8;
+const OFFSET_LIMIT = 3;
+
+const INITIAL_VALUE = {
+  reviews: [],
+  totalCount: 0,
+  averageRating: 0,
+};
+
+const usePageReview = (id: number, pageNum: number, size: number) => {
+  return useQuery({
+    queryKey: ['pageActivity', id, pageNum, size],
+    queryFn: () => getActivityReviews(id, pageNum, size),
+    placeholderData: keepPreviousData,
+  });
+};
 
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
+  const [currentPageNum, setCurrentPageNum] = useState(0);
 
-  const [reviewData, setReviewData] = useState<ActivityReviewsType>({
-    reviews: [
-      {
-        id: 0,
-        user: {
-          id: 0,
-          nickname: '',
-          profileImageUrl: '',
-        },
-        activityId: 0,
-        content: '',
-        rating: 0,
-        createdAt: '',
-        updatedAt: '',
-      },
-    ],
-    totalCount: 0,
-    averageRating: 0,
-  });
-  const [currentReviews, setCurrentReviews] = useState<Review[]>();
-  const [count, setCount] = useState<number>(1);
+  const { data = INITIAL_VALUE } = usePageReview(
+    Number(id),
+    currentPageNum + 1,
+    OFFSET_LIMIT,
+  );
 
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
-
-    const getReviews = async () => {
-      const data = await getFirstPageReviews(Number(id));
-      setReviewData(data);
-      setCurrentReviews(data.reviews);
-      setCount(data.totalCount);
-    };
-    getReviews();
-  }, []);
-
-  const { averageRating, totalCount } = reviewData;
-
-  const handlePageData = async (pageNum: number, size: number) => {
-    try {
-      const { reviews } = await getActivityReviews(Number(id), pageNum, size);
-      setCurrentReviews(reviews);
-    } catch (error) {
-      console.error(error);
-    }
+  const handlePageChange = (page: number) => {
+    setCurrentPageNum(page);
   };
 
   return (
     <div className="flex flex-col w-full gap-4">
       <h2 className="text-xl font-bold pt-6">후기</h2>
-      {totalCount ? (
+      {data.totalCount ? (
         <div className="flex gap-4">
-          <p className="text-5xl font-bold">{averageRating}</p>
+          <p className="text-5xl font-bold">{data.averageRating}</p>
           <div>
-            <p className="text-base font-normal">{ratingToText(averageRating)}</p>
+            <p className="text-base font-normal">{ratingToText(data.averageRating)}</p>
             <p className="flex gap-2 text-base font-normal">
               <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
-              {totalCount}개 후기
+              {data.totalCount}개 후기
             </p>
           </div>
         </div>
@@ -77,10 +54,10 @@ const Reviews = () => {
         <div>후기 없음</div>
       )}
       {/* 리뷰 List */}
-      {totalCount > 0 ? (
+      {data.totalCount > 0 ? (
         <div className="flex flex-col justify-center items-center gap-8">
           <div className="w-full">
-            {currentReviews?.map((review) => (
+            {data.reviews?.map((review) => (
               <div key={review.id} className="flex flex-col gap-4">
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
@@ -110,9 +87,10 @@ const Reviews = () => {
             ))}
           </div>
           <Pagination
-            totalCount={count}
+            currentPage={currentPageNum}
+            totalCount={data.totalCount}
             offsetLimit={OFFSET_LIMIT}
-            setActivityList={handlePageData}
+            setPageNum={handlePageChange}
           />
         </div>
       ) : null}
