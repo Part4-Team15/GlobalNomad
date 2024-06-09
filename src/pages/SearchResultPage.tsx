@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { ActivityInfo } from '@/types/mainPage';
+import { useState } from 'react';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
@@ -9,25 +9,33 @@ import Pagination from '@/components/mainpage/Pagination';
 
 const OFFSET_LIMIT = 16;
 
+const INITIAL_VALUE = {
+  activities: [],
+  totalCount: 0,
+};
+
+const useSearchResult = (keyword: string, pageNum: number, size: number) => {
+  return useQuery({
+    queryKey: ['pageActivity', keyword, pageNum, size],
+    queryFn: () => getSearchResult(keyword, pageNum, size),
+    placeholderData: keepPreviousData,
+  });
+};
+
 const SearchResultPage = () => {
-  const [searchResult, setSearchResult] = useState<ActivityInfo[]>([]);
-  const [count, setCount] = useState(1);
+  const [currentPageNum, setCurrentPageNum] = useState(0);
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
 
-  const handlePageActivity = async (pageNum: number, size: number) => {
-    const { activities } = await getSearchResult(keyword as string, pageNum, size);
-    setSearchResult(activities);
-  };
+  const { data = INITIAL_VALUE } = useSearchResult(
+    String(keyword),
+    currentPageNum,
+    OFFSET_LIMIT,
+  );
 
-  useEffect(() => {
-    const fetchPageData = async () => {
-      const data = await getSearchResult(keyword as string, 0, OFFSET_LIMIT);
-      setSearchResult(data.activities);
-      setCount(data.totalCount);
-    };
-    fetchPageData();
-  }, [searchParams]);
+  const handlePageChange = (page: number) => {
+    setCurrentPageNum(page);
+  };
 
   return (
     <div>
@@ -40,19 +48,20 @@ const SearchResultPage = () => {
               <span className="font-bold">{keyword}</span>
               으로 검색한 결과입니다.
             </div>
-            <div>총 {count}개의 결과</div>
+            <div>총 {data.totalCount}개의 결과</div>
           </div>
-          {count ? (
+          {data.totalCount ? (
             <>
               <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
-                {searchResult.map((activity) => (
+                {data.activities.map((activity) => (
                   <ActivityCard key={activity.id} cardData={activity} />
                 ))}
               </div>
               <Pagination
-                totalCount={count}
+                currentPage={currentPageNum}
+                totalCount={data.totalCount}
                 offsetLimit={OFFSET_LIMIT}
-                setActivityList={handlePageActivity}
+                setPageNum={handlePageChange}
               />
             </>
           ) : (
