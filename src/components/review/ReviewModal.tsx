@@ -4,6 +4,7 @@ import { isAxiosError } from 'axios';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
+import useClickOutside from '@/hooks/useClickOutside';
 
 interface BookingData {
   id: number;
@@ -25,21 +26,7 @@ interface ReviewModalProps {
 const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, [isOpen, onClose]);
+  useClickOutside(modalRef, onClose);
 
   const handleSubmit = async (content: string, rating: number) => {
     try {
