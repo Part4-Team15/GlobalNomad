@@ -25,6 +25,7 @@ const usePageReview = (id: number, pageNum: number, size: number) => {
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
   const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
   const { data = INITIAL_VALUE } = usePageReview(
     Number(id),
@@ -34,6 +35,10 @@ const Reviews = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
+  };
+
+  const handlePageGroupChange = (page: number) => {
+    setCurrentPageGroup(page);
   };
 
   return (
@@ -88,9 +93,11 @@ const Reviews = () => {
           </div>
           <Pagination
             currentPage={currentPageNum}
+            currentPageGroup={currentPageGroup}
             totalCount={data.totalCount}
             offsetLimit={OFFSET_LIMIT}
             setPageNum={handlePageChange}
+            setPageGroup={handlePageGroupChange}
           />
         </div>
       ) : null}

@@ -24,6 +24,7 @@ const useSearchResult = (keyword: string, pageNum: number, size: number) => {
 
 const SearchResultPage = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
 
@@ -35,6 +36,10 @@ const SearchResultPage = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
+  };
+
+  const handlePageGroupChange = (pageGroup: number) => {
+    setCurrentPageGroup(pageGroup);
   };
 
   return (
@@ -59,9 +64,11 @@ const SearchResultPage = () => {
               </div>
               <Pagination
                 currentPage={currentPageNum}
+                currentPageGroup={currentPageGroup}
                 totalCount={data.totalCount}
                 offsetLimit={OFFSET_LIMIT}
                 setPageNum={handlePageChange}
+                setPageGroup={handlePageGroupChange}
               />
             </>
           ) : (

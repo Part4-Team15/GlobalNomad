@@ -29,11 +29,11 @@ const usePageActivity = (pageNum: number, size: number, category: string, sort:s
 };
 
 const ActivityCardList = () => {
+  const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
   const [currentCategory, setCurrentCategory] = useState('');
   const [sortActivity, setSortActivity] = useState('');
   const [offset, setOffset] = useState(calculateOffsetLimit());
-  const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
