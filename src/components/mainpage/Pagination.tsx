@@ -1,13 +1,15 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react';
 import { ReactComponent as LeftArrow } from './assets/bold_arrow_left.svg';
 import { ReactComponent as RightArrow } from './assets/bold_arrow_right.svg';
 
 interface PaginationProp {
   currentPage: number;
+  currentPageGroup?: number;
   totalCount: number;
   offsetLimit: number;
   pageNumberLimit?: number;
   setPageNum: (pageNum: number) => void;
+  setPageGroup?: (pageGroupNum: number) => void;
 }
 
 /**
@@ -19,13 +21,13 @@ interface PaginationProp {
 
 const Pagination = ({
   currentPage,
+  currentPageGroup = 0,
   totalCount,
   offsetLimit,
   pageNumberLimit = 5,
   setPageNum,
+  setPageGroup,
 }: PaginationProp) => {
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
-
   // 총 페이지의 개수
   const totalPage = Math.ceil(totalCount / offsetLimit);
 
@@ -50,7 +52,7 @@ const Pagination = ({
     const isFirstPage = (currentPage % pageNumberLimit) === 0;
 
     if (currentPage === 0) return;
-    if (isFirstPage) setCurrentPageGroup(currentPageGroup - 1);
+    if (isFirstPage && setPageGroup) setPageGroup(currentPageGroup - 1);
 
     setPageNum(currentPage - 1);
   };
@@ -61,7 +63,7 @@ const Pagination = ({
     const isLastPage = (currentPage % pageNumberLimit) === pageNumberLimit - 1;
 
     if (currentPage === lastPageNumber) return;
-    if (isLastPage) setCurrentPageGroup(currentPageGroup + 1);
+    if (isLastPage && setPageGroup) setPageGroup(currentPageGroup + 1);
 
     setPageNum(currentPage + 1);
   };
@@ -78,7 +80,7 @@ const Pagination = ({
       >
         <LeftArrow fill={currentPage === 0 ? '#A4A1AA' : '#0B3B2D'} />
       </button>
-      {pageGroup[currentPageGroup].map((pageNum) => (
+      {pageGroup[currentPageGroup] && pageGroup[currentPageGroup].map((pageNum) => (
         <button
           className={`w-[55px] h-[55px] text-lg border border-green-80 rounded-2xl hover:bg-green-80 hover:text-white sm:w-10 sm:h-10
           ${currentPage === pageNum ? 'bg-green-80 text-white' : 'bg-white text-green-80'}`}

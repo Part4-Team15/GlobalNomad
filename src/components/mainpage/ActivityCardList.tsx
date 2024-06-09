@@ -33,6 +33,7 @@ const ActivityCardList = () => {
   const [sortActivity, setSortActivity] = useState('');
   const [offset, setOffset] = useState(calculateOffsetLimit());
   const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,17 +57,23 @@ const ActivityCardList = () => {
     setCurrentPageNum(page);
   };
 
+  const handlePageGroupChange = (page: number) => {
+    setCurrentPageGroup(page);
+  };
+
   const handleCategoryClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     if (currentCategory === button.value) setCurrentCategory('');
     else setCurrentCategory(button.value);
     setCurrentPageNum(0);
+    setCurrentPageGroup(0);
   };
 
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     setSortActivity(button.value);
     setCurrentPageNum(0);
+    setCurrentPageGroup(0);
   };
 
   return data.totalCount ? (
@@ -84,9 +91,11 @@ const ActivityCardList = () => {
       </div>
       <Pagination
         currentPage={currentPageNum}
-        totalCount={data.totalCount}
+        currentPageGroup={currentPageGroup}
+        totalCount={data?.totalCount}
         offsetLimit={offset}
         setPageNum={handlePageChange}
+        setPageGroup={handlePageGroupChange}
       />
     </>
   ) : (
