@@ -1,11 +1,11 @@
-import InfiniteScroll from 'react-infinite-scroll-component';
 import Profile from '@/components/common/profile/Profile';
 import ReservationCard, { Activity } from '@/components/myActivity/ReservationCard';
-import { useEffect, useState } from 'react';
-import axiosInstance from '@/lib/axiosInstance';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NoReservation from '@/components/myreservation/NoReservation';
-
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import getMyActivity from '@/api/getMyActivity';
+import { useInView } from 'react-intersection-observer';
 interface ApiResponse {
   cursorId: number;
   totalCount: number;
@@ -14,48 +14,39 @@ interface ApiResponse {
 
 const MyActivityPage = () => {
   const navigate = useNavigate();
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const queryClient = useQueryClient();
+  const { data, fetchNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ['activities'],
+    queryFn: getMyActivity,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.cursorId,
+  });
+
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await axiosInstance.get<ApiResponse>('/my-activities', {
-          params: {
-            page,
-            limit: 5,
-            sort: 'createdAt,desc',
-          },
-        });
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
-        const newActivities = response.data.activities;
-        const uniqueActivities = [...activities, ...newActivities].filter(
-          (activity, index, self) => index === self.findIndex((t) => t.id === activity.id),
-        );
-
-        setActivities(uniqueActivities);
-        setHasMore(newActivities.length === 5);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchActivities();
-  }, [page]);
-
-  const fetchMoreData = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+  const activities = data?.pages.flatMap((page) => page.activities) || [];
 
   const handleAssignClick = () => {
     navigate('/my-activity/assign');
   };
 
-  const handleDeleteActivity = (id: number) => {
-    const updatedActivities = activities.filter((activity) => activity.id !== id);
-    setActivities(updatedActivities);
+  const handleDeleteActivity = async (id: number) => {
+    await queryClient.invalidateQueries({ queryKey: ['activities'] });
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <img src="/assets/spinner.svg" alt="loding_spinner" />
+      </div>
+    );
+  }
 
   return (
     <section className=" bg-gray-10 px-4 py-16">
@@ -76,26 +67,26 @@ const MyActivityPage = () => {
           {/* 체험 리스트 */}
           <section className="w-full">
             {activities.length !== 0 ? (
-              <InfiniteScroll
-                dataLength={activities.length}
-                next={fetchMoreData}
-                hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-                endMessage={<p>No more activities to show</p>}
-              >
+              <>
                 <ul className="flex flex-col gap-6">
                   {activities.map((activity) => (
                     <ReservationCard
                       key={activity.id}
                       activity={activity}
-                      onDelete={handleDeleteActivity}
+                      onDelete={() => handleDeleteActivity(activity.id)}
                     />
                   ))}
                 </ul>
-              </InfiniteScroll>
+                {isFetchingNextPage && (
+                  <div className="flex justify-center items-center">
+                    <img src="/assets/spinner.svg" alt="loding_spinner" />
+                  </div>
+                )}
+              </>
             ) : (
               <NoReservation />
             )}
+            <div ref={ref} className="h-[10px]" />
           </section>
         </div>
       </div>
