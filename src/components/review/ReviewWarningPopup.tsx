@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { ReviewDuplicatePopupContent } from './StyledReviewDuplicatePopup';
+import { ReviewWarningPopupContent } from './StyledReviewWarningPopup';
 
-interface ReviewDuplicatePopupProps {
+interface ReviewDWarningPopupProps {
   message: string;
   isVisible: boolean;
 }
 
-const ReviewDuplicatePopup: React.FC<ReviewDuplicatePopupProps> = ({ message, isVisible }) => {
+const ReviewWarningPopup: React.FC<ReviewDWarningPopupProps> = ({ message, isVisible }) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [popupWidth, setPopupWidth] = useState(0);
 
@@ -18,7 +18,7 @@ const ReviewDuplicatePopup: React.FC<ReviewDuplicatePopupProps> = ({ message, is
 
   return (
     <div className="absolute bottom-[calc(100%+0.5rem)] left-1/2">
-      <ReviewDuplicatePopupContent
+      <ReviewWarningPopupContent
         ref={popupRef}
         isVisible={isVisible}
         className={`bg-white rounded-full p-4 px-6 border-2 border-solid shadow-xl text-red-400 transition-opacity duration-300 ${
@@ -26,9 +26,9 @@ const ReviewDuplicatePopup: React.FC<ReviewDuplicatePopupProps> = ({ message, is
         } transform -translate-x-1/2 max-w-full whitespace-nowrap`}
       >
         {message}
-      </ReviewDuplicatePopupContent>
+      </ReviewWarningPopupContent>
     </div>
   );
 };
 
-export default ReviewDuplicatePopup;
+export default ReviewWarningPopup;

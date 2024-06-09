@@ -6,6 +6,6 @@ const shakeAnimation = keyframes`
   10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% { transform: translateX(calc(-50% + 3px)); }
 `;
 
-export const ReviewDuplicatePopupContent = styled.div<{ isVisible: boolean }>`
+export const ReviewWarningPopupContent = styled.div<{ isVisible: boolean }>`
   animation: ${({ isVisible }) => (isVisible ? shakeAnimation : 'none')} 0.8s ease-in-out forwards;
 `;

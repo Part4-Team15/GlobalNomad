@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewDuplicatePopup from './ReviewDuplicatePopup';
+import ReviewWarningPopup from './ReviewWarningPopup';
 
 interface IProps {
   handleSubmit: () => void;
@@ -10,7 +10,7 @@ interface IProps {
 const ReviewModalBtn = ({ handleSubmit, setShowWarning, showWarning }: IProps) => {
   return (
     <div className="relative">
-      <ReviewDuplicatePopup message="이미 작성된 후기가 있습니다." isVisible={showWarning} />
+      <ReviewWarningPopup message="이미 작성된 후기가 있습니다." isVisible={showWarning} />
       <button
         type="button"
         onClick={handleSubmit}
