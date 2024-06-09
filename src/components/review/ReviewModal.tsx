@@ -26,6 +26,7 @@ interface ReviewModalProps {
 const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [showWarning, setShowWarning] = useState(false);
+  const [message, setMessage] = useState('');
 
   useClickOutside(modalRef, onClose);
 
@@ -41,6 +42,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
     } catch (error: unknown) {
       if (isAxiosError(error)) {
         if (error.response && error.response.status === 409) {
+          setMessage('이미 작성된 후기가 있습니다.');
           setShowWarning(true);
           setTimeout(() => {
             setShowWarning(false);
@@ -79,6 +81,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
                 onSubmit={handleSubmit}
                 showWarning={showWarning}
                 setShowWarning={setShowWarning}
+                message={message}
+                setMessage={setMessage}
               />
             </div>
           ) : (

@@ -5,12 +5,13 @@ interface IProps {
   handleSubmit: () => void;
   setShowWarning: React.Dispatch<React.SetStateAction<boolean>>;
   showWarning: boolean;
+  message: string;
 }
 
-const ReviewModalBtn = ({ handleSubmit, setShowWarning, showWarning }: IProps) => {
+const ReviewModalBtn = ({ handleSubmit, setShowWarning, showWarning, message }: IProps) => {
   return (
     <div className="relative">
-      <ReviewWarningPopup message="이미 작성된 후기가 있습니다." isVisible={showWarning} />
+      <ReviewWarningPopup message={message} isVisible={showWarning} />
       <button
         type="button"
         onClick={handleSubmit}

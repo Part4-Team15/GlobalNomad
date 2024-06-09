@@ -6,9 +6,17 @@ interface ReviewFormProps {
   onSubmit: (review: string, rating: number) => void;
   showWarning: boolean;
   setShowWarning: React.Dispatch<React.SetStateAction<boolean>>;
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, showWarning, setShowWarning }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({
+  onSubmit,
+  showWarning,
+  setShowWarning,
+  message,
+  setMessage,
+}) => {
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(0);
 
@@ -19,7 +27,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, showWarning, setShowW
       setContent('');
       setRating(0);
     } else {
-      // alert('공백이 아닌 내용을 입력해주세요.');
+      setMessage('공백이 아닌 내용을 입력해주세요.');
+      setShowWarning(true);
+      setTimeout(() => {
+        setShowWarning(false);
+      }, 2000);
     }
   };
 
@@ -36,6 +48,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, showWarning, setShowW
         handleSubmit={handleSubmit}
         showWarning={showWarning}
         setShowWarning={setShowWarning}
+        message={message}
       />
     </div>
   );
