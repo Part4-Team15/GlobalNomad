@@ -3,10 +3,11 @@ import { ReactComponent as LeftArrow } from './assets/bold_arrow_left.svg';
 import { ReactComponent as RightArrow } from './assets/bold_arrow_right.svg';
 
 interface PaginationProp {
+  currentPage: number;
   totalCount: number;
   offsetLimit: number;
   pageNumberLimit?: number;
-  setActivityList: (pageNum: number, size: number) => void;
+  setPageNum: (pageNum: number) => void;
 }
 
 /**
@@ -17,12 +18,12 @@ interface PaginationProp {
  */
 
 const Pagination = ({
+  currentPage,
   totalCount,
   offsetLimit,
   pageNumberLimit = 5,
-  setActivityList
+  setPageNum,
 }: PaginationProp) => {
-  const [currentPage, setCurrentPage] = useState(0);
   const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
   // 총 페이지의 개수
@@ -41,8 +42,7 @@ const Pagination = ({
   // 현재 선택한 페이지 수를 저장
   const handlePageBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
-    setCurrentPage(Number(button.id));
-    setActivityList(Number(button.id), offsetLimit);
+    setPageNum(Number(button.id));
   };
 
   // 왼쪽 arrow 버튼으로 이동 시 실행할 함수
@@ -52,8 +52,7 @@ const Pagination = ({
     if (currentPage === 0) return;
     if (isFirstPage) setCurrentPageGroup(currentPageGroup - 1);
 
-    setCurrentPage(currentPage - 1);
-    setActivityList(currentPage - 1, offsetLimit);
+    setPageNum(currentPage - 1);
   };
 
   // 오른쪽 arrow 버튼으로 이동 시 실행할 함수
@@ -64,8 +63,7 @@ const Pagination = ({
     if (currentPage === lastPageNumber) return;
     if (isLastPage) setCurrentPageGroup(currentPageGroup + 1);
 
-    setCurrentPage(currentPage + 1);
-    setActivityList(currentPage + 1, offsetLimit);
+    setPageNum(currentPage + 1);
   };
 
   return (
