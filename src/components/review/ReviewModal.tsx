@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from '@/lib/axiosInstance';
 import { isAxiosError } from 'axios';
 import ModalBackground from './ModalBackground';
@@ -25,6 +25,7 @@ interface ReviewModalProps {
 
 const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   useClickOutside(modalRef, onClose);
 
@@ -40,7 +41,10 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
     } catch (error: unknown) {
       if (isAxiosError(error)) {
         if (error.response && error.response.status === 409) {
-          alert('이미 작성된 후기가 있습니다.');
+          setShowWarning(true);
+          setTimeout(() => {
+            setShowWarning(false);
+          }, 2000);
         } else {
           console.error('리뷰 제출 실패:', error);
         }
@@ -71,7 +75,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
           {booking ? (
             <div className="flex flex-col w-full h-full">
               <BookingHistory booking={booking} />
-              <ReviewForm onSubmit={handleSubmit} />
+              <ReviewForm
+                onSubmit={handleSubmit}
+                showWarning={showWarning}
+                setShowWarning={setShowWarning}
+              />
             </div>
           ) : (
             <div>예약 정보가 없습니다.</div>

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import StarRating from './StarRating';
+import ReviewModalBtn from './ReviewModalBtn';
 
 interface ReviewFormProps {
   onSubmit: (review: string, rating: number) => void;
+  showWarning: boolean;
+  setShowWarning: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, showWarning, setShowWarning }) => {
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(0);
 
@@ -16,7 +19,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
       setContent('');
       setRating(0);
     } else {
-      alert('공백이 아닌 내용을 입력해주세요.');
+      // alert('공백이 아닌 내용을 입력해주세요.');
     }
   };
 
@@ -29,13 +32,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <button
-        type="button"
-        className="w-full h-[3.5rem] justify-center items-center rounded-md bg-[#121] text-white"
-        onClick={handleSubmit}
-      >
-        작성하기
-      </button>
+      <ReviewModalBtn
+        handleSubmit={handleSubmit}
+        showWarning={showWarning}
+        setShowWarning={setShowWarning}
+      />
     </div>
   );
 };
