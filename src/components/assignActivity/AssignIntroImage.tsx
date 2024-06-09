@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
+import Toast from '@/utils/Toast';
 import mergeAssignData from './utils/mergeAssignData';
 
 const MAX_SIZE = 4;
@@ -13,7 +14,7 @@ const AssignIntroImage = () => {
 
   const handleIntroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (introImage?.length === MAX_SIZE) {
-      alert('소개 이미지는 최대 4개까지 등록 가능합니다.');
+      Toast.error('소개 이미지는 최대 4개까지 등록 가능합니다.');
       if (inputRef.current) {
         inputRef.current.value = '';
       }

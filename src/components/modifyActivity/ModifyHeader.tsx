@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ModifyData } from '@/types/modifyActivityPage';
 import patchModifyMyActivity from '@/api/patchMyActivity';
+import Toast from '@/utils/Toast';
 import checkRequireData from './utils/checkRequireData';
 
 interface ModifyHeaderProps {
@@ -16,7 +17,7 @@ const ModifyHeader = ({ id }: ModifyHeaderProps) => {
       try {
         const response = await patchModifyMyActivity(data, id);
         if (response) {
-          alert('수정 완료!!'); // 성공 시 모달 열기
+          Toast.success('수정 완료!!'); // 성공 시 모달 열기
         }
       } catch (e) {
         console.error('Error:', e);
