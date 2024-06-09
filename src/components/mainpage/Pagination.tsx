@@ -4,19 +4,22 @@ import { ReactComponent as RightArrow } from './assets/bold_arrow_right.svg';
 
 interface PaginationProp {
   currentPage: number;
-  currentPageGroup?: number;
+  currentPageGroup: number;
   totalCount: number;
   offsetLimit: number;
   pageNumberLimit?: number;
   setPageNum: (pageNum: number) => void;
-  setPageGroup?: (pageGroupNum: number) => void;
+  setPageGroup: (pageGroupNum: number) => void;
 }
 
 /**
+ * @param currentPage 현재 페이지 number
+ * @param currentPageGroup 현재 페이지 group
  * @param totalCount 총 데이터의 개수.
  * @param offsetLimit 한 페이지 당 나타낼 데이터의 개수.
  * @param pageNumberLimit pageGroup 중 한 그룹당 들어갈 페이지 number의 개수. 기본값은 5.
- * @param setActivityList 현재 페이지에서 보여줄 데이터를 설정하는 함수.
+ * @param setPageNum 현재 페이지 number를 바꾸는 setter 함수
+ * @param setPageGroup 현재 페이지 group을 바꾸는 setter 함수
  */
 
 const Pagination = ({
@@ -52,7 +55,7 @@ const Pagination = ({
     const isFirstPage = (currentPage % pageNumberLimit) === 0;
 
     if (currentPage === 0) return;
-    if (isFirstPage && setPageGroup) setPageGroup(currentPageGroup - 1);
+    if (isFirstPage) setPageGroup(currentPageGroup - 1);
 
     setPageNum(currentPage - 1);
   };
@@ -63,7 +66,7 @@ const Pagination = ({
     const isLastPage = (currentPage % pageNumberLimit) === pageNumberLimit - 1;
 
     if (currentPage === lastPageNumber) return;
-    if (isLastPage && setPageGroup) setPageGroup(currentPageGroup + 1);
+    if (isLastPage) setPageGroup(currentPageGroup + 1);
 
     setPageNum(currentPage + 1);
   };
