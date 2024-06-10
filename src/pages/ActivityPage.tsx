@@ -4,15 +4,18 @@ import { useQuery } from '@tanstack/react-query';
 import getActivity from '@/api/getActivity';
 import getUserInfo from '@/api/getUserInfo';
 import { ActivityType } from '@/types/activityPage';
+import useWindowWidth from '@/hooks/useWindowWidth';
 
 import TopBanner from '@/components/activity/TopBanner';
 import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
 import ReserveForm from '@/components/activity/ReserveForm';
+import ReserveBar from '@/components/activity/ReserveBar';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const windowWidth = useWindowWidth();
 
   if (!id) {
     navigate('/Error404');
@@ -55,10 +58,10 @@ const ActivityPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="w-[1200px] flex-col flex justify-center items-center gap-20 mb-40">
+      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-20 mb-40 md:gap-10 sm:gap-0">
         <TopBanner activity={activity} />
-        <div className="flex w-full gap-6">
-          {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}
+        {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}
+        <div className="flex w-full gap-6 sm:gap-4">
           {activity.userId === userInfo.id ? (
             <div className="flex w-full flex-col">
               <Description activity={activity} />
@@ -66,13 +69,24 @@ const ActivityPage = () => {
             </div>
           ) : (
             <>
-              <div className="flex w-2/3 flex-col">
-                <Description activity={activity} />
-                <Reviews />
-              </div>
-              <div className="w-1/3">
-                <ReserveForm activity={activity} />
-              </div>
+              <div />
+              {windowWidth > 767 ? (
+                <>
+                  <div className="flex w-2/3 flex-col">
+                    <Description activity={activity} />
+                    <Reviews />
+                  </div>
+                  <div className="w-1/3">
+                    <ReserveForm activity={activity} />
+                  </div>
+                </>
+              ) : (
+                <div className="relative flex w-11/12 flex-col">
+                  <Description activity={activity} />
+                  <Reviews />
+                  <ReserveBar activity={activity} />
+                </div>
+              )}
             </>
           )}
         </div>

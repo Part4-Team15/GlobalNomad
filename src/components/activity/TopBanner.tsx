@@ -26,27 +26,27 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
   if (subImages.length === 1) {
     newSubImages.push(
       <img
-        className="w-full h-full object-cover rounded-tr-xl rounded-br-xl"
+        className="w-full h-full md:h-full object-cover rounded-tr-xl rounded-br-xl"
         src={subImages[0].imageUrl}
         alt="Sub Banner Img"
       />,
     );
-    return <div className="w-1/2 gap-3">{newSubImages}</div>;
+    return <div className="w-1/2 sm:w-[0px] gap-3">{newSubImages}</div>;
   }
   if (subImages.length === 2) {
     for (let index = 0; index < 2; index += 1) {
       newSubImages.push(
         <img
           key={index}
-          className={`w-full h-[261px] object-cover ${index === 0 ? 'rounded-tr-xl' : ''} ${
+          className={`w-full h-[261px] md:h-[144px] object-cover ${index === 0 ? 'rounded-tr-xl' : ''} ${
             index === 1 ? 'rounded-br-xl' : ''
-          }`}
+          } sm:hidden`}
           src={subImages[index].imageUrl}
           alt={`Sub Banner Img ${index + 1}`}
         />,
       );
     }
-    return <div className="w-full grid grid-cols-1 gap-3">{newSubImages}</div>;
+    return <div className="w-full sm:w-[0px] grid grid-cols-1 gap-3">{newSubImages}</div>;
   }
   if (subImages.length === 3) {
     for (let index = 0; index < 3; index += 1) {
@@ -54,7 +54,7 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
         newSubImages.push(
           <img
             key={index}
-            className="w-full h-[261px] object-cover rounded-br-xl col-span-2"
+            className="w-full sm:w-[0px] h-[261px] md:h-[144px] object-cover rounded-br-xl col-span-2"
             src={subImages[index].imageUrl}
             alt={`Sub Banner Img ${index + 1}`}
           />,
@@ -64,21 +64,21 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
       newSubImages.push(
         <img
           key={index}
-          className={`w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''}
+          className={`w-full h-[261px] md:h-[144px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''}
           }`}
           src={subImages[index].imageUrl}
           alt={`Sub Banner Img ${index + 1}`}
         />,
       );
     }
-    return <div className="w-1/2 grid grid-cols-2 gap-3">{newSubImages}</div>;
+    return <div className="w-1/2 sm:w-[0px] grid grid-cols-2 gap-3">{newSubImages}</div>;
   }
   if (subImages.length === 4) {
     for (let index = 0; index < 4; index += 1) {
       newSubImages.push(
         <img
           key={index}
-          className={`w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
+          className={`w-full h-[261px] md:h-[144px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
             index === 3 ? 'rounded-br-xl' : ''
           }`}
           src={subImages[index].imageUrl}
@@ -87,7 +87,7 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
       );
     }
   }
-  return <div className="w-1/2 grid grid-cols-2 gap-3">{newSubImages}</div>;
+  return <div className="w-1/2 sm:w-[0px] grid grid-cols-2 gap-3 sm:hidden">{newSubImages}</div>;
 };
 
 const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
@@ -127,9 +127,9 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
     <div className="w-full">
       {/* Banner Title */}
       <div className="flex flex-col w-full gap-2.5">
-        <span className="text-gray-80 font-normal">{category}</span>
-        <h1 className="text-4xl font-bold">{title}</h1>
-        <div className="flex justify-between items-center">
+        <span className="text-gray-80 font-normal md:text-sm sm:text-sm">{category}</span>
+        <h1 className="text-4xl font-bold md:text-3xl sm:text-2xl">{title}</h1>
+        <div className="flex justify-between items-center md:text-sm sm:text-sm">
           <div className="flex gap-1">
             <div className="flex">
               <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
@@ -155,7 +155,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
         </div>
       </div>
       {/* Banner Images */}
-      <div className="flex w-full h-[534px] rounded-lg gap-3 mt-8">
+      <div className="flex w-full h-[534px] sm:h-[310px] md:h-[300px] rounded-lg gap-3 mt-8">
         {subImages.length === 0 ? (
           <img
             className="w-full object-cover rounded-xl"
@@ -164,7 +164,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
           />
         ) : (
           <img
-            className="w-1/2 object-cover rounded-l-xl"
+            className="w-1/2 sm:w-full sm:h-[310px] object-cover rounded-l-xl sm:rounded-xl"
             src={bannerImageUrl}
             alt="Main Banner Img"
           />
