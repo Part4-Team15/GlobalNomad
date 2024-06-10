@@ -1,7 +1,7 @@
+import { MouseEvent, useEffect, useState } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
-import { MouseEvent, useEffect, useState } from 'react';
-import { ActivityInfo } from '@/types/mainPage';
 import getCurrentPageActivity from '@/api/getCurrentPageActivity';
 import CategoryFilter from './CategoryFilter';
 
@@ -15,11 +15,19 @@ function calculateOffsetLimit() {
   return 4;
 }
 
+const usePageActivity = (pageNum: number, size: number, category: string, sort:string) => {
+  return useQuery({
+    queryKey: ['pageActivity', pageNum, size, category, sort],
+    queryFn: () => getCurrentPageActivity(pageNum, size, category, sort),
+    placeholderData: keepPreviousData,
+  });
+};
+
 const ActivityCardList = () => {
-  const [currenData, setCurrentData] = useState<ActivityInfo[]>([]);
+  const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
   const [currentCategory, setCurrentCategory] = useState('');
   const [sortActivity, setSortActivity] = useState('');
-  const [count, setCount] = useState(1);
   const [offset, setOffset] = useState(calculateOffsetLimit());
 
   useEffect(() => {
@@ -33,38 +41,47 @@ const ActivityCardList = () => {
     };
   });
 
-  // 페이지를 넘길 때마다 해당 페이지의 데이터를 불러오는 함수.
-  const handlePageData = async (pageNum: number, size: number) => {
-    try {
-      const { activities } = await getCurrentPageActivity(
-        pageNum, size, currentCategory, sortActivity);
-      setCurrentData(activities);
-    } catch (e) {
-      console.error('Error: ', e);
-    }
+  const { data: allActivityList, isLoading, isError } = usePageActivity(
+    currentPageNum,
+    offset,
+    currentCategory,
+    sortActivity
+  );
+
+  if (isLoading) {
+    return <div>모든 체험 정보를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !allActivityList) {
+    return <div>모든 체험 정보를 불러오는 중 오류가 발생했습니다</div>;
+  }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPageNum(page);
+  };
+
+  const handlePageGroupChange = (page: number) => {
+    setCurrentPageGroup(page);
   };
 
   const handleCategoryClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
-    if (currentCategory === button.value) return setCurrentCategory('');
-    return setCurrentCategory(button.value);
+    if (currentCategory === button.value) setCurrentCategory('');
+    else setCurrentCategory(button.value);
+    setCurrentPageNum(0);
+    setCurrentPageGroup(0);
   };
 
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     setSortActivity(button.value);
+    setCurrentPageNum(0);
+    setCurrentPageGroup(0);
   };
 
-  useEffect(() => {
-    const fetchPageData = async () => {
-      const data = await getCurrentPageActivity(0, offset, currentCategory, sortActivity);
-      setCurrentData(data.activities);
-      setCount(data.totalCount);
-    };
-    fetchPageData();
-  }, [offset, currentCategory, sortActivity]);
+  const { activities, totalCount } = allActivityList;
 
-  return count ? (
+  return totalCount ? (
     <>
       <CategoryFilter
         currentCategory={currentCategory}
@@ -73,11 +90,18 @@ const ActivityCardList = () => {
       />
       <div className="text-4xl font-bold mt-10 mb-8 sm:text-lg sm:my-6">🛼 모든 체험</div>
       <div className="grid grid-cols-4 gap-6 h-[890px] mb-[72px] md:grid-cols-3 md:gap-4 md:h-[1154px] sm:grid-cols-2 sm:gap-2 sm:h-[572px] sm:mb-[62px]">
-        {currenData.map((activity) => (
+        {activities.map((activity) => (
           <ActivityCard key={activity.id} cardData={activity} />
         ))}
       </div>
-      <Pagination totalCount={count} offsetLimit={offset} setActivityList={handlePageData} />
+      <Pagination
+        currentPage={currentPageNum}
+        currentPageGroup={currentPageGroup}
+        totalCount={totalCount}
+        offsetLimit={offset}
+        setPageNum={handlePageChange}
+        setPageGroup={handlePageGroupChange}
+      />
     </>
   ) : (
     <div className="flex justify-center items-center">데이터가 없습니다.</div>

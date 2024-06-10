@@ -1,32 +1,50 @@
-import { useEffect, useState } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { ActivityInfo } from '@/types/mainPage';
+import { useState } from 'react';
+import { SEARCH_OFFSET_LIMIT } from '@/constants/pagination_config';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import MainBanner from '@/components/mainpage/MainBanner';
 import Pagination from '@/components/mainpage/Pagination';
-import { SEARCH_OFFSET_LIMIT } from '@/constants/pagination_config';
+
+const useSearchResult = (keyword: string, pageNum: number, size: number) => {
+  return useQuery({
+    queryKey: ['pageActivity', keyword, pageNum, size],
+    queryFn: () => getSearchResult(keyword, pageNum, size),
+    placeholderData: keepPreviousData,
+  });
+};
 
 const SearchResultPage = () => {
-  const [searchResult, setSearchResult] = useState<ActivityInfo[]>([]);
-  const [count, setCount] = useState(1);
+  const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
 
-  const handlePageActivity = async (pageNum: number, size: number) => {
-    const { activities } = await getSearchResult(keyword as string, pageNum, size);
-    setSearchResult(activities);
+  const { data: searchResult, isLoading, isError } = useSearchResult(
+    String(keyword),
+    currentPageNum,
+    SEARCH_OFFSET_LIMIT,
+  );
+
+  if (isLoading) {
+    return <div>검색 결과를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !searchResult) {
+    return <div>검색 결과를 불러오는 중 오류가 발생했습니다</div>;
+  }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPageNum(page);
   };
 
-  useEffect(() => {
-    const fetchPageData = async () => {
-      const data = await getSearchResult(keyword as string, 0, SEARCH_OFFSET_LIMIT);
-      setSearchResult(data.activities);
-      setCount(data.totalCount);
-    };
-    fetchPageData();
-  }, [searchParams]);
+  const handlePageGroupChange = (pageGroup: number) => {
+    setCurrentPageGroup(pageGroup);
+  };
+
+  const { activities, totalCount } = searchResult;
 
   return (
     <div>
@@ -39,19 +57,22 @@ const SearchResultPage = () => {
               <span className="font-bold">{keyword}</span>
               으로 검색한 결과입니다.
             </div>
-            <div>총 {count}개의 결과</div>
+            <div>총 {totalCount}개의 결과</div>
           </div>
-          {count ? (
+          {totalCount ? (
             <>
               <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
-                {searchResult.map((activity) => (
+                {activities.map((activity) => (
                   <ActivityCard key={activity.id} cardData={activity} />
                 ))}
               </div>
               <Pagination
-                totalCount={count}
+                currentPage={currentPageNum}
+                currentPageGroup={currentPageGroup}
+                totalCount={totalCount}
                 offsetLimit={SEARCH_OFFSET_LIMIT}
-                setActivityList={handlePageActivity}
+                setPageNum={handlePageChange}
+                setPageGroup={handlePageGroupChange}
               />
             </>
           ) : (
