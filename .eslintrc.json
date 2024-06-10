@@ -2,7 +2,7 @@
   "extends": ["airbnb", "airbnb-typescript"],
   "ignorePatterns": ["craco.config.js"],
   "parserOptions": {
-    "project": ["**/tsconfig.json"],
+    "project": ["**/tsconfig.json"]
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
@@ -17,8 +17,8 @@
         "js": "never",
         "jsx": "never",
         "ts": "never",
-        "tsx": "never",
-      },
+        "tsx": "never"
+      }
     ],
     "no-console": "off",
     "jsx-a11y/label-has-associated-control": "off",
@@ -40,14 +40,14 @@
     "no-param-reassign": ["error", { "props": false }],
     "no-alert": 0, //alert 경고문구 비활성화
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }], // 종속성 관련 에러 비활성화
-    "react/jsx-curly-newline": "off", // '}'를 새로운 라인에 사용할 수 있도록 함
+    "react/jsx-curly-newline": "off" // '}'를 새로운 라인에 사용할 수 있도록 함
   },
   "settings": {
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true,
-        "project": "./tsconfig.json",
-      },
-    },
-  },
+        "project": "./tsconfig.json"
+      }
+    }
+  }
 }

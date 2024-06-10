@@ -1,57 +1,33 @@
-import { useState } from 'react';
-import ActivityDrownDownList from './ActivityDropDownList';
+import { Dispatch, SetStateAction } from 'react';
 
-interface Activity {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  rating: number;
-  reviewCount: number;
-  address: string;
-  bannerImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  userId: number;
-}
-
-interface ActivityDropDownBoxProps {
-  setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
-  activities?: Activity[];
-  selectedActivity: Activity | null;
-}
 const ActivityDropDownBox = ({
-  setSelectedActivity,
-  activities,
-  selectedActivity,
-}: ActivityDropDownBoxProps) => {
-  const [viewDropDownList, setViewDropDownList] = useState(false);
-
-  const toggleDropDown = () => {
-    setViewDropDownList((prev) => !prev);
+  selectedActivityTitle,
+  setViewActivityDropDown,
+}: {
+  selectedActivityTitle: string | null;
+  setViewActivityDropDown: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const handleClickDropDown = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setViewActivityDropDown((prev) => !prev);
   };
   return (
-    <div className="relative">
-      <label className="absolute bg-white top-[-10px] left-4 text-[#121121] px-1">체험 목록</label>
+    <div className="flex flex-col relative">
+      <label className="absolute top-[-9px] px-1 bg-white left-5  text-[#121121]">체험명</label>
       <input
-        className="rounded border border-gray-70 w-full pl-4 py-5 outline-none"
-        value={selectedActivity?.title}
+        type="text"
+        className="border border-black pl-4 py-5 rounded outline-none"
+        value={selectedActivityTitle || ''}
       />
-      <button type="button" onClick={toggleDropDown}>
+
+      {/* 버튼 클릭시 모달 열기 */}
+      <button type="button" className="cursor-pointer" onClick={handleClickDropDown}>
         <img
           src="assets/chevron_down.svg"
-          alt="chevron-down-icon"
-          className="absolute w-6 top-5 right-3 cursor-pointer"
+          alt="dropdown_icon"
+          className="w-6 absolute top-5 right-3"
         />
       </button>
-      {viewDropDownList && (
-        <ActivityDrownDownList
-          activities={activities}
-          setSelectedActivity={setSelectedActivity}
-          setViewDropDownList={setViewDropDownList}
-        />
-      )}
     </div>
   );
 };
