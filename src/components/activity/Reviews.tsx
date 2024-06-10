@@ -1,18 +1,11 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { REVIEW_OFFSET_LIMIT } from '@/constants/pagination_config';
 import getActivityReviews from '@/api/getActivityReviews';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
 import Pagination from '../mainpage/Pagination';
-
-const OFFSET_LIMIT = 3;
-
-const INITIAL_VALUE = {
-  reviews: [],
-  totalCount: 0,
-  averageRating: 0,
-};
 
 const usePageReview = (id: number, pageNum: number, size: number) => {
   return useQuery({
@@ -27,10 +20,10 @@ const Reviews = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
-  const { data = INITIAL_VALUE } = usePageReview(
+  const { data: reviewData, isLoading, isError } = usePageReview(
     Number(id),
     currentPageNum + 1,
-    OFFSET_LIMIT,
+    REVIEW_OFFSET_LIMIT,
   );
 
   const handlePageChange = (page: number) => {
@@ -41,17 +34,27 @@ const Reviews = () => {
     setCurrentPageGroup(page);
   };
 
+  if (isLoading) {
+    return <div>후기를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !reviewData) {
+    return <div>후기 정보를 불러오는 중 오류가 발생했습니다</div>;
+  }
+
+  const { reviews, averageRating, totalCount } = reviewData;
+
   return (
     <div className="flex flex-col w-full gap-4">
       <h2 className="text-xl font-bold pt-6">후기</h2>
-      {data.totalCount ? (
+      {reviewData.totalCount ? (
         <div className="flex gap-4">
-          <p className="text-5xl font-bold">{data.averageRating}</p>
+          <p className="text-5xl font-bold">{averageRating}</p>
           <div>
-            <p className="text-base font-normal">{ratingToText(data.averageRating)}</p>
+            <p className="text-base font-normal">{ratingToText(averageRating)}</p>
             <p className="flex gap-2 text-base font-normal">
               <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
-              {data.totalCount}개 후기
+              {totalCount}개 후기
             </p>
           </div>
         </div>
@@ -59,15 +62,15 @@ const Reviews = () => {
         <div>후기 없음</div>
       )}
       {/* 리뷰 List */}
-      {data.totalCount > 0 ? (
+      {totalCount > 0 ? (
         <div className="flex flex-col justify-center items-center gap-8">
           <div className="w-full">
-            {data.reviews?.map((review) => (
+            {reviews.map((review) => (
               <div key={review.id} className="flex flex-col gap-4">
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
                     <div
-                      className="w-1/6 h-8 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+                      className="w-1/12 h-10 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
                       style={{
                         backgroundImage: `url(${review.user.profileImageUrl})`,
                         backgroundColor: '#E3E5E8',
@@ -94,8 +97,8 @@ const Reviews = () => {
           <Pagination
             currentPage={currentPageNum}
             currentPageGroup={currentPageGroup}
-            totalCount={data.totalCount}
-            offsetLimit={OFFSET_LIMIT}
+            totalCount={totalCount}
+            offsetLimit={REVIEW_OFFSET_LIMIT}
             setPageNum={handlePageChange}
             setPageGroup={handlePageGroupChange}
           />

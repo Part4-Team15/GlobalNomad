@@ -6,8 +6,7 @@ import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import MainBanner from '@/components/mainpage/MainBanner';
 import Pagination from '@/components/mainpage/Pagination';
-
-const OFFSET_LIMIT = 16;
+import { SEARCH_OFFSET_LIMIT } from '@/constants/pagination_config';
 
 const INITIAL_VALUE = {
   activities: [],
@@ -31,7 +30,7 @@ const SearchResultPage = () => {
   const { data = INITIAL_VALUE } = useSearchResult(
     String(keyword),
     currentPageNum,
-    OFFSET_LIMIT,
+    SEARCH_OFFSET_LIMIT,
   );
 
   const handlePageChange = (page: number) => {
@@ -66,7 +65,7 @@ const SearchResultPage = () => {
                 currentPage={currentPageNum}
                 currentPageGroup={currentPageGroup}
                 totalCount={data.totalCount}
-                offsetLimit={OFFSET_LIMIT}
+                offsetLimit={SEARCH_OFFSET_LIMIT}
                 setPageNum={handlePageChange}
                 setPageGroup={handlePageGroupChange}
               />

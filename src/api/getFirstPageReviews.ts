@@ -1,7 +1,6 @@
 import axiosInstance from '@/lib/axiosInstance';
 import { ActivityReviewsType } from '@/types/activityPage';
-
-const OFFSET_LIMIT = 8;
+import { OFFSET_LIMIT } from '@/constants/pagination_config';
 
 const getFirstPageReviews = async (activityId: number) => {
   const res = await axiosInstance.get<ActivityReviewsType>(
