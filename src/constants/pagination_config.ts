@@ -1,6 +1,6 @@
 const OFFSET_LIMIT = 8;
 
-const REVIEW_OFFSET_LIMIT = 8;
+const REVIEW_OFFSET_LIMIT = 3;
 
 const SEARCH_OFFSET_LIMIT = 16;
 
