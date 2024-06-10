@@ -1,4 +1,5 @@
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent, useRef } from 'react';
+import useClickOutside from '@/hooks/useClickOutside';
 
 interface Option {
   label: string;
@@ -8,34 +9,33 @@ interface IProps {
   options: Option[];
 }
 const CustomKebabMenu = ({ options }: IProps) => {
-  const [isOpen, setIsOpen] = useState(false); // 드롭다운 열림
   const [selectedOption, setSelectedOption] = useState<Option>();
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   // 드롭다운 토글
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => setDropdownIsOpen(!dropdownIsOpen);
   // 옵션 선택시
   const handleOptionClick = (option: Option) => {
     setSelectedOption(option);
     option.onClick();
-    setIsOpen(false);
+    setDropdownIsOpen(false);
   };
   // 키보드 이벤트 핸들러
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') toggleDropdown();
   };
 
+  useClickOutside(dropdownRef, () => setDropdownIsOpen(false));
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       {/* 드롭다운 선택 영역 */}
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={toggleDropdown}
-        onKeyDown={handleKeyDown}
-      >
+      <div role="button" tabIndex={0} onClick={toggleDropdown} onKeyDown={handleKeyDown}>
         <img src="/assets/kebab_icon.svg" alt="kebabIcon" />
       </div>
       {/* 옵션 리스트 */}
-      {isOpen && (
+      {dropdownIsOpen && (
         <ul className="shadow-md absolute top-[calc(100%+0.5rem)] right-0 w-40 rounded border border-gray-30 bg-white z-50 list-none">
           {options.map((option) => (
             <li
@@ -51,9 +51,7 @@ const CustomKebabMenu = ({ options }: IProps) => {
               role="option"
               aria-selected={option === selectedOption}
               className={`py-4 flex items-center justify-center cursor-pointer ${
-                option !== options[options.length - 1]
-                  ? 'border-b border-gray-300'
-                  : ''
+                option !== options[options.length - 1] ? 'border-b border-gray-300' : ''
               } hover:bg-gray-100`}
             >
               {option.label}
