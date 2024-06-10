@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from '@/lib/axiosInstance';
 import { isAxiosError } from 'axios';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
+import useClickOutside from '@/hooks/useClickOutside';
 
 interface BookingData {
   id: number;
@@ -24,22 +25,10 @@ interface ReviewModalProps {
 
 const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [showWarning, setShowWarning] = useState(false);
+  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, [isOpen, onClose]);
+  useClickOutside(modalRef, onClose);
 
   const handleSubmit = async (content: string, rating: number) => {
     try {
@@ -53,7 +42,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
     } catch (error: unknown) {
       if (isAxiosError(error)) {
         if (error.response && error.response.status === 409) {
-          alert('이미 작성된 후기가 있습니다.');
+          setMessage('이미 작성된 후기가 있습니다.');
+          setShowWarning(true);
+          setTimeout(() => {
+            setShowWarning(false);
+          }, 2000);
         } else {
           console.error('리뷰 제출 실패:', error);
         }
@@ -84,7 +77,13 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
           {booking ? (
             <div className="flex flex-col w-full h-full">
               <BookingHistory booking={booking} />
-              <ReviewForm onSubmit={handleSubmit} />
+              <ReviewForm
+                onSubmit={handleSubmit}
+                showWarning={showWarning}
+                setShowWarning={setShowWarning}
+                message={message}
+                setMessage={setMessage}
+              />
             </div>
           ) : (
             <div>예약 정보가 없습니다.</div>
