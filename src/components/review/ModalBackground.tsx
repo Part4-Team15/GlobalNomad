@@ -5,10 +5,7 @@ interface ModalBackgroundProps {
   children: React.ReactNode;
 }
 
-const ModalBackground: React.FC<ModalBackgroundProps> = ({
-  onClose,
-  children,
-}) => {
+const ModalBackground: React.FC<ModalBackgroundProps> = ({ onClose, children }) => {
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70"

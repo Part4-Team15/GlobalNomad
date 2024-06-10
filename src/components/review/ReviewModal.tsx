@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from '@/lib/axiosInstance';
 import { isAxiosError } from 'axios';
+import useClickOutside from '@/hooks/useClickOutside';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
-import useClickOutside from '@/hooks/useClickOutside';
 
 interface BookingData {
   id: number;
