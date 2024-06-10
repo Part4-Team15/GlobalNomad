@@ -1,15 +1,21 @@
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
-import getAvailableSchdule from '@/api/getAvailableSchedule';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ActivityType, AvailableTimesType } from '@/types/activityPage';
-import postActivityReservation from '@/api/postActivityReservation';
-import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import Toast from '@/utils/Toast';
-import { useQuery } from '@tanstack/react-query';
+import getAvailableTimes from '@/utils/getAvailableTimes';
+import getAvailableSchdule from '@/api/getAvailableSchedule';
+import getAllMyReservation from '@/api/getAllMyReservation';
+import postActivityReservation from '@/api/postActivityReservation';
+import {
+  ActivityType,
+  AvailableReservationsType,
+  AvailableSchedulesType,
+} from '@/types/activityPage';
+import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -30,12 +36,13 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   const [totalPrice, setTotalPrice] = useState<number>(price);
   const [selectedTimeId, setSelectedTimeId] = useState<number>();
 
+  // 예약 가능한 시간 데이터
   const {
-    data: availableTimes,
-    isLoading,
-    isError,
-  } = useQuery<AvailableTimesType[]>({
-    queryKey: ['availableTimes', id],
+    data: availableSchedules,
+    isLoading: availableSchedulesLoading,
+    isError: availableSchedulesError,
+  } = useQuery<AvailableSchedulesType[]>({
+    queryKey: ['availableSchedules', id],
     queryFn: () => {
       const { selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
       return getAvailableSchdule({
@@ -47,11 +54,45 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     enabled: !!id,
   });
 
+  // 이미 예약된 시간 데이터
+  const {
+    data: availableReservations,
+    isLoading: reservationLoading,
+    isError: reservationError,
+  } = useQuery<AvailableReservationsType>({
+    queryKey: ['reservation'],
+    queryFn: getAllMyReservation,
+  });
+
+  // 기본값을 빈 객체로 설정
+  const defaultAvailableReservations: AvailableReservationsType = {
+    cursorId: 0,
+    reservations: [],
+    totalCount: 0,
+  };
+
+  // 기본값을 빈 배열로 설정
+  const defaultAvailableSchedules: AvailableSchedulesType[] = [];
+
+  // 예약 가능한 시간과, 이미 예약된 시간 데이터를 비교해서, 실제 예약 가능한 시간대를 알아내기
+  const actualAvailableTimes = getAvailableTimes(
+    availableReservations || defaultAvailableReservations,
+    availableSchedules || defaultAvailableSchedules,
+  );
+
   // 예약 가능한 날짜 배열
   const availableDates = useMemo(() => {
-    if (!availableTimes) return [];
-    return availableTimes.map((date) => date.date);
-  }, [availableTimes]);
+    if (!availableSchedules) return [];
+    return actualAvailableTimes.map((date) => date.date);
+  }, [availableSchedules, actualAvailableTimes]);
+
+  // 예약 가능한 시간 className 지정
+  const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    if (view === 'month' && availableDates.includes(moment(date).format('YYYY-MM-DD'))) {
+      return 'available';
+    }
+    return null;
+  };
 
   const handleDateChange = (newDate: SelectedDate) => {
     setSelectedDate(newDate);
@@ -97,21 +138,13 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     setTotalPrice(price * attendeeCount);
   }, [attendeeCount]);
 
-  if (isLoading) {
+  if (availableSchedulesLoading || reservationLoading) {
     return <div>예약 가능한 시간을 불러오고 있습니다...</div>;
   }
 
-  if (isError || !availableTimes) {
+  if (availableSchedulesError || reservationError) {
     return <div>예약 가능한 시간을 불러오는 중 오류가 발생했습니다.</div>;
   }
-
-  // 예약 가능한 시간 className 지정
-  const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    if (view === 'month' && availableDates.includes(moment(date).format('YYYY-MM-DD'))) {
-      return 'available';
-    }
-    return null;
-  };
 
   return (
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
@@ -142,9 +175,9 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
         <div className="font-bold text-lg">예약 가능한 시간</div>
         {/* 예약 시간 선택 */}
         <div className="flex flex-wrap gap-2">
-          {availableTimes?.map((availableTime) => {
-            if (availableTime.date === yearMonthDay) {
-              return availableTime.times.map((time) => {
+          {actualAvailableTimes?.map((availableSchedule) => {
+            if (availableSchedule.date === yearMonthDay) {
+              return availableSchedule.times.map((time) => {
                 const isSelected = selectedTimeId === time.id;
                 return (
                   <div

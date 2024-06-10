@@ -27,18 +27,7 @@ export interface ActivityType {
   schedules: Schedule[];
 }
 
-export interface AvailableTimesType {
-  date: string;
-  times: [
-    {
-      id: number;
-      startTime: string;
-      endTime: string;
-    },
-  ];
-}
-
-interface User {
+export interface User {
   id: number;
   nickname: string;
   profileImageUrl: string | null;
@@ -58,4 +47,53 @@ export interface ActivityReviewsType {
   reviews: Review[];
   totalCount: number;
   averageRating: number;
+}
+
+export interface Reservation {
+  id: number;
+  teamId: string;
+  userId: number;
+  activity: {
+    bannerImageUrl: string;
+    title: string;
+    id: number;
+  };
+  scheduleId: number;
+  status: string;
+  reviewSubmitted: boolean;
+  totalPrice: number;
+  headCount: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AvailableReservationsType {
+  cursorId: number;
+  reservations: Reservation[];
+  totalCount: number;
+}
+
+export interface AvailableSchedulesType {
+  date: string;
+  times: [
+    {
+      id: number;
+      startTime: string;
+      endTime: string;
+    },
+  ];
+}
+
+export interface AvailableTime {
+  id: number;
+  startTime: string;
+  endTime: string;
+}
+
+export interface AvailableDate {
+  date: string;
+  times: AvailableTime[];
 }
