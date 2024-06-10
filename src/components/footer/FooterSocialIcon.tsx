@@ -1,9 +1,11 @@
-const FooterSocialIcon = ({ iconName }: { iconName: string }) => (
-  <img
-    src={`/assets/${iconName}_icon.svg`}
-    alt={`${iconName} logo`}
-    className="cursor-pointer w-5 h-5"
-  />
+const FooterSocialIcon = ({ socialNetworkServiceName }: { socialNetworkServiceName: string }) => (
+  <a href="/">
+    <img
+      src={`/assets/${socialNetworkServiceName}_icon.svg`}
+      alt={`${socialNetworkServiceName} logo`}
+      className="cursor-pointer w-5 h-5"
+    />
+  </a>
 );
 
 export default FooterSocialIcon;
