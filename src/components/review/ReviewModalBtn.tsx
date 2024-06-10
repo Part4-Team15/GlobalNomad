@@ -3,12 +3,11 @@ import ReviewWarningPopup from './ReviewWarningPopup';
 
 interface IProps {
   handleSubmit: () => void;
-  setShowWarning: React.Dispatch<React.SetStateAction<boolean>>;
   showWarning: boolean;
   message: string;
 }
 
-const ReviewModalBtn = ({ handleSubmit, setShowWarning, showWarning, message }: IProps) => {
+const ReviewModalBtn = ({ handleSubmit, showWarning, message }: IProps) => {
   return (
     <div className="relative">
       <ReviewWarningPopup message={message} isVisible={showWarning} />

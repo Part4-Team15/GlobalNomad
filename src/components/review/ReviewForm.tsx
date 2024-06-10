@@ -44,12 +44,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <ReviewModalBtn
-        handleSubmit={handleSubmit}
-        showWarning={showWarning}
-        setShowWarning={setShowWarning}
-        message={message}
-      />
+      <ReviewModalBtn handleSubmit={handleSubmit} showWarning={showWarning} message={message} />
     </div>
   );
 };

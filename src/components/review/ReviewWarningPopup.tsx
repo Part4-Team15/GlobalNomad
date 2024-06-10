@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ReviewWarningPopupContent } from './StyledReviewWarningPopup';
+import ReviewWarningPopupContent from './StyledReviewWarningPopup';
 
 interface ReviewDWarningPopupProps {
   message: string;
@@ -9,6 +9,7 @@ interface ReviewDWarningPopupProps {
 const ReviewWarningPopup: React.FC<ReviewDWarningPopupProps> = ({ message, isVisible }) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [popupWidth, setPopupWidth] = useState(0);
+  console.log(popupWidth);
 
   useEffect(() => {
     if (popupRef.current) {
