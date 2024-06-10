@@ -16,7 +16,7 @@ const MyActivityPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data, fetchNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ['activities'],
+    queryKey: ['activities', 5],
     queryFn: getMyActivity,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,
