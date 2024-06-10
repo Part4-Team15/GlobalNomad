@@ -1,63 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { REVIEW_OFFSET_LIMIT } from '@/constants/pagination_config';
 import getActivityReviews from '@/api/getActivityReviews';
-import { ActivityReviewsType, Review } from '@/types/activityPage';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
-import getFirstPageReviews from '@/api/getFirstPageReviews';
 import Pagination from '../mainpage/Pagination';
 
-const OFFSET_LIMIT = 8;
+const usePageReview = (id: number, pageNum: number, size: number) => {
+  return useQuery({
+    queryKey: ['pageActivity', id, pageNum, size],
+    queryFn: () => getActivityReviews(id, pageNum, size),
+    placeholderData: keepPreviousData,
+  });
+};
 
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
+  const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
-  const [reviewData, setReviewData] = useState<ActivityReviewsType>({
-    reviews: [
-      {
-        id: 0,
-        user: {
-          id: 0,
-          nickname: '',
-          profileImageUrl: '',
-        },
-        activityId: 0,
-        content: '',
-        rating: 0,
-        createdAt: '',
-        updatedAt: '',
-      },
-    ],
-    totalCount: 0,
-    averageRating: 0,
-  });
-  const [currentReviews, setCurrentReviews] = useState<Review[]>();
-  const [count, setCount] = useState<number>(1);
+  const { data: reviewData, isLoading, isError } = usePageReview(
+    Number(id),
+    currentPageNum + 1,
+    REVIEW_OFFSET_LIMIT,
+  );
 
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
-
-    const getReviews = async () => {
-      const data = await getFirstPageReviews(Number(id));
-      setReviewData(data);
-      setCurrentReviews(data.reviews);
-      setCount(data.totalCount);
-    };
-    getReviews();
-  }, []);
-
-  const { averageRating, totalCount } = reviewData;
-
-  const handlePageData = async (pageNum: number, size: number) => {
-    try {
-      const { reviews } = await getActivityReviews(Number(id), pageNum, size);
-      setCurrentReviews(reviews);
-    } catch (error) {
-      console.error(error);
-    }
+  const handlePageChange = (page: number) => {
+    setCurrentPageNum(page);
   };
+
+  const handlePageGroupChange = (page: number) => {
+    setCurrentPageGroup(page);
+  };
+
+  if (isLoading) {
+    return <div>후기를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !reviewData) {
+    return <div>후기 정보를 불러오는 중 오류가 발생했습니다</div>;
+  }
+
+  const { reviews, averageRating, totalCount } = reviewData;
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -80,12 +65,12 @@ const Reviews = () => {
       {totalCount > 0 ? (
         <div className="flex flex-col justify-center items-center gap-8">
           <div className="w-full">
-            {currentReviews?.map((review) => (
+            {reviews.map((review) => (
               <div key={review.id} className="flex flex-col gap-4">
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
                     <div
-                      className="w-1/6 h-8 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+                      className="w-1/12 h-10 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
                       style={{
                         backgroundImage: `url(${review.user.profileImageUrl})`,
                         backgroundColor: '#E3E5E8',
@@ -110,9 +95,12 @@ const Reviews = () => {
             ))}
           </div>
           <Pagination
-            totalCount={count}
-            offsetLimit={OFFSET_LIMIT}
-            setActivityList={handlePageData}
+            currentPage={currentPageNum}
+            currentPageGroup={currentPageGroup}
+            totalCount={totalCount}
+            offsetLimit={REVIEW_OFFSET_LIMIT}
+            setPageNum={handlePageChange}
+            setPageGroup={handlePageGroupChange}
           />
         </div>
       ) : null}

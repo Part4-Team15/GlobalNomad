@@ -1,30 +1,36 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react';
 import { ReactComponent as LeftArrow } from './assets/bold_arrow_left.svg';
 import { ReactComponent as RightArrow } from './assets/bold_arrow_right.svg';
 
 interface PaginationProp {
+  currentPage: number;
+  currentPageGroup: number;
   totalCount: number;
   offsetLimit: number;
   pageNumberLimit?: number;
-  setActivityList: (pageNum: number, size: number) => void;
+  setPageNum: (pageNum: number) => void;
+  setPageGroup: (pageGroupNum: number) => void;
 }
 
 /**
+ * @param currentPage 현재 페이지 number
+ * @param currentPageGroup 현재 페이지 group
  * @param totalCount 총 데이터의 개수.
  * @param offsetLimit 한 페이지 당 나타낼 데이터의 개수.
  * @param pageNumberLimit pageGroup 중 한 그룹당 들어갈 페이지 number의 개수. 기본값은 5.
- * @param setActivityList 현재 페이지에서 보여줄 데이터를 설정하는 함수.
+ * @param setPageNum 현재 페이지 number를 바꾸는 setter 함수
+ * @param setPageGroup 현재 페이지 group을 바꾸는 setter 함수
  */
 
 const Pagination = ({
+  currentPage,
+  currentPageGroup = 0,
   totalCount,
   offsetLimit,
   pageNumberLimit = 5,
-  setActivityList
+  setPageNum,
+  setPageGroup,
 }: PaginationProp) => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
-
   // 총 페이지의 개수
   const totalPage = Math.ceil(totalCount / offsetLimit);
 
@@ -41,8 +47,7 @@ const Pagination = ({
   // 현재 선택한 페이지 수를 저장
   const handlePageBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
-    setCurrentPage(Number(button.id));
-    setActivityList(Number(button.id), offsetLimit);
+    setPageNum(Number(button.id));
   };
 
   // 왼쪽 arrow 버튼으로 이동 시 실행할 함수
@@ -50,10 +55,9 @@ const Pagination = ({
     const isFirstPage = (currentPage % pageNumberLimit) === 0;
 
     if (currentPage === 0) return;
-    if (isFirstPage) setCurrentPageGroup(currentPageGroup - 1);
+    if (isFirstPage) setPageGroup(currentPageGroup - 1);
 
-    setCurrentPage(currentPage - 1);
-    setActivityList(currentPage - 1, offsetLimit);
+    setPageNum(currentPage - 1);
   };
 
   // 오른쪽 arrow 버튼으로 이동 시 실행할 함수
@@ -62,10 +66,9 @@ const Pagination = ({
     const isLastPage = (currentPage % pageNumberLimit) === pageNumberLimit - 1;
 
     if (currentPage === lastPageNumber) return;
-    if (isLastPage) setCurrentPageGroup(currentPageGroup + 1);
+    if (isLastPage) setPageGroup(currentPageGroup + 1);
 
-    setCurrentPage(currentPage + 1);
-    setActivityList(currentPage + 1, offsetLimit);
+    setPageNum(currentPage + 1);
   };
 
   return (
@@ -80,7 +83,7 @@ const Pagination = ({
       >
         <LeftArrow fill={currentPage === 0 ? '#A4A1AA' : '#0B3B2D'} />
       </button>
-      {pageGroup[currentPageGroup].map((pageNum) => (
+      {pageGroup[currentPageGroup] && pageGroup[currentPageGroup].map((pageNum) => (
         <button
           className={`w-[55px] h-[55px] text-lg border border-green-80 rounded-2xl hover:bg-green-80 hover:text-white sm:w-10 sm:h-10
           ${currentPage === pageNum ? 'bg-green-80 text-white' : 'bg-white text-green-80'}`}

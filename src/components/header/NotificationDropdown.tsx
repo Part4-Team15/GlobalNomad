@@ -1,38 +1,72 @@
-const NotificationDropdown = () => {
+import { useInfiniteQuery } from '@tanstack/react-query';
+import getMyNotification from '@/api/getMyNotofication';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
+import NotificationDropdownItem from './NotificationDropdownItem';
+
+interface Notifications {
+  id: number;
+  teamId: string;
+  userId: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+interface NotificationDataType {
+  totalCount: number;
+  notifications: Notifications[];
+  cursorId: number;
+}
+
+const NotificationDropdown = ({
+  setDropdownIsOpen,
+}: {
+  setDropdownIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { data, fetchNextPage } = useInfiniteQuery<NotificationDataType>({
+    queryKey: ['notifications'],
+    queryFn: getMyNotification,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.cursorId,
+  });
+  const totalCount = data?.pages[0]?.totalCount || 0;
+  const notifications = data?.pages.flatMap((page) => page.notifications) || [];
+
+  const handleModalClose = () => {
+    setDropdownIsOpen(false);
+  };
+  const { inView, ref } = useInView();
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
+
   return (
-    <div className="flex flex-col absolute top-12 right-12 z-20 w-[368px] rounded-md bg-green-10 shadow-md border-1 py-6 px-4 gap-3">
-      <div className="w-full flex justify-between">
-        <div className="font-bold text-xl">알림 0개</div>
-        <img className="w-5 cursor-pointer" src="/assets/x_btn.svg" alt="Close Box Button" />
-      </div>
-      <div className="flex flex-col w-90 bg-white rounded-md p-2 gap-1">
-        <div className="flex justify-between">
-          <img src="/assets/circle_red.svg" alt="Confirmed Chip" />
-          <img
-            className="w-5 opacity-50 cursor-pointer"
-            src="/assets/x_btn.svg"
-            alt="Remove Notification Button"
-          />
-        </div>
-        <div className="">
-          함께하면 즐거운 스트릿 댄스(2023-01-14 15:00~18:00) 예약이 승인되었어요.
-        </div>
-        <div className="opacity-50 text-sm">1분 전</div>
-      </div>
-      <div className="flex flex-col w-90 bg-white rounded-md p-2 gap-1">
-        <div className="flex justify-between">
-          <img src="/assets/circle_blue.svg" alt="Declined Chip" />
-          <img
-            className="w-5 opacity-50 cursor-pointer"
-            src="/assets/x_btn.svg"
-            alt="Remove Notification Button"
-          />
-        </div>
-        <div className="">
-          함께하면 즐거운 스트릿 댄스(2023-01-14 15:00~18:00) 예약이 승인되었어요.
-        </div>
-        <div className="opacity-50 text-sm">1분 전</div>
-      </div>
+    <div className="flex flex-col absolute top-12 right-12 z-20 w-[368px] rounded-md bg-green-10 shadow-md border-1 py-6 px-4 gap-3 h-[300px] overflow-y-auto">
+      {totalCount === 0 ? (
+        <div>모든 알람을 확인했습니다!</div>
+      ) : (
+        <>
+          <div className="w-full flex justify-between">
+            <div className="font-bold text-xl">알림 {totalCount}개</div>
+            <button type="button" onClick={handleModalClose}>
+              <img className="w-5 cursor-pointer" src="/assets/x_btn.svg" alt="Close Box Button" />
+            </button>
+          </div>
+          {notifications.map((item) => (
+            <NotificationDropdownItem
+              key={item.id}
+              content={item.content}
+              updatedAt={item.updatedAt}
+              notificationId={item.id}
+            />
+          ))}
+          <div ref={ref} className="w-[5px] h-[5px]" />
+        </>
+      )}
     </div>
   );
 };

@@ -42,8 +42,6 @@ const ReservationsPage = () => {
     queryFn: getMyReservation,
   });
 
-  // never used 라고 떠서, 주석 처리해뒀어요 @채민
-  // const reservations = data ? Object.values(data) : [];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<BookingData | null>(null);
 
