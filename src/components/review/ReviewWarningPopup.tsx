@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ReviewWarningPopupContent } from './StyledReviewWarningPopup';
+import ReviewWarningPopupContent from './StyledReviewWarningPopup';
 
 interface ReviewDWarningPopupProps {
   message: string;
@@ -14,6 +14,7 @@ const ReviewWarningPopup: React.FC<ReviewDWarningPopupProps> = ({ message, isVis
     if (popupRef.current) {
       setPopupWidth(popupRef.current.offsetWidth);
     }
+    console.log(popupWidth);
   }, []);
 
   return (

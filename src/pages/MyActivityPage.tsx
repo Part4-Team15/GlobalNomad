@@ -1,16 +1,18 @@
 import Profile from '@/components/common/profile/Profile';
-import ReservationCard, { Activity } from '@/components/myActivity/ReservationCard';
+// import ReservationCard, { Activity } from '@/components/myActivity/ReservationCard';
+import ReservationCard from '@/components/myActivity/ReservationCard';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NoReservation from '@/components/myreservation/NoReservation';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import getMyActivity from '@/api/getMyActivity';
 import { useInView } from 'react-intersection-observer';
-interface ApiResponse {
-  cursorId: number;
-  totalCount: number;
-  activities: Activity[];
-}
+
+// interface ApiResponse {
+//   cursorId: number;
+//   totalCount: number;
+//   activities: Activity[];
+// }
 
 const MyActivityPage = () => {
   const navigate = useNavigate();
@@ -33,11 +35,12 @@ const MyActivityPage = () => {
   const activities = data?.pages.flatMap((page) => page.activities) || [];
 
   const handleAssignClick = () => {
-    navigate('/my-activity/assign');
+    navigate('/my/activity/assign');
   };
 
   const handleDeleteActivity = async (id: number) => {
     await queryClient.invalidateQueries({ queryKey: ['activities'] });
+    console.log(id); // 린트오류때문에 넣었음.
   };
 
   if (isLoading) {

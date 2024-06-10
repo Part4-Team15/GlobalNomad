@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReviewWarningPopup from './ReviewWarningPopup';
 
 interface IProps {
@@ -9,6 +9,9 @@ interface IProps {
 }
 
 const ReviewModalBtn = ({ handleSubmit, setShowWarning, showWarning, message }: IProps) => {
+  useEffect(() => {
+    setShowWarning(showWarning);
+  }, []);
   return (
     <div className="relative">
       <ReviewWarningPopup message={message} isVisible={showWarning} />
