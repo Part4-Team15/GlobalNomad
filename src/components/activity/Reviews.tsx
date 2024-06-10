@@ -1,43 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { REVIEW_OFFSET_LIMIT } from '@/constants/pagination_config';
 import getActivityReviews from '@/api/getActivityReviews';
-import getFirstPageReviews from '@/api/getFirstPageReviews';
-import { ActivityReviewsType, Review } from '@/types/activityPage';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
-import { OFFSET_LIMIT } from '@/constants/pagination_config';
 import Pagination from '../mainpage/Pagination';
+
+const usePageReview = (id: number, pageNum: number, size: number) => {
+  return useQuery({
+    queryKey: ['pageActivity', id, pageNum, size],
+    queryFn: () => getActivityReviews(id, pageNum, size),
+    placeholderData: keepPreviousData,
+  });
+};
 
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
+  const [currentPageNum, setCurrentPageNum] = useState(0);
+  const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
-  const {
-    data: reviewData,
-    isLoading,
-    isError,
-  } = useQuery<ActivityReviewsType>({
-    queryKey: ['reviews', id],
-    queryFn: () => getFirstPageReviews(Number(id)),
-    enabled: !!id,
-  });
-  const [currentReviews, setCurrentReviews] = useState<Review[]>();
+  const { data: reviewData, isLoading, isError } = usePageReview(
+    Number(id),
+    currentPageNum + 1,
+    REVIEW_OFFSET_LIMIT,
+  );
 
-  useEffect(() => {
-    const getFirstReviews = async () => {
-      const data = await getFirstPageReviews(Number(id));
-      setCurrentReviews(data.reviews);
-    };
-    getFirstReviews();
-  }, []);
+  const handlePageChange = (page: number) => {
+    setCurrentPageNum(page);
+  };
 
-  const handlePageData = async (pageNum: number, size: number) => {
-    try {
-      const { reviews } = await getActivityReviews(Number(id), pageNum, size);
-      setCurrentReviews(reviews);
-    } catch (error) {
-      console.error(error);
-    }
+  const handlePageGroupChange = (page: number) => {
+    setCurrentPageGroup(page);
   };
 
   if (isLoading) {
@@ -48,7 +42,7 @@ const Reviews = () => {
     return <div>후기 정보를 불러오는 중 오류가 발생했습니다</div>;
   }
 
-  const { averageRating, totalCount } = reviewData;
+  const { reviews, averageRating, totalCount } = reviewData;
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -71,7 +65,7 @@ const Reviews = () => {
       {totalCount > 0 ? (
         <div className="flex flex-col justify-center items-center gap-8">
           <div className="w-full">
-            {currentReviews?.map((review) => (
+            {reviews.map((review) => (
               <div key={review.id} className="flex flex-col gap-4">
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
@@ -101,9 +95,12 @@ const Reviews = () => {
             ))}
           </div>
           <Pagination
+            currentPage={currentPageNum}
+            currentPageGroup={currentPageGroup}
             totalCount={totalCount}
-            offsetLimit={OFFSET_LIMIT}
-            setActivityList={handlePageData}
+            offsetLimit={REVIEW_OFFSET_LIMIT}
+            setPageNum={handlePageChange}
+            setPageGroup={handlePageGroupChange}
           />
         </div>
       ) : null}
