@@ -65,6 +65,8 @@ export const StyledReserveCalendarWrapper = styled.div`
     border-radius: 8px;
     width: 32px;
     height: 36px;
+    border: 2px solid #fff;
+    padding-top: 8px;
   }
 
   /* 호버 및 액티브 스타일 */
@@ -83,6 +85,10 @@ export const StyledReserveCalendarWrapper = styled.div`
   .react-calendar__tile--now {
     background-color: #ced8d5;
     color: #0b3b2d;
+  }
+
+  .react-calendar__tile.available {
+    border: 2px solid #0b3b2d;
   }
 `;
 

@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { ActivityType, SubImage } from '@/types/activityPage';
+import getUserInfo from '@/api/getUserInfo';
 import deleteMyActivity from '@/api/deleteMyActivity';
 import Toast from '@/utils/Toast';
-import getUserInfo from '@/api/getUserInfo';
-import { useQuery } from '@tanstack/react-query';
+
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
 interface TopBannerProps {
@@ -14,11 +15,66 @@ interface SubImagesBannerProps {
   subImages: SubImage[];
 }
 
+// 서브 이미지 배너 레이아웃
 const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Element => {
   const newSubImages = [];
 
-  for (let index = 0; index < 4; index += 1) {
-    if (subImages[index]) {
+  // 서브 이미지가 없을 경우
+  if (subImages.length === 0) {
+    return <div />;
+  }
+  if (subImages.length === 1) {
+    newSubImages.push(
+      <img
+        className="w-full h-full object-cover rounded-tr-xl rounded-br-xl"
+        src={subImages[0].imageUrl}
+        alt="Sub Banner Img"
+      />,
+    );
+    return <div className="w-1/2 gap-3">{newSubImages}</div>;
+  }
+  if (subImages.length === 2) {
+    for (let index = 0; index < 2; index += 1) {
+      newSubImages.push(
+        <img
+          key={index}
+          className={`w-full h-[261px] object-cover ${index === 0 ? 'rounded-tr-xl' : ''} ${
+            index === 1 ? 'rounded-br-xl' : ''
+          }`}
+          src={subImages[index].imageUrl}
+          alt={`Sub Banner Img ${index + 1}`}
+        />,
+      );
+    }
+    return <div className="w-full grid grid-cols-1 gap-3">{newSubImages}</div>;
+  }
+  if (subImages.length === 3) {
+    for (let index = 0; index < 3; index += 1) {
+      if (index === 2) {
+        newSubImages.push(
+          <img
+            key={index}
+            className="w-full h-[261px] object-cover rounded-br-xl col-span-2"
+            src={subImages[index].imageUrl}
+            alt={`Sub Banner Img ${index + 1}`}
+          />,
+        );
+        break;
+      }
+      newSubImages.push(
+        <img
+          key={index}
+          className={`w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''}
+          }`}
+          src={subImages[index].imageUrl}
+          alt={`Sub Banner Img ${index + 1}`}
+        />,
+      );
+    }
+    return <div className="w-1/2 grid grid-cols-2 gap-3">{newSubImages}</div>;
+  }
+  if (subImages.length === 4) {
+    for (let index = 0; index < 4; index += 1) {
       newSubImages.push(
         <img
           key={index}
@@ -29,18 +85,8 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
           alt={`Sub Banner Img ${index + 1}`}
         />,
       );
-    } else {
-      newSubImages.push(
-        <div
-          key={index}
-          className={`bg-green-80 w-full h-[261px] object-cover ${index === 1 ? 'rounded-tr-xl' : ''} ${
-            index === 3 ? 'rounded-br-xl' : ''
-          }`}
-        />,
-      );
     }
   }
-
   return <div className="w-1/2 grid grid-cols-2 gap-3">{newSubImages}</div>;
 };
 
@@ -48,7 +94,11 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
   const { id, userId, title, category, rating, address, reviewCount, bannerImageUrl, subImages } =
     activity;
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: userInfo,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['user'],
     queryFn: getUserInfo,
   });
@@ -69,7 +119,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
     return <div>유저 정보를 불러오고 있습니다</div>;
   }
 
-  if (isError || !data) {
+  if (isError || !userInfo) {
     return <div>유저 정보를 불러오는데 실패했습니다</div>;
   }
 
@@ -88,7 +138,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
             <img src="/assets/location_icon.svg" alt="location icon" />
             <span className="text-gray-80">{address}</span>
           </div>
-          {data.id === userId && (
+          {userInfo.id === userId && (
             <CustomKebabMenu
               options={[
                 {
@@ -106,11 +156,19 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
       </div>
       {/* Banner Images */}
       <div className="flex w-full h-[534px] rounded-lg gap-3 mt-8">
-        <img
-          className="w-1/2 object-cover rounded-l-xl"
-          src={bannerImageUrl}
-          alt="Main Banner Img"
-        />
+        {subImages.length === 0 ? (
+          <img
+            className="w-full object-cover rounded-xl"
+            src={bannerImageUrl}
+            alt="Main Banner Img"
+          />
+        ) : (
+          <img
+            className="w-1/2 object-cover rounded-l-xl"
+            src={bannerImageUrl}
+            alt="Main Banner Img"
+          />
+        )}
         <SubImagesBanner subImages={subImages} />
       </div>
     </div>
