@@ -6,8 +6,3 @@ export interface UserInformation {
   createdAt: string;
   updatedAt: string;
 }
-
-export interface HeaderProfileImageProps {
-  nickname: string;
-  profileImageUrl: string;
-}
