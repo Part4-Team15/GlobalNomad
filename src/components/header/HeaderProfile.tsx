@@ -5,8 +5,8 @@ import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import { Link } from 'react-router-dom';
 
 import ProfileDropdown from './ProfileDropdown';
-import DefaultProfileImage from './NoProfileImage';
-import HeaderProfileImage from './HeaderProfileImage';
+import DefaultProfileImage from './DefaultProfileImage';
+import HeaderProfileImageWithUrl from './HeaderProfileImage';
 
 const HeaderProfile = () => {
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -17,6 +17,7 @@ const HeaderProfile = () => {
   };
 
   useClickOutside(dropdownRef, () => setDropdownIsOpen(false));
+
   const nickname = userInfo?.nickname || '';
   const profileImageUrl = userInfo?.profileImageUrl || '';
 
@@ -30,16 +31,16 @@ const HeaderProfile = () => {
 
   return (
     <div
-      className="relative flex gap-[10px] items-center cursor-pointer"
+      className="flex gap-[10px] items-center cursor-pointer"
       onClick={toggleDropdown}
       ref={dropdownRef}
     >
       {profileImageUrl ? (
-        <HeaderProfileImage profileImageUrl={profileImageUrl} />
+        <HeaderProfileImageWithUrl profileImageUrl={profileImageUrl} />
       ) : (
         <DefaultProfileImage nickname={nickname} />
       )}
-      <div className="text-sm font-medium text-[#1B1B1B]">{nickname}</div>
+      <p className="text-sm font-medium text-[#1B1B1B]">{nickname}</p>
       {dropdownIsOpen && <ProfileDropdown />}
     </div>
   );
