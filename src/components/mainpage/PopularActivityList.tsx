@@ -25,12 +25,20 @@ async function getPopularActivity() {
 const PopularActivityList = () => {
   const [startIdx, setStartIdx] = useState(0);
 
-  const { data = INITIAL_VALUE } = useQuery({
+  const { data: popularActivityList, isLoading, isError } = useQuery({
     queryKey: ['popularActivity'],
     queryFn: getPopularActivity,
   });
 
-  const pageActivityList = data.activities.slice(startIdx, startIdx + 3);
+  if (isLoading) {
+    return <div>인기 체험 정보를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !popularActivityList) {
+    return <div>인기 체험 정보를 불러오는 중 오류가 발생했습니다</div>;
+  }
+
+  const pageActivityList = popularActivityList.activities.slice(startIdx, startIdx + 3);
 
   const handleLeftClick = () => {
     if (startIdx === 0) return;
@@ -49,7 +57,7 @@ const PopularActivityList = () => {
         <PopularActivityButton onLeftClick={handleLeftClick} onRightClick={handleRightClick} />
       </div>
       <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
-        {pageActivityList?.map((info) => (
+        {pageActivityList.map((info) => (
           <PopularActivityCard key={info.id} cardData={info} />
         ))}
       </div>

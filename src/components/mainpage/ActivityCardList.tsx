@@ -15,11 +15,6 @@ function calculateOffsetLimit() {
   return 4;
 }
 
-const INITIAL_VALUE = {
-  activities: [],
-  totalCount: 0,
-};
-
 const usePageActivity = (pageNum: number, size: number, category: string, sort:string) => {
   return useQuery({
     queryKey: ['pageActivity', pageNum, size, category, sort],
@@ -46,12 +41,20 @@ const ActivityCardList = () => {
     };
   });
 
-  const { data = INITIAL_VALUE } = usePageActivity(
+  const { data: allActivityList, isLoading, isError } = usePageActivity(
     currentPageNum,
     offset,
     currentCategory,
     sortActivity
   );
+
+  if (isLoading) {
+    return <div>모든 체험 정보를 불러오고 있습니다</div>;
+  }
+
+  if (isError || !allActivityList) {
+    return <div>모든 체험 정보를 불러오는 중 오류가 발생했습니다</div>;
+  }
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
@@ -76,7 +79,9 @@ const ActivityCardList = () => {
     setCurrentPageGroup(0);
   };
 
-  return data.totalCount ? (
+  const { activities, totalCount } = allActivityList;
+
+  return totalCount ? (
     <>
       <CategoryFilter
         currentCategory={currentCategory}
@@ -85,14 +90,14 @@ const ActivityCardList = () => {
       />
       <div className="text-4xl font-bold mt-10 mb-8 sm:text-lg sm:my-6">🛼 모든 체험</div>
       <div className="grid grid-cols-4 gap-6 h-[890px] mb-[72px] md:grid-cols-3 md:gap-4 md:h-[1154px] sm:grid-cols-2 sm:gap-2 sm:h-[572px] sm:mb-[62px]">
-        {data.activities.map((activity) => (
+        {activities.map((activity) => (
           <ActivityCard key={activity.id} cardData={activity} />
         ))}
       </div>
       <Pagination
         currentPage={currentPageNum}
         currentPageGroup={currentPageGroup}
-        totalCount={data?.totalCount}
+        totalCount={totalCount}
         offsetLimit={offset}
         setPageNum={handlePageChange}
         setPageGroup={handlePageGroupChange}
