@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import axios from '@/lib/axiosInstance';
 import ModalBackground from '../review/ModalBackground';
+import useClickOutside from '@/hooks/useClickOutside';
 
 interface ExperienceDeleteModalProps {
   isOpen: boolean;
@@ -17,21 +18,7 @@ const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, [isOpen, onClose]);
+  useClickOutside(modalRef, onClose);
 
   const handleDeleteClick = async () => {
     try {
@@ -45,7 +32,7 @@ const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleClick = (event: any) => event.stopPropagation();
+  const handleClick = (event: React.MouseEvent) => event.stopPropagation();
 
   return (
     <ModalBackground onClose={onClose}>
