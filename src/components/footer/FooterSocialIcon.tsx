@@ -2,7 +2,7 @@ const FooterSocialIcon = ({ socialNetworkServiceName }: { socialNetworkServiceNa
   <a href="/">
     <img
       src={`/assets/${socialNetworkServiceName}_icon.svg`}
-      alt={`${socialNetworkServiceName} logo`}
+      alt={`${socialNetworkServiceName}_logo`}
       className="cursor-pointer w-5 h-5"
     />
   </a>
