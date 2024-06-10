@@ -47,7 +47,7 @@ const Reviews = () => {
   return (
     <div className="flex flex-col w-full gap-4">
       <h2 className="text-xl font-bold pt-6">후기</h2>
-      {reviewData.totalCount ? (
+      {totalCount ? (
         <div className="flex gap-4">
           <p className="text-5xl font-bold">{averageRating}</p>
           <div>
