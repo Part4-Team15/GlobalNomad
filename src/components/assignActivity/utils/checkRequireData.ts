@@ -1,4 +1,5 @@
 import { AssignData } from '@/types/assignActivityPage';
+import Toast from '@/utils/Toast';
 
 const requiredFields: { [key in keyof AssignData]?: string } = {
   title: '제목은 필수 입력 사항입니다.',
@@ -11,16 +12,16 @@ const requiredFields: { [key in keyof AssignData]?: string } = {
 
 const checkRequireData = (assignData: AssignData | undefined): boolean => {
   if (!assignData) {
-    alert('입력 사항을 기입해주세요.');
+    Toast.error('입력 사항을 기입해주세요.');
     return false;
   }
   return Object.entries(requiredFields).every(([key, message]) => {
     if (!assignData[key as keyof AssignData]) {
-      alert(message);
+      Toast.error(message);
       return false;
     }
     if (assignData.schedules.length === 0) {
-      alert('예약 가능한 시간대는 필수 입력 사항입니다.');
+      Toast.error('예약 가능한 시간대는 필수 입력 사항입니다.');
       return false;
     }
     return true;

@@ -144,7 +144,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
                 {
                   label: '수정하기',
                   onClick: () =>
-                    navigate('/my-activity/modify', {
+                    navigate(`/my/activity/${id}/modify`, {
                       state: { ...activity },
                     }),
                 },

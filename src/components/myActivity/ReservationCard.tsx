@@ -72,7 +72,7 @@ const ReservationCard = ({
               {
                 label: '수정하기',
                 onClick: () =>
-                  navigate('/my-activity/modify', {
+                  navigate(`/my/activity/${activity.id}/modify`, {
                     state: { ...activity },
                   }),
               },

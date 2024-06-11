@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { ModifyData, Schedule } from '@/types/modifyActivityPage';
+import Toast from '@/utils/Toast';
 import mergeModifyData from './utils/mergeModifyData';
 import ReservationDate from './reservation/ReservationDate';
 import ReservationStartTime from './reservation/ReservationStartTime';
@@ -50,7 +51,7 @@ const ModifyReservationTime = ({ schedules }: ModifyReservationTimeProps) => {
           t.endTime === newReservationTime.endTime,
       );
       if (isDuplicate) {
-        alert('동일한 날짜 및 시간대는 중복될 수 없습니다.');
+        Toast.error('동일한 날짜 및 시간대는 중복될 수 없습니다.');
         queryClient.setQueryData(['modifyData/Schedule/Date'], '');
         queryClient.setQueryData(['modifyData/Schedule/StartTime'], '');
         queryClient.setQueryData(['modifyData/Schedule/EndTime'], '');
@@ -71,7 +72,7 @@ const ModifyReservationTime = ({ schedules }: ModifyReservationTimeProps) => {
       queryClient.setQueryData(['modifyData/Schedule/StartTime'], '');
       queryClient.setQueryData(['modifyData/Schedule/EndTime'], '');
     } else {
-      alert('날짜와 시간대는 필수 입력 사항입니다.');
+      Toast.error('날짜와 시간대는 필수 입력 사항입니다.');
     }
   };
 
