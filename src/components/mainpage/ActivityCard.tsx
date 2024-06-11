@@ -18,21 +18,6 @@ export interface ActivityCardProps {
   };
 }
 
-// api 예시
-// https://sp-globalnomad-api.vercel.app/4-15/activities?method=offset&page=1&size=20
-// 카테고리 검색
-// https://sp-globalnomad-api.vercel.app/4-15/activities?method=offset&category=%ED%88%AC%EC%96%B4&page=1&size=20
-// 키워드 검색
-// https://sp-globalnomad-api.vercel.app/4-15/activities?method=offset&keyword=%ED%85%8C%EC%8A%A4%ED%8A%B8&page=1&size=20
-// 오름차순 정렬
-// https://sp-globalnomad-api.vercel.app/4-15/activities?method=offset&sort=price_asc&page=1&size=20
-// 내림차순 정렬
-// https://sp-globalnomad-api.vercel.app/4-15/activities?method=offset&sort=price_desc&page=1&size=20
-// 인기순
-// https://sp-globalnomad-api.vercel.app/4-15/activities?method=offset&sort=most_reviewed&page=1&size=20
-// 각 체험 카드 조회
-// https://sp-globalnomad-api.vercel.app/4-15/activities/901
-
 const ActivityCard = ({ cardData }: ActivityCardProps) => {
   const { id, title, price, bannerImageUrl, rating, reviewCount } = cardData;
 
