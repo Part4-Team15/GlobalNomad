@@ -20,11 +20,11 @@ const Reviews = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [currentPageGroup, setCurrentPageGroup] = useState(0);
 
-  const { data: reviewData, isLoading, isError } = usePageReview(
-    Number(id),
-    currentPageNum + 1,
-    REVIEW_OFFSET_LIMIT,
-  );
+  const {
+    data: reviewData,
+    isLoading,
+    isError,
+  } = usePageReview(Number(id), currentPageNum + 1, REVIEW_OFFSET_LIMIT);
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
@@ -70,14 +70,14 @@ const Reviews = () => {
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
                     <div
-                      className="w-1/12 h-10 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+                      className="w-12 h-12 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
                       style={{
                         backgroundImage: `url(${review.user.profileImageUrl})`,
                         backgroundColor: '#E3E5E8',
                       }}
                     />
                   ) : (
-                    <div className="w-1/6 h-8 bg-slate-400 rounded-full flex items-center justify-center text-white">
+                    <div className="w-12 h-12 bg-slate-400 rounded-full flex items-center justify-center text-white">
                       {review.user.nickname[0]}
                     </div>
                   )}
