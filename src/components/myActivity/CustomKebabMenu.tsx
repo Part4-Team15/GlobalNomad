@@ -26,12 +26,7 @@ const CustomKebabMenu = ({ options }: IProps) => {
   return (
     <div className="relative">
       {/* 드롭다운 선택 영역 */}
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={toggleDropdown}
-        onKeyDown={handleKeyDown}
-      >
+      <div role="button" tabIndex={0} onClick={toggleDropdown} onKeyDown={handleKeyDown}>
         <img src="/assets/kebab_icon.svg" alt="kebabIcon" />
       </div>
       {/* 옵션 리스트 */}
@@ -51,9 +46,7 @@ const CustomKebabMenu = ({ options }: IProps) => {
               role="option"
               aria-selected={option === selectedOption}
               className={`py-4 flex items-center justify-center cursor-pointer ${
-                option !== options[options.length - 1]
-                  ? 'border-b border-gray-300'
-                  : ''
+                option !== options[options.length - 1] ? 'border-b border-gray-300' : ''
               } hover:bg-gray-100`}
             >
               {option.label}
