@@ -17,17 +17,13 @@ const MyActivityPage = () => {
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,
   });
-
   const { ref, inView } = useInView();
-
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [inView, fetchNextPage]);
-
   const activities = data?.pages.flatMap((page) => page.activities) || [];
-
   const handleAssignClick = () => {
     navigate('/my/activity/assign');
   };
@@ -48,7 +44,6 @@ const MyActivityPage = () => {
       </div>
     );
   }
-
   return (
     <section className=" bg-gray-10 px-4 py-16">
       <div className="flex max-w-[75rem] mx-auto gap-6 items-start">

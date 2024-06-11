@@ -67,6 +67,7 @@ export const StyledReserveCalendarWrapper = styled.div`
     height: 36px;
     border: 2px solid #fff;
     padding-top: 8px;
+    padding-left: 8px;
   }
 
   /* 호버 및 액티브 스타일 */
