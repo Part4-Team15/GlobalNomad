@@ -30,7 +30,7 @@ const ActivityCardList = () => {
   const [currentCategory, setCurrentCategory] = useState('');
   const [sortActivity, setSortActivity] = useState('');
   const [offset, setOffset] = useState(calculateOffsetLimit());
-const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,8 +92,13 @@ const [searchParams, setSearchParams] = useSearchParams();
 
   const handleCategoryClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
-    if (currentCategory === button.value) setCurrentCategory('');
-    else setCurrentCategory(button.value);
+    if (currentCategory === button.value) {
+      setCurrentCategory('');
+      searchParams.delete('category');
+    } else {
+      setCurrentCategory(button.value);
+      searchParams.set('category', button.value);
+    }
     setCurrentPageNum(0);
     setCurrentPageGroup(0);
   };
@@ -101,6 +106,7 @@ const [searchParams, setSearchParams] = useSearchParams();
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     setSortActivity(button.value);
+    searchParams.set('sort', button.value);
     setCurrentPageNum(0);
     setCurrentPageGroup(0);
   };
