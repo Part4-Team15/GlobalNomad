@@ -6,6 +6,7 @@ import NoReservation from '@/components/myreservation/NoReservation';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import getMyActivity from '@/api/getMyActivity';
 import { useInView } from 'react-intersection-observer';
+import deleteMyActivity from '@/api/deleteMyActivity';
 
 const MyActivityPage = () => {
   const navigate = useNavigate();
@@ -16,22 +17,23 @@ const MyActivityPage = () => {
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,
   });
-
   const { ref, inView } = useInView();
-
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [inView, fetchNextPage]);
-
   const activities = data?.pages.flatMap((page) => page.activities) || [];
-
   const handleAssignClick = () => {
     navigate('/my-activity/assign');
   };
 
-  const handleDeleteActivity = async () => {
+  const handleDeleteActivity = async (id: string) => {
+    try {
+      await deleteMyActivity(id);
+    } catch (error) {
+      console.log('Failed to delete activity:', error);
+    }
     await queryClient.invalidateQueries({ queryKey: ['activities'] });
   };
 
@@ -42,7 +44,6 @@ const MyActivityPage = () => {
       </div>
     );
   }
-
   return (
     <section className=" bg-gray-10 px-4 py-16">
       <div className="flex max-w-[75rem] mx-auto gap-6 items-start">
@@ -68,7 +69,7 @@ const MyActivityPage = () => {
                     <ReservationCard
                       key={activity.id}
                       activity={activity}
-                      onDelete={() => handleDeleteActivity()}
+                      onDelete={() => handleDeleteActivity(activity.id)}
                     />
                   ))}
                 </ul>

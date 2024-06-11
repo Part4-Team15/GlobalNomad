@@ -39,7 +39,7 @@ const Notification = () => {
   return (
     <div ref={dropdownRef} className="relative">
       <img
-        className="cursor-pointer"
+        className="cursor-pointer w-5 h-5"
         src="/assets/notification_icon.svg"
         alt="notification_icon"
         onClick={toggleDropdown}

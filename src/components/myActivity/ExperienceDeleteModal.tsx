@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import axios from '@/lib/axiosInstance';
-import ModalBackground from '../review/ModalBackground';
 import useClickOutside from '@/hooks/useClickOutside';
+import ModalBackground from '../review/ModalBackground';
 
 interface ExperienceDeleteModalProps {
   isOpen: boolean;
