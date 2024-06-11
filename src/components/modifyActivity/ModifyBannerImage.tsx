@@ -66,7 +66,7 @@ const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
             ref={inputRef}
             id="bannerImageInput"
             type="file"
-            accept="image/*"
+            accept="image/jpeg, image/png"
             style={{ display: 'none' }}
             onChange={handleBannerImageUpload}
           />

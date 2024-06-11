@@ -28,17 +28,17 @@ const AppRouter = () => (
         {/* 체험 상세 페이지 */}
         <Route path="activity/:id" element={<ActivityPage />} />
         {/* 내 정보 */}
-        <Route path="my-page" element={<MyPage />} />
+        <Route path="my/profile" element={<MyPage />} />
         {/* 예약 내역 */}
-        <Route path="my-reservation" element={<ReservationsPage />} />
+        <Route path="my/reservation/history" element={<ReservationsPage />} />
         {/* 내 체험 관리 */}
-        <Route path="my-activity" element={<MyActivityPage />} />
+        <Route path="my/activity" element={<MyActivityPage />} />
         {/* 내 체험 관리 - 체험 등록 */}
-        <Route path="my-activity/assign" element={<AssignActivityPage />} />
+        <Route path="my/activity/assign" element={<AssignActivityPage />} />
         {/* 내 체험 관리 - 체험 수정 */}
-        <Route path="my-activity/modify/:id" element={<ModifyActivityPage />} />
+        <Route path="my/activity/:id/modify" element={<ModifyActivityPage />} />
         {/* 예약 현황 */}
-        <Route path="reserve-status" element={<ReserveStatusPage />} />
+        <Route path="my/reservation/status" element={<ReserveStatusPage />} />
         <Route path="*" element={<Error404 />} />
       </Route>
     </Routes>
