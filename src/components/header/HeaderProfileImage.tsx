@@ -1,25 +1,12 @@
-import React from 'react';
-import NoProfileImage from './NoProfileImage';
-
-const HeaderProfileImage = ({
-  nickname,
-  profileImageUrl,
-}: {
-  nickname: string;
-  profileImageUrl: string;
-}) => {
-  if (!profileImageUrl) {
-    return <NoProfileImage nickname={nickname} />;
-  }
+const HeaderProfileImageWithUrl = ({ profileImageUrl }: { profileImageUrl: string }) => {
   return (
     <div
-      className="w-8 h-8 rounded-full overflow-hidden bg-cover"
+      className="w-8 h-8 rounded-full overflow-hidden bg-no-repeat bg-contain bg-center"
       style={{
         backgroundImage: `url(${profileImageUrl})`,
-        backgroundSize: 'contain',
       }}
     />
   );
 };
 
-export default HeaderProfileImage;
+export default HeaderProfileImageWithUrl;

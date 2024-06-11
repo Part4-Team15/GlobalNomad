@@ -47,7 +47,7 @@ const NotificationDropdown = ({
   return (
     <div className="flex flex-col absolute top-12 right-12 z-20 w-[368px] rounded-md bg-green-10 shadow-md border-1 py-6 px-4 gap-3 h-[300px] overflow-y-auto">
       {totalCount === 0 ? (
-        <div>모든 알람을 확인했습니다!</div>
+        <div>모든 알림을 확인했습니다!</div>
       ) : (
         <>
           <div className="w-full flex justify-between">
