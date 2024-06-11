@@ -26,9 +26,7 @@ const AssignActivityPage = () => (
         <AssignReservationTime />
         <AssignBannerImage />
         <AssignIntroImage />
-        <span className=" text-gray-80 text-lg">
-          *이미지는 최대 4개까지 등록 가능합니다.
-        </span>
+        <span className=" text-gray-80 text-lg">*이미지는 최대 4개까지 등록 가능합니다.</span>
       </div>
     </div>
   </div>

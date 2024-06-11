@@ -25,7 +25,7 @@ const MyActivityPage = () => {
   }, [inView, fetchNextPage]);
   const activities = data?.pages.flatMap((page) => page.activities) || [];
   const handleAssignClick = () => {
-    navigate('/my-activity/assign');
+    navigate('/my/activity/assign');
   };
 
   const handleDeleteActivity = async (id: string) => {

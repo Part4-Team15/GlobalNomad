@@ -1,10 +1,13 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { AssignData } from '@/types/assignActivityPage';
 import postAssignMyActivity from '@/api/postMyActivity';
+import Toast from '@/utils/Toast';
 import checkRequireData from './utils/checkRequireData';
 
 const AssignHeader = () => {
+  const navigate = useNavigate();
   const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
 
   const handleAssignData = async () => {
@@ -12,7 +15,8 @@ const AssignHeader = () => {
       try {
         const response = await postAssignMyActivity(data);
         if (response) {
-          alert('등록 성공!!'); // 성공 시 모달 열기
+          Toast.success('등록 성공!!'); // 성공 시 모달 열기
+          navigate('/my/activity');
         }
       } catch (e) {
         console.error('Error:', e);

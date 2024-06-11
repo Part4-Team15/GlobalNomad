@@ -1,4 +1,5 @@
 import { ModifyData } from '@/types/modifyActivityPage';
+import Toast from '@/utils/Toast';
 
 const requiredFields: { [key in keyof ModifyData]?: string } = {
   title: '제목은 필수 입력 사항입니다.',
@@ -11,12 +12,12 @@ const requiredFields: { [key in keyof ModifyData]?: string } = {
 
 const checkRequireData = (modifyData: ModifyData | undefined): boolean => {
   if (!modifyData) {
-    alert('입력 사항을 기입해주세요.');
+    Toast.error('입력 사항을 기입해주세요.');
     return false;
   }
   return Object.entries(requiredFields).every(([key, message]) => {
     if (!modifyData[key as keyof ModifyData]) {
-      alert(message);
+      Toast.error(message);
       return false;
     }
     return true;

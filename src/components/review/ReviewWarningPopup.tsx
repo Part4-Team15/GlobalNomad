@@ -15,6 +15,7 @@ const ReviewWarningPopup: React.FC<ReviewDWarningPopupProps> = ({ message, isVis
     if (popupRef.current) {
       setPopupWidth(popupRef.current.offsetWidth);
     }
+    console.log(popupWidth);
   }, []);
 
   return (
