@@ -1,7 +1,7 @@
 import ReservationCard from '@/components/myActivity/ReservationCard';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NoReservation from '@/components/myreservation/NoReservation';
+import NoReservation from '@/components/myReservationHistory/NoReservation';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import getMyActivity from '@/api/getMyActivity';
 import { useInView } from 'react-intersection-observer';

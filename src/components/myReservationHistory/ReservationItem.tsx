@@ -1,5 +1,5 @@
-import priceToWon from '@/utils/priceToWon';
 import { useEffect, useState } from 'react';
+import ReservationDescription from './ReservationDescrition';
 
 interface ReservationItemProps {
   bannerImageUrl: string;
@@ -31,13 +31,6 @@ const ReservationItem = ({
     reservationStatusText: '',
   });
 
-  const { textColor, reservationStatusText } = reservationStatus;
-
-  const handleReviewClick = () => {
-    onReviewClick(id);
-  };
-
-  console.log(status);
   useEffect(() => {
     switch (status) {
       case 'pending':
@@ -79,13 +72,12 @@ const ReservationItem = ({
     }
   }, [status]);
 
-  // 추후에 삭제
-  console.log(bannerImageUrl);
   const dateArr = date.split('-');
   const year = dateArr[0];
   const month = dateArr[1];
   const day = dateArr[2];
-  const formatDate = `${year}. ${month.replace('0', '')}. ${day}`;
+  const formatDate = `${year}. ${month.replace(/^0/, '')}. ${day.replace(/^0/, '')}`;
+
   return (
     <li className="flex rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white md:h-[157px] md:gap-2 sm:h-[128px]">
       <img
@@ -93,41 +85,18 @@ const ReservationItem = ({
         src={`${bannerImageUrl}`}
         alt="activity_banner_image"
       />
-      <div className="flex flex-col py-[25.5px] mr-6 flex-1 md:py-3 md:mr-[18px] sm:py-[9px] sm:mr-[14px]">
-        <div className={`text-[${textColor}] font-bold mb-2 md:mb-0 sm:text-sm sm:mb-0`}>
-          <p>{reservationStatusText}</p>
-        </div>
-        <h2 className="text-xl font-bold text-[#112211] mb-3 md:mb-1 md:text-lg sm:text-sm">
-          {title}
-        </h2>
-        <div className="mb-4 text-[18px] text-[#112211] md:text-[14px] md:mb-[10px] sm:text-[12px] sm:mb-2">
-          <p>
-            {formatDate} · {startTime} - {endTime} {headCount}명
-          </p>
-        </div>
-        <div className="flex align-middle justify-between">
-          <div className="text-[#1B1B1B] text-2xl font-bold py-[5px] md:text-[20px] sm:text-base sm:pt-0 sm:pb-[15px]">
-            <p>{priceToWon(totalPrice)}</p>
-          </div>
-          {status === 'completed' && (
-            <button
-              type="button"
-              onClick={handleReviewClick}
-              className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm font-bold md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
-            >
-              <p>후기 작성</p>
-            </button>
-          )}
-          {status === 'pending' && (
-            <button
-              type="button"
-              className="border-[1.5px] font-bold w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-white text-black border-black rounded-md sm:text-sm md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
-            >
-              <p>예약 취소</p>
-            </button>
-          )}
-        </div>
-      </div>
+      <ReservationDescription
+        title={title}
+        status={status}
+        date={formatDate}
+        startTime={startTime}
+        endTime={endTime}
+        headCount={headCount}
+        totalPrice={totalPrice}
+        textColor={reservationStatus.textColor}
+        reservationStatusText={reservationStatus.reservationStatusText}
+        onReviewClick={() => onReviewClick(id)}
+      />
     </li>
   );
 };

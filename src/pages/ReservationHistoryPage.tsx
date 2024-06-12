@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import getMyReservation from '@/api/getMyReservation';
-import ReservationContent from '@/components/myreservation/ReservationContent';
+import ReservationContent from '@/components/myReservationHistory/ReservationContent';
 import { ActivityType } from '@/types/activityPage';
 import ReviewModal from '../components/review/ReviewModal';
 import ModalPortal from '../components/review/ModalPortal';
