@@ -35,7 +35,7 @@ interface BookingData {
   price: number;
 }
 
-const ReservationsPage = () => {
+const ReservationHistoryPage = () => {
   const [status, setStatus] = useState<string>('');
   const { data, isLoading, isError } = useQuery({
     queryKey: ['reservation'],
@@ -85,4 +85,4 @@ const ReservationsPage = () => {
   );
 };
 
-export default ReservationsPage;
+export default ReservationHistoryPage;
