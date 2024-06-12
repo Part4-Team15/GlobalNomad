@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Error404 = () => {
+const NotFound = () => {
   const navigate = useNavigate();
 
   const handleGoHome = () => {
@@ -23,4 +23,4 @@ const Error404 = () => {
   );
 };
 
-export default Error404;
+export default NotFound;
