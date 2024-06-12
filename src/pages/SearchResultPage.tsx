@@ -1,12 +1,22 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SEARCH_OFFSET_LIMIT } from '@/constants/pagination_config';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import MainBanner from '@/components/mainpage/MainBanner';
 import Pagination from '@/components/mainpage/Pagination';
+
+function calculateOffsetLimit() {
+  if (window.innerWidth > 1024) {
+    return 16;
+  }
+  if (window.innerWidth > 769) {
+    return 9;
+  }
+  return 8;
+}
 
 const useSearchResult = (keyword: string, pageNum: number, size: number) => {
   return useQuery({
@@ -19,13 +29,25 @@ const useSearchResult = (keyword: string, pageNum: number, size: number) => {
 const SearchResultPage = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [currentPageGroup, setCurrentPageGroup] = useState(0);
+  const [offset, setOffset] = useState(calculateOffsetLimit());
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
+
+  useEffect(() => {
+    const handleResize = () => {
+      setOffset(calculateOffsetLimit());
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const { data: searchResult, isLoading, isError } = useSearchResult(
     String(keyword),
     currentPageNum,
-    SEARCH_OFFSET_LIMIT,
+    offset,
   );
 
   if (isLoading) {
@@ -50,9 +72,9 @@ const SearchResultPage = () => {
     <>
       <MainBanner />
       <section className="flex flex-col items-center">
-        <div className="w-pc mb-32 md:w-tab sm:w-mob">
+        <div className="w-pc mb-[332px] md:w-tab sm:w-mob">
           <ActivitySearch />
-          <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-[60px]">
+          <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-6">
             <h2 className="text-[2rem]">
               <span className="font-bold">{keyword}</span>
               으로 검색한 결과입니다.
@@ -61,7 +83,9 @@ const SearchResultPage = () => {
           </div>
           {totalCount ? (
             <>
-              <div className="grid grid-cols-4grid grid-cols-4 gap-6 mb-[72px]">
+              <div className="grid grid-cols-4 gap-x-6 gap-y-12 mb-[72px]
+                md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:mb-36 sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:mb-28"
+              >
                 {activities.map((activity) => (
                   <ActivityCard key={activity.id} cardData={activity} />
                 ))}
