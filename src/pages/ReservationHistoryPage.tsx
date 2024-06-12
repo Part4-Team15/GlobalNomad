@@ -37,7 +37,7 @@ interface BookingData {
 
 const ReservationHistoryPage = () => {
   const [status, setStatus] = useState<string>('');
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: ['reservation'],
     queryFn: getMyReservation,
   });
@@ -66,14 +66,6 @@ const ReservationHistoryPage = () => {
     setIsModalOpen(false);
     setSelectedBooking(null);
   };
-
-  if (isLoading) {
-    return <div>예약 목록을 불러오고 있습니다...</div>;
-  }
-
-  if (isError || !data) {
-    return <div>예약 목록을 불러오는데 실패했습니다</div>;
-  }
 
   return (
     <div>

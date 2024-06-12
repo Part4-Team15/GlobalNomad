@@ -1,3 +1,4 @@
+import priceToWon from '@/utils/priceToWon';
 import { useEffect, useState } from 'react';
 
 interface ReservationItemProps {
@@ -41,7 +42,7 @@ const ReservationItem = ({
       case 'pending':
         setReservationStatus({
           textColor: '#555555',
-          reservationStatusText: '예약 신청',
+          reservationStatusText: '예약 완료',
         });
         break;
       case 'confirmed':
@@ -79,33 +80,37 @@ const ReservationItem = ({
 
   // 추후에 삭제
   console.log(bannerImageUrl);
-
+  const dateArr = date.split('-');
+  const year = dateArr[0];
+  const month = dateArr[1];
+  const day = dateArr[2];
+  const formatDate = `${year}. ${month.replace('0', '')}. ${day}`;
   return (
-    <li
-      className="flex w-full rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17, 34, 17, 0.05);
-
-    ]  bg-white"
-    >
-      <img
-        className="w-[204px] h-[204px]"
-        src="https://picsum.photos/200/300"
-        alt="activity_banner_image"
-      />
-      <div className="w-full flex flex-col py-[25.5px] mr-6">
-        <div className={`text-${textColor} font-bold mb-2`}>{reservationStatusText}</div>
-        <div className="text-xl font-bold text-[#121] mb-3">{title}</div>
-        <div className="mb-4">
-          {date} {startTime} - {endTime} {headCount}명
+    <li className="flex rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white">
+      <img className="w-[204px] h-[204px]" src={`${bannerImageUrl}`} alt="activity_banner_image" />
+      <div className="flex flex-col py-[25.5px] mr-6 flex-1">
+        <div className={`text-[${textColor}] font-bold mb-2`}>{reservationStatusText}</div>
+        <div className="text-xl font-bold text-[#112211] mb-3">{title}</div>
+        <div className="mb-4 text-[18px] text-[#112211]">
+          {formatDate} · {startTime} - {endTime} {headCount}명
         </div>
-        <div className="flex justify-between items-center">
-          <div className="text-[#1b1b1b] text-2xl font-medium py-[5px]">₩{totalPrice}원</div>
+        <div className="flex align-middle justify-between">
+          <div className="text-[#1B1B1B] text-2xl font-bold py-[5px]">{priceToWon(totalPrice)}</div>
           {status === 'completed' && (
             <button
               type="button"
               onClick={handleReviewClick}
-              className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm"
+              className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm font-bold"
             >
               후기 작성
+            </button>
+          )}
+          {status === 'pending' && (
+            <button
+              type="button"
+              className="border-[1.5px] font-bold w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-white text-black border-black rounded-md sm:text-sm"
+            >
+              예약 취소
             </button>
           )}
         </div>
