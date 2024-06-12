@@ -1,5 +1,7 @@
 import priceToWon from '@/utils/priceToWon';
 import { useEffect, useState } from 'react';
+import ReservationCancelModal from './ReservationCancelModal';
+import ModalPortal from '../review/ModalPortal';
 
 interface ReservationItemProps {
   bannerImageUrl: string;
@@ -30,11 +32,16 @@ const ReservationItem = ({
     textColor: '',
     reservationStatusText: '',
   });
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
   const { textColor, reservationStatusText } = reservationStatus;
 
   const handleReviewClick = () => {
     onReviewClick(id);
+  };
+
+  const handleCancelClick = () => {
+    setIsCancelModalOpen(true);
   };
 
   useEffect(() => {
@@ -86,46 +93,56 @@ const ReservationItem = ({
   const day = dateArr[2];
   const formatDate = `${year}. ${month.replace('0', '')}. ${day}`;
   return (
-    <li className="flex rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white md:h-[157px] md:gap-2 sm:h-[128px]">
-      <img
-        className="w-[204px] h-[204px] md:w-[157px] md:h-[157px] sm:w-[128px] sm:h-[128px]"
-        src={`${bannerImageUrl}`}
-        alt="activity_banner_image"
-      />
-      <div className="flex flex-col py-[25.5px] mr-6 flex-1 md:py-3 md:mr-[18px] sm:py-[9px] sm:mr-[14px]">
-        <div className={`text-[${textColor}] font-bold mb-2 md:mb-0 sm:text-sm sm:mb-0`}>
-          {reservationStatusText}
-        </div>
-        <div className="text-xl font-bold text-[#112211] mb-3 md:mb-1 md:text-lg sm:text-sm">
-          {title}
-        </div>
-        <div className="mb-4 text-[18px] text-[#112211] md:text-[14px] md:mb-[10px] sm:text-[12px] sm:mb-2">
-          {formatDate} · {startTime} - {endTime} {headCount}명
-        </div>
-        <div className="flex align-middle justify-between">
-          <div className="text-[#1B1B1B] text-2xl font-bold py-[5px] md:text-[20px] sm:text-base sm:pt-0 sm:pb-[15px]">
-            {priceToWon(totalPrice)}
+    <>
+      <li className="flex rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white md:h-[157px] md:gap-2 sm:h-[128px]">
+        <img
+          className="w-[204px] h-[204px] md:w-[157px] md:h-[157px] sm:w-[128px] sm:h-[128px]"
+          src={`${bannerImageUrl}`}
+          alt="activity_banner_image"
+        />
+        <div className="flex flex-col py-[25.5px] mr-6 flex-1 md:py-3 md:mr-[18px] sm:py-[9px] sm:mr-[14px]">
+          <div className={`text-[${textColor}] font-bold mb-2 md:mb-0 sm:text-sm sm:mb-0`}>
+            {reservationStatusText}
           </div>
-          {status === 'completed' && (
-            <button
-              type="button"
-              onClick={handleReviewClick}
-              className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm font-bold md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
-            >
-              후기 작성
-            </button>
-          )}
-          {status === 'pending' && (
-            <button
-              type="button"
-              className="border-[1.5px] font-bold w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-white text-black border-black rounded-md sm:text-sm md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
-            >
-              예약 취소
-            </button>
-          )}
+          <div className="text-xl font-bold text-[#112211] mb-3 md:mb-1 md:text-lg sm:text-sm">
+            {title}
+          </div>
+          <div className="mb-4 text-[18px] text-[#112211] md:text-[14px] md:mb-[10px] sm:text-[12px] sm:mb-2">
+            {formatDate} · {startTime} - {endTime} {headCount}명
+          </div>
+          <div className="flex align-middle justify-between">
+            <div className="text-[#1B1B1B] text-2xl font-bold py-[5px] md:text-[20px] sm:text-base sm:pt-0 sm:pb-[15px]">
+              {priceToWon(totalPrice)}
+            </div>
+            {status === 'completed' && (
+              <button
+                type="button"
+                onClick={handleReviewClick}
+                className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm font-bold md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
+              >
+                후기 작성
+              </button>
+            )}
+            {status === 'pending' && (
+              <button
+                type="button"
+                onClick={handleCancelClick}
+                className="border-[1.5px] font-bold w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-white text-black border-black rounded-md sm:text-sm md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
+              >
+                예약 취소
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-    </li>
+      </li>
+      <ModalPortal>
+        <ReservationCancelModal
+          isOpen={isCancelModalOpen}
+          onClose={() => setIsCancelModalOpen(false)}
+          reservationId={id}
+        />
+      </ModalPortal>
+    </>
   );
 };
 
