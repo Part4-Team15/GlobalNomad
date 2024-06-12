@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MyPageForm from '@/components/myPage/MyPageForm';
-import Profile from '../components/common/profile/Profile';
+import { useOutletContext } from 'react-router-dom';
 
+interface OutletProps {
+  uploadedImage: string | null;
+}
 const MyProfile = () => {
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  return (
-    <div className="flex gap-6 justify-center bg-[#FAFAFA] pt-[65px]">
-      <Profile uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} />
-      <MyPageForm uploadedImage={uploadedImage} />
-    </div>
-  );
+  const { uploadedImage } = useOutletContext<OutletProps>();
+  return <MyPageForm uploadedImage={uploadedImage} />;
 };
 
 export default MyProfile;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Profile from '@/components/common/profile/Profile';
+
 import { useQuery } from '@tanstack/react-query';
 import getMyReservation from '@/api/getMyReservation';
 import ReservationContent from '@/components/myreservation/ReservationContent';
@@ -76,8 +76,7 @@ const ReservationsPage = () => {
   }
 
   return (
-    <div className="flex gap-6 justify-center bg-[#FAFAFA] pt-[65px]">
-      <Profile />
+    <div>
       <ReservationContent status={status} setStatus={setStatus} onReviewClick={handleReviewClick} />
       <ModalPortal>
         <ReviewModal isOpen={isModalOpen} onClose={handleModalClose} booking={selectedBooking} />
