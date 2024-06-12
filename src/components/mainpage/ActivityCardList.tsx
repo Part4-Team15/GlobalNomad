@@ -129,10 +129,13 @@ const ActivityCardList = () => {
         onSelectCategory={handleCategoryClick}
         onSetSort={handleSortClick}
       />
-      <h2 className="text-4xl font-bold mt-10 mb-8 sm:text-lg sm:my-6">
+      <h2 className="text-4xl font-bold mt-10 mb-8 sm:text-lg sm:my-6 sm:leading-none">
         {currentCategory || '🛼 모든 체험'}
       </h2>
-      <div className="grid grid-cols-4 gap-6 h-[890px] mb-[72px] md:grid-cols-3 md:gap-4 md:h-[1154px] sm:grid-cols-2 sm:gap-2 sm:h-[572px] sm:mb-[62px]">
+      <div
+        className="grid grid-cols-4 gap-x-6 gap-y-12 h-[918px] mb-[72px]
+        md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:min-h-[1183px] sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:h-[614px] sm:mb-[62px]"
+      >
         {activities.map((activity) => (
           <ActivityCard key={activity.id} cardData={activity} />
         ))}
