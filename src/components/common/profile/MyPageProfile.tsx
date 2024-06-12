@@ -4,7 +4,7 @@ import getUserInfo from '@/api/getUserInfo';
 import PageMenu from './PageMenu';
 import ProfileImage from './ProfileImage';
 
-const Profile = ({
+const MyPageProfile = ({
   uploadedImage = null,
   setUploadedImage,
 }: {
@@ -65,4 +65,4 @@ const Profile = ({
     </div>
   );
 };
-export default Profile;
+export default MyPageProfile;

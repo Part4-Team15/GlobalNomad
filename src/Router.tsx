@@ -5,7 +5,6 @@ import SignupPage from './pages/SignupPage';
 import MainPage from './pages/MainPage';
 import ActivityPage from './pages/ActivityPage';
 import Layout from './pages/Layout';
-import MyPage from './pages/MyProfile';
 import ReservationsPage from './pages/ReservationsPage';
 import MyActivityPage from './pages/MyActivityPage';
 import AssignActivityPage from './pages/AssignActivityPage';
@@ -14,6 +13,7 @@ import ReserveStatusPage from './pages/ReserveStatusPage';
 import Error404 from './pages/Error404';
 import SearchResultPage from './pages/SearchResultPage';
 import MyPageLayout from './components/common/profile/MyPageLayout';
+import MyProfile from './pages/MyProfile';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -30,7 +30,7 @@ const AppRouter = () => (
         <Route path="activity/:id" element={<ActivityPage />} />
         {/* 내 정보 */}
         <Route path="my" element={<MyPageLayout />}>
-          <Route path="profile" element={<MyPage />} />
+          <Route path="profile" element={<MyProfile />} />
           {/* 예약 내역 */}
           <Route path="reservation-history" element={<ReservationsPage />} />
           {/* 내 체험 관리 */}

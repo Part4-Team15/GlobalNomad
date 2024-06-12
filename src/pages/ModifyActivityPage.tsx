@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Profile from '@/components/common/profile/Profile';
+import Profile from '@/components/common/profile/MyPageProfile';
 import ModifyHeader from '@/components/modifyActivity/ModifyHeader';
 import ModifyTitle from '@/components/modifyActivity/ModifyTitle';
 import ModifyCategory from '@/components/modifyActivity/ModifyCategory';
