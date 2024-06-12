@@ -31,6 +31,7 @@ const ActivityCardList = () => {
   const [sortActivity, setSortActivity] = useState('');
   const [offset, setOffset] = useState(calculateOffsetLimit());
   const [searchParams, setSearchParams] = useSearchParams();
+  const pageParams = searchParams.get('page');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,24 +49,32 @@ const ActivityCardList = () => {
     const categoryParam = searchParams.get('category');
     const sortParam = searchParams.get('sort');
 
-    if (categoryParam) searchParams.set('category', currentCategory);
-    if (sortParam) searchParams.set('sort', sortActivity);
-    searchParams.set('page', String(currentPageNum + 1));
+    if (categoryParam) setCurrentCategory(categoryParam);
+    if (sortParam) setSortActivity(sortParam);
+    if (pageParams) setCurrentPageNum(Number(pageParams) - 1);
+    if (Number(pageParams) > 5) setCurrentPageGroup(Math.floor(Number(pageParams) / 5));
+  }, []);
+
+  useEffect(() => {
+    if (currentCategory) searchParams.set('category', currentCategory);
+    if (sortActivity) searchParams.set('sort', sortActivity);
+    else searchParams.set('page', String(currentPageNum + 1));
 
     navigate(`?${searchParams}`);
   }, [currentCategory, sortActivity, currentPageNum, setSearchParams, navigate]);
 
   useEffect(() => {
-    const handlePopState = () => {
-      navigate('');
+    const handlePageShow = () => {
+      if (currentCategory) searchParams.delete('category');
+      if (sortActivity) searchParams.delete('sort');
     };
 
-    window.addEventListener('pageshow', handlePopState);
+    window.addEventListener('pageshow', handlePageShow);
 
     return () => {
-      window.removeEventListener('pageshow', handlePopState);
+      window.removeEventListener('pageshow', handlePageShow);
     };
-  }, [navigate]);
+  }, []);
 
   const { data: allActivityList, isLoading, isError } = usePageActivity(
     currentPageNum,
