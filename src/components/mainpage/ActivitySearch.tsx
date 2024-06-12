@@ -19,7 +19,7 @@ const ActivitySearch = () => {
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (searchWord === '') navigate('/');
-    else navigate(`/search?keyword=${searchWord}`);
+    else navigate(`/search?keyword=${searchWord || keyword}`);
   };
 
   return (
