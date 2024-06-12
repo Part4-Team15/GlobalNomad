@@ -5,14 +5,15 @@ import SignupPage from './pages/SignupPage';
 import MainPage from './pages/MainPage';
 import ActivityPage from './pages/ActivityPage';
 import Layout from './pages/Layout';
-import MyPage from './pages/MyPage';
 import ReservationsPage from './pages/ReservationsPage';
 import MyActivityPage from './pages/MyActivityPage';
 import AssignActivityPage from './pages/AssignActivityPage';
 import ModifyActivityPage from './pages/ModifyActivityPage';
 import ReserveStatusPage from './pages/ReserveStatusPage';
-import Error404 from './pages/Error404';
 import SearchResultPage from './pages/SearchResultPage';
+import MyPageLayout from './components/common/profile/MyPageLayout';
+import MyProfile from './pages/MyProfile';
+import NotFound from './pages/Error404';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -28,18 +29,21 @@ const AppRouter = () => (
         {/* 체험 상세 페이지 */}
         <Route path="activity/:id" element={<ActivityPage />} />
         {/* 내 정보 */}
-        <Route path="my/profile" element={<MyPage />} />
-        {/* 예약 내역 */}
-        <Route path="my/reservation/history" element={<ReservationsPage />} />
-        {/* 내 체험 관리 */}
-        <Route path="my/activity" element={<MyActivityPage />} />
-        {/* 내 체험 관리 - 체험 등록 */}
-        <Route path="my/activity/assign" element={<AssignActivityPage />} />
-        {/* 내 체험 관리 - 체험 수정 */}
-        <Route path="my/activity/:id/modify" element={<ModifyActivityPage />} />
-        {/* 예약 현황 */}
-        <Route path="my/reservation/status" element={<ReserveStatusPage />} />
-        <Route path="*" element={<Error404 />} />
+        <Route path="my" element={<MyPageLayout />}>
+          <Route path="profile" element={<MyProfile />} />
+          {/* 예약 내역 */}
+          <Route path="reservation-history" element={<ReservationsPage />} />
+          {/* 내 체험 관리 */}
+          <Route path="activity" element={<MyActivityPage />} />
+          {/* 내 체험 관리 - 체험 등록 */}
+          <Route path="activity/assign" element={<AssignActivityPage />} />
+          {/* 내 체험 관리 - 체험 수정 */}
+          <Route path="activity/:id/modify" element={<ModifyActivityPage />} />
+          {/* 예약 현황 */}
+          <Route path="reservation-status" element={<ReserveStatusPage />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   </BrowserRouter>

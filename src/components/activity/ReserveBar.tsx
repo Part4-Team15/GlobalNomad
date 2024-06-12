@@ -2,7 +2,6 @@ import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import Toast from '@/utils/Toast';
@@ -15,9 +14,7 @@ import {
   AvailableReservationsType,
   AvailableSchedulesType,
 } from '@/types/activityPage';
-import useWindowWidth from '@/hooks/useWindowWidth';
-import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
-import CalendarModal from './CalendarModal';
+import MobileCalendarModal from './MobileCalendarModal';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -26,11 +23,10 @@ interface ReserveFormProps {
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
-const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
+const ReserveBar: React.FC<ReserveFormProps> = ({ activity }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { price } = activity;
-  const windowWidth = useWindowWidth();
 
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
@@ -149,117 +145,61 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   }
 
   return (
-    <div className="w-full border-2 border-solid rounded-lg border-gray-30">
-      <div className="flex flex-col gap-4 p-4">
-        <div className="font-bold text-3xl md:text-xl">
-          {priceToWon(price)}
-          <span className="font-normal text-xl md:text-base"> / 인</span>
-        </div>
-        <div className="w-full h-[1px] bg-gray-40" />
-        {/* 예약 현황 캘린더 */}
-        <div className="font-bold text-xl">날짜</div>
-        {windowWidth > 1023 ? (
-          <>
-            <StyledReserveCalendarWrapper>
-              <Calendar
-                tileClassName={tileClassName}
-                onChange={handleDateChange}
-                value={selectedDate}
-                calendarType="gregory"
-                formatDay={(__, date) => moment(date).format('D')}
-                formatMonthYear={(__, date) => moment(date).format('MMMM YYYY')}
-                formatShortWeekday={(__, date) => moment(date).format('ddd')}
-                showNeighboringMonth={false}
-                minDetail="month"
-                minDate={new Date()}
-                next2Label={null}
-                prev2Label={null}
-              />
-            </StyledReserveCalendarWrapper>
-            <div className="font-bold text-lg">예약 가능한 시간</div>
-            {/* 예약 시간 선택 */}
-            <div className="flex flex-wrap gap-2">
-              {actualAvailableTimes?.map((availableSchedule) => {
-                if (availableSchedule.date === yearMonthDay) {
-                  return availableSchedule.times.map((time) => {
-                    const isSelected = selectedTimeId === time.id;
-                    return (
-                      <div
-                        key={time.id}
-                        className={`w-28 border-2 border-solid rounded-lg text-center p-2.5
-                    ${isSelected ? 'bg-nomad-black text-white' : 'bg-white text-nomad-black'}
-                    hover:bg-nomad-black hover:text-white`}
-                        onClick={handleSelectTime}
-                        data-time-id={time.id}
-                      >
-                        {`${time.startTime}~${time.endTime}`}
-                      </div>
-                    );
-                  });
-                }
-                return null;
-              })}
+    <div className="fixed bottom-0 left-0 w-full border-2 border-solid rounded-lg border-gray-30 bg-white">
+      <div className="flex justify-between p-4">
+        <div className="w-[240px] flex flex-col">
+          <div className="flex justify-between items-center gap-3">
+            <div className="font-bold text-3xl md:text-xl sm:text-xl">{priceToWon(totalPrice)}</div>
+            {/* 참여 인원 수 */}
+            <div className="flex justify-between items-center w-[100px] border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3">
+              <button
+                className={`${isReduceDisabled ? 'disabled:opacity-50' : ''} text-3xl`}
+                type="button"
+                onClick={handleReduceAttendee}
+                disabled={isReduceDisabled}
+              >
+                -
+              </button>
+              <div className="text-lg pt-1">{attendeeCount}</div>
+              <button className="text-3xl" type="button" onClick={handlePlusAttendee}>
+                +
+              </button>
             </div>
-          </>
-        ) : (
-          <div className="relative">
-            {!selectedTime ? (
-              <div className="font-bold w-24 underline cursor-pointer" onClick={handleModalOpen}>
-                날짜 선택하기
-              </div>
-            ) : (
-              <div className="font-bold w-full underline cursor-pointer" onClick={handleModalOpen}>
-                {`${yearMonthDay} ${selectedTime}`}
-              </div>
-            )}
-            {modalIsOpen && (
-              <CalendarModal
-                setModalIsOpen={setModalIsOpen}
-                handleDateChange={handleDateChange}
-                tileClassName={tileClassName}
-                handleSelectTime={handleSelectTime}
-                selectedTimeId={selectedTimeId}
-                actualAvailableTimes={actualAvailableTimes}
-                yearMonthDay={yearMonthDay}
-              />
-            )}
           </div>
-        )}
 
-        <div className="w-full h-[1px] bg-gray-40" />
-        {/* 참여 인원 수 */}
-        <div className="font-bold text-xl">참여 인원 수</div>
-        <div className="flex justify-between items-center w-[120px] border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3 pb-1">
-          <button
-            className={`${isReduceDisabled ? 'disabled:opacity-50' : ''}`}
-            type="button"
-            onClick={handleReduceAttendee}
-            disabled={isReduceDisabled}
-          >
-            -
-          </button>
-          <div className="text-lg pt-1">{attendeeCount}</div>
-          <button type="button" onClick={handlePlusAttendee}>
-            +
-          </button>
+          {/* 예약 현황 캘린더 */}
+          {!selectedTime ? (
+            <div className="font-bold w-24 underline cursor-pointer" onClick={handleModalOpen}>
+              날짜 선택하기
+            </div>
+          ) : (
+            <div className="font-bold w-full underline cursor-pointer" onClick={handleModalOpen}>
+              {`${yearMonthDay} ${selectedTime}`}
+            </div>
+          )}
+          {modalIsOpen && (
+            <MobileCalendarModal
+              setModalIsOpen={setModalIsOpen}
+              handleDateChange={handleDateChange}
+              tileClassName={tileClassName}
+              handleSelectTime={handleSelectTime}
+              selectedTimeId={selectedTimeId}
+              actualAvailableTimes={actualAvailableTimes}
+              yearMonthDay={yearMonthDay}
+            />
+          )}
         </div>
         {/* 예약하기 버튼 */}
         <button
           type="submit"
-          className="w-full bg-nomad-black rounded text-white text-center p-3 font-bold text-base"
+          className="w-1/3 h-auto bg-green-80 rounded-xl text-white text-center font-bold"
           onClick={handleSubmit}
         >
           예약하기
         </button>
-        <div className="w-full h-[1px] bg-gray-40" />
-        {/* 총 합계 가격 */}
-        <div className="flex justify-between font-bold text-xl">
-          <div>총 합계</div>
-          <div>{priceToWon(totalPrice)}</div>
-        </div>
       </div>
     </div>
   );
 };
 
-export default ReserveForm;
+export default ReserveBar;

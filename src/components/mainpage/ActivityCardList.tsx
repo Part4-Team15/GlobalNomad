@@ -1,5 +1,6 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import getCurrentPageActivity from '@/api/getCurrentPageActivity';
@@ -29,6 +30,8 @@ const ActivityCardList = () => {
   const [currentCategory, setCurrentCategory] = useState('');
   const [sortActivity, setSortActivity] = useState('');
   const [offset, setOffset] = useState(calculateOffsetLimit());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,7 +42,30 @@ const ActivityCardList = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  });
+  }, []);
+
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const sortParam = searchParams.get('sort');
+
+    if (categoryParam) searchParams.set('category', currentCategory);
+    if (sortParam) searchParams.set('sort', sortActivity);
+    searchParams.set('page', String(currentPageNum + 1));
+
+    navigate(`?${searchParams}`);
+  }, [currentCategory, sortActivity, currentPageNum, setSearchParams, navigate]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      navigate('');
+    };
+
+    window.addEventListener('pageshow', handlePopState);
+
+    return () => {
+      window.removeEventListener('pageshow', handlePopState);
+    };
+  }, [navigate]);
 
   const { data: allActivityList, isLoading, isError } = usePageActivity(
     currentPageNum,
@@ -66,8 +92,13 @@ const ActivityCardList = () => {
 
   const handleCategoryClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
-    if (currentCategory === button.value) setCurrentCategory('');
-    else setCurrentCategory(button.value);
+    if (currentCategory === button.value) {
+      setCurrentCategory('');
+      searchParams.delete('category');
+    } else {
+      setCurrentCategory(button.value);
+      searchParams.set('category', button.value);
+    }
     setCurrentPageNum(0);
     setCurrentPageGroup(0);
   };
@@ -75,6 +106,7 @@ const ActivityCardList = () => {
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     setSortActivity(button.value);
+    searchParams.set('sort', button.value);
     setCurrentPageNum(0);
     setCurrentPageGroup(0);
   };
