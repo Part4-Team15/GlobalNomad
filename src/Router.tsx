@@ -10,10 +10,10 @@ import MyActivityPage from './pages/MyActivityPage';
 import AssignActivityPage from './pages/AssignActivityPage';
 import ModifyActivityPage from './pages/ModifyActivityPage';
 import ReserveStatusPage from './pages/ReserveStatusPage';
-import Error404 from './pages/Error404';
 import SearchResultPage from './pages/SearchResultPage';
 import MyPageLayout from './components/common/profile/MyPageLayout';
 import MyProfile from './pages/MyProfile';
+import NotFound from './pages/Error404';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -43,7 +43,7 @@ const AppRouter = () => (
           <Route path="reservation-status" element={<ReserveStatusPage />} />
         </Route>
 
-        <Route path="*" element={<Error404 />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   </BrowserRouter>
