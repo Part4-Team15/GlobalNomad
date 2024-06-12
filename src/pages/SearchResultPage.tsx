@@ -47,17 +47,17 @@ const SearchResultPage = () => {
   const { activities, totalCount } = searchResult;
 
   return (
-    <div>
+    <>
       <MainBanner />
-      <div className="flex flex-col items-center">
+      <section className="flex flex-col items-center">
         <div className="w-pc mb-32 md:w-tab sm:w-mob">
           <ActivitySearch />
           <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-[60px]">
-            <div className="text-[2rem]">
+            <h2 className="text-[2rem]">
               <span className="font-bold">{keyword}</span>
               으로 검색한 결과입니다.
-            </div>
-            <div>총 {totalCount}개의 결과</div>
+            </h2>
+            <p>총 {totalCount}개의 결과</p>
           </div>
           {totalCount ? (
             <>
@@ -79,8 +79,8 @@ const SearchResultPage = () => {
             <div className="flex justify-center items-center">데이터가 없습니다.</div>
           )}
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 
