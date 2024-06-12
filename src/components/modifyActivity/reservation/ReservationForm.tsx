@@ -55,7 +55,7 @@ const ReservationForm = () => {
         >
           {/* 날짜 */}
           <div className="flex w-[100%] flex-col">
-            <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
+            <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
               <input className="w-[100%] outline-none" value={reservation.date} readOnly />
             </div>
           </div>
@@ -64,7 +64,7 @@ const ReservationForm = () => {
           <div className=" flex h-[70px] w-[100%] items-center gap-3">
             {/* 시작 시간 */}
             <div className="flex w-[100%] flex-col ">
-              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
+              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
                 <input className="w-[100%] outline-none" value={reservation.startTime} readOnly />
               </div>
             </div>
@@ -73,7 +73,7 @@ const ReservationForm = () => {
             <span>~</span>
             {/* 종료 시간 */}
             <div className="flex w-[100%] flex-col ">
-              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
+              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
                 <input className="w-[100%] outline-none" value={reservation.endTime} readOnly />
               </div>
             </div>

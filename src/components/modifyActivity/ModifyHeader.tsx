@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModifyData } from '@/types/modifyActivityPage';
 import patchModifyMyActivity from '@/api/patchMyActivity';
 import Toast from '@/utils/Toast';
-import checkRequireData from './utils/checkRequireData';
+import useCheckRequireData from './utils/checkRequireData';
 
 interface ModifyHeaderProps {
   id: string;
@@ -12,6 +12,7 @@ interface ModifyHeaderProps {
 
 const ModifyHeader = ({ id }: ModifyHeaderProps) => {
   const navigate = useNavigate();
+  const { checkRequireData } = useCheckRequireData();
   const data = useQuery({ queryKey: ['modifyData'] }).data as ModifyData;
 
   const handleModifyData = async () => {

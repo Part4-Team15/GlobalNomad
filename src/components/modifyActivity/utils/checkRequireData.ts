@@ -1,4 +1,5 @@
-import { ModifyData } from '@/types/modifyActivityPage';
+import { useQuery } from '@tanstack/react-query';
+import { ModifyData, Schedule } from '@/types/modifyActivityPage';
 import Toast from '@/utils/Toast';
 
 const requiredFields: { [key in keyof ModifyData]?: string } = {
@@ -10,18 +11,32 @@ const requiredFields: { [key in keyof ModifyData]?: string } = {
   bannerImageUrl: '배너 이미지는 필수 입력 사항입니다.',
 };
 
-const checkRequireData = (modifyData: ModifyData | undefined): boolean => {
-  if (!modifyData) {
-    Toast.error('입력 사항을 기입해주세요.');
-    return false;
-  }
-  return Object.entries(requiredFields).every(([key, message]) => {
-    if (!modifyData[key as keyof ModifyData]) {
-      Toast.error(message);
+const useCheckRequireData = () => {
+  const { data: currentSchedule } = useQuery<{ schedules: Schedule[] }>({
+    queryKey: ['modifyData/Schedule'],
+  });
+
+  // 데이터 유효성 검사 함수
+  const checkRequireData = (modifyData: ModifyData | undefined): boolean => {
+    if (!modifyData) {
+      Toast.error('입력 사항을 기입해주세요.');
       return false;
     }
-    return true;
-  });
+
+    return Object.entries(requiredFields).every(([key, message]) => {
+      if (!modifyData[key as keyof ModifyData]) {
+        Toast.error(message);
+        return false;
+      }
+      if (currentSchedule?.schedules.length === 0) {
+        Toast.error('예약 가능한 시간대는 필수 입력 사항입니다.');
+        return false;
+      }
+      return true;
+    });
+  };
+
+  return { checkRequireData };
 };
 
-export default checkRequireData;
+export default useCheckRequireData;

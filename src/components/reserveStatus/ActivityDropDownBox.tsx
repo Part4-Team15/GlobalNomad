@@ -23,7 +23,7 @@ const ActivityDropDownBox = ({
       {/* 버튼 클릭시 모달 열기 */}
       <button type="button" className="cursor-pointer" onClick={handleClickDropDown}>
         <img
-          src="assets/chevron_down.svg"
+          src="/assets/chevron_down.svg"
           alt="dropdown_icon"
           className="w-6 absolute top-5 right-3"
         />
