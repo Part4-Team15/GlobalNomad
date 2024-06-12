@@ -68,12 +68,12 @@ const ReservationHistoryPage = () => {
   };
 
   return (
-    <div className="md:flex-1">
+    <main className="md:flex-1">
       <ReservationContent status={status} setStatus={setStatus} onReviewClick={handleReviewClick} />
       <ModalPortal>
         <ReviewModal isOpen={isModalOpen} onClose={handleModalClose} booking={selectedBooking} />
       </ModalPortal>
-    </div>
+    </main>
   );
 };
 
