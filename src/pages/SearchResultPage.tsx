@@ -1,7 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { SEARCH_OFFSET_LIMIT } from '@/constants/pagination_config';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
@@ -72,14 +71,14 @@ const SearchResultPage = () => {
     <>
       <MainBanner />
       <section className="flex flex-col items-center">
-        <div className="w-pc mb-[332px] md:w-tab sm:w-mob">
+        <div className="w-pc mb-[332px] md:w-tab md:mb-[782px] sm:w-mob sm:mb-[514px]">
           <ActivitySearch />
-          <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-6">
-            <h2 className="text-[2rem]">
-              <span className="font-bold">{keyword}</span>
+          <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-6 md:my-6 sm:mt-6 sm:mb-4">
+            <h2 className="text-[2rem] sm:text-2xl sm:leading-normal">
+              <span className="font-bold text-green-40">{keyword}</span>
               으로 검색한 결과입니다.
             </h2>
-            <p>총 {totalCount}개의 결과</p>
+            <p className="sm:leading-[26px]">총 {totalCount}개의 결과</p>
           </div>
           {totalCount ? (
             <>
@@ -94,13 +93,13 @@ const SearchResultPage = () => {
                 currentPage={currentPageNum}
                 currentPageGroup={currentPageGroup}
                 totalCount={totalCount}
-                offsetLimit={SEARCH_OFFSET_LIMIT}
+                offsetLimit={offset}
                 setPageNum={handlePageChange}
                 setPageGroup={handlePageGroupChange}
               />
             </>
           ) : (
-            <div className="flex justify-center items-center">데이터가 없습니다.</div>
+            <div className="flex justify-center items-center">검색 결과가 없습니다.</div>
           )}
         </div>
       </section>
