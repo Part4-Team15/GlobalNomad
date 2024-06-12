@@ -11,7 +11,9 @@ import HeaderProfileImageWithUrl from './HeaderProfileImage';
 const HeaderProfile = () => {
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
   const { userInfo, isLoading, isError } = useUserInfoQuery();
+
   const toggleDropdown = () => {
     setDropdownIsOpen((prev) => !prev);
   };
