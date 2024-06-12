@@ -1,7 +1,16 @@
-import React from 'react';
+import LinkToLoginPage from '../components/signup/LinkToLoginPage';
+import SignupForm from '../components/signup/SignupForm';
 
-const SignupPage = () => {
-  return <div>회원가입 페이지!</div>;
-};
+const SignupPage = () => (
+  <div>
+    <img
+      src="/assets/logo.svg"
+      alt="logo"
+      className="ml-auto mr-auto mt-[104px] mb-[40px]"
+    />
+    <SignupForm />
+    <LinkToLoginPage />
+  </div>
+);
 
 export default SignupPage;
