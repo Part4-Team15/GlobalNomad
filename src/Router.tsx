@@ -12,7 +12,7 @@ import ReserveStatusPage from './pages/ReserveStatusPage';
 import SearchResultPage from './pages/SearchResultPage';
 import MyPageLayout from './components/common/profile/MyPageLayout';
 import MyProfile from './pages/MyProfile';
-import NotFound from './pages/Error404';
+import NotFound from './pages/NotFound';
 import ReservationHistoryPage from './pages/ReservationHistoryPage';
 
 const AppRouter = () => (

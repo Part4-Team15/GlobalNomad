@@ -16,7 +16,7 @@ const ReservationFilter = ({ setStatus }: ReservationFilterProps) => {
     <button
       onClick={handleDropdownClick}
       type="button"
-      className="flex relative justify-between px-5 py-4 border-green-80 rounded-[15px] w-40 text-green-80 font-medium text-[18px] border-[1.5px]"
+      className="flex relative justify-between px-5 py-4 border-green-80 rounded-[15px] w-40 text-green-80 font-medium text-[18px] border-[1.5px] md:hidden sm:hidden"
     >
       필터
       <img src="/assets/arrow_down.svg" alt="arrow_down" />
