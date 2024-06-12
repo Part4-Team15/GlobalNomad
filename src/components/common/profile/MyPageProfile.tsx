@@ -38,25 +38,25 @@ const MyPageProfile = ({
 
       <div className=" flex flex-col items-start gap-2 self-stretch">
         <PageMenu
-          linkTo="profile"
+          linkTo="/my/profile"
           icon="/assets/account_check_icon_gray.svg"
           activeIcon="/assets/account_check_icon.svg"
           name="내 정보"
         />
         <PageMenu
-          linkTo="reservation-history"
+          linkTo="/my/reservation-history"
           icon="/assets/textbox_check_icon_gray.svg"
           activeIcon="/assets/textbox_check_icon.svg"
           name="예약 내역"
         />
         <PageMenu
-          linkTo="activity"
+          linkTo="/my/activity"
           icon="/assets/setting_icon_gray.svg"
           activeIcon="/assets/setting_icon.svg"
           name="내 체험 관리"
         />
         <PageMenu
-          linkTo="reservation-status"
+          linkTo="/my/reservation-status"
           icon="/assets/calendar_check_icon_gray.svg"
           activeIcon="/assets/calendar_check_icon.svg"
           name="예약 현황"
