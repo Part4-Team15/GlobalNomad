@@ -54,7 +54,11 @@ const PopularActivityList = () => {
     <div className="mt-10 mb-[60px] sm:mt-6 sm:mb-10">
       <div className="flex justify-between">
         <h2 className="text-4xl font-bold mb-8 sm:text-lg sm:mb-6">🔥인기 체험</h2>
-        <PopularActivityButton onLeftClick={handleLeftClick} onRightClick={handleRightClick} />
+        <PopularActivityButton
+          idx={startIdx}
+          onLeftClick={handleLeftClick}
+          onRightClick={handleRightClick}
+        />
       </div>
       <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
         {pageActivityList.map((info) => (
