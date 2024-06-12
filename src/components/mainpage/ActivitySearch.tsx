@@ -1,8 +1,10 @@
 import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const ActivitySearch = () => {
   const [searchWord, setSearchWord] = useState('');
+  const [searchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword');
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +41,7 @@ const ActivitySearch = () => {
             <input
               className="outline-none w-[930px] md:w-[436px] sm:w-[124px]"
               type="search"
-              value={searchWord}
+              defaultValue={keyword || ''}
               onChange={handleChange}
               placeholder="내가 원하는 체험은"
             />
