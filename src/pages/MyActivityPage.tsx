@@ -1,4 +1,3 @@
-import Profile from '@/components/common/profile/Profile';
 import ReservationCard from '@/components/myActivity/ReservationCard';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -47,7 +46,6 @@ const MyActivityPage = () => {
   return (
     <section className=" bg-gray-10 px-4 py-16">
       <div className="flex max-w-[75rem] mx-auto gap-6 items-start">
-        <Profile />
         {/* 내 체험 관리 헤더 */}
         <div className="w-full">
           <div className="min-w-[21.5rem] flex justify-between mb-6">

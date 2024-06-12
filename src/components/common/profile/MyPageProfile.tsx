@@ -4,7 +4,7 @@ import getUserInfo from '@/api/getUserInfo';
 import PageMenu from './PageMenu';
 import ProfileImage from './ProfileImage';
 
-const Profile = ({
+const MyPageProfile = ({
   uploadedImage = null,
   setUploadedImage,
 }: {
@@ -38,25 +38,25 @@ const Profile = ({
 
       <div className=" flex flex-col items-start gap-2 self-stretch">
         <PageMenu
-          linkTo="/my/profile"
+          linkTo="profile"
           icon="/assets/account_check_icon_gray.svg"
           activeIcon="/assets/account_check_icon.svg"
           name="내 정보"
         />
         <PageMenu
-          linkTo="/my/reservation/history"
+          linkTo="reservation-history"
           icon="/assets/textbox_check_icon_gray.svg"
           activeIcon="/assets/textbox_check_icon.svg"
           name="예약 내역"
         />
         <PageMenu
-          linkTo="/my/activity"
+          linkTo="activity"
           icon="/assets/setting_icon_gray.svg"
           activeIcon="/assets/setting_icon.svg"
           name="내 체험 관리"
         />
         <PageMenu
-          linkTo="/my/reservation/status"
+          linkTo="reservation-status"
           icon="/assets/calendar_check_icon_gray.svg"
           activeIcon="/assets/calendar_check_icon.svg"
           name="예약 현황"
@@ -65,4 +65,4 @@ const Profile = ({
     </div>
   );
 };
-export default Profile;
+export default MyPageProfile;
