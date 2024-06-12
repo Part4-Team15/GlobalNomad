@@ -24,7 +24,7 @@ const MyPageProfile = ({
     return <div>프로필을 불러오는데 실패했습니다</div>;
   }
   return (
-    <div className="flex sm:hidden md:w-[251px] lg:w-96 p-6 flex-col justify-center items-start gap-6 border rounded-xl border-gray-50 bg-white shadow-md self-start">
+    <div className="flex sm:hidden md:w-[251px] lg:w-96 p-6 flex-col justify-center items-start gap-6 border rounded-xl border-gray-50 bg-white shadow-md self-start w-[384px]">
       <div className="flex justify-center items-start gap-[227px] self-stretch">
         <div className="flex flex-col justify-center items-center gap-6">
           <ProfileImage

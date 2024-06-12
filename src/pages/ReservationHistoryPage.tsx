@@ -35,9 +35,9 @@ interface BookingData {
   price: number;
 }
 
-const ReservationsPage = () => {
+const ReservationHistoryPage = () => {
   const [status, setStatus] = useState<string>('');
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: ['reservation'],
     queryFn: getMyReservation,
   });
@@ -67,16 +67,8 @@ const ReservationsPage = () => {
     setSelectedBooking(null);
   };
 
-  if (isLoading) {
-    return <div>예약 목록을 불러오고 있습니다...</div>;
-  }
-
-  if (isError || !data) {
-    return <div>예약 목록을 불러오는데 실패했습니다</div>;
-  }
-
   return (
-    <div>
+    <div className="md:flex-1">
       <ReservationContent status={status} setStatus={setStatus} onReviewClick={handleReviewClick} />
       <ModalPortal>
         <ReviewModal isOpen={isModalOpen} onClose={handleModalClose} booking={selectedBooking} />
@@ -85,4 +77,4 @@ const ReservationsPage = () => {
   );
 };
 
-export default ReservationsPage;
+export default ReservationHistoryPage;
