@@ -31,7 +31,13 @@ const CustomKebabMenu = ({ options }: IProps) => {
   return (
     <div className="relative" ref={dropdownRef}>
       {/* 드롭다운 선택 영역 */}
-      <div role="button" tabIndex={0} onClick={toggleDropdown} onKeyDown={handleKeyDown}>
+      <div
+        className="sm:w-8 sm:h-8"
+        role="button"
+        tabIndex={0}
+        onClick={toggleDropdown}
+        onKeyDown={handleKeyDown}
+      >
         <img src="/assets/kebab_icon.svg" alt="kebabIcon" />
       </div>
       {/* 옵션 리스트 */}
