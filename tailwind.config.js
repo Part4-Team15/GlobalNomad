@@ -10,11 +10,10 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       backgroundSize: {
-        'extend': '200%'
+        extend: '200%',
       },
       width: {
         pc: '1200px',
@@ -55,17 +54,18 @@ module.exports = {
   },
 
   plugins: [
-    function({ addUtilities }) {
+    function ({ addUtilities }) {
       const newUtilities = {
-        ".hide-scrollbar": {
-          "-ms-overflow-style": "none", // IE and Edge
-          "scrollbar-width": "none", // Firefox
-          "&::-webkit-scrollbar": {
-            display: "none", // Chrome, Safari, Opera
+        '.hide-scrollbar': {
+          '-ms-overflow-style': 'none', // IE and Edge
+          'scrollbar-width': 'none', // Firefox
+          '&::-webkit-scrollbar': {
+            display: 'none', // Chrome, Safari, Opera
           },
         },
       };
       addUtilities(newUtilities);
     },
+    require('tailwind-scrollbar'),
   ],
 };
