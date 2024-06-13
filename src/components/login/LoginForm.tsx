@@ -3,8 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { LoginErrorType } from '@/types/loginPage';
 import handleLogin from '../../api/handleLogin';
-import AuthButton from '../common/AuthButton';
-import AuthInputBox from '../common/AuthInputBox';
+import AuthButton from '../common/auth/AuthButton';
+import AuthInputBox from '../common/auth/AuthInputBox';
 
 const LoginForm = () => {
   // 이메일 정규식
@@ -115,11 +115,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="flex flex-col gap-7 w-[40rem] mx-auto"
-      noValidate
-    >
+    <form onSubmit={onSubmit} className="flex flex-col gap-7 w-[40rem] mx-auto" noValidate>
       <AuthInputBox
         inputName="email"
         onChangeInput={onChangeInput}

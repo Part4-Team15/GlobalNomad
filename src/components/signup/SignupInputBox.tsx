@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
 import { SignupErrorType } from '@/types/signupPage';
-import AuthLabel from '../common/AuthLabel';
+import AuthLabel from '../common/auth/AuthLabel';
 
 interface SignupInputBoxProps {
   inputName: string;
