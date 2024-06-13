@@ -86,3 +86,20 @@ export interface BookingData {
   headCount: number;
   totalPrice: number;
 }
+export interface ReviewResponseType {
+  deletedAt: string | null; // null 값도 허용해야 할 경우
+  updatedAt: string;
+  createdAt: string;
+  content: string;
+  rating: number;
+  userId: number;
+  activityId: number;
+  teamId: string;
+  id: number;
+}
+
+export interface Review {
+  bookingId: number;
+  rating: number;
+  content: string;
+}

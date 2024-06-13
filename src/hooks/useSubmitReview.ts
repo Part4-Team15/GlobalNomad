@@ -1,11 +1,13 @@
 import postSubmitReview from '@/api/postSubmitReview';
 import queryClient from '@/lib/queryClient';
+import { ReviewResponseType } from '@/types/myReservationHistory';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-// 커스텀 훅
 const useSubmitReview = () => {
-  return useMutation({
+  return useMutation<ReviewResponseType, Error,
+  { bookingId: number; rating: number; content: string }
+  >({
     mutationFn: postSubmitReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] });

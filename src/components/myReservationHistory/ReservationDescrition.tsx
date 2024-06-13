@@ -1,5 +1,8 @@
 import priceToWon from '@/utils/priceToWon';
 import { ReservationDescriptionProps } from '@/types/myReservationHistory';
+import { useState } from 'react';
+import ReservationCancelModal from './ReservationCancelModal';
+import ModalPortal from '../review/ModalPortal';
 
 const ReservationDescription = ({
   title,
@@ -30,6 +33,11 @@ const ReservationDescription = ({
       });
     }
   };
+
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const handleCancelClick = () => {
+    setIsCancelModalOpen(true);
+  };
   return (
     <div className="flex flex-col py-[25.5px] mr-6 flex-1 md:py-3 md:mr-[18px] sm:py-[9px] sm:mr-[14px]">
       <div className="font-bold mb-2 md:mb-0 sm:text-sm sm:mb-0" style={{ color: textColor }}>
@@ -58,6 +66,7 @@ const ReservationDescription = ({
         )}
         {status === 'pending' && (
           <button
+            onClick={handleCancelClick}
             type="button"
             className="border-[1.5px] font-bold w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-white text-black border-black rounded-md sm:text-sm md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
           >
@@ -65,6 +74,13 @@ const ReservationDescription = ({
           </button>
         )}
       </div>
+      <ModalPortal>
+        <ReservationCancelModal
+          isOpen={isCancelModalOpen}
+          onClose={() => setIsCancelModalOpen(false)}
+          reservationId={id}
+        />
+      </ModalPortal>
     </div>
   );
 };
