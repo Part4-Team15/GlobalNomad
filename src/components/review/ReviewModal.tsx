@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
-import axios from '@/lib/axiosInstance';
-import { isAxiosError } from 'axios';
+import React, { useRef, useState, useEffect } from 'react';
 import useClickOutside from '@/hooks/useClickOutside';
 import { BookingData } from '@/types/myReservationHistory';
+import useSubmitReview from '@/hooks/useSubmitReview';
+import { isAxiosError } from 'axios';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
@@ -15,37 +15,44 @@ interface ReviewModalProps {
 
 const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [showWarning, setShowWarning] = useState(false);
-  const [message, setMessage] = useState('');
 
   useClickOutside(modalRef, onClose);
+  const [showWarning, setShowWarning] = useState(false);
+  const [message, setMessage] = useState('');
+  const { mutate } = useSubmitReview();
 
-  const handleSubmit = async (content: string, rating: number) => {
-    try {
-      if (booking) {
-        await axios.post(`/my-reservations/${booking.id}/reviews`, {
-          rating,
-          content,
-        });
-        onClose();
-      }
-    } catch (error: unknown) {
-      if (isAxiosError(error)) {
-        if (error.response && error.response.status === 409) {
-          setMessage('이미 작성된 후기가 있습니다.');
-          setShowWarning(true);
-          setTimeout(() => {
-            setShowWarning(false);
-          }, 2000);
-        } else {
-          console.error('리뷰 제출 실패:', error);
-        }
-      } else {
-        console.error('리뷰 제출 실패:', error);
-      }
-    }
+  const handleSubmit = (content: string, rating: number) => {
+    if (!booking) return;
+    mutate(
+      { bookingId: booking.id, content, rating },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+        onError: (error: unknown) => {
+          if (isAxiosError(error) && error.response?.status === 409) {
+            setMessage('이미 작성된 후기가 있습니다.');
+            setShowWarning(true);
+          } else {
+            console.error('리뷰 제출 실패:', error);
+          }
+        },
+      },
+    );
   };
 
+  useEffect(() => {
+    if (showWarning) {
+      const timer = setTimeout(() => {
+        setShowWarning(false);
+      }, 2000);
+
+      // 클린업 함수 반환
+      return () => clearTimeout(timer);
+    }
+    // showWarning이 false일 경우 undefined 반환
+    return undefined;
+  }, [showWarning]);
   const handleClick = (event: React.MouseEvent) => event.stopPropagation();
 
   if (!isOpen) return null;
