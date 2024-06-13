@@ -12,7 +12,7 @@ const Skeleton = ({ className, children }: SkeletonProp) => {
         relative
         isolate
         overflow-hidden
-        before:border-t before:border-rose-100/10
+        before:border-t before:border-gray-80/10
         before:absolute
         before:inset-0
         before:-translate-x-full
