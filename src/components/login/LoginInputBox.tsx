@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { LoginErrorType } from '@/types/loginPage';
-import AuthLabel from './AuthLabel';
+import AuthLabel from '../common/auth/AuthLabel';
 
 interface AuthInputBoxProps {
   inputName: string;
@@ -11,7 +11,7 @@ interface AuthInputBoxProps {
   setErrorData: React.Dispatch<React.SetStateAction<LoginErrorType>>;
 }
 
-const AuthInputBox = ({
+const LoginInputBox = ({
   inputName,
   onChangeInput,
   value,
@@ -83,17 +83,13 @@ const AuthInputBox = ({
         )}
       </div>
       {inputName === 'email' && errorData?.emailErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">
-          {errorData.emailErrorMessage}
-        </div>
+        <div className="text-red-40 text-xs ml-1">{errorData.emailErrorMessage}</div>
       )}
       {inputName === 'password' && errorData?.passwordErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">
-          {errorData.passwordErrorMessage}
-        </div>
+        <div className="text-red-40 text-xs ml-1">{errorData.passwordErrorMessage}</div>
       )}
     </div>
   );
 };
 
-export default AuthInputBox;
+export default LoginInputBox;

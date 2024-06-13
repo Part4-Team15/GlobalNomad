@@ -1,12 +1,18 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { LoginErrorType } from '@/types/loginPage';
+import useLoginInput from '@/hooks/useLoginInput';
 import handleLogin from '../../api/handleLogin';
 import AuthButton from '../common/auth/AuthButton';
-import AuthInputBox from '../common/auth/AuthInputBox';
+import LoginInputBox from './LoginInputBox';
 
 const LoginForm = () => {
+  // custom hook
+  const { inputs, onChangeInput } = useLoginInput();
+
+  const { email, password } = inputs;
+
   // 이메일 정규식
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
 
@@ -16,11 +22,6 @@ const LoginForm = () => {
     emailErrorMessage: null,
     passwordErrorMessage: null,
     unexpectedErrorMessage: null,
-  });
-
-  const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
   });
 
   const { mutate } = useMutation({
@@ -37,8 +38,6 @@ const LoginForm = () => {
     },
     onError: (error: AxiosError) => {
       if (error.response) {
-        const { email, password } = inputs;
-
         if (error.response.status === 404) {
           if (password.length > 0 && password.length < PASSWORD_MIN_LENGTH) {
             setErrorData((prev) => ({
@@ -101,22 +100,16 @@ const LoginForm = () => {
     },
   });
 
-  const { email, password } = inputs;
-
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setInputs({ ...inputs, [name]: value });
-  };
-
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     mutate({ email, password });
   };
 
+  console.log(inputs);
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-7 w-[40rem] mx-auto" noValidate>
-      <AuthInputBox
+      <LoginInputBox
         inputName="email"
         onChangeInput={onChangeInput}
         value={email}
@@ -125,7 +118,7 @@ const LoginForm = () => {
         setErrorData={setErrorData}
       />
 
-      <AuthInputBox
+      <LoginInputBox
         inputName="password"
         onChangeInput={onChangeInput}
         value={password}
