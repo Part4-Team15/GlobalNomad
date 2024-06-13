@@ -56,6 +56,19 @@ module.exports = {
       md: { min: '769px', max: '1023px' },
       lg: { min: '1024px' },
     },
+    boxShadow: {
+      custom: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+    },
+    keyframes: {
+      shimmer: {
+        '100%': {
+          transform: 'translateX(100%)',
+        },
+      },
+    },
+    animation: {
+      shimmer: 'shimmer 1.5s infinite',
+    },
   },
 
   plugins: [
