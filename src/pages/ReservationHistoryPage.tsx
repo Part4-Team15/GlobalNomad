@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Profile from '@/components/common/profile/Profile';
+
 import { useQuery } from '@tanstack/react-query';
 import getMyReservation from '@/api/getMyReservation';
 import ReservationContent from '@/components/myreservation/ReservationContent';
@@ -35,9 +35,9 @@ interface BookingData {
   price: number;
 }
 
-const ReservationsPage = () => {
+const ReservationHistoryPage = () => {
   const [status, setStatus] = useState<string>('');
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: ['reservation'],
     queryFn: getMyReservation,
   });
@@ -67,17 +67,8 @@ const ReservationsPage = () => {
     setSelectedBooking(null);
   };
 
-  if (isLoading) {
-    return <div>예약 목록을 불러오고 있습니다...</div>;
-  }
-
-  if (isError || !data) {
-    return <div>예약 목록을 불러오는데 실패했습니다</div>;
-  }
-
   return (
-    <div className="flex gap-6 justify-center bg-[#FAFAFA] pt-[65px]">
-      <Profile />
+    <div className="md:flex-1">
       <ReservationContent status={status} setStatus={setStatus} onReviewClick={handleReviewClick} />
       <ModalPortal>
         <ReviewModal isOpen={isModalOpen} onClose={handleModalClose} booking={selectedBooking} />
@@ -86,4 +77,4 @@ const ReservationsPage = () => {
   );
 };
 
-export default ReservationsPage;
+export default ReservationHistoryPage;

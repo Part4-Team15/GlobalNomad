@@ -1,4 +1,4 @@
-import Profile from '@/components/common/profile/Profile';
+import Profile from '@/components/common/profile/MyPageProfile';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
