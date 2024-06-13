@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { LoginErrorType } from '@/types/loginPage';
+import { LoginErrorMessages } from '@/hooks/useLogin';
 import AuthLabel from '../common/auth/AuthLabel';
 
 interface AuthInputBoxProps {
@@ -7,8 +7,8 @@ interface AuthInputBoxProps {
   onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
   labelName: string;
-  errorData: LoginErrorType | null;
-  setErrorData: React.Dispatch<React.SetStateAction<LoginErrorType>>;
+  loginErrorMessages: LoginErrorMessages;
+  setLoginErrorMessages: React.Dispatch<React.SetStateAction<LoginErrorMessages>>;
 }
 
 const LoginInputBox = ({
@@ -16,22 +16,22 @@ const LoginInputBox = ({
   onChangeInput,
   value,
   labelName,
-  errorData,
-  setErrorData,
+  loginErrorMessages,
+  setLoginErrorMessages,
 }: AuthInputBoxProps) => {
   const [isShowInputValue, setIsShowInputValue] = useState(false);
   const [inputType, setInputType] = useState(inputName);
 
   const onClickInput = () => {
     if (inputName === 'email') {
-      setErrorData((prev) => ({
+      setLoginErrorMessages((prev) => ({
         ...prev,
-        emailErrorMessage: null,
+        emailErrorMessage: '',
       }));
     } else {
-      setErrorData((prev) => ({
+      setLoginErrorMessages((prev) => ({
         ...prev,
-        passwordErrorMessage: null,
+        passwordErrorMessage: '',
       }));
     }
   };
@@ -45,9 +45,9 @@ const LoginInputBox = ({
   };
 
   let borderColorClass = '';
-  if (inputName === 'email' && errorData?.emailErrorMessage) {
+  if (inputName === 'email' && loginErrorMessages?.emailErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'password' && errorData?.passwordErrorMessage) {
+  } else if (inputName === 'password' && loginErrorMessages?.passwordErrorMessage) {
     borderColorClass = 'border-red-40';
   }
 
@@ -82,11 +82,11 @@ const LoginInputBox = ({
           </button>
         )}
       </div>
-      {inputName === 'email' && errorData?.emailErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{errorData.emailErrorMessage}</div>
+      {inputName === 'email' && loginErrorMessages?.emailErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{loginErrorMessages.emailErrorMessage}</div>
       )}
-      {inputName === 'password' && errorData?.passwordErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{errorData.passwordErrorMessage}</div>
+      {inputName === 'password' && loginErrorMessages?.passwordErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{loginErrorMessages.passwordErrorMessage}</div>
       )}
     </div>
   );
