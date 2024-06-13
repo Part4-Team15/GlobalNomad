@@ -25,13 +25,13 @@ const ActivitySearch = () => {
   return (
     <div className="relative bg-white pb-[118px] sm:pb-[73px]">
       <form
-        className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-md rounded-2xl bg-white lg:shadow-lg sm:gap-[15px] sm:py-4"
+        className="absolute -top-14 flex flex-col gap-8 px-6 py-8 shadow-custom rounded-2xl bg-white sm:gap-[15px] sm:py-4"
         onSubmit={handleSubmit}
       >
         <label className="text-black text-xl font-bold sm:text-base">무엇을 체험하고 싶으신가요?</label>
         <div className="flex items-center gap-3">
           <div className="group flex items-center w-[1004px] h-14 border border-gray-60 border-solid rounded-md
-            focus:border-green-40 md:w-[500px] sm:w-[187px]"
+          md:w-[500px] sm:w-[187px] focus-within:border-green-40"
           >
             <img
               className="w-6 h-6 m-3 md:m-2 sm:m-2"
