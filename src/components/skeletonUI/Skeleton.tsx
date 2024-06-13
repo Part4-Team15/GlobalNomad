@@ -2,7 +2,7 @@ import React from 'react';
 
 interface SkeletonProp {
   className?: string;
-  children?: React.ReactNode
+  children: React.ReactNode
 }
 
 const Skeleton = ({ className, children }: SkeletonProp) => {

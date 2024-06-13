@@ -67,7 +67,7 @@ module.exports = {
       },
     },
     animation: {
-      shimmer: 'shimmer 1.5s infinite',
+      shimmer: 'shimmer 1.2s infinite',
     },
   },
 
