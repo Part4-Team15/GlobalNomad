@@ -1,36 +1,13 @@
-import getMyReservation from '@/api/getMyReservation';
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { ReservationListProps } from '@/types/myReservationHistory';
+import { Reservation } from '@/types/activityPage';
+import useInfiniteReservation from '@/hooks/useInfiniteReservation';
 import ReservationItem from './ReservationItem';
 import NoReservation from './NoReservation';
 
-interface Activity {
-  title: string;
-  bannerImageUrl: string;
-}
-interface Reservation {
-  id: number;
-  activity: Activity;
-  status: string;
-  date: string;
-  headCount: number;
-  totalPrice: number;
-  startTime: string;
-  endTime: string;
-}
-interface ReservationListProps {
-  status: string;
-  onReviewClick: (bookingId: number) => void;
-}
-
 const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
-  const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['reservations', 4, status],
-    queryFn: getMyReservation,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.cursorId,
-  });
+  const { reservationData, fetchNextPage } = useInfiniteReservation(status);
 
   const { ref, inView } = useInView();
 
@@ -40,11 +17,13 @@ const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
     }
   }, [inView, fetchNextPage]);
 
-  const reservations = data?.pages.flatMap((page) => page.reservations) || [];
+  const reservations = reservationData?.pages.flatMap((page) => page.reservations) || [];
 
   return (
     <div className="h-[544px] overflow-y-auto">
-      {reservations.length !== 0 ? (
+      {!reservations.length ? (
+        <NoReservation />
+      ) : (
         <ul className="flex flex-col gap-6">
           {reservations.map((item: Reservation) => (
             <ReservationItem
@@ -59,11 +38,10 @@ const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
               startTime={item.startTime}
               endTime={item.endTime}
               onReviewClick={onReviewClick}
+              reviewSubmitted={item.reviewSubmitted}
             />
           ))}
         </ul>
-      ) : (
-        <NoReservation />
       )}
       <div ref={ref} className="h-[10px]" />
     </div>

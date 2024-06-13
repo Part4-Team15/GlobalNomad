@@ -1,18 +1,6 @@
-import { useEffect, useState } from 'react';
+import { ReservationItemProps } from '@/types/myReservationHistory';
+import useReservationStatus from '@/hooks/useReservationStatus';
 import ReservationDescription from './ReservationDescrition';
-
-interface ReservationItemProps {
-  bannerImageUrl: string;
-  title: string;
-  status: string;
-  date: string;
-  totalPrice: number;
-  headCount: number;
-  startTime: string;
-  endTime: string;
-  id: number;
-  onReviewClick: (id: number) => void;
-}
 
 const ReservationItem = ({
   title,
@@ -24,53 +12,10 @@ const ReservationItem = ({
   startTime,
   endTime,
   id,
+  reviewSubmitted,
   onReviewClick,
 }: ReservationItemProps) => {
-  const [reservationStatus, setReservationStatus] = useState({
-    textColor: '',
-    reservationStatusText: '',
-  });
-
-  useEffect(() => {
-    switch (status) {
-      case 'pending':
-        setReservationStatus({
-          textColor: '#2EB4FF',
-          reservationStatusText: '예약 완료',
-        });
-        break;
-      case 'confirmed':
-        setReservationStatus({
-          textColor: '#FF7C1D',
-          reservationStatusText: '예약 승인',
-        });
-        break;
-      case 'declined':
-        setReservationStatus({
-          textColor: '#FF472E',
-          reservationStatusText: '예약 거절',
-        });
-        break;
-      case 'canceled':
-        setReservationStatus({
-          textColor: '#79747E',
-          reservationStatusText: '예약 취소',
-        });
-        break;
-      case 'completed':
-        setReservationStatus({
-          textColor: '#79747E',
-          reservationStatusText: '체험 완료',
-        });
-        break;
-      default:
-        setReservationStatus({
-          textColor: '',
-          reservationStatusText: '',
-        });
-        break;
-    }
-  }, [status]);
+  const { textColor, reservationStatusText } = useReservationStatus(status);
 
   const dateArr = date.split('-');
   const year = dateArr[0];
@@ -93,9 +38,12 @@ const ReservationItem = ({
         endTime={endTime}
         headCount={headCount}
         totalPrice={totalPrice}
-        textColor={reservationStatus.textColor}
-        reservationStatusText={reservationStatus.reservationStatusText}
-        onReviewClick={() => onReviewClick(id)}
+        textColor={textColor}
+        reservationStatusText={reservationStatusText}
+        id={id}
+        onReviewClick={onReviewClick}
+        bannerImageUrl={bannerImageUrl}
+        reviewSubmitted={reviewSubmitted}
       />
     </li>
   );

@@ -2,20 +2,10 @@ import React, { useRef, useState } from 'react';
 import axios from '@/lib/axiosInstance';
 import { isAxiosError } from 'axios';
 import useClickOutside from '@/hooks/useClickOutside';
+import { BookingData } from '@/types/myReservationHistory';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
-
-interface BookingData {
-  id: number;
-  image: string;
-  title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  people: number;
-  price: number;
-}
 
 interface ReviewModalProps {
   isOpen: boolean;
