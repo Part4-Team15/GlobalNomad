@@ -1,16 +1,6 @@
 import priceToWon from '@/utils/priceToWon';
 import React from 'react';
-
-interface BookingData {
-  id: number;
-  image: string;
-  title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  people: number;
-  price: number;
-}
+import { BookingData } from '@/types/myReservationHistory';
 
 interface BookingHistoryProps {
   booking: BookingData;
@@ -20,7 +10,7 @@ const BookingHistory: React.FC<BookingHistoryProps> = ({ booking }) => {
   return (
     <div className="flex items-center w-full gap-6 mb-6">
       <img
-        src={booking.image}
+        src={booking.bannerImageUrl}
         alt="Booking"
         className="w-[6.25rem] h-[6.25rem] mob:w-[7.875rem] mob:h-[7.875rem] rounded-[0.75rem]"
       />
@@ -33,10 +23,10 @@ const BookingHistory: React.FC<BookingHistoryProps> = ({ booking }) => {
             {booking.startTime} - {booking.endTime}
           </span>
           <span className="leading-[1.625rem]">·</span>
-          <span className="leading-[1.5rem]">{booking.people}명</span>
+          <span className="leading-[1.5rem]">{booking.headCount}명</span>
         </div>
         <div className="w-full h-[0.0625rem] bg-[#121] opacity-10" />
-        <p className="text-2xl font-bold text-right">{priceToWon(booking.price)}</p>
+        <p className="text-2xl font-bold text-right">{priceToWon(booking.totalPrice)}</p>
       </div>
     </div>
   );

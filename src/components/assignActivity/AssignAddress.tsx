@@ -37,7 +37,7 @@ const AssignAddress = () => {
           주소 찾기
         </button>
       </div>
-      <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
+      <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
         <input
           className="w-[100%] outline-none"
           placeholder="주소를 입력해주세요"

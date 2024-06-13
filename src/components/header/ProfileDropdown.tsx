@@ -24,7 +24,7 @@ const ProfileDropdown = () => {
         name="예약 내역"
       />
       <PageMenu
-        linkTo="activity"
+        linkTo="/my/activity"
         icon="/assets/setting_icon_gray.svg"
         activeIcon="/assets/setting_icon.svg"
         name="내 체험 관리"
