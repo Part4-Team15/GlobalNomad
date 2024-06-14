@@ -23,7 +23,6 @@ const useLogin = () => {
   const mutation = useMutation<LoginDataResponse, AxiosError, HandleLoginParams>({
     mutationFn: handleLogin,
     onSuccess: (data) => {
-      console.log(data);
       // 로그인 성공 시 에러 메시지 초기화
       setLoginErrorMessages({ emailErrorMessage: '', passwordErrorMessage: '' });
 
