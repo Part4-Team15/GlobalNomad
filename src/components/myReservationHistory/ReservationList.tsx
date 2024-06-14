@@ -5,6 +5,7 @@ import { Reservation } from '@/types/activityPage';
 import useInfiniteReservation from '@/hooks/useInfiniteReservation';
 import ReservationItem from './ReservationItem';
 import NoReservation from './NoReservation';
+import '../../styles/customScrollbar.css';
 
 const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
   const { reservationData, fetchNextPage } = useInfiniteReservation(status);
@@ -20,7 +21,7 @@ const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
   const reservations = reservationData?.pages.flatMap((page) => page.reservations) || [];
 
   return (
-    <div className="h-[544px] overflow-y-auto">
+    <div className="h-[544px] overflow-y-auto custom-scrollbar">
       {!reservations.length ? (
         <NoReservation />
       ) : (
