@@ -1,26 +1,14 @@
-import priceToWon from '@/utils/priceToWon';
+import { ActivityInfo } from '@/types/mainPage';
 import { Link } from 'react-router-dom';
+import priceToWon from '@/utils/priceToWon';
 
-export interface ActivityCardProps {
-  cardData: {
-    id: number;
-    userId: number;
-    title: string;
-    description: string;
-    category: string;
-    price: number;
-    address: string;
-    bannerImageUrl: string;
-    rating: number;
-    reviewCount: number;
-    createdAt: string;
-    updatedAt: string;
-  };
+interface ActivityCardProps {
+  cardData: ActivityInfo;
 }
 
-const ActivityCard = ({ cardData }: ActivityCardProps) => {
-  const { id, title, price, bannerImageUrl, rating, reviewCount } = cardData;
-
+const ActivityCard = ({
+  cardData: { id, title, price, bannerImageUrl, rating, reviewCount }
+}: ActivityCardProps) => {
   return (
     <Link to={`/activity/${id}`} className="group h-[435px] md:h-[373px] sm:h-[295px]" target="_blank">
       <div className="flex flex-col gap-4">
