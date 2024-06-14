@@ -61,7 +61,7 @@ const LoginInputBox = ({
           id={inputName}
           onChange={onChangeInput}
           value={value}
-          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass}`}
+          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500`}
           onClick={onClickInput}
         />
         {labelName === '비밀번호' && (
