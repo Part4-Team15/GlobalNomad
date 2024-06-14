@@ -4,11 +4,14 @@ import axiosInstance from '@/lib/axiosInstance';
 import { ActivityResponse } from '@/types/mainPage';
 import PopularActivityCard from './PopularActivityCard';
 import PopularActivityButton from './PopularActivityButton';
+import PopularCardSkeleton from '../skeletonUI/mainpage/PopularCardSkeleton';
 
 const INITIAL_VALUE = {
   activities: [],
   totalCount: 0,
 };
+
+const OFFSET = 3;
 
 // 인기 체험 리스트 데이터를 불러오는 함수.
 async function getPopularActivity() {
@@ -25,17 +28,13 @@ async function getPopularActivity() {
 const PopularActivityList = () => {
   const [startIdx, setStartIdx] = useState(0);
 
-  const { data: popularActivityList, isLoading, isError } = useQuery({
+  const { data: popularActivityList, isFetching, isError, error } = useQuery({
     queryKey: ['popularActivity'],
     queryFn: getPopularActivity,
   });
 
-  if (isLoading) {
-    return <div>인기 체험 정보를 불러오고 있습니다</div>;
-  }
-
   if (isError || !popularActivityList) {
-    return <div>인기 체험 정보를 불러오는 중 오류가 발생했습니다</div>;
+    return <div>{error?.message}</div>;
   }
 
   const pageActivityList = popularActivityList.activities.slice(startIdx, startIdx + 3);
@@ -61,9 +60,15 @@ const PopularActivityList = () => {
         />
       </div>
       <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
-        {pageActivityList.map((info) => (
-          <PopularActivityCard key={info.id} cardData={info} />
-        ))}
+        {isFetching ? (
+          Array.from({ length: OFFSET }, (_, index) => (
+            <PopularCardSkeleton key={index} />
+          ))
+        ) : (
+          pageActivityList.map((activity) => (
+            <PopularActivityCard key={activity.id} cardData={activity} />
+          ))
+        )}
       </div>
     </div>
   );
