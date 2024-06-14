@@ -57,7 +57,7 @@ const MyActivityPage = () => {
         </button>
       </div>
       {/* 체험 리스트 */}
-      <div className="w-full">
+      <div className="w-full h-[34rem] overflow-y-auto custom-scrollbar">
         {activities.length !== 0 ? (
           <>
             <ul className="flex flex-col gap-6">
