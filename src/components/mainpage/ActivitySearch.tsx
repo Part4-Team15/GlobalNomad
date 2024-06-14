@@ -1,25 +1,17 @@
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
+import { FormEvent, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const ActivitySearch = () => {
-  const [searchWord, setSearchWord] = useState('');
+  const searchWord = useRef<HTMLInputElement>(null);
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
   const navigate = useNavigate();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchWord(e.target.value);
-  };
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/search?keyword=${searchWord}`);
-  };
-
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (searchWord === '') navigate('/');
-    else navigate(`/search?keyword=${searchWord || keyword}`);
+    const inputValue = searchWord.current?.value;
+    if (inputValue === '') navigate('/');
+    navigate(`/search?keyword=${inputValue || keyword}`);
   };
 
   return (
@@ -41,15 +33,14 @@ const ActivitySearch = () => {
             <input
               className="outline-none w-[930px] md:w-[436px] sm:w-[124px]"
               type="search"
+              ref={searchWord}
               defaultValue={keyword || ''}
-              onChange={handleChange}
               placeholder="내가 원하는 체험은"
             />
           </div>
           <button
             className="bg-nomad-black rounded-md w-[136px] h-14 px-10 py-2 text-white font-bold sm:w-24 sm:px-5"
             type="submit"
-            onClick={handleClick}
           >
             검색하기
           </button>
