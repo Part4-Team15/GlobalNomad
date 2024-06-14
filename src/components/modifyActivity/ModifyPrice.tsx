@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { ModifyData } from '@/types/modifyActivityPage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import mergeModifyData from './utils/mergeModifyData';
 
 interface ModifyPriceProps {
@@ -13,7 +14,7 @@ const ModifyPrice = ({ price }: ModifyPriceProps) => {
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { price });
     });
   }, []);
@@ -26,7 +27,7 @@ const ModifyPrice = ({ price }: ModifyPriceProps) => {
       return;
     }
     setLocalPrice(newPrice);
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { price: newPrice === '' ? 0 : Number(newPrice) });
     });
   };

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import CalendarModal from '../modal/CalendarModal';
 
 const ReservationDate = () => {
   const queryClient = useQueryClient();
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
   const { data: selectedDate = '' } = useQuery<string>({
-    queryKey: ['assign/Date'],
+    queryKey: queryKeys.assignDate(),
   });
 
   // 날짜 모달
@@ -19,7 +20,7 @@ const ReservationDate = () => {
   };
 
   const handleDateSelect = (date: string) => {
-    queryClient.setQueryData(['assign/Date'], date);
+    queryClient.setQueryData(queryKeys.assignDate(), date);
     setIsOpenCalendar(false);
   };
 

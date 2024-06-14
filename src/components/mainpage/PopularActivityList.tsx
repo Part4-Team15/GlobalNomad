@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/lib/axiosInstance';
 import { ActivityResponse } from '@/types/mainPage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import PopularActivityCard from './PopularActivityCard';
 import PopularActivityButton from './PopularActivityButton';
 
@@ -14,7 +15,7 @@ const INITIAL_VALUE = {
 async function getPopularActivity() {
   try {
     const res = await axiosInstance.get<ActivityResponse>(
-      '/activities?method=offset&sort=most_reviewed&page=1&size=10'
+      '/activities?method=offset&sort=most_reviewed&page=1&size=10',
     );
     return res.data;
   } catch (e) {
@@ -25,8 +26,12 @@ async function getPopularActivity() {
 const PopularActivityList = () => {
   const [startIdx, setStartIdx] = useState(0);
 
-  const { data: popularActivityList, isLoading, isError } = useQuery({
-    queryKey: ['popularActivity'],
+  const {
+    data: popularActivityList,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: queryKeys.popularActivity(),
     queryFn: getPopularActivity,
   });
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import mergeAssignData from './utils/mergeAssignData';
 
 const AssignPrice = () => {
   const queryClient = useQueryClient();
 
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+    queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
       return mergeAssignData(oldData, { price: Number(e.target.value) });
     });
   };

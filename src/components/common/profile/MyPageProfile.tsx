@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import getUserInfo from '@/api/getUserInfo';
+import queryKeys from '@/api/reactQuery/queryKeys';
 
 import PageMenu from './PageMenu';
 import ProfileImage from './ProfileImage';
@@ -12,7 +13,7 @@ const MyPageProfile = ({
   setUploadedImage?: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['user'],
+    queryKey: queryKeys.user(),
     queryFn: getUserInfo,
   });
 

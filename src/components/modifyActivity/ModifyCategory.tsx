@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { ModifyData } from '@/types/modifyActivityPage';
 import { Category } from '@/types/category';
 import mergeModifyData from './utils/mergeModifyData';
@@ -16,7 +17,7 @@ const ModifyCategory = ({ category }: ModifyCategoryProps) => {
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { category });
     });
   }, []);

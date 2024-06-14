@@ -9,6 +9,7 @@ import getAvailableTimes from '@/utils/getAvailableTimes';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
 import getAllMyReservation from '@/api/getAllMyReservation';
 import postActivityReservation from '@/api/postActivityReservation';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import {
   ActivityType,
   AvailableReservationsType,
@@ -43,7 +44,7 @@ const ReserveBar: React.FC<ReserveFormProps> = ({ activity }) => {
     isLoading: availableSchedulesLoading,
     isError: availableSchedulesError,
   } = useQuery<AvailableSchedulesType[]>({
-    queryKey: ['availableSchedules', id],
+    queryKey: queryKeys.availableSchedules(id || ''),
     queryFn: () => {
       const { selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
       return getAvailableSchdule({

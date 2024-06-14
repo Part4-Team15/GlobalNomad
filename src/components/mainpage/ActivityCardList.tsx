@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import getCurrentPageActivity from '@/api/getCurrentPageActivity';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import CategoryFilter from './CategoryFilter';
 
 function calculateOffsetLimit() {
@@ -16,9 +17,9 @@ function calculateOffsetLimit() {
   return 4;
 }
 
-const usePageActivity = (pageNum: number, size: number, category: string, sort:string) => {
+const usePageActivity = (pageNum: number, size: number, category: string, sort: string) => {
   return useQuery({
-    queryKey: ['pageActivity', pageNum, size, category, sort],
+    queryKey: queryKeys.currentPageActivity(pageNum, size, category, sort),
     queryFn: () => getCurrentPageActivity(pageNum, size, category, sort),
     placeholderData: keepPreviousData,
   });
@@ -67,12 +68,11 @@ const ActivityCardList = () => {
     };
   }, [navigate]);
 
-  const { data: allActivityList, isLoading, isError } = usePageActivity(
-    currentPageNum,
-    offset,
-    currentCategory,
-    sortActivity
-  );
+  const {
+    data: allActivityList,
+    isLoading,
+    isError,
+  } = usePageActivity(currentPageNum, offset, currentCategory, sortActivity);
 
   if (isLoading) {
     return <div>모든 체험 정보를 불러오고 있습니다</div>;

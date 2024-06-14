@@ -7,10 +7,11 @@ import ActivityCard from '@/components/mainpage/ActivityCard';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import MainBanner from '@/components/mainpage/MainBanner';
 import Pagination from '@/components/mainpage/Pagination';
+import queryKeys from '@/api/reactQuery/queryKeys';
 
 const useSearchResult = (keyword: string, pageNum: number, size: number) => {
   return useQuery({
-    queryKey: ['pageActivity', keyword, pageNum, size],
+    queryKey: queryKeys.searchPageActivity(keyword, pageNum, size),
     queryFn: () => getSearchResult(keyword, pageNum, size),
     placeholderData: keepPreviousData,
   });
@@ -22,11 +23,11 @@ const SearchResultPage = () => {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
 
-  const { data: searchResult, isLoading, isError } = useSearchResult(
-    String(keyword),
-    currentPageNum,
-    SEARCH_OFFSET_LIMIT,
-  );
+  const {
+    data: searchResult,
+    isLoading,
+    isError,
+  } = useSearchResult(String(keyword), currentPageNum, SEARCH_OFFSET_LIMIT);
 
   if (isLoading) {
     return <div>검색 결과를 불러오고 있습니다</div>;

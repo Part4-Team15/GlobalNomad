@@ -3,12 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { AssignData } from '@/types/assignActivityPage';
 import postAssignMyActivity from '@/api/postMyActivity';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
 import checkRequireData from './utils/checkRequireData';
 
 const AssignHeader = () => {
   const navigate = useNavigate();
-  const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
+  const data = useQuery({ queryKey: queryKeys.assignData() }).data as AssignData;
 
   const handleAssignData = async () => {
     if (checkRequireData(data)) {
