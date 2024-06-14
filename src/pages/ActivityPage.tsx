@@ -58,7 +58,7 @@ const ActivityPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-20 mb-40 md:gap-10 sm:gap-0">
+      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-20 mt-10 mb-40 md:gap-10 sm:gap-0">
         <TopBanner activity={activity} />
         {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}
         <div className="flex w-full gap-6 sm:gap-4">
