@@ -12,6 +12,10 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'custom-tab-gradient' : 'linear-gradient(270deg, #FAFBFC 0%, rgba(250, 251, 252, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
+        'custom-mob-gradient': 'linear-gradient(270deg, #FAFBFC 0%, #FAFBFC 71.87%, rgba(250, 251, 252, 0.00) 100%)',
+
+
       },
       backgroundSize: {
         'extend': '200%'
@@ -51,6 +55,19 @@ module.exports = {
       sm: { max: '768px' },
       md: { min: '769px', max: '1023px' },
       lg: { min: '1024px' },
+    },
+    boxShadow: {
+      custom: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+    },
+    keyframes: {
+      shimmer: {
+        '100%': {
+          transform: 'translateX(100%)',
+        },
+      },
+    },
+    animation: {
+      shimmer: 'shimmer 1.2s infinite',
     },
   },
 

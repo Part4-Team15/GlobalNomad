@@ -19,20 +19,23 @@ const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: Catego
 
   return (
     <div className="flex justify-between text-green-80">
-      <div className="flex gap-6 hide-scrollbar overflow-x-scroll md:gap-[14px] md:w-[522px] sm:gap-2 sm:w-60 ">
-        {CATEGORY_LIST.map((category) => (
-          <button
-            className={`w-[127px] text-lg border border-green-80 rounded-2xl px-5 py-4 
-            hover:bg-green-80 hover:text-white md:min-w-[120px] sm:min-w-20 sm:text-sm sm:px-2 sm:py-3
-            ${category === currentCategory && 'bg-green-80 text-white'}`}
-            type="button"
-            key={category}
-            value={category}
-            onClick={onSelectCategory}
-          >
-            {category.trim()}
-          </button>
-        ))}
+      <div className="relative">
+        <div className="flex gap-6 hide-scrollbar overflow-x-scroll pr-14 md:gap-[14px] md:w-[522px] sm:gap-2 sm:w-60 sm:pr-8">
+          {CATEGORY_LIST.map((category) => (
+            <button
+              className={`w-[127px] text-lg border border-green-80 rounded-2xl px-5 py-4 
+              hover:bg-green-80 hover:text-white md:min-w-[120px] sm:min-w-20 sm:text-sm sm:px-2 sm:py-3
+              ${category === currentCategory && 'bg-green-80 text-white'}`}
+              type="button"
+              key={category}
+              value={category}
+              onClick={onSelectCategory}
+            >
+              {category.trim()}
+            </button>
+          ))}
+        </div>
+        <div className="absolute top-0 right-0 w-14 h-full md:bg-custom-tab-gradient sm:w-8 sm:bg-custom-mob-gradient" />
       </div>
       <div className="relative flex flex-col">
         <button
