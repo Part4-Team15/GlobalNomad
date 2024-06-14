@@ -10,7 +10,7 @@ import AssignBannerImage from '@/components/assignActivity/AssignBannerImage';
 import AssignIntroImage from '@/components/assignActivity/AssignIntroImage';
 
 const AssignActivityPage = () => (
-  <div className="w-[100%] flex flex-col items-start gap-6">
+  <div className="w-[100%] max-w-[792px] flex flex-col items-start gap-6">
     <AssignHeader />
     <AssignTitle />
     <AssignCategory />

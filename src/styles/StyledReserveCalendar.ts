@@ -1,13 +1,11 @@
 import Calendar, { CalendarProps } from 'react-calendar';
 import styled from 'styled-components';
-// import 'react-calendar/dist/Calendar.css';
 
 interface StyledCalendarProps extends CalendarProps {}
 
 export const StyledReserveCalendarWrapper = styled.div`
   .react-calendar {
     width: 100%;
-    height: 100%;
     border: 1px solid #eeeeee;
     border-radius: 8px;
     padding: 10px 0;
@@ -15,6 +13,12 @@ export const StyledReserveCalendarWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: white;
+
+    @media (max-width: 768px) {
+      width: 400px;
+      margin: 0 auto;
+    }
   }
 
   .react-calendar:disabled {
@@ -63,11 +67,8 @@ export const StyledReserveCalendarWrapper = styled.div`
   /* 달력 타일 */
   .react-calendar__tile {
     border-radius: 8px;
-    width: 32px;
-    height: 36px;
     border: 2px solid #fff;
-    padding-top: 8px;
-    padding-left: 8px;
+    padding: 4px;
   }
 
   /* 호버 및 액티브 스타일 */
