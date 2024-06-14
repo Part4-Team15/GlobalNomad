@@ -26,6 +26,7 @@ const SubImagesBanner: React.FC<SubImagesBannerProps> = ({ subImages }): JSX.Ele
   if (subImages.length === 1) {
     newSubImages.push(
       <img
+        key={subImages[0].id}
         className="w-full h-full md:h-full object-cover rounded-tr-xl rounded-br-xl"
         src={subImages[0].imageUrl}
         alt="Sub Banner Img"

@@ -145,7 +145,7 @@ const ReserveBar: React.FC<ReserveFormProps> = ({ activity }) => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 w-full border-2 border-solid rounded-lg border-gray-30 bg-white">
+    <div className="fixed bottom-0 left-0 w-full border-2 border-solid border-gray-30 bg-white z-30">
       <div className="flex justify-between p-4">
         <div className="w-[240px] flex flex-col">
           <div className="flex justify-between items-center gap-3">

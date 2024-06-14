@@ -49,7 +49,7 @@ const ReservationCard = ({
           alt={activity.title}
         />
       </div>
-      <div className="p-5 md:p-3 flex justify-between flex-col gap-4 flex-grow">
+      <div className="p-5 md:p-3 sm:p-3 flex justify-between flex-col gap-4 flex-grow">
         <div>
           <p className="mb-[0.375rem] sm:mb-0 font-bold flex items-center gap-2">
             <span className="w-5 h-5 inline-flex justify-center items-center sm:w-[1rem] sm:h-[1rem]">

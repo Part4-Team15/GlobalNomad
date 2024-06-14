@@ -35,7 +35,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
 
   return (
     <div className="absolute bottom-0 left-0 bg-white z-20 w-full" ref={modalRef}>
-      <div className="relative h-screen flex flex-col p-8 gap-6">
+      <div className="relative h-screen flex flex-col px-8 py-12 gap-6">
         <div className="w-full flex justify-between">
           <div className="font-bold text-3xl">날짜</div>
           <button type="button" onClick={handleModalClose}>
