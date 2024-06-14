@@ -5,7 +5,7 @@ const PopularActivityCard = ({ cardData }: ActivityCardProps) => {
   const { id, title, price, bannerImageUrl, rating, reviewCount } = cardData;
 
   return (
-    <Link to={`/activity/${id}`}>
+    <Link to={`/activity/${id}`} target="_blank">
       <div className="relative">
         <div className="absolute bottom-8 left-5 flex flex-col gap-5 w-[230px] text-white z-10 sm:bottom-6 sm:w-[146px] sm:gap-[6px]">
           <div className="flex gap-1">

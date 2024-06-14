@@ -5,11 +5,14 @@ import { ActivityResponse } from '@/types/mainPage';
 import queryKeys from '@/api/reactQuery/queryKeys';
 import PopularActivityCard from './PopularActivityCard';
 import PopularActivityButton from './PopularActivityButton';
+import PopularCardSkeleton from '../skeletonUI/mainpage/PopularCardSkeleton';
 
 const INITIAL_VALUE = {
   activities: [],
   totalCount: 0,
 };
+
+const OFFSET = 3;
 
 // 인기 체험 리스트 데이터를 불러오는 함수.
 async function getPopularActivity() {
@@ -28,19 +31,16 @@ const PopularActivityList = () => {
 
   const {
     data: popularActivityList,
-    isLoading,
+    isFetching,
     isError,
+    error,
   } = useQuery({
     queryKey: queryKeys.popularActivity(),
     queryFn: getPopularActivity,
   });
 
-  if (isLoading) {
-    return <div>인기 체험 정보를 불러오고 있습니다</div>;
-  }
-
   if (isError || !popularActivityList) {
-    return <div>인기 체험 정보를 불러오는 중 오류가 발생했습니다</div>;
+    return <div>{error?.message}</div>;
   }
 
   const pageActivityList = popularActivityList.activities.slice(startIdx, startIdx + 3);
@@ -58,13 +58,19 @@ const PopularActivityList = () => {
   return (
     <div className="mt-10 mb-[60px] sm:mt-6 sm:mb-10">
       <div className="flex justify-between">
-        <div className="text-4xl font-bold mb-8 sm:text-lg sm:mb-6">🔥인기 체험</div>
-        <PopularActivityButton onLeftClick={handleLeftClick} onRightClick={handleRightClick} />
+        <h2 className="text-4xl font-bold mb-8 sm:text-lg sm:mb-6">🔥인기 체험</h2>
+        <PopularActivityButton
+          idx={startIdx}
+          onLeftClick={handleLeftClick}
+          onRightClick={handleRightClick}
+        />
       </div>
       <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
-        {pageActivityList.map((info) => (
-          <PopularActivityCard key={info.id} cardData={info} />
-        ))}
+        {isFetching
+          ? Array.from({ length: OFFSET }, (_, index) => <PopularCardSkeleton key={index} />)
+          : pageActivityList.map((activity) => (
+              <PopularActivityCard key={activity.id} cardData={activity} />
+            ))}
       </div>
     </div>
   );

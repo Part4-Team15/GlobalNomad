@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import dateToString from '@/utils/dateToString';
-import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
+import { StyledActivityCalendar } from '@/styles/StyledActivityCalendar';
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
@@ -35,13 +35,13 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ onSelect, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black opacity-50" onClick={handleOpenModal} />
       <div className="relative bg-white rounded-lg shadow-lg w-full max-w-2xl sm:max-w-lg">
-        <StyledReserveCalendarWrapper>
+        <StyledActivityCalendar>
           <Calendar
             className="react-calendar w-full  text-xl"
             onChange={handleDateChange}
             value={selectedDate}
           />
-        </StyledReserveCalendarWrapper>
+        </StyledActivityCalendar>
       </div>
     </div>
   );
