@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import Pagination from '@/components/mainpage/Pagination';
+import ActivityCardSkeleton from '../skeletonUI/mainpage/ActivityCardSkeleton';
 
 function calculateOffsetLimit() {
   if (window.innerWidth > 1024) {
@@ -41,18 +42,14 @@ const SearchResultList = () => {
     };
   }, []);
 
-  const { data: searchResult, isLoading, isError } = useSearchResult(
+  const { data: searchResult, isFetching, isError, error } = useSearchResult(
     String(keyword),
     currentPageNum,
     offset,
   );
 
-  if (isLoading) {
-    return <div>검색 결과를 불러오고 있습니다</div>;
-  }
-
   if (isError || !searchResult) {
-    return <div>검색 결과를 불러오는 중 오류가 발생했습니다</div>;
+    return <div>{error?.message}</div>;
   }
 
   const handlePageChange = (page: number) => {
@@ -78,9 +75,15 @@ const SearchResultList = () => {
           <div className="grid grid-cols-4 gap-x-6 gap-y-12 mb-[72px]
             md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:mb-36 sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:mb-28"
           >
-            {activities.map((activity) => (
-              <ActivityCard key={activity.id} cardData={activity} />
-            ))}
+            {isFetching ? (
+              Array.from({ length: offset }, (_, index) => (
+                <ActivityCardSkeleton key={index} />
+              ))
+            ) : (
+              activities.map((activity) => (
+                <ActivityCard key={activity.id} cardData={activity} />
+              ))
+            )}
           </div>
           <Pagination
             currentPage={currentPageNum}
