@@ -11,7 +11,7 @@ const requiredFields: { [key in keyof ModifyData]?: string } = {
   bannerImageUrl: '배너 이미지는 필수 입력 사항입니다.',
 };
 
-const useCheckRequireData = () => {
+const useCheckModifyData = () => {
   const { data: currentSchedule } = useQuery<{ schedules: Schedule[] }>({
     queryKey: ['modifyData/Schedule'],
   });
@@ -39,4 +39,4 @@ const useCheckRequireData = () => {
   return { checkRequireData };
 };
 
-export default useCheckRequireData;
+export default useCheckModifyData;
