@@ -10,6 +10,7 @@ import getAvailableTimes from '@/utils/getAvailableTimes';
 import getAvailableSchdule from '@/api/getAvailableSchedule';
 import getAllMyReservation from '@/api/getAllMyReservation';
 import postActivityReservation from '@/api/postActivityReservation';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import {
   ActivityType,
   AvailableReservationsType,
@@ -47,7 +48,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
     isLoading: availableSchedulesLoading,
     isError: availableSchedulesError,
   } = useQuery<AvailableSchedulesType[]>({
-    queryKey: ['availableSchedules', id],
+    queryKey: queryKeys.availableSchedules(id || ''),
     queryFn: () => {
       const { selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
       return getAvailableSchdule({
@@ -61,16 +62,16 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
 
   // 이미 예약된 시간 데이터
   const {
-    data: availableReservations,
+    data: reservedSchedules,
     isLoading: reservationLoading,
     isError: reservationError,
   } = useQuery<AvailableReservationsType>({
-    queryKey: ['reservation'],
+    queryKey: queryKeys.reservedSchedules(),
     queryFn: getAllMyReservation,
   });
 
   // 기본값을 빈 객체로 설정
-  const defaultAvailableReservations: AvailableReservationsType = {
+  const defaultReservedSchedules: AvailableReservationsType = {
     cursorId: 0,
     reservations: [],
     totalCount: 0,
@@ -81,7 +82,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
 
   // 예약 가능한 시간과, 이미 예약된 시간 데이터를 비교해서, 실제 예약 가능한 시간대를 알아내기
   const actualAvailableTimes = getAvailableTimes(
-    availableReservations || defaultAvailableReservations,
+    reservedSchedules || defaultReservedSchedules,
     availableSchedules || defaultAvailableSchedules,
   );
 

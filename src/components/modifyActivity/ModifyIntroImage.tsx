@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ModifyData } from '@/types/modifyActivityPage';
 import { SubImage } from '@/types/activityPage';
 import postAssignImage from '@/api/postAssignImage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
 import mergeModifyData from './utils/mergeModifyData';
 
@@ -39,7 +40,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
             return updatedImages;
           });
 
-          queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+          queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
             const updatedData = mergeModifyData(oldData, {
               subImageUrlsToAdd: [...(oldData?.subImageUrlsToAdd || []), imageUrl],
             });
@@ -64,7 +65,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
     });
 
     if (removeIntroImage.id) {
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
         return mergeModifyData(oldData, {
           subImageIdsToRemove: [
             ...(oldData?.subImageIdsToRemove || []),
@@ -73,7 +74,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
         });
       });
     } else {
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
         const updatedSubImage = oldData?.subImageUrlsToAdd?.filter(
           (imageUrl) => imageUrl !== removeIntroImage.imageUrl,
         );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { AssignData, Schedule } from '@/types/assignActivityPage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
 import mergeAssignData from './utils/mergeAssignData';
 import ReservationDate from './reservation/ReservationDate';
@@ -10,14 +11,14 @@ import ReservationForm from './reservation/ReservationForm';
 
 const AssignReservationTime = () => {
   const queryClient = useQueryClient();
-  const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
+  const data = useQuery({ queryKey: queryKeys.assignData() }).data as AssignData;
   const time: Schedule[] = data ? data.schedules : [];
-  const { data: reservationDate } = useQuery({ queryKey: ['assign/Date'] });
+  const { data: reservationDate } = useQuery({ queryKey: queryKeys.assignDate() });
   const { data: reservationStartTime } = useQuery({
-    queryKey: ['assign/StartTime'],
+    queryKey: queryKeys.assignStartTime(),
   });
   const { data: reservationEndTime } = useQuery({
-    queryKey: ['assign/EndTime'],
+    queryKey: queryKeys.assignEndTime(),
   });
 
   const handleAssignTime = () => {
@@ -36,19 +37,19 @@ const AssignReservationTime = () => {
       );
       if (isDuplicate) {
         Toast.error('동일한 날짜 및 시간대는 중복될 수 없습니다.');
-        queryClient.setQueryData(['assign/Date'], '');
-        queryClient.setQueryData(['assign/StartTime'], '');
-        queryClient.setQueryData(['assign/EndTime'], '');
+        queryClient.setQueryData(queryKeys.assignDate(), '');
+        queryClient.setQueryData(queryKeys.assignStartTime(), '');
+        queryClient.setQueryData(queryKeys.assignEndTime(), '');
         return;
       }
-      queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+      queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
         return mergeAssignData(oldData, {
           schedules: [...(oldData?.schedules || []), newReservationTime],
         });
       });
-      queryClient.setQueryData(['assign/Date'], '');
-      queryClient.setQueryData(['assign/StartTime'], '');
-      queryClient.setQueryData(['assign/EndTime'], '');
+      queryClient.setQueryData(queryKeys.assignDate(), '');
+      queryClient.setQueryData(queryKeys.assignStartTime(), '');
+      queryClient.setQueryData(queryKeys.assignEndTime(), '');
     } else {
       Toast.error('날짜와 시간대는 필수 입력 사항입니다.');
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { ModifyData } from '@/types/modifyActivityPage';
 import mergeModifyData from './utils/mergeModifyData';
 
@@ -13,7 +14,7 @@ const ModifyTitle = ({ title }: ModifyTitleProps) => {
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { title });
     });
   }, []);
@@ -21,7 +22,7 @@ const ModifyTitle = ({ title }: ModifyTitleProps) => {
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setLocalTitle(newTitle);
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { title: newTitle });
     });
   };

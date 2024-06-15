@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import Calendar from 'react-calendar';
 import moment from 'moment';
 import getReservationYearAndMonth from '@/api/getReservationYearAndMonth';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import ActivityDropDownBox from './ActivityDropDownBox';
 import ActivityDropDown from './ActivityDropDown';
 import PendingTileBlock from './PendingTileBlock';
@@ -64,7 +65,8 @@ const ReserveStatusContent = () => {
 
   // useInfiniteQuery를 사용해 무한 스크롤 구현
   const { data: activityData, fetchNextPage } = useInfiniteQuery<ActivityData>({
-    queryKey: ['activity', 7],
+    // queryKey: ['activity', 7],
+    queryKey: queryKeys.activities(),
     queryFn: getMyActivity,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,
@@ -72,7 +74,11 @@ const ReserveStatusContent = () => {
 
   // 년도와 월을 이용해 예약 목록을 불러오는 함수
   const { data: reservationData } = useQuery({
-    queryKey: ['reservationTimeTable', selectedActivity?.id, selectedDate.year, selectedDate.month],
+    queryKey: queryKeys.reservationTimeTable(
+      selectedActivity?.id || 0,
+      selectedDate.year,
+      selectedDate.month,
+    ),
     queryFn: getReservationYearAndMonth,
   });
   const activities = activityData?.pages.flatMap((page) => page.activities) || [];
@@ -153,7 +159,8 @@ const ReserveStatusContent = () => {
         className="w-full p-0"
         locale="ko"
         formatShortWeekday={(locale, date) =>
-          ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]}
+          ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]
+        }
         calendarType="hebrew"
         onActiveStartDateChange={({ activeStartDate }) => getActiveMonth(activeStartDate)}
         tileContent={tileContent}

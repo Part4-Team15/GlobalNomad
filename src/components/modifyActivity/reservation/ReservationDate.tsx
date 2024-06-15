@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import CalendarModal from '../modal/CalendarModal';
 
 const ReservationDate = () => {
@@ -8,7 +9,7 @@ const ReservationDate = () => {
 
   // 초기값 지정
   const { data: selectedDate = '' } = useQuery<string>({
-    queryKey: ['modifyData/Schedule/Date'],
+    queryKey: queryKeys.modifyScheduleDate(),
   });
 
   // 날짜 모달
@@ -21,7 +22,7 @@ const ReservationDate = () => {
   };
 
   const handleDateSelect = (date: string) => {
-    queryClient.setQueryData(['modifyData/Schedule/Date'], date);
+    queryClient.setQueryData(queryKeys.modifyScheduleDate(), date);
     setIsOpenCalendar(false);
   };
 

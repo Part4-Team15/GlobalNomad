@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { REVIEW_OFFSET_LIMIT } from '@/constants/pagination_config';
 import getActivityReviews from '@/api/getActivityReviews';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
 import Pagination from '../mainpage/Pagination';
 
 const usePageReview = (id: number, pageNum: number, size: number) => {
   return useQuery({
-    queryKey: ['pageActivity', id, pageNum, size],
+    queryKey: queryKeys.reviews(id, pageNum, size),
     queryFn: () => getActivityReviews(id, pageNum, size),
     placeholderData: keepPreviousData,
   });

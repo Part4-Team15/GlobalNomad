@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { AssignData, Schedule } from '@/types/assignActivityPage';
 import mergeAssignData from '../utils/mergeAssignData';
 
@@ -7,12 +8,12 @@ import mergeAssignData from '../utils/mergeAssignData';
 const ReservationForm = () => {
   const queryClient = useQueryClient();
 
-  const data = useQuery({ queryKey: ['assignData'] }).data as AssignData;
+  const data = useQuery({ queryKey: queryKeys.assignData() }).data as AssignData;
   const time: Schedule[] = data ? data.schedules : [];
 
   const handleRemoveReservationTime = (index: number): void => {
     const updatedTimes = time.filter((_, i) => i !== index);
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+    queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
       return mergeAssignData(oldData, { schedules: updatedTimes });
     });
   };

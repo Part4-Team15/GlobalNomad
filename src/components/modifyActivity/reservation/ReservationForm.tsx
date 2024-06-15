@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { ModifyData, Schedule } from '@/types/modifyActivityPage';
 import mergeModifyData from '../utils/mergeModifyData';
 
@@ -9,18 +10,18 @@ const ReservationForm = () => {
 
   // 시간대 모아둠
   const { data: scheduleData } = useQuery<{ schedules: Schedule[] }>({
-    queryKey: ['modifyData/Schedule'],
+    queryKey: queryKeys.modifySchedule(),
   });
   const time: Schedule[] = scheduleData ? scheduleData.schedules : [];
 
   const handleRemoveReservationTime = (index: number): void => {
     const updatedTimes = time.filter((_, i) => i !== index);
-    queryClient.setQueryData(['modifyData/Schedule'], { schedules: updatedTimes });
+    queryClient.setQueryData(queryKeys.modifySchedule(), { schedules: updatedTimes });
     const removedSchedule = time[index];
     if (removedSchedule && removedSchedule.id !== undefined) {
       // id가 있는 경우는 이미 서버에서 받아온 데이터 즉 등록한 데이터를 의미한다.
       // 따라서 요청 보낼 쿼리에 id를 저장하기
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
         return mergeModifyData(oldData, {
           scheduleIdsToRemove: [
             ...(oldData?.scheduleIdsToRemove || []),
@@ -30,7 +31,7 @@ const ReservationForm = () => {
       });
     } else {
       // 그렇지 않는 경우에는 현재 저장해놨던 'schedulesToAdd'에 값을 삭제시키기
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+      queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
         const updatedSchedulesToAdd = oldData?.schedulesToAdd?.filter(
           (schedule) =>
             schedule.date !== removedSchedule.date ||
