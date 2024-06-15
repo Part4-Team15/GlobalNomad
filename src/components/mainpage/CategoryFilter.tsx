@@ -17,6 +17,10 @@ const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: Catego
     setIsOpen(!isOpen);
   };
 
+  const handleOutsideClick = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="flex justify-between text-green-80">
       <div className="relative">
@@ -46,7 +50,9 @@ const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: Catego
           가격
           <img src="/assets/arrow_down.svg" alt="dropdown" />
         </button>
-        <FilterPopover isOpen={isOpen} onSetSort={onSetSort} />
+        <div onClick={handleOutsideClick}>
+          <FilterPopover isOpen={isOpen} onSetSort={onSetSort} />
+        </div>
       </div>
     </div>
   );
