@@ -1,8 +1,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import calculatePageGroupNumber from '@/utils/calculatePaginationNumber';
 import calculateOffsetLimit from '@/utils/calculateOffsetLimit';
+import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import Pagination from '@/components/mainpage/Pagination';
