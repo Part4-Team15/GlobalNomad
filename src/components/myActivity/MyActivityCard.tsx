@@ -1,32 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import priceToWon from '@/utils/priceToWon';
+import { Activities } from '@/types/myActivityPage';
 import CustomKebabMenu from './CustomKebabMenu';
 import ExperienceDeleteModal from './ExperienceDeleteModal';
 import ModalPortal from '../review/ModalPortal';
 
-export interface Activity {
-  id: number;
-  userId: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  address: string;
-  bannerImageUrl: string;
-  rating: number;
-  reviewCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
 const MyActivityCard = ({
   activity,
-  onDelete,
+  refetchActivities,
 }: {
-  activity: Activity;
-  onDelete: (id: number) => void;
+  activity: Activities;
+  refetchActivities: () => void;
 }) => {
   const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -36,7 +21,6 @@ const MyActivityCard = ({
   };
 
   const handleDeleteConfirm = () => {
-    onDelete(activity.id);
     setIsDeleteModalOpen(false);
   };
 
@@ -87,6 +71,7 @@ const MyActivityCard = ({
           onClose={() => setIsDeleteModalOpen(false)}
           activityId={activity.id}
           onDelete={handleDeleteConfirm}
+          refetchActivities={refetchActivities}
         />
       </ModalPortal>
     </li>

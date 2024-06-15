@@ -1,15 +1,12 @@
 import useInfiniteMyActivity from '@/hooks/useInfiniteMyActivity';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useQueryClient } from '@tanstack/react-query';
-import deleteMyActivity from '@/api/deleteMyActivity';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import NoReservation from '../myReservationHistory/NoReservation';
 import MyActivityCard from './MyActivityCard';
 
 const MyActivityCardList = () => {
-  const { myActivityData, fetchNextPage, isLoading, isFetchingNextPage } = useInfiniteMyActivity();
-
+  const { myActivityData, fetchNextPage, isLoading, isFetchingNextPage, refetch } =
+    useInfiniteMyActivity();
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -19,17 +16,6 @@ const MyActivityCardList = () => {
   }, [inView, fetchNextPage]);
 
   const activities = myActivityData?.pages.flatMap((page) => page.activities) || [];
-
-  const queryClient = useQueryClient();
-
-  const handleDeleteActivity = async (id: string) => {
-    try {
-      await deleteMyActivity(id);
-    } catch (error) {
-      console.log('Failed to delete activity:', error);
-    }
-    await queryClient.invalidateQueries({ queryKey: queryKeys.activities() });
-  };
 
   if (isLoading) {
     return (
@@ -45,11 +31,7 @@ const MyActivityCardList = () => {
         <>
           <ul className="flex flex-col gap-6">
             {activities.map((activity) => (
-              <MyActivityCard
-                key={activity.id}
-                activity={activity}
-                onDelete={() => handleDeleteActivity(`${activity.id}`)}
-              />
+              <MyActivityCard key={activity.id} activity={activity} refetchActivities={refetch} />
             ))}
           </ul>
           {isFetchingNextPage && (
