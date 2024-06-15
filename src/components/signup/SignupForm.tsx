@@ -29,7 +29,7 @@ const SignupForm = () => {
     ) {
       setSignupErrorMessages((prev) => ({
         ...prev,
-        passwordConfirmErrorMessage: '비밀번호가 일치하지 않습니다',
+        passwordConfirmErrorMessage: '비밀번호가 일치하지 않습니다.',
       }));
       return;
     }
