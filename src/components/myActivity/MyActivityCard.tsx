@@ -21,7 +21,7 @@ export interface Activity {
   updatedAt: string;
 }
 
-const ReservationCard = ({
+const MyActivityCard = ({
   activity,
   onDelete,
 }: {
@@ -93,4 +93,4 @@ const ReservationCard = ({
   );
 };
 
-export default ReservationCard;
+export default MyActivityCard;
