@@ -51,7 +51,7 @@ const ActivityCardList = () => {
   useEffect(() => {
     if (currentCategory) searchParams.set('category', currentCategory);
     if (sortActivity) searchParams.set('sort', sortActivity);
-    else searchParams.set('page', String(currentPageNum + 1));
+    searchParams.set('page', String(currentPageNum + 1));
 
     navigate(`?${searchParams}`);
   }, [currentCategory, sortActivity, currentPageNum, setSearchParams, navigate]);
