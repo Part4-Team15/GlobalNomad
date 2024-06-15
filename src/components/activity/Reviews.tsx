@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { REVIEW_OFFSET_LIMIT } from '@/constants/pagination_config';
+import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
 import getActivityReviews from '@/api/getActivityReviews';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
@@ -18,7 +19,7 @@ const usePageReview = (id: number, pageNum: number, size: number) => {
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
   const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
+  const currentPageGroup = calculatePageGroupNumber(currentPageNum);
 
   const {
     data: reviewData,
@@ -28,10 +29,6 @@ const Reviews = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
-  };
-
-  const handlePageGroupChange = (page: number) => {
-    setCurrentPageGroup(page);
   };
 
   if (isLoading) {
@@ -100,7 +97,6 @@ const Reviews = () => {
             totalCount={totalCount}
             offsetLimit={REVIEW_OFFSET_LIMIT}
             setPageNum={handlePageChange}
-            setPageGroup={handlePageGroupChange}
           />
         </div>
       ) : null}
