@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import priceToWon from '@/utils/priceToWon';
-import { Activities } from '@/types/myActivityPage';
+import { MyActivityCardProps } from '@/types/myActivityPage';
 import CustomKebabMenu from './CustomKebabMenu';
 import ExperienceDeleteModal from './ExperienceDeleteModal';
 import ModalPortal from '../review/ModalPortal';
 
-const MyActivityCard = ({
-  activity,
-  refetchActivities,
-}: {
-  activity: Activities;
-  refetchActivities: () => void;
-}) => {
+const MyActivityCard: React.FC<MyActivityCardProps> = ({ activity, refetchActivities }) => {
   const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
