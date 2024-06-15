@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
-import { SignupErrorType } from '@/types/signupPage';
+import { SignupErrorMessages } from '@/types/signupPage';
 import AuthLabel from '../common/auth/AuthLabel';
 
 interface SignupInputBoxProps {
@@ -9,8 +9,8 @@ interface SignupInputBoxProps {
   value: string;
   labelName: string;
   inputType: string;
-  signupErrorMessage: SignupErrorType | null;
-  setSignupErrorMessage: React.Dispatch<React.SetStateAction<SignupErrorType>>;
+  signupErrorMessages: SignupErrorMessages;
+  setSignupErrorMessages: React.Dispatch<React.SetStateAction<SignupErrorMessages>>;
 }
 
 const SignupInputBox = ({
@@ -19,34 +19,17 @@ const SignupInputBox = ({
   value,
   labelName,
   inputType,
-  signupErrorMessage,
-  setSignupErrorMessage,
+  signupErrorMessages,
+  setSignupErrorMessages,
 }: SignupInputBoxProps) => {
   const [isShowInputValue, setIsShowInputValue] = useState(false);
   const [changeInputType, setChangeInputType] = useState(inputType);
 
   const onClickInput = () => {
-    if (inputName === 'email') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        emailErrorMessage: null,
-      }));
-    } else if (inputName === 'nickname') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        nicknameErrorMessage: null,
-      }));
-    } else if (inputName === 'password') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        passwordErrorMessage: null,
-      }));
-    } else if (inputName === 'passwordConfirm') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        passwordConfirmErrorMessage: null,
-      }));
-    }
+    setSignupErrorMessages((prev) => ({
+      ...prev,
+      [`${inputName}ErrorMessage`]: '',
+    }));
   };
   const onClickEyeIcon = () => {
     if (labelName.includes('비밀번호')) {
@@ -57,13 +40,13 @@ const SignupInputBox = ({
     setIsShowInputValue((prev) => !prev);
   };
   let borderColorClass = '';
-  if (inputName === 'email' && signupErrorMessage?.emailErrorMessage) {
+  if (inputName === 'email' && signupErrorMessages?.emailErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'nickname' && signupErrorMessage?.nicknameErrorMessage) {
+  } else if (inputName === 'nickname' && signupErrorMessages?.nicknameErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'password' && signupErrorMessage?.passwordErrorMessage) {
+  } else if (inputName === 'password' && signupErrorMessages?.passwordErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'passwordConfirm' && signupErrorMessage?.passwordConfirmErrorMessage) {
+  } else if (inputName === 'passwordConfirm' && signupErrorMessages?.passwordConfirmErrorMessage) {
     borderColorClass = 'border-red-40';
   }
   return (
@@ -97,29 +80,27 @@ const SignupInputBox = ({
           </button>
         ) : null}
       </div>
-      {inputName === 'email' && signupErrorMessage?.emailErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{signupErrorMessage.emailErrorMessage}</div>
+      {inputName === 'email' && signupErrorMessages?.emailErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{signupErrorMessages.emailErrorMessage}</div>
       )}
-      {inputName === 'nickname' && signupErrorMessage?.nicknameErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{signupErrorMessage.nicknameErrorMessage}</div>
+      {inputName === 'nickname' && signupErrorMessages?.nicknameErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{signupErrorMessages.nicknameErrorMessage}</div>
       )}
 
-      {inputName === 'password' && signupErrorMessage?.passwordErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{signupErrorMessage.passwordErrorMessage}</div>
+      {inputName === 'password' && signupErrorMessages?.passwordErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{signupErrorMessages.passwordErrorMessage}</div>
       )}
-      {inputName === 'passwordConfirm' && signupErrorMessage?.passwordConfirmErrorMessage && (
+      {inputName === 'passwordConfirm' && signupErrorMessages?.passwordConfirmErrorMessage && (
         <div className="text-red-40 text-xs ml-1">
-          {signupErrorMessage.passwordConfirmErrorMessage}
+          {signupErrorMessages.passwordConfirmErrorMessage}
         </div>
       )}
 
-      {inputName === 'passwordConfirm' &&
-        signupErrorMessage?.passwordConfirmErrorMessage && (
-          <div className="text-red-40 text-xs ml-1">
-            {signupErrorMessage.passwordConfirmErrorMessage}
-          </div>
+      {inputName === 'passwordConfirm' && signupErrorMessages?.passwordConfirmErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">
+          {signupErrorMessages.passwordConfirmErrorMessage}
+        </div>
       )}
-
     </div>
   );
 };

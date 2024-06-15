@@ -20,7 +20,7 @@ export interface LoginDataResponse {
 
 const handleLogin = async ({ email, password }: HandleLoginParams): Promise<LoginDataResponse> => {
   try {
-    const response = await axiosInstance.post('/auth/login', {
+    const response = await axiosInstance.post<LoginDataResponse>('/auth/login', {
       email,
       password,
     });

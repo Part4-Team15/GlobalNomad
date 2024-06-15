@@ -12,3 +12,25 @@ export interface EditInformationErrorMessageType {
   passwordConfirmErrorMessage: string | null;
   unexpectedErrorMessage: string | null;
 }
+
+export interface HandleSignupParams {
+  email: string;
+  nickname: string;
+  password: string;
+}
+
+export interface UserProfile {
+  id: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SignupErrorMessages {
+  emailErrorMessage: string;
+  nicknameErrorMessage: string;
+  passwordErrorMessage: string;
+  passwordConfirmErrorMessage: string;
+}
