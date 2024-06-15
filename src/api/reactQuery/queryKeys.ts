@@ -31,7 +31,7 @@ const queryKeys = {
   reservationsByStatus: (status: string) => ['reservations', 4, status] as const,
 
   // 내 체험 관리
-  activities: () => ['activities'] as const,
+  activities: () => ['activities', 5] as const,
 
   // 예약 현황
   reservationTimeTable: (id: number, year: string, month: string) =>

@@ -1,29 +1,26 @@
 import { useEffect } from 'react';
 import NoReservation from '@/components/myReservationHistory/NoReservation';
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import getMyActivity from '@/api/getMyActivity';
+import { useQueryClient } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import deleteMyActivity from '@/api/deleteMyActivity';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import useInfiniteMyActivity from '@/hooks/useInfiniteMyActivity';
 import MyActivityCard from '@/components/myActivity/MyActivityCard';
 import MyActivityCardHeader from '@/components/myActivity/MyActivityCardHeader';
 
 const MyActivityPage = () => {
   const queryClient = useQueryClient();
-  const { data, fetchNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: queryKeys.activities(),
-    queryFn: getMyActivity,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.cursorId,
-  });
+  const { myActivityData, fetchNextPage, isLoading, isFetchingNextPage } = useInfiniteMyActivity();
+
   const { ref, inView } = useInView();
+
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [inView, fetchNextPage]);
 
-  const activities = data?.pages.flatMap((page) => page.activities) || [];
+  const activities = myActivityData?.pages.flatMap((page) => page.activities) || [];
 
   const handleDeleteActivity = async (id: string) => {
     try {
@@ -53,7 +50,7 @@ const MyActivityPage = () => {
                 <MyActivityCard
                   key={activity.id}
                   activity={activity}
-                  onDelete={() => handleDeleteActivity(activity.id)}
+                  onDelete={() => handleDeleteActivity(`${activity.id}`)}
                 />
               ))}
             </ul>
