@@ -1,30 +1,20 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 
-import { SignupErrorMessages } from '@/types/signupPage';
+import { SignupInputBoxProps } from '@/types/signupPage';
 import AuthLabel from '../common/auth/AuthLabel';
-
-interface SignupInputBoxProps {
-  inputName: string;
-  onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-  labelName: string;
-  inputType: string;
-  signupErrorMessages: SignupErrorMessages;
-  setSignupErrorMessages: React.Dispatch<React.SetStateAction<SignupErrorMessages>>;
-}
 
 const SignupInputBox = ({
   inputName,
   onChangeInput,
   value,
   labelName,
-  inputType,
   signupErrorMessages,
   setSignupErrorMessages,
 }: SignupInputBoxProps) => {
   const [isShowInputValue, setIsShowInputValue] = useState(false);
-  const [changeInputType, setChangeInputType] = useState(inputType);
-
+  const [inputType, setInputType] = useState(
+    inputName.includes('password') ? 'password' : inputName,
+  );
   const onClickInput = () => {
     setSignupErrorMessages((prev) => ({
       ...prev,
@@ -32,10 +22,10 @@ const SignupInputBox = ({
     }));
   };
   const onClickEyeIcon = () => {
-    if (labelName.includes('비밀번호')) {
-      setChangeInputType('text');
+    if (inputType.includes('password')) {
+      setInputType('text');
     } else if (inputType === 'text') {
-      setChangeInputType('password');
+      setInputType('password');
     }
     setIsShowInputValue((prev) => !prev);
   };
@@ -51,15 +41,16 @@ const SignupInputBox = ({
   }
   return (
     <div className="flex flex-col gap-2 relative">
-      <AuthLabel labelName={labelName} />
+      <AuthLabel labelName={labelName} inputName={inputName} />
+
       <div className="relative">
         <input
           name={inputName}
-          type={changeInputType}
+          type={inputType}
           id={inputName}
           onChange={onChangeInput}
           value={value}
-          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass}`}
+          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500`}
           onClick={onClickInput}
         />
         {labelName.includes('비밀번호') === true ? (
@@ -90,12 +81,6 @@ const SignupInputBox = ({
       {inputName === 'password' && signupErrorMessages?.passwordErrorMessage && (
         <div className="text-red-40 text-xs ml-1">{signupErrorMessages.passwordErrorMessage}</div>
       )}
-      {inputName === 'passwordConfirm' && signupErrorMessages?.passwordConfirmErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">
-          {signupErrorMessages.passwordConfirmErrorMessage}
-        </div>
-      )}
-
       {inputName === 'passwordConfirm' && signupErrorMessages?.passwordConfirmErrorMessage && (
         <div className="text-red-40 text-xs ml-1">
           {signupErrorMessages.passwordConfirmErrorMessage}

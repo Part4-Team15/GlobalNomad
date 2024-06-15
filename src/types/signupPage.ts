@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 export interface SignupErrorType {
   emailErrorMessage: string | null;
   nicknameErrorMessage: string | null;
@@ -33,4 +35,13 @@ export interface SignupErrorMessages {
   nicknameErrorMessage: string;
   passwordErrorMessage: string;
   passwordConfirmErrorMessage: string;
+}
+
+export interface SignupInputBoxProps {
+  inputName: string;
+  onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  labelName: string;
+  signupErrorMessages: SignupErrorMessages;
+  setSignupErrorMessages: React.Dispatch<React.SetStateAction<SignupErrorMessages>>;
 }

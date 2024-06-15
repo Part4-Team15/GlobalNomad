@@ -19,7 +19,9 @@ const LoginForm = () => {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (password.length < PASSWORD_MIN_LENGTH && email.length !== 0) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (password.length < PASSWORD_MIN_LENGTH && emailRegex.test(email)) {
       setLoginErrorMessages((prev) => ({
         ...prev,
         passwordErrorMessage: '8자 이상 작성해 주세요.',

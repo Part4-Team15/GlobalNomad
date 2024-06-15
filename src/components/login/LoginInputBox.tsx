@@ -47,7 +47,7 @@ const LoginInputBox = ({
 
   return (
     <div className="flex flex-col gap-2 relative">
-      <AuthLabel labelName={labelName} />
+      <AuthLabel labelName={labelName} inputName={inputName} />
       <div className="relative">
         <input
           name={inputName}
