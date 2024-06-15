@@ -1,20 +1,12 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import calculatePageGroupNumber from '@/utils/calculatePaginationNumber';
+import calculateOffsetLimit from '@/utils/calculateOffsetLimit';
 import getSearchResult from '@/api/getSearchResult';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCardSkeleton from '../skeletonUI/mainpage/ActivityCardSkeleton';
-
-function calculateOffsetLimit() {
-  if (window.innerWidth > 1024) {
-    return 16;
-  }
-  if (window.innerWidth > 769) {
-    return 9;
-  }
-  return 8;
-}
 
 const useSearchResult = (keyword: string, pageNum: number, size: number) => {
   return useQuery({
@@ -26,14 +18,15 @@ const useSearchResult = (keyword: string, pageNum: number, size: number) => {
 
 const SearchResultList = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
-  const [offset, setOffset] = useState(calculateOffsetLimit());
+  const [offset, setOffset] = useState(calculateOffsetLimit(16, 9, 8));
+  const currentPageGroup = calculatePageGroupNumber(currentPageNum);
+
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
 
   useEffect(() => {
     const handleResize = () => {
-      setOffset(calculateOffsetLimit());
+      setOffset(calculateOffsetLimit(16, 9, 8));
     };
     window.addEventListener('resize', handleResize);
 
@@ -54,10 +47,6 @@ const SearchResultList = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
-  };
-
-  const handlePageGroupChange = (pageGroup: number) => {
-    setCurrentPageGroup(pageGroup);
   };
 
   const { activities, totalCount } = searchResult;
@@ -91,7 +80,6 @@ const SearchResultList = () => {
             totalCount={totalCount}
             offsetLimit={offset}
             setPageNum={handlePageChange}
-            setPageGroup={handlePageGroupChange}
           />
         </>
       ) : (

@@ -1,21 +1,13 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import calculatePageGroupNumber from '@/utils/calculatePaginationNumber';
+import calculateOffsetLimit from '@/utils/calculateOffsetLimit';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import getCurrentPageActivity from '@/api/getCurrentPageActivity';
 import CategoryFilter from './CategoryFilter';
 import ActivityCardSkeleton from '../skeletonUI/mainpage/ActivityCardSkeleton';
-
-function calculateOffsetLimit() {
-  if (window.innerWidth > 1024) {
-    return 8;
-  }
-  if (window.innerWidth > 769) {
-    return 9;
-  }
-  return 4;
-}
 
 const usePageActivity = (pageNum: number, size: number, category: string, sort:string) => {
   return useQuery({
@@ -27,17 +19,18 @@ const usePageActivity = (pageNum: number, size: number, category: string, sort:s
 
 const ActivityCardList = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
   const [currentCategory, setCurrentCategory] = useState('');
   const [sortActivity, setSortActivity] = useState('');
-  const [offset, setOffset] = useState(calculateOffsetLimit());
+  const [offset, setOffset] = useState(calculateOffsetLimit(8, 9, 4));
+  const currentPageGroup = calculatePageGroupNumber(currentPageNum);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const pageParams = searchParams.get('page');
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
-      setOffset(calculateOffsetLimit());
+      setOffset(calculateOffsetLimit(8, 9, 4));
     };
     window.addEventListener('resize', handleResize);
 
@@ -53,7 +46,6 @@ const ActivityCardList = () => {
     if (categoryParam) setCurrentCategory(categoryParam);
     if (sortParam) setSortActivity(sortParam);
     if (pageParams) setCurrentPageNum(Number(pageParams) - 1);
-    if (Number(pageParams) > 5) setCurrentPageGroup(Math.floor((Number(pageParams) - 1) / 5));
   }, []);
 
   useEffect(() => {
@@ -81,10 +73,6 @@ const ActivityCardList = () => {
     setCurrentPageNum(page);
   };
 
-  const handlePageGroupChange = (page: number) => {
-    setCurrentPageGroup(page);
-  };
-
   const handleCategoryClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     if (currentCategory === button.value) {
@@ -95,7 +83,6 @@ const ActivityCardList = () => {
       searchParams.set('category', button.value);
     }
     setCurrentPageNum(0);
-    setCurrentPageGroup(0);
   };
 
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -103,7 +90,6 @@ const ActivityCardList = () => {
     setSortActivity(button.value);
     searchParams.set('sort', button.value);
     setCurrentPageNum(0);
-    setCurrentPageGroup(0);
   };
 
   const { data: allActivityList, isFetching, isError, error } = usePageActivity(
@@ -151,7 +137,6 @@ const ActivityCardList = () => {
             totalCount={totalCount}
             offsetLimit={offset}
             setPageNum={handlePageChange}
-            setPageGroup={handlePageGroupChange}
           />
         </>
       ) : (
