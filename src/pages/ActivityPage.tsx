@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import getActivity from '@/api/getActivity';
 import getUserInfo from '@/api/getUserInfo';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { ActivityType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
 
@@ -27,7 +28,7 @@ const ActivityPage = () => {
     isLoading: userLoading,
     isError: userError,
   } = useQuery({
-    queryKey: ['user'],
+    queryKey: queryKeys.user(),
     queryFn: getUserInfo,
   });
 
@@ -37,9 +38,9 @@ const ActivityPage = () => {
     isLoading: activityLoading,
     isError: activityError,
   } = useQuery<ActivityType>({
-    queryKey: ['activity', id],
+    queryKey: queryKeys.activity(id || ''),
     queryFn: async () => {
-      if (typeof id === 'undefined') {
+      if (!id) {
         throw new Error('해당 체험은 존재하지 않습니다');
       }
       return getActivity(id);

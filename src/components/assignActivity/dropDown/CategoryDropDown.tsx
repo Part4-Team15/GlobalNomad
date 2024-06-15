@@ -2,6 +2,7 @@ import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 import { CATEGORIES, Category } from '@/types/category';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import mergeAssignData from '../utils/mergeAssignData';
 
 interface CategoryProps {
@@ -12,7 +13,7 @@ const CategoryDropDown = ({ onSelect }: CategoryProps) => {
   const queryClient = useQueryClient();
 
   const handleSelectedCategory = (item: Category) => () => {
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+    queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
       return mergeAssignData(oldData, { category: item });
     });
     onSelect(item);

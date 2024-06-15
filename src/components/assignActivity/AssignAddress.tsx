@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import mergeAssignData from './utils/mergeAssignData';
 
 const AssignAddress = () => {
@@ -15,7 +16,7 @@ const AssignAddress = () => {
 
   const handleAddressSelect = (data: Address) => {
     setAddress(data.address);
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+    queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
       return mergeAssignData(oldData, { address: data.address });
     });
     setIsOpenPost(false);

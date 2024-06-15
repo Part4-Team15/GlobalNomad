@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ActivityType, SubImage } from '@/types/activityPage';
 import getUserInfo from '@/api/getUserInfo';
 import deleteMyActivity from '@/api/deleteMyActivity';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
 
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
@@ -100,7 +101,7 @@ const TopBanner: React.FC<TopBannerProps> = ({ activity }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['user'],
+    queryKey: queryKeys.user(),
     queryFn: getUserInfo,
   });
 

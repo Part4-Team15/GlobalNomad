@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import mergeAssignData from './utils/mergeAssignData';
 
 const AssignBannerImage = () => {
@@ -19,7 +20,7 @@ const AssignBannerImage = () => {
         if (response && response.activityImageUrl) {
           const imageUrl = response.activityImageUrl;
           setBannerImage(imageUrl);
-          queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+          queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
             return mergeAssignData(oldData, { bannerImageUrl: imageUrl });
           });
         }
@@ -34,7 +35,7 @@ const AssignBannerImage = () => {
 
   const handleRemoveImage = () => {
     setBannerImage(null);
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+    queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
       return mergeAssignData(oldData, { bannerImageUrl: undefined });
     });
   };

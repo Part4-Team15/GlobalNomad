@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import postAssignImage from '@/api/postAssignImage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { ModifyData } from '@/types/modifyActivityPage';
 import mergeModifyData from './utils/mergeModifyData';
 
@@ -15,7 +16,7 @@ const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { bannerImageUrl });
     });
   }, []);
@@ -30,7 +31,7 @@ const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
         if (response && response.activityImageUrl) {
           const imageUrl = response.activityImageUrl;
           setLocalBannerImage(imageUrl);
-          queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+          queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
             return mergeModifyData(oldData, { bannerImageUrl: imageUrl });
           });
         }
@@ -45,7 +46,7 @@ const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
 
   const handleRemoveImage = () => {
     setLocalBannerImage(null);
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { bannerImageUrl: undefined });
     });
   };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 import { useQueryClient } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { ModifyData } from '@/types/modifyActivityPage';
 import mergeModifyData from './utils/mergeModifyData';
 
@@ -15,7 +16,7 @@ const ModifyAddress = ({ address }: ModifyAddressProps) => {
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { address });
     });
   }, []);
@@ -26,7 +27,7 @@ const ModifyAddress = ({ address }: ModifyAddressProps) => {
 
   const handleAddressSelect = (data: Address) => {
     setLocalAddress(data.address);
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { address: data.address });
     });
     setIsOpenPost(false);

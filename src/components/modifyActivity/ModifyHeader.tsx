@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { ModifyData } from '@/types/modifyActivityPage';
 import patchModifyMyActivity from '@/api/patchMyActivity';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
 import useCheckRequireData from './utils/checkRequireData';
 
@@ -13,7 +14,7 @@ interface ModifyHeaderProps {
 const ModifyHeader = ({ id }: ModifyHeaderProps) => {
   const navigate = useNavigate();
   const { checkRequireData } = useCheckRequireData();
-  const data = useQuery({ queryKey: ['modifyData'] }).data as ModifyData;
+  const data = useQuery({ queryKey: queryKeys.modifyData() }).data as ModifyData;
 
   const handleModifyData = async () => {
     if (checkRequireData(data)) {
