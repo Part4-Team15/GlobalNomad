@@ -5,7 +5,7 @@ import handleSignup from '@/api/handleSignup';
 
 import { SignupErrorType } from '@/types/signupPage';
 import { AxiosError } from 'axios';
-import AuthButton from '../common/AuthButton';
+import AuthButton from '../common/auth/AuthButton';
 import SignupInputBox from './SignupInputBox';
 
 const SignupForm = () => {
@@ -15,15 +15,13 @@ const SignupForm = () => {
   // 비밀번호 최소길이
   const PASSWORD_MIN_LENGTH = 8;
 
-  const [signupErrorMessage, setSignupErrorMessage] = useState<SignupErrorType>(
-    {
-      emailErrorMessage: null,
-      nicknameErrorMessage: null,
-      passwordErrorMessage: null,
-      passwordConfirmErrorMessage: null,
-      unexpectedErrorMessage: null,
-    },
-  );
+  const [signupErrorMessage, setSignupErrorMessage] = useState<SignupErrorType>({
+    emailErrorMessage: null,
+    nicknameErrorMessage: null,
+    passwordErrorMessage: null,
+    passwordConfirmErrorMessage: null,
+    unexpectedErrorMessage: null,
+  });
 
   const [inputs, setInputs] = useState({
     email: '',
@@ -99,10 +97,7 @@ const SignupForm = () => {
               ...prev,
               passwordErrorMessage: '비밀번호를 입력해주세요.',
             }));
-          } else if (
-            password.length > 0 &&
-            password.length < PASSWORD_MIN_LENGTH
-          ) {
+          } else if (password.length > 0 && password.length < PASSWORD_MIN_LENGTH) {
             setSignupErrorMessage((prev) => ({
               ...prev,
               passwordErrorMessage: '8자 이상 작성해 주세요.',
@@ -164,11 +159,7 @@ const SignupForm = () => {
 
   return (
     <div>
-      <form
-        onSubmit={onSubmit}
-        className="flex flex-col gap-7 w-[40rem] mx-auto"
-        noValidate
-      >
+      <form onSubmit={onSubmit} className="flex flex-col gap-7 w-[40rem] mx-auto" noValidate>
         <SignupInputBox
           inputName="email"
           onChangeInput={onChangeInput}
