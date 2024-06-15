@@ -17,7 +17,7 @@ const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: Catego
     setIsOpen(!isOpen);
   };
 
-  const handleOutsideClick = () => {
+  const handleSortClick = () => {
     setIsOpen(false);
   };
 
@@ -50,7 +50,7 @@ const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: Catego
           가격
           <img src="/assets/arrow_down.svg" alt="dropdown" />
         </button>
-        <div onClick={handleOutsideClick}>
+        <div onClick={handleSortClick}>
           <FilterPopover isOpen={isOpen} onSetSort={onSetSort} />
         </div>
       </div>
