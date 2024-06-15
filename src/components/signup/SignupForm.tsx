@@ -1,16 +1,18 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import handleSignup from '@/api/handleSignup';
 
 import { SignupErrorType } from '@/types/signupPage';
 import { AxiosError } from 'axios';
+import useSignupInput from '@/hooks/useSignupInput';
 import AuthButton from '../common/auth/AuthButton';
 import SignupInputBox from './SignupInputBox';
 
 const SignupForm = () => {
-  // 이메일 정규식
-  const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+  // custom hook
+  const { inputs, onChangeInput } = useSignupInput();
+  const { email, nickname, password, passwordConfirm } = inputs;
 
   // 비밀번호 최소길이
   const PASSWORD_MIN_LENGTH = 8;
@@ -21,13 +23,6 @@ const SignupForm = () => {
     passwordErrorMessage: null,
     passwordConfirmErrorMessage: null,
     unexpectedErrorMessage: null,
-  });
-
-  const [inputs, setInputs] = useState({
-    email: '',
-    nickname: '',
-    password: '',
-    passwordConfirm: '',
   });
 
   const { mutate } = useMutation({
@@ -112,16 +107,6 @@ const SignupForm = () => {
       }
     },
   });
-
-  const { email, nickname, password, passwordConfirm } = inputs;
-
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
