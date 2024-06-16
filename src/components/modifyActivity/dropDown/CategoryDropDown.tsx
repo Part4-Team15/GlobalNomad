@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import { ModifyData } from '@/types/modifyActivityPage';
 import { Category, CATEGORIES } from '@/types/category';
 import mergeModifyData from '../utils/mergeModifyData';
@@ -12,7 +13,7 @@ const CategoryDropDown = ({ onSelect }: CategoryProps) => {
   const queryClient = useQueryClient();
 
   const handleSelectedCategory = (item: Category) => () => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
       return mergeModifyData(oldData, { category: item });
     });
     onSelect(item);

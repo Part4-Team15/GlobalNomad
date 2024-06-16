@@ -1,37 +1,37 @@
 import { ChangeEvent, useState } from 'react';
-import { LoginErrorType } from '@/types/loginPage';
-import AuthLabel from './AuthLabel';
+import { LoginErrorMessages } from '@/hooks/useLogin';
+import AuthLabel from '../common/auth/AuthLabel';
 
 interface AuthInputBoxProps {
   inputName: string;
   onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
   labelName: string;
-  errorData: LoginErrorType | null;
-  setErrorData: React.Dispatch<React.SetStateAction<LoginErrorType>>;
+  loginErrorMessages: LoginErrorMessages;
+  setLoginErrorMessages: React.Dispatch<React.SetStateAction<LoginErrorMessages>>;
 }
 
-const AuthInputBox = ({
+const LoginInputBox = ({
   inputName,
   onChangeInput,
   value,
   labelName,
-  errorData,
-  setErrorData,
+  loginErrorMessages,
+  setLoginErrorMessages,
 }: AuthInputBoxProps) => {
   const [isShowInputValue, setIsShowInputValue] = useState(false);
   const [inputType, setInputType] = useState(inputName);
 
   const onClickInput = () => {
     if (inputName === 'email') {
-      setErrorData((prev) => ({
+      setLoginErrorMessages((prev) => ({
         ...prev,
-        emailErrorMessage: null,
+        emailErrorMessage: '',
       }));
     } else {
-      setErrorData((prev) => ({
+      setLoginErrorMessages((prev) => ({
         ...prev,
-        passwordErrorMessage: null,
+        passwordErrorMessage: '',
       }));
     }
   };
@@ -45,9 +45,9 @@ const AuthInputBox = ({
   };
 
   let borderColorClass = '';
-  if (inputName === 'email' && errorData?.emailErrorMessage) {
+  if (inputName === 'email' && loginErrorMessages?.emailErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'password' && errorData?.passwordErrorMessage) {
+  } else if (inputName === 'password' && loginErrorMessages?.passwordErrorMessage) {
     borderColorClass = 'border-red-40';
   }
 
@@ -61,8 +61,9 @@ const AuthInputBox = ({
           id={inputName}
           onChange={onChangeInput}
           value={value}
-          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass}`}
+          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500`}
           onClick={onClickInput}
+          placeholder={inputName === 'email' ? '이메일을 입력해주세요' : '비밀번호를 입력해 주세요'}
         />
         {labelName === '비밀번호' && (
           <button
@@ -82,18 +83,14 @@ const AuthInputBox = ({
           </button>
         )}
       </div>
-      {inputName === 'email' && errorData?.emailErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">
-          {errorData.emailErrorMessage}
-        </div>
+      {inputName === 'email' && loginErrorMessages?.emailErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{loginErrorMessages.emailErrorMessage}</div>
       )}
-      {inputName === 'password' && errorData?.passwordErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">
-          {errorData.passwordErrorMessage}
-        </div>
+      {inputName === 'password' && loginErrorMessages?.passwordErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{loginErrorMessages.passwordErrorMessage}</div>
       )}
     </div>
   );
 };
 
-export default AuthInputBox;
+export default LoginInputBox;

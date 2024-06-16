@@ -6,12 +6,13 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import getMyActivity from '@/api/getMyActivity';
 import { useInView } from 'react-intersection-observer';
 import deleteMyActivity from '@/api/deleteMyActivity';
+import queryKeys from '@/api/reactQuery/queryKeys';
 
 const MyActivityPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data, fetchNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ['activities', 5],
+    queryKey: queryKeys.activities(),
     queryFn: getMyActivity,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,
@@ -33,7 +34,7 @@ const MyActivityPage = () => {
     } catch (error) {
       console.log('Failed to delete activity:', error);
     }
-    await queryClient.invalidateQueries({ queryKey: ['activities'] });
+    await queryClient.invalidateQueries({ queryKey: queryKeys.activities() });
   };
 
   if (isLoading) {
@@ -57,7 +58,7 @@ const MyActivityPage = () => {
         </button>
       </div>
       {/* 체험 리스트 */}
-      <div className="w-full">
+      <div className="w-full h-[34rem] overflow-y-auto custom-scrollbar">
         {activities.length !== 0 ? (
           <>
             <ul className="flex flex-col gap-6">

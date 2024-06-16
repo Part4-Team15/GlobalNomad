@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
 
 interface EndTimeProps {
   onSelect: (endTime: string) => void;
@@ -7,7 +8,7 @@ interface EndTimeProps {
 
 const EndTimeDropDown = ({ onSelect }: EndTimeProps) => {
   const { data: startTime = '' } = useQuery<string>({
-    queryKey: ['assign/StartTime'],
+    queryKey: queryKeys.assignStartTime(),
   });
 
   const reservationTime = [

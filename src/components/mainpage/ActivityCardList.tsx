@@ -6,12 +6,13 @@ import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import getCurrentPageActivity from '@/api/getCurrentPageActivity';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import CategoryFilter from './CategoryFilter';
 import ActivityCardSkeleton from '../skeletonUI/mainpage/ActivityCardSkeleton';
 
-const usePageActivity = (pageNum: number, size: number, category: string, sort:string) => {
+const usePageActivity = (pageNum: number, size: number, category: string, sort: string) => {
   return useQuery({
-    queryKey: ['pageActivity', pageNum, size, category, sort],
+    queryKey: queryKeys.currentPageActivity(pageNum, size, category, sort),
     queryFn: () => getCurrentPageActivity(pageNum, size, category, sort),
     placeholderData: keepPreviousData,
   });
@@ -92,12 +93,12 @@ const ActivityCardList = () => {
     setCurrentPageNum(0);
   };
 
-  const { data: allActivityList, isFetching, isError, error } = usePageActivity(
-    currentPageNum,
-    offset,
-    currentCategory,
-    sortActivity
-  );
+  const {
+    data: allActivityList,
+    isFetching,
+    isError,
+    error,
+  } = usePageActivity(currentPageNum, offset, currentCategory, sortActivity);
 
   if (isError || !allActivityList) {
     return <div>{error?.message}</div>;
@@ -121,15 +122,11 @@ const ActivityCardList = () => {
             className="grid grid-cols-4 gap-x-6 gap-y-12 h-[918px] mb-[72px]
             md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:h-[1183px] sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:h-[614px] sm:mb-[62px]"
           >
-            {isFetching ? (
-              Array.from({ length: offset }, (_, index) => (
-                <ActivityCardSkeleton key={index} />
-              ))
-            ) : (
-              activities.map((activity) => (
-                <ActivityCard key={activity.id} cardData={activity} />
-              ))
-            )}
+            {isFetching
+              ? Array.from({ length: offset }, (_, index) => <ActivityCardSkeleton key={index} />)
+              : activities.map((activity) => (
+                  <ActivityCard key={activity.id} cardData={activity} />
+                ))}
           </div>
           <Pagination
             currentPage={currentPageNum}
@@ -143,8 +140,7 @@ const ActivityCardList = () => {
         <div className="flex justify-center items-center h-[918px] text-xl md:h-[1183px] sm:h-[614px]">
           신청할 수 있는 체험이 없습니다.
         </div>
-      )
-      }
+      )}
     </>
   );
 };

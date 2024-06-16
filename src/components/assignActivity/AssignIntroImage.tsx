@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
 import mergeAssignData from './utils/mergeAssignData';
 
@@ -31,7 +32,7 @@ const AssignIntroImage = () => {
 
           setIntroImage((prevImages) => {
             const updatedImages = [...prevImages, imageUrl];
-            queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+            queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
               return mergeAssignData(oldData, {
                 subImageUrls: updatedImages,
               });
@@ -52,7 +53,7 @@ const AssignIntroImage = () => {
   const handleRemoveImage = (index: number): void => {
     setIntroImage((prevImages: string[]) => {
       const updatedImages = prevImages.filter((_: string, i: number) => i !== index);
-      queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
+      queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
         return mergeAssignData(oldData, { subImageUrls: updatedImages });
       });
       return updatedImages;

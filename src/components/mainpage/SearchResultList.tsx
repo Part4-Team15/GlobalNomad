@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import calculateOffsetLimit from '@/utils/calculateOffsetLimit';
 import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
 import getSearchResult from '@/api/getSearchResult';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCardSkeleton from '../skeletonUI/mainpage/ActivityCardSkeleton';
 
 const useSearchResult = (keyword: string, pageNum: number, size: number) => {
   return useQuery({
-    queryKey: ['pageActivity', keyword, pageNum, size],
+    queryKey: queryKeys.searchPageActivity(keyword, pageNum, size),
     queryFn: () => getSearchResult(keyword, pageNum, size),
     placeholderData: keepPreviousData,
   });
@@ -35,11 +36,12 @@ const SearchResultList = () => {
     };
   }, []);
 
-  const { data: searchResult, isFetching, isError, error } = useSearchResult(
-    String(keyword),
-    currentPageNum,
-    offset,
-  );
+  const {
+    data: searchResult,
+    isFetching,
+    isError,
+    error,
+  } = useSearchResult(String(keyword), currentPageNum, offset);
 
   if (isError || !searchResult) {
     return <div>{error?.message}</div>;
@@ -61,18 +63,15 @@ const SearchResultList = () => {
       </div>
       {totalCount ? (
         <>
-          <div className="grid grid-cols-4 gap-x-6 gap-y-12 mb-[72px]
+          <div
+            className="grid grid-cols-4 gap-x-6 gap-y-12 mb-[72px]
             md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:mb-36 sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:mb-28"
           >
-            {isFetching ? (
-              Array.from({ length: offset }, (_, index) => (
-                <ActivityCardSkeleton key={index} />
-              ))
-            ) : (
-              activities.map((activity) => (
-                <ActivityCard key={activity.id} cardData={activity} />
-              ))
-            )}
+            {isFetching
+              ? Array.from({ length: offset }, (_, index) => <ActivityCardSkeleton key={index} />)
+              : activities.map((activity) => (
+                  <ActivityCard key={activity.id} cardData={activity} />
+                ))}
           </div>
           <Pagination
             currentPage={currentPageNum}
