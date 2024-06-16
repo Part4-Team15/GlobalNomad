@@ -3,10 +3,10 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import calculateOffsetLimit from '@/utils/calculateOffsetLimit';
 import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
-import Pagination from '@/components/mainpage/Pagination';
-import ActivityCard from '@/components/mainpage/ActivityCard';
 import getCurrentPageActivity from '@/api/getCurrentPageActivity';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import Pagination from '@/components/mainpage/Pagination';
+import ActivityCard from '@/components/mainpage/ActivityCard';
 import CategoryFilter from './CategoryFilter';
 import ActivityCardSkeleton from '../skeletonUI/mainpage/ActivityCardSkeleton';
 
