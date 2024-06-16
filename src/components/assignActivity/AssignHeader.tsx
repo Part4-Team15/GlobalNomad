@@ -5,10 +5,11 @@ import { AssignData } from '@/types/assignActivityPage';
 import postAssignMyActivity from '@/api/postMyActivity';
 import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
-import checkRequireData from './utils/checkRequireData';
+import useCheckAssignData from '@/hooks/useCheckAssignData';
 
 const AssignHeader = () => {
   const navigate = useNavigate();
+  const { checkRequireData } = useCheckAssignData();
   const data = useQuery({ queryKey: queryKeys.assignData() }).data as AssignData;
 
   const handleAssignData = async () => {
