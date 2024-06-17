@@ -92,9 +92,18 @@ const ReserveForm = ({ price }: { price: number }) => {
         return;
       }
       if (typeof id === 'string') {
-        mutate({ selectedTimeId, attendeeCount, id });
-        setAttendeeCount(1);
-        Toast.success('예약이 되었습니다.');
+        mutate(
+          { selectedTimeId, attendeeCount, id },
+          {
+            onSuccess: () => {
+              setAttendeeCount(1);
+              Toast.success('예약이 되었습니다.');
+            },
+            onError: (error) => {
+              Toast.error(error.message);
+            },
+          },
+        );
       }
     } catch (error: any) {
       const errorMessage =
