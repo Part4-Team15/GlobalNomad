@@ -68,7 +68,7 @@ const MyPageForm = ({
       className={`flex flex-col gap-4 ${isMyProfilePage ? '' : 'sm:hidden'} w-[729px] md:flex-grow sm:w-full`}
     >
       <div className="flex justify-between font-bold">
-        <div className="text-[#1b1b1b] text-[32px]">내정보</div>
+        <div className="text-[#1b1b1b] text-[32px] w-[91px] h-[38px]">내정보</div>
         <button
           type="submit"
           form="myPageForm"
@@ -77,7 +77,12 @@ const MyPageForm = ({
           저장하기
         </button>
       </div>
-      <form className="flex flex-col gap-8" noValidate onSubmit={onSubmit} id="myPageForm">
+      <form
+        className="flex flex-col gap-8 sm:pb-[230px]"
+        noValidate
+        onSubmit={onSubmit}
+        id="myPageForm"
+      >
         <MyPageInputBox
           inputName="nickname"
           onChangeInput={onChangeInput}
