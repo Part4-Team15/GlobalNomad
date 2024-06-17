@@ -50,7 +50,6 @@ const Pagination = ({
 
   // 왼쪽 arrow 버튼으로 이동 시 실행할 함수
   const handleLeftArrowBtnClick = () => {
-    // const isFirstPage = (currentPage % pageNumberLimit) === 0;
 
     if (currentPage === 0) return;
 
@@ -60,7 +59,6 @@ const Pagination = ({
   // 오른쪽 arrow 버튼으로 이동 시 실행할 함수
   const handleRightArrowBtnClick = () => {
     const lastPageNumber = pageNumber.length - 1;
-    // const isLastPage = (currentPage % pageNumberLimit) === pageNumberLimit - 1;
 
     if (currentPage === lastPageNumber) return;
 
