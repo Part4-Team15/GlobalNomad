@@ -20,7 +20,7 @@ const useSubmitReserve = (id: string) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.reservedSchedules() });
     },
     onError: (error: Error) => {
-      console.error(error);
+      throw error;
     },
   });
 };

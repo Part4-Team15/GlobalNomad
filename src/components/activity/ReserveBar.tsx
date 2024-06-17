@@ -5,7 +5,6 @@ import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import Toast from '@/utils/Toast';
 import getAvailableTimes from '@/utils/getAvailableTimes';
-import postActivityReservation from '@/api/postActivityReservation';
 import useAvailableScheduleQuery from '@/hooks/useAvailableScheduleQuery';
 import useReservedScheduleQuery from '@/hooks/useReservedScheduleQuery';
 import useSubmitReserve from '@/hooks/useSubmitReserve';
@@ -89,13 +88,22 @@ const ReserveBar = ({ price }: { price: number }) => {
         return;
       }
       if (typeof id === 'string') {
-        await postActivityReservation({ selectedTimeId, attendeeCount, id });
-        Toast.success('예약이 되었습니다.');
-        mutate({ selectedTimeId, attendeeCount, id });
-        setAttendeeCount(1);
+        mutate(
+          { selectedTimeId, attendeeCount, id },
+          {
+            onSuccess: () => {
+              setAttendeeCount(1);
+              Toast.success('예약이 되었습니다.');
+            },
+            onError: (error) => {
+              Toast.error(error.message);
+            },
+          },
+        );
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message.toString() || 'An error occureed';
+      const errorMessage =
+        error.response?.data?.message.toString() || '예약 중 에러가 발생했습니다';
       Toast.error(errorMessage);
     }
   };
