@@ -1,11 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-
-import getActivity from '@/api/getActivity';
 import getUserInfo from '@/api/getUserInfo';
 import queryKeys from '@/api/reactQuery/queryKeys';
-import { ActivityType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import useActivity from '@/hooks/useActivity';
 
 import Title from '@/components/activity/Title';
 import Description from '@/components/activity/Description';
@@ -33,21 +31,11 @@ const ActivityPage = () => {
     queryFn: getUserInfo,
   });
 
-  // 체험 상세 정보 가져오기
   const {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useQuery<ActivityType>({
-    queryKey: queryKeys.activity(id || ''),
-    queryFn: async () => {
-      if (!id) {
-        throw new Error('해당 체험은 존재하지 않습니다');
-      }
-      return getActivity(id);
-    },
-    enabled: !!id,
-  });
+  } = useActivity(id || '');
 
   if (userLoading || activityLoading) {
     return <div>체험을 불러오고 있습니다</div>;

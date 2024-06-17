@@ -1,11 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ActivityType } from '@/types/activityPage';
 import getUserInfo from '@/api/getUserInfo';
 import deleteMyActivity from '@/api/deleteMyActivity';
 import queryKeys from '@/api/reactQuery/queryKeys';
-import getActivity from '@/api/getActivity';
 import Toast from '@/utils/Toast';
+import useActivity from '@/hooks/useActivity';
 
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
@@ -16,15 +15,7 @@ const Title = () => {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useQuery<ActivityType>({
-    queryKey: queryKeys.activity(id || ''),
-    queryFn: async () => {
-      if (!id) {
-        throw new Error('해당 체험은 존재하지 않습니다');
-      }
-      return getActivity(id);
-    },
-  });
+  } = useActivity(id || '');
 
   const {
     data: userInfo,

@@ -1,8 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import getActivity from '@/api/getActivity';
-import { ActivityType } from '@/types/activityPage';
+import useActivity from '@/hooks/useActivity';
 import Map from './Map';
 
 const Description = () => {
@@ -12,16 +9,7 @@ const Description = () => {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useQuery<ActivityType>({
-    queryKey: queryKeys.activity(id || ''),
-    queryFn: async () => {
-      if (!id) {
-        throw new Error('해당 체험은 존재하지 않습니다');
-      }
-      return getActivity(id);
-    },
-    enabled: !!id,
-  });
+  } = useActivity(id || '');
 
   if (activityLoading) {
     return <div>설명을 불러오고 있습니다</div>;
