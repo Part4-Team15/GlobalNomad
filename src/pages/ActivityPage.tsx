@@ -7,11 +7,12 @@ import queryKeys from '@/api/reactQuery/queryKeys';
 import { ActivityType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
 
-import TopBanner from '@/components/activity/TopBanner';
+import Title from '@/components/activity/Title';
 import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
 import ReserveForm from '@/components/activity/ReserveForm';
 import ReserveBar from '@/components/activity/ReserveBar';
+import ImageDashBoard from '@/components/activity/ImageDashBoard';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -59,8 +60,9 @@ const ActivityPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-20 mt-10 mb-40 md:gap-10 sm:gap-0">
-        <TopBanner activity={activity} />
+      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-16 mb-40 md:gap-10 sm:gap-0">
+        <Title />
+        <ImageDashBoard />
         {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}
         <div className="flex w-full gap-6 sm:gap-4">
           {activity.userId === userInfo.id ? (
