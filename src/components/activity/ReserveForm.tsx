@@ -11,26 +11,17 @@ import getAvailableSchdule from '@/api/getAvailableSchedule';
 import getAllMyReservation from '@/api/getAllMyReservation';
 import postActivityReservation from '@/api/postActivityReservation';
 import queryKeys from '@/api/reactQuery/queryKeys';
-import {
-  ActivityType,
-  AvailableReservationsType,
-  AvailableSchedulesType,
-} from '@/types/activityPage';
+import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import CalendarModal from './CalendarModal';
 
-interface ReserveFormProps {
-  activity: ActivityType;
-}
-
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
-const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
+const ReserveForm = ({ price }: { price: number }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { price } = activity;
   const windowWidth = useWindowWidth();
 
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());

@@ -10,24 +10,15 @@ import getAvailableSchdule from '@/api/getAvailableSchedule';
 import getAllMyReservation from '@/api/getAllMyReservation';
 import postActivityReservation from '@/api/postActivityReservation';
 import queryKeys from '@/api/reactQuery/queryKeys';
-import {
-  ActivityType,
-  AvailableReservationsType,
-  AvailableSchedulesType,
-} from '@/types/activityPage';
+import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import MobileCalendarModal from './MobileCalendarModal';
-
-interface ReserveFormProps {
-  activity: ActivityType;
-}
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
-const ReserveBar: React.FC<ReserveFormProps> = ({ activity }) => {
+const ReserveBar = ({ price }: { price: number }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { price } = activity;
 
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');

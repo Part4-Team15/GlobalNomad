@@ -50,7 +50,7 @@ const ActivityPage = () => {
   });
 
   if (userLoading || activityLoading) {
-    return <div>프로필을 불러오고 있습니다</div>;
+    return <div>체험을 불러오고 있습니다</div>;
   }
 
   if (userError || !userInfo || activityError || !activity) {
@@ -67,7 +67,7 @@ const ActivityPage = () => {
         <div className="flex w-full gap-6 sm:gap-4">
           {activity.userId === userInfo.id ? (
             <div className="flex w-full flex-col">
-              <Description activity={activity} />
+              <Description />
               <Reviews />
             </div>
           ) : (
@@ -76,18 +76,18 @@ const ActivityPage = () => {
               {windowWidth > 767 ? (
                 <>
                   <div className="flex w-2/3 flex-col">
-                    <Description activity={activity} />
+                    <Description />
                     <Reviews />
                   </div>
                   <div className="w-1/3">
-                    <ReserveForm activity={activity} />
+                    <ReserveForm price={activity.price} />
                   </div>
                 </>
               ) : (
                 <div className="relative flex w-11/12 flex-col">
-                  <Description activity={activity} />
+                  <Description />
                   <Reviews />
-                  <ReserveBar activity={activity} />
+                  <ReserveBar price={activity.price} />
                 </div>
               )}
             </>
