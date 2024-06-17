@@ -14,6 +14,14 @@ import MobileCalendarModal from './MobileCalendarModal';
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
+const defaultAvailableReservations: AvailableReservationsType = {
+  cursorId: 0,
+  reservations: [],
+  totalCount: 0,
+};
+
+const defaultAvailableSchedules: AvailableSchedulesType[] = [];
+
 const ReserveBar = ({ price }: { price: number }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -40,16 +48,6 @@ const ReserveBar = ({ price }: { price: number }) => {
     isLoading: reservationLoading,
     isError: reservationError,
   } = useReservedScheduleQuery();
-
-  // 기본값을 빈 객체로 설정
-  const defaultAvailableReservations: AvailableReservationsType = {
-    cursorId: 0,
-    reservations: [],
-    totalCount: 0,
-  };
-
-  // 기본값을 빈 배열로 설정
-  const defaultAvailableSchedules: AvailableSchedulesType[] = [];
 
   // 예약 가능한 시간과, 이미 예약된 시간 데이터를 비교해서, 실제 예약 가능한 시간대를 알아내기
   const actualAvailableTimes = getAvailableTimes(
