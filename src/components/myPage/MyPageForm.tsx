@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import getUserInfo from '@/api/getUserInfo';
 
@@ -7,15 +7,12 @@ import queryKeys from '@/api/reactQuery/queryKeys';
 import queryClient from '@/lib/queryClient';
 import { EditInformationErrorMessageType } from '@/types/signupPage';
 import { AxiosError } from 'axios';
+import useMyProfileInput from '@/hooks/useMyProfileInput';
 import MyPageInputBox from './MyPageInputBox';
 
 const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
-  const [inputs, setInputs] = useState({
-    nickname: '',
-    email: '',
-    newPassword: '',
-    newPasswordConfirm: '',
-  });
+  const { inputs, setInputs, onChangeInput } = useMyProfileInput();
+
   const [editInformationErrorMessage, setEditInformationErrorMessage] =
     useState<EditInformationErrorMessageType>({
       nicknameErrorMessage: null,
@@ -110,13 +107,6 @@ const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
     }
   }, [isSuccess, data]);
   const { nickname, email, newPassword, newPasswordConfirm } = inputs;
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
