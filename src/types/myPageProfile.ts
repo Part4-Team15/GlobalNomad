@@ -3,6 +3,8 @@ export interface MyPageProfileProps {
   setUploadedImage?: React.Dispatch<React.SetStateAction<string | null>>;
   isShowProfileForm: boolean;
   setIsShowProfileForm: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowDefaultImage: boolean;
+  setIsShowDefaultImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ProfileImageProps {
@@ -10,4 +12,6 @@ export interface ProfileImageProps {
   profileImageUrl: string;
   uploadedImage?: string | null;
   setUploadedImage?: React.Dispatch<React.SetStateAction<string | null>>;
+  isShowDefaultImage: boolean;
+  setIsShowDefaultImage: React.Dispatch<React.SetStateAction<boolean>>;
 }

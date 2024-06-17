@@ -1,15 +1,15 @@
-import { ChangeEvent, useRef } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import uploadProfileImage from '@/api/uploadProfileImage';
 
 const InformationNoImage = ({
   nickname,
-  uploadedImage = null,
   setUploadedImage = () => null,
+  setIsShowDefaultImage,
 }: {
   nickname: string;
-  uploadedImage: string | null;
   setUploadedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsShowDefaultImage: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const nicknameInitial = nickname[0];
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -18,6 +18,7 @@ const InformationNoImage = ({
     mutationFn: uploadProfileImage,
     onSuccess: (data) => {
       setUploadedImage(data.profileImageUrl);
+      setIsShowDefaultImage(false);
     },
     onError: (error) => {
       console.error('Failed to upload image:', error);
@@ -35,22 +36,13 @@ const InformationNoImage = ({
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setUploadedImage(imageUrl);
-
       mutation.mutate(file);
     }
   };
 
   return (
     <div className="relative w-40 h-40 bg-slate-400 rounded-full flex items-center justify-center text-white">
-      {uploadedImage ? (
-        <img
-          src={uploadedImage}
-          alt="Uploaded"
-          className="w-full h-full object-cover rounded-full"
-        />
-      ) : (
-        <span>{nicknameInitial}</span>
-      )}
+      <span className="text-[80px]">{nicknameInitial}</span>
 
       <div
         onClick={handleFileInputClick}

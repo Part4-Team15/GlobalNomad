@@ -9,6 +9,8 @@ const MyPageProfile = ({
   setUploadedImage,
   isShowProfileForm,
   setIsShowProfileForm,
+  isShowDefaultImage,
+  setIsShowDefaultImage,
 }: MyPageProfileProps) => {
   const location = useLocation();
   const isPathNameMyProfile = location.pathname === '/my/profile';
@@ -35,6 +37,8 @@ const MyPageProfile = ({
             profileImageUrl={userInfo.profileImageUrl}
             uploadedImage={uploadedImage}
             setUploadedImage={setUploadedImage}
+            isShowDefaultImage={isShowDefaultImage}
+            setIsShowDefaultImage={setIsShowDefaultImage}
           />
         </div>
       </div>
