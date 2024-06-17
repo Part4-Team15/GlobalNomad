@@ -1,15 +1,13 @@
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import Toast from '@/utils/Toast';
 import getAvailableTimes from '@/utils/getAvailableTimes';
-import getAllMyReservation from '@/api/getAllMyReservation';
 import postActivityReservation from '@/api/postActivityReservation';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import useAvailableScheduleQuery from '@/hooks/useAvailableScheduleQuery';
+import useReservedScheduleQuery from '@/hooks/useReservedScheduleQuery';
 import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import MobileCalendarModal from './MobileCalendarModal';
 
@@ -38,13 +36,10 @@ const ReserveBar = ({ price }: { price: number }) => {
 
   // 이미 예약된 시간 데이터
   const {
-    data: availableReservations,
+    data: reservedSchedules,
     isLoading: reservationLoading,
     isError: reservationError,
-  } = useQuery<AvailableReservationsType>({
-    queryKey: queryKeys.reservedSchedules(),
-    queryFn: getAllMyReservation,
-  });
+  } = useReservedScheduleQuery();
 
   // 기본값을 빈 객체로 설정
   const defaultAvailableReservations: AvailableReservationsType = {
@@ -58,7 +53,7 @@ const ReserveBar = ({ price }: { price: number }) => {
 
   // 예약 가능한 시간과, 이미 예약된 시간 데이터를 비교해서, 실제 예약 가능한 시간대를 알아내기
   const actualAvailableTimes = getAvailableTimes(
-    availableReservations || defaultAvailableReservations,
+    reservedSchedules || defaultAvailableReservations,
     availableSchedules || defaultAvailableSchedules,
   );
 
