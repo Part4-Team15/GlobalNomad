@@ -1,10 +1,11 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ALL_ACTIVITY_OFFSET_LIST } from '@/constants/pagination_config';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import calculateOffsetLimit from '@/utils/calculateOffsetLimit';
 import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
 import getCurrentPageActivity from '@/api/getCurrentPageActivity';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import Pagination from '@/components/mainpage/Pagination';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import CategoryFilter from './CategoryFilter';
@@ -22,7 +23,7 @@ const ActivityCardList = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [currentCategory, setCurrentCategory] = useState('');
   const [sortActivity, setSortActivity] = useState('');
-  const [offset, setOffset] = useState(calculateOffsetLimit(8, 9, 4));
+  const [offset, setOffset] = useState(calculateOffsetLimit(...ALL_ACTIVITY_OFFSET_LIST));
   const currentPageGroup = calculatePageGroupNumber(currentPageNum);
 
   const [searchParams, setSearchParams] = useSearchParams();
