@@ -7,10 +7,10 @@ import MyPageInputBox from './MyPageInputBox';
 
 const MyPageForm = ({
   uploadedImage,
-  isMyProfilePage,
+  isShowProfileForm,
 }: {
   uploadedImage: string | null;
-  isMyProfilePage: boolean;
+  isShowProfileForm: boolean;
 }) => {
   const { inputs, setInputs, onChangeInput } = useMyProfileInput();
 
@@ -66,7 +66,7 @@ const MyPageForm = ({
 
   return (
     <div
-      className={`flex flex-col gap-4 ${isMyProfilePage ? '' : 'sm:hidden'} w-[729px] md:flex-grow sm:w-full`}
+      className={`flex flex-col gap-4 ${isShowProfileForm ? '' : 'sm:hidden'} w-[729px] md:flex-grow sm:w-full`}
     >
       <div className="flex justify-between font-bold">
         <h1 className="text-[#1b1b1b] text-[32px] w-[91px] h-[38px]">내정보</h1>

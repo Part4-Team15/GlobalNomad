@@ -5,15 +5,16 @@ interface PageMenuProp {
   icon: any;
   activeIcon: any;
   name: string;
-  setIsMyProfilePage?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowProfileForm?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PageMenu = ({ linkTo, icon, activeIcon, name, setIsMyProfilePage }: PageMenuProp) => {
+const PageMenu = ({ linkTo, icon, activeIcon, name, setIsShowProfileForm }: PageMenuProp) => {
   const location = useLocation();
   const isActive = location.pathname.startsWith(linkTo);
+
   const handleClick = () => {
-    if (linkTo === '/my/profile' && setIsMyProfilePage) {
-      setIsMyProfilePage(true);
+    if (linkTo === '/my/profile' && setIsShowProfileForm) {
+      setIsShowProfileForm(true);
     }
   };
 

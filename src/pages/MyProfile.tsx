@@ -4,11 +4,12 @@ import { useOutletContext } from 'react-router-dom';
 
 interface OutletProps {
   uploadedImage: string | null;
-  isMyProfilePage: boolean;
+  isShowProfileForm: boolean;
 }
+
 const MyProfile = () => {
-  const { uploadedImage, isMyProfilePage } = useOutletContext<OutletProps>();
-  return <MyPageForm uploadedImage={uploadedImage} isMyProfilePage={isMyProfilePage} />;
+  const { uploadedImage, isShowProfileForm } = useOutletContext<OutletProps>();
+  return <MyPageForm uploadedImage={uploadedImage} isShowProfileForm={isShowProfileForm} />;
 };
 
 export default MyProfile;
