@@ -1,8 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { ActivityType, SubImage } from '@/types/activityPage';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import getActivity from '@/api/getActivity';
+import { SubImage } from '@/types/activityPage';
+import useActivity from '@/hooks/useActivity';
 
 interface SubImagesBannerProps {
   subImages: SubImage[];
@@ -89,23 +87,15 @@ const ImageDashBoard = () => {
 
   const {
     data: activity,
-    isLoading,
-    isError,
-  } = useQuery<ActivityType>({
-    queryKey: queryKeys.activity(id || ''),
-    queryFn: async () => {
-      if (!id) {
-        throw new Error('해당 체험은 존재하지 않습니다');
-      }
-      return getActivity(id);
-    },
-  });
+    isLoading: activityLoading,
+    isError: activityError,
+  } = useActivity(id || '');
 
-  if (isLoading) {
+  if (activityLoading) {
     return <div>이미지를 불러오고 있습니다</div>;
   }
 
-  if (isError || !activity) {
+  if (activityError || !activity) {
     return <div>이미지를 불러오는데 실패했습니다</div>;
   }
 
