@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import Toast from '@/utils/Toast';
@@ -8,6 +8,7 @@ import getAvailableTimes from '@/utils/getAvailableTimes';
 import postActivityReservation from '@/api/postActivityReservation';
 import useAvailableScheduleQuery from '@/hooks/useAvailableScheduleQuery';
 import useReservedScheduleQuery from '@/hooks/useReservedScheduleQuery';
+import useSubmitReserve from '@/hooks/useSubmitReserve';
 import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import MobileCalendarModal from './MobileCalendarModal';
 
@@ -24,7 +25,7 @@ const defaultAvailableSchedules: AvailableSchedulesType[] = [];
 
 const ReserveBar = ({ price }: { price: number }) => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const { mutate } = useSubmitReserve(id || '');
 
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
@@ -90,7 +91,8 @@ const ReserveBar = ({ price }: { price: number }) => {
       if (typeof id === 'string') {
         await postActivityReservation({ selectedTimeId, attendeeCount, id });
         Toast.success('예약이 되었습니다.');
-        navigate('/');
+        mutate({ selectedTimeId, attendeeCount, id });
+        setAttendeeCount(1);
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.message.toString() || 'An error occureed';
