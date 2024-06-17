@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 import StartTimeDropDown from '../dropDown/StartTimeDropDown';
 
 const ReservationStartTime = () => {
-  const queryClient = useQueryClient();
+  const { mergeStartTime } = useMergeAssignData();
   const [isStartTimeDropDown, setIsStartTimeDropDown] = useState<boolean>(false);
 
   const { data: startTime = '' } = useQuery<string>({
@@ -17,7 +18,7 @@ const ReservationStartTime = () => {
   };
 
   const handleSelectStart = (time: string) => {
-    queryClient.setQueryData(queryKeys.assignStartTime(), time);
+    mergeStartTime(time);
     setIsStartTimeDropDown(!isStartTimeDropDown);
   };
 
