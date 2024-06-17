@@ -1,9 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import getUserInfo from '@/api/getUserInfo';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import useActivity from '@/hooks/useActivity';
+import useActivity from '@/hooks/useActivityQuery';
 
 import Title from '@/components/activity/Title';
 import Description from '@/components/activity/Description';
@@ -11,6 +8,7 @@ import Reviews from '@/components/activity/Reviews';
 import ReserveForm from '@/components/activity/ReserveForm';
 import ReserveBar from '@/components/activity/ReserveBar';
 import ImageDashBoard from '@/components/activity/ImageDashBoard';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -22,15 +20,9 @@ const ActivityPage = () => {
   }
 
   // 유저 정보 가져오기
-  const {
-    data: userInfo,
-    isLoading: userLoading,
-    isError: userError,
-  } = useQuery({
-    queryKey: queryKeys.user(),
-    queryFn: getUserInfo,
-  });
+  const { userInfo, isLoading: userLoading, isError: userError } = useUserInfoQuery();
 
+  // 체험 상세 정보 가져오기
   const {
     data: activity,
     isLoading: activityLoading,

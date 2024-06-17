@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import useActivity from '@/hooks/useActivity';
+import useActivityQuery from '@/hooks/useActivityQuery';
 import Map from './Map';
 
 const Description = () => {
@@ -9,7 +9,7 @@ const Description = () => {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useActivity(id || '');
+  } = useActivityQuery(id || '');
 
   if (activityLoading) {
     return <div>설명을 불러오고 있습니다</div>;
