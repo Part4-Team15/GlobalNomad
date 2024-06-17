@@ -1,33 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import priceToWon from '@/utils/priceToWon';
+import { MyActivityCardProps } from '@/types/myActivityPage';
 import CustomKebabMenu from './CustomKebabMenu';
 import ExperienceDeleteModal from './ExperienceDeleteModal';
 import ModalPortal from '../review/ModalPortal';
 
-export interface Activity {
-  id: number;
-  userId: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  address: string;
-  bannerImageUrl: string;
-  rating: number;
-  reviewCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-const ReservationCard = ({
-  activity,
-  onDelete,
-}: {
-  activity: Activity;
-  onDelete: (id: number) => void;
-}) => {
+const MyActivityCard: React.FC<MyActivityCardProps> = ({ activity, refetchActivities }) => {
   const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -36,7 +15,6 @@ const ReservationCard = ({
   };
 
   const handleDeleteConfirm = () => {
-    onDelete(activity.id);
     setIsDeleteModalOpen(false);
   };
 
@@ -87,10 +65,11 @@ const ReservationCard = ({
           onClose={() => setIsDeleteModalOpen(false)}
           activityId={activity.id}
           onDelete={handleDeleteConfirm}
+          refetchActivities={refetchActivities}
         />
       </ModalPortal>
     </li>
   );
 };
 
-export default ReservationCard;
+export default MyActivityCard;
