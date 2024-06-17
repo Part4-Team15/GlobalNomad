@@ -3,7 +3,7 @@ import { ActivityType } from '@/types/activityPage';
 import queryKeys from '@/api/reactQuery/queryKeys';
 import getActivity from '@/api/getActivity';
 
-const useActivity = (id: string) => {
+const useActivityQuery = (id: string) => {
   return useQuery<ActivityType>({
     queryKey: queryKeys.activity(id || ''),
     queryFn: async () => {
@@ -16,4 +16,4 @@ const useActivity = (id: string) => {
   });
 };
 
-export default useActivity;
+export default useActivityQuery;

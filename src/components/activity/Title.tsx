@@ -1,10 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import getUserInfo from '@/api/getUserInfo';
 import deleteMyActivity from '@/api/deleteMyActivity';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
-import useActivity from '@/hooks/useActivity';
+import useActivityQuery from '@/hooks/useActivityQuery';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 
 import CustomKebabMenu from '../myActivity/CustomKebabMenu';
 
@@ -15,16 +13,9 @@ const Title = () => {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useActivity(id || '');
+  } = useActivityQuery(id || '');
 
-  const {
-    data: userInfo,
-    isLoading: userLoading,
-    isError: userError,
-  } = useQuery({
-    queryKey: queryKeys.user(),
-    queryFn: getUserInfo,
-  });
+  const { userInfo, isLoading: userLoading, isError: userError } = useUserInfoQuery();
 
   const navigate = useNavigate();
 

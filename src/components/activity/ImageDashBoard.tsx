@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { SubImage } from '@/types/activityPage';
-import useActivity from '@/hooks/useActivity';
+import useActivityQuery from '@/hooks/useActivityQuery';
 
 interface SubImagesBannerProps {
   subImages: SubImage[];
@@ -89,7 +89,7 @@ const ImageDashBoard = () => {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useActivity(id || '');
+  } = useActivityQuery(id || '');
 
   if (activityLoading) {
     return <div>이미지를 불러오고 있습니다</div>;
