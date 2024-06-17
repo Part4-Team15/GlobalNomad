@@ -1,16 +1,16 @@
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import Toast from '@/utils/Toast';
 import getAvailableTimes from '@/utils/getAvailableTimes';
-import postActivityReservation from '@/api/postActivityReservation';
 import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import useAvailableScheduleQuery from '@/hooks/useAvailableScheduleQuery';
 import useReservedScheduleQuery from '@/hooks/useReservedScheduleQuery';
+import useSubmitReserve from '@/hooks/useSubmitReserve';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import CalendarModal from './CalendarModal';
 
@@ -27,8 +27,8 @@ const defaultAvailableSchedules: AvailableSchedulesType[] = [];
 
 const ReserveForm = ({ price }: { price: number }) => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const windowWidth = useWindowWidth();
+  const { mutate } = useSubmitReserve(id || '');
 
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [yearMonthDay, setYearMonthDay] = useState<string>('');
@@ -92,12 +92,13 @@ const ReserveForm = ({ price }: { price: number }) => {
         return;
       }
       if (typeof id === 'string') {
-        await postActivityReservation({ selectedTimeId, attendeeCount, id });
+        mutate({ selectedTimeId, attendeeCount, id });
+        setAttendeeCount(1);
         Toast.success('예약이 되었습니다.');
-        navigate('/');
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message.toString() || 'An error occureed';
+      const errorMessage =
+        error.response?.data?.message.toString() || '예약 중 에러가 발생했습니다';
       Toast.error(errorMessage);
     }
   };
