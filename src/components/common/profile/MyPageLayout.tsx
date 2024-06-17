@@ -17,7 +17,9 @@ const MyPageLayout = () => {
         isShowDefaultImage={isShowDefaultImage}
         setIsShowDefaultImage={setIsShowDefaultImage}
       />
-      <Outlet context={{ uploadedImage, isShowProfileForm, isShowDefaultImage }} />
+      <div className="w-[729px] sm:w-full">
+        <Outlet context={{ uploadedImage, isShowProfileForm, isShowDefaultImage }} />
+      </div>
     </div>
   );
 };

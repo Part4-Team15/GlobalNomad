@@ -1,14 +1,7 @@
+import { PageMenuProps } from '@/types/myPageProfile';
 import { Link, useLocation } from 'react-router-dom';
 
-interface PageMenuProp {
-  linkTo: string;
-  icon: any;
-  activeIcon: any;
-  name: string;
-  setIsShowProfileForm?: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const PageMenu = ({ linkTo, icon, activeIcon, name, setIsShowProfileForm }: PageMenuProp) => {
+const PageMenu = ({ linkTo, icon, activeIcon, name, setIsShowProfileForm }: PageMenuProps) => {
   const location = useLocation();
   const isActive = location.pathname.startsWith(linkTo);
 

@@ -28,7 +28,7 @@ const MyPageProfile = ({
 
   return (
     <div
-      className={`flex ${isShowProfile ? '' : 'sm:hidden'} md:w-[251px] lg:w-96 p-6 flex-col justify-center items-start gap-6 border rounded-xl border-gray-50 bg-white shadow-md self-start w-[384px]`}
+      className={`flex ${isShowProfile ? '' : 'sm:hidden'} md:w-[251px] lg:w-96 p-6 flex-col justify-center items-start gap-6 border rounded-xl border-gray-50 bg-white shadow-md self-start`}
     >
       <div className="flex justify-center items-start gap-[227px] self-stretch">
         <div className="flex flex-col justify-center items-center gap-6">

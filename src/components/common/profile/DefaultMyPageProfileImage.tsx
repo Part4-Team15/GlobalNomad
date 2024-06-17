@@ -2,7 +2,7 @@ import React, { ChangeEvent, useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import uploadProfileImage from '@/api/uploadProfileImage';
 
-const InformationNoImage = ({
+const DefaultMyPageProfileImage = ({
   nickname,
   setUploadedImage = () => null,
   setIsShowDefaultImage,
@@ -61,4 +61,4 @@ const InformationNoImage = ({
   );
 };
 
-export default InformationNoImage;
+export default DefaultMyPageProfileImage;

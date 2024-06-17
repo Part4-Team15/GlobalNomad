@@ -64,9 +64,7 @@ const MyPageForm = ({ uploadedImage, isShowProfileForm, isShowDefaultImage }: My
   };
 
   return (
-    <div
-      className={`flex flex-col gap-4 ${isShowProfileForm ? '' : 'sm:hidden'} w-[729px] md:flex-grow sm:w-full`}
-    >
+    <div className={`flex flex-col gap-4 ${isShowProfileForm ? '' : 'sm:hidden'} w-full`}>
       <div className="flex justify-between font-bold">
         <h1 className="text-[#1b1b1b] text-[32px] w-[91px] h-[38px]">내정보</h1>
         <button

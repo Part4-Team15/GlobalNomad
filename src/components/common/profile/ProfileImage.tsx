@@ -3,7 +3,7 @@ import uploadProfileImage from '@/api/uploadProfileImage';
 
 import { ProfileImageProps } from '@/types/myPageProfile';
 import { useLocation } from 'react-router-dom';
-import InformationNoImage from './InformationNoProfileImage';
+import DefaultMyPageProfileImage from './DefaultMyPageProfileImage';
 
 const ProfileImage = ({
   nickname,
@@ -13,6 +13,8 @@ const ProfileImage = ({
   isShowDefaultImage,
   setIsShowDefaultImage,
 }: ProfileImageProps) => {
+  const location = useLocation();
+
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     setIsShowDefaultImage(false);
@@ -25,7 +27,6 @@ const ProfileImage = ({
       }
     }
   };
-  const location = useLocation();
   const handlePenClick = () => {
     const fileInput = document.getElementById('file-input');
     if (fileInput) fileInput.click();
@@ -33,7 +34,7 @@ const ProfileImage = ({
 
   if (!profileImageUrl && !uploadedImage) {
     return (
-      <InformationNoImage
+      <DefaultMyPageProfileImage
         nickname={nickname}
         setUploadedImage={setUploadedImage}
         setIsShowDefaultImage={setIsShowDefaultImage}
@@ -49,18 +50,17 @@ const ProfileImage = ({
   return (
     <div>
       {isShowDefaultImage === true ? (
-        <InformationNoImage
+        <DefaultMyPageProfileImage
           nickname={nickname}
           setUploadedImage={setUploadedImage}
           setIsShowDefaultImage={setIsShowDefaultImage}
         />
       ) : (
         <div
-          className="relative w-40 h-40 shrink-0 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+          className="relative w-40 h-40 shrink-0 rounded-full shadow-md bg-contain bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(${uploadedImage || profileImageUrl})`,
             backgroundColor: '#E3E5E8',
-            backgroundSize: 'contain',
           }}
         >
           <input
