@@ -11,7 +11,7 @@ interface AvailableSchedule {
   ];
 }
 
-const getAvailableSchdule = async ({
+const getAvailableSchedule = async ({
   id,
   selectedYear,
   selectedMonth,
@@ -31,4 +31,4 @@ const getAvailableSchdule = async ({
   }
 };
 
-export default getAvailableSchdule;
+export default getAvailableSchedule;

@@ -7,12 +7,12 @@ import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import Toast from '@/utils/Toast';
 import getAvailableTimes from '@/utils/getAvailableTimes';
-import getAvailableSchdule from '@/api/getAvailableSchedule';
 import getAllMyReservation from '@/api/getAllMyReservation';
 import postActivityReservation from '@/api/postActivityReservation';
 import queryKeys from '@/api/reactQuery/queryKeys';
 import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import useAvailableScheduleQuery from '@/hooks/useAvailableScheduleQuery';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import CalendarModal from './CalendarModal';
 
@@ -38,18 +38,7 @@ const ReserveForm = ({ price }: { price: number }) => {
     data: availableSchedules,
     isLoading: availableSchedulesLoading,
     isError: availableSchedulesError,
-  } = useQuery<AvailableSchedulesType[]>({
-    queryKey: queryKeys.availableSchedules(id || ''),
-    queryFn: () => {
-      const { selectedYear, selectedMonth } = getMonthAndYear(selectedDate);
-      return getAvailableSchdule({
-        id: id!,
-        selectedYear,
-        selectedMonth,
-      });
-    },
-    enabled: !!id,
-  });
+  } = useAvailableScheduleQuery(id || '', selectedDate);
 
   // 이미 예약된 시간 데이터
   const {
