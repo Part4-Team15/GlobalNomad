@@ -1,8 +1,8 @@
-interface AuthButtonProps {
+interface SignupSubmitButtonProps {
   children: React.ReactNode;
   disabled?: boolean;
 }
-const AuthButton = ({ children, disabled = false }: AuthButtonProps) => (
+const SignupSubmitButton = ({ children, disabled = false }: SignupSubmitButtonProps) => (
   <button
     type="submit"
     disabled={disabled}
@@ -14,4 +14,4 @@ const AuthButton = ({ children, disabled = false }: AuthButtonProps) => (
   </button>
 );
 
-export default AuthButton;
+export default SignupSubmitButton;
