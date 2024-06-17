@@ -1,6 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import uploadProfileImage from '@/api/uploadProfileImage';
 
+import { ProfileImageProps } from '@/types/myPageProfile';
+import { useLocation } from 'react-router-dom';
 import InformationNoImage from './InformationNoProfileImage';
 
 const ProfileImage = ({
@@ -8,12 +10,7 @@ const ProfileImage = ({
   profileImageUrl,
   uploadedImage = null,
   setUploadedImage = () => null,
-}: {
-  nickname: string;
-  profileImageUrl: string;
-  uploadedImage?: string | null;
-  setUploadedImage?: React.Dispatch<React.SetStateAction<string | null>>;
-}) => {
+}: ProfileImageProps) => {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -25,7 +22,7 @@ const ProfileImage = ({
       }
     }
   };
-
+  const location = useLocation();
   const handlePenClick = () => {
     const fileInput = document.getElementById('file-input');
     if (fileInput) fileInput.click();
@@ -58,12 +55,14 @@ const ProfileImage = ({
         accept="image/*"
       />
 
-      <div
-        className="absolute p-[10px] w-11 h-11 inline-flex items-start bottom-0 right-3 z-10 rounded-full bg-green-80 cursor-pointer"
-        onClick={handlePenClick}
-      >
-        <img className="w-6 h-6" src="/assets/pen_icon.svg" alt="penIcon" />
-      </div>
+      {location.pathname === '/my/profile' && (
+        <div
+          className="absolute p-[10px] w-11 h-11 inline-flex items-start bottom-0 right-3 z-10 rounded-full bg-green-80 cursor-pointer"
+          onClick={handlePenClick}
+        >
+          <img className="w-6 h-6" src="/assets/pen_icon.svg" alt="penIcon" />
+        </div>
+      )}
     </div>
   );
 };

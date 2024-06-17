@@ -1,8 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import getUserInfo from '@/api/getUserInfo';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import { useLocation } from 'react-router-dom';
 import { MyPageProfileProps } from '@/types/myPageProfile';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import PageMenu from './PageMenu';
 import ProfileImage from './ProfileImage';
 
@@ -16,16 +14,13 @@ const MyPageProfile = ({
   const isPathNameMyProfile = location.pathname === '/my/profile';
   const isShowProfile = isPathNameMyProfile && !isShowProfileForm;
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: queryKeys.user(),
-    queryFn: getUserInfo,
-  });
+  const { userInfo, isLoading, isError } = useUserInfoQuery();
 
   if (isLoading) {
     return <div>프로필을 불러오고 있습니다</div>;
   }
 
-  if (isError || !data) {
+  if (isError || !userInfo) {
     return <div>프로필을 불러오는데 실패했습니다</div>;
   }
 
@@ -36,8 +31,8 @@ const MyPageProfile = ({
       <div className="flex justify-center items-start gap-[227px] self-stretch">
         <div className="flex flex-col justify-center items-center gap-6">
           <ProfileImage
-            nickname={data.nickname}
-            profileImageUrl={data.profileImageUrl}
+            nickname={userInfo.nickname}
+            profileImageUrl={userInfo.profileImageUrl}
             uploadedImage={uploadedImage}
             setUploadedImage={setUploadedImage}
           />

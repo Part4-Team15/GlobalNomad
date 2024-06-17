@@ -10,8 +10,6 @@ const uploadProfileImage = async (file: File): Promise<any> => {
         'Content-Type': 'multipart/form-data',
       },
     });
-
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error('Error Upload Image');
