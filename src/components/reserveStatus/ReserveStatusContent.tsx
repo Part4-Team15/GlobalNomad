@@ -6,6 +6,7 @@ import Calendar from 'react-calendar';
 import moment from 'moment';
 import getReservationYearAndMonth from '@/api/getReservationYearAndMonth';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import { StyledReserveStatusCalendarWrapper } from '@/styles/StyledReserveStatusCalendar';
 import ActivityDropDownBox from './ActivityDropDownBox';
 import ActivityDropDown from './ActivityDropDown';
 import PendingTileBlock from './PendingTileBlock';
@@ -155,16 +156,18 @@ const ReserveStatusContent = () => {
           />
         </div>
       )}
-      <Calendar
-        className="w-full p-0"
-        locale="ko"
-        formatShortWeekday={(locale, date) =>
-          ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]
-        }
-        calendarType="hebrew"
-        onActiveStartDateChange={({ activeStartDate }) => getActiveMonth(activeStartDate)}
-        tileContent={tileContent}
-      />
+      <StyledReserveStatusCalendarWrapper>
+        <Calendar
+          className="w-full p-0"
+          locale="ko"
+          formatShortWeekday={(locale, date) =>
+            ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]
+          }
+          calendarType="hebrew"
+          onActiveStartDateChange={({ activeStartDate }) => getActiveMonth(activeStartDate)}
+          tileContent={tileContent}
+        />
+      </StyledReserveStatusCalendarWrapper>
       {viewReservationModal && selectedActivity && (
         <ReservationModal
           setViewReservationModal={setViewReservationModal}

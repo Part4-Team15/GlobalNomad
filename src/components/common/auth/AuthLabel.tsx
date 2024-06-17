@@ -1,12 +1,10 @@
 interface AuthLabelProps {
   labelName: string;
+  inputName: string;
 }
 
-const AuthLabel = ({ labelName }: AuthLabelProps) => (
-  <label
-    htmlFor="email"
-    className="font-['Pretendard'] text-base text-[#1B1B1B]"
-  >
+const AuthLabel = ({ labelName, inputName }: AuthLabelProps) => (
+  <label htmlFor={inputName} className="text-base text-[#1B1B1B]">
     {labelName}
   </label>
 );

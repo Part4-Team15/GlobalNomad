@@ -1,33 +1,35 @@
 import React, { useRef } from 'react';
-import axios from '@/lib/axiosInstance';
 import useClickOutside from '@/hooks/useClickOutside';
+import { ExperienceDeleteModalProps } from '@/types/myActivityPage';
+import { useMutation } from '@tanstack/react-query';
+import deleteMyActivity from '@/api/deleteMyActivity';
 import ModalBackground from '../review/ModalBackground';
-
-interface ExperienceDeleteModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  activityId: number;
-  onDelete: () => void;
-}
 
 const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
   isOpen,
   onClose,
   activityId,
   onDelete,
+  refetchActivities,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(modalRef, onClose);
 
-  const handleDeleteClick = async () => {
-    try {
-      await axios.delete(`/my-activities/${activityId}`);
+  const { mutate } = useMutation<void, Error, string>({
+    mutationFn: deleteMyActivity,
+    onSuccess: () => {
+      refetchActivities();
       onDelete();
       onClose();
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error('삭제 실패:', error);
-    }
+    },
+  });
+
+  const handleDeleteClick = () => {
+    mutate(`${activityId}`);
   };
 
   if (!isOpen) return null;
