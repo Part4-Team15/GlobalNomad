@@ -113,14 +113,14 @@ export const StyledActivityCalendar = styled.div`
 
   /* 오늘 날짜 스타일 */
   .react-calendar__tile--now {
-    background-color: #e0f7ff;
+    background-color: #9effcc;
     font-weight: 700;
-    border: 1px solid #0085ff;
+    border: 1px solid #9effcc;
   }
 
   /* 선택된 날짜 스타일 */
   .react-calendar__tile--active {
-    background-color: #0085ff;
+    background-color: #9effcc;
     color: #ffffff;
     font-weight: 700;
   }
