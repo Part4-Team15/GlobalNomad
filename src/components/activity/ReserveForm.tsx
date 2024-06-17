@@ -1,18 +1,16 @@
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import Calendar from 'react-calendar';
 import getMonthAndYear from '@/utils/getMonthAndYear';
 import priceToWon from '@/utils/priceToWon';
 import Toast from '@/utils/Toast';
 import getAvailableTimes from '@/utils/getAvailableTimes';
-import getAllMyReservation from '@/api/getAllMyReservation';
 import postActivityReservation from '@/api/postActivityReservation';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import useAvailableScheduleQuery from '@/hooks/useAvailableScheduleQuery';
+import useReservedScheduleQuery from '@/hooks/useReservedScheduleQuery';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import CalendarModal from './CalendarModal';
 
@@ -45,10 +43,7 @@ const ReserveForm = ({ price }: { price: number }) => {
     data: reservedSchedules,
     isLoading: reservationLoading,
     isError: reservationError,
-  } = useQuery<AvailableReservationsType>({
-    queryKey: queryKeys.reservedSchedules(),
-    queryFn: getAllMyReservation,
-  });
+  } = useReservedScheduleQuery();
 
   // 기본값을 빈 객체로 설정
   const defaultReservedSchedules: AvailableReservationsType = {

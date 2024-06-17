@@ -1,15 +1,5 @@
 import axiosInstance from '@/lib/axiosInstance';
-
-interface AvailableSchedule {
-  date: string;
-  times: [
-    {
-      id: number;
-      startTime: string;
-      endTime: string;
-    },
-  ];
-}
+import { AvailableSchedulesType } from '@/types/activityPage';
 
 const getAvailableSchedule = async ({
   id,
@@ -19,7 +9,7 @@ const getAvailableSchedule = async ({
   id: string;
   selectedYear: string;
   selectedMonth: string;
-}): Promise<AvailableSchedule[]> => {
+}): Promise<AvailableSchedulesType[]> => {
   try {
     const response = await axiosInstance.get(
       `/activities/${id}/available-schedule?year=${selectedYear}&month=${selectedMonth}`,
