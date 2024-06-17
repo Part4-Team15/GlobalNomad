@@ -10,6 +10,7 @@ const MyPageInputBox = ({
   editProfileErrorMessages,
   setEditProfileErrorMessages,
   onFocusOut,
+  placeholder,
 }: MyPageInputBoxProps) => {
   let borderColorClass = '';
   const readOnly = inputType === 'email';
@@ -46,23 +47,24 @@ const MyPageInputBox = ({
         name={inputName}
         onClick={onClickInput}
         readOnly={readOnly}
+        placeholder={placeholder}
         onBlur={inputName === 'newPasswordConfirm' ? onFocusOut : undefined}
       />
       {inputName === 'nickname' && editProfileErrorMessages?.nicknameErrorMessage && (
         <div className="text-red-40 text-xs ml-1">
-          {editProfileErrorMessages.nicknameErrorMessage}
+          <p>{editProfileErrorMessages.nicknameErrorMessage}</p>
         </div>
       )}
 
       {inputName === 'newPassword' && editProfileErrorMessages?.newPasswordErrorMessage && (
         <div className="text-red-40 text-xs ml-1">
-          {editProfileErrorMessages.newPasswordErrorMessage}
+          <p>{editProfileErrorMessages.newPasswordErrorMessage}</p>
         </div>
       )}
       {inputName === 'newPasswordConfirm' &&
         editProfileErrorMessages?.newPasswordConfirmErrorMessage && (
           <div className="text-red-40 text-xs ml-1">
-            {editProfileErrorMessages.newPasswordConfirmErrorMessage}
+            <p>{editProfileErrorMessages.newPasswordConfirmErrorMessage}</p>
           </div>
         )}
     </div>

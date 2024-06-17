@@ -18,6 +18,7 @@ export interface MyPageInputBoxProps {
   editProfileErrorMessages?: EditProfileErrorMessages;
   setEditProfileErrorMessages?: React.Dispatch<React.SetStateAction<EditProfileErrorMessages>>;
   onFocusOut?: () => void;
+  placeholder?: string;
 }
 
 export interface EditProfileErrorMessages {

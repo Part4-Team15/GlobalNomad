@@ -17,6 +17,7 @@ const MyPageForm = ({
   const { nickname, email, newPassword, newPasswordConfirm } = inputs;
 
   const { mutation, editProfileErrorMessages, setEditProfileErrorMessages } = useEditProfile();
+
   const { mutate } = mutation;
 
   const { userInfo } = useUserInfoQuery();
@@ -68,7 +69,7 @@ const MyPageForm = ({
       className={`flex flex-col gap-4 ${isMyProfilePage ? '' : 'sm:hidden'} w-[729px] md:flex-grow sm:w-full`}
     >
       <div className="flex justify-between font-bold">
-        <div className="text-[#1b1b1b] text-[32px] w-[91px] h-[38px]">내정보</div>
+        <h1 className="text-[#1b1b1b] text-[32px] w-[91px] h-[38px]">내정보</h1>
         <button
           type="submit"
           form="myPageForm"
@@ -89,6 +90,7 @@ const MyPageForm = ({
           value={nickname}
           labelName="닉네임"
           inputType="text"
+          placeholder="닉네임을 입력해주세요"
           editProfileErrorMessages={editProfileErrorMessages}
           setEditProfileErrorMessages={setEditProfileErrorMessages}
         />
@@ -101,6 +103,7 @@ const MyPageForm = ({
           inputType="password"
           editProfileErrorMessages={editProfileErrorMessages}
           setEditProfileErrorMessages={setEditProfileErrorMessages}
+          placeholder="8자 이상 입력해 주세요"
         />
         <MyPageInputBox
           inputName="newPasswordConfirm"
@@ -111,6 +114,7 @@ const MyPageForm = ({
           editProfileErrorMessages={editProfileErrorMessages}
           setEditProfileErrorMessages={setEditProfileErrorMessages}
           onFocusOut={newPasswordConfirmFocusOut}
+          placeholder="비밀번호를 한번 더 입력해 주세요"
         />
       </form>
     </div>
