@@ -16,6 +16,7 @@ import {
   AvailableSchedulesType,
 } from '@/types/activityPage';
 import MobileCalendarModal from './MobileCalendarModal';
+import ReserveBarSkeleton from '../skeletonUI/activity/ReserveBarSkeleton';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -138,7 +139,7 @@ const ReserveBar: React.FC<ReserveFormProps> = ({ activity }) => {
   }, [attendeeCount]);
 
   if (availableSchedulesLoading || reservationLoading) {
-    return <div>예약 가능한 시간을 불러오고 있습니다...</div>;
+    return <ReserveBarSkeleton />;
   }
 
   if (availableSchedulesError || reservationError) {
