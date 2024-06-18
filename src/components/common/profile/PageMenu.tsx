@@ -12,17 +12,19 @@ const PageMenu = ({ linkTo, icon, activeIcon, name, setIsShowProfileForm }: Page
   };
 
   return (
-    <li
+    <Link
+      to={linkTo}
       className={`flex h-11 p-[9px] pr-[16px] pb-[9px] pl-[16px] items-center self-stretch rounded-xl hover:bg-green-10
       ${isActive ? ' bg-green-10 text-black' : ' text-gray-60'}`}
+      onClick={handleClick}
     >
-      <Link to={linkTo} onClick={handleClick}>
+      <li className="list-none">
         <div className="flex gap-[14px]">
           <img src={isActive ? activeIcon : icon} alt="Icon" />
           <span className=" text-base font-bold">{name}</span>
         </div>
-      </Link>
-    </li>
+      </li>
+    </Link>
   );
 };
 
