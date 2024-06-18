@@ -19,7 +19,7 @@ const DefaultMyPageProfileImage = ({
       setIsShowDefaultImage(false);
     },
     onError: (error) => {
-      console.error('Failed to upload image:', error);
+      console.error(error.message);
     },
   });
 

@@ -53,7 +53,7 @@ const MyPageForm = ({ uploadedImage, isShowProfileForm, isShowDefaultImage }: My
     let profileImageUrl: string | null = null;
 
     if (!isShowDefaultImage && userInfo) {
-      profileImageUrl = uploadedImage || userInfo.profileImageUrl || null; // Assign value based on conditions
+      profileImageUrl = uploadedImage || userInfo.profileImageUrl || null;
     }
 
     mutate({
