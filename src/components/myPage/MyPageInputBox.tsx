@@ -1,19 +1,5 @@
-import { ChangeEvent } from 'react';
-import { EditInformationErrorMessageType } from '@/types/signupPage';
+import { MyPageInputBoxProps } from '@/types/myProfile';
 import MyPageInputLabel from './MyPageInputLabel';
-
-interface MyPageInputBoxProps {
-  inputName: string;
-  onChangeInput?: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-  labelName: string;
-  inputType: string;
-  editInformationErrorMessage?: EditInformationErrorMessageType | null;
-  setEditInformationErrorMessage?: React.Dispatch<
-  React.SetStateAction<EditInformationErrorMessageType>
-  >;
-  onFocusOut?: () => void;
-}
 
 const MyPageInputBox = ({
   inputName,
@@ -21,82 +7,66 @@ const MyPageInputBox = ({
   value,
   labelName,
   inputType,
-  editInformationErrorMessage,
-  setEditInformationErrorMessage,
+  editProfileErrorMessages,
+  setEditProfileErrorMessages,
   onFocusOut,
+  placeholder,
 }: MyPageInputBoxProps) => {
   let borderColorClass = '';
+  const readOnly = inputType === 'email';
 
   const onClickInput = () => {
-    if (setEditInformationErrorMessage) {
-      if (inputName === 'nickname') {
-        setEditInformationErrorMessage((prev) => ({
-          ...prev,
-          nicknameErrorMessage: null,
-        }));
-      } else if (inputName === 'newPassword') {
-        setEditInformationErrorMessage((prev) => ({
-          ...prev,
-          passwordErrorMessage: null,
-        }));
-      } else if (inputName === 'newPasswordConfirm') {
-        setEditInformationErrorMessage((prev) => ({
-          ...prev,
-          passwordConfirmErrorMessage: null,
-        }));
-      }
+    if (setEditProfileErrorMessages) {
+      setEditProfileErrorMessages((prev) => ({
+        ...prev,
+        [`${inputName}ErrorMessage`]: '',
+      }));
     }
   };
 
-  if (
-    inputName === 'nickname' &&
-    editInformationErrorMessage?.nicknameErrorMessage
-  ) {
+  if (inputName === 'nickname' && editProfileErrorMessages?.nicknameErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (
-    inputName === 'newPassword' &&
-    editInformationErrorMessage?.passwordErrorMessage
-  ) {
+  } else if (inputName === 'newPassword' && editProfileErrorMessages?.newPasswordErrorMessage) {
     borderColorClass = 'border-red-40';
   } else if (
     inputName === 'newPasswordConfirm' &&
-    editInformationErrorMessage?.passwordConfirmErrorMessage
+    editProfileErrorMessages?.newPasswordConfirmErrorMessage
   ) {
     borderColorClass = 'border-red-40';
   }
 
   return (
-    <div className="flex flex-col w-[792px] gap-4">
-      <MyPageInputLabel labelName={labelName} />
+    <div className="flex flex-col gap-4">
+      <MyPageInputLabel labelName={labelName} inputName={inputName} />
       <input
-        className={`w-full py-4 pl-4 border border-gray-50 rounded ${borderColorClass}`}
+        className={`py-4 pl-4 border border-gray-50 rounded ${borderColorClass} outline-none focus:border-blue-500 `}
         type={inputType}
         id={inputName}
         onChange={onChangeInput}
         value={value}
         name={inputName}
-        onBlur={inputName === 'newPasswordConfirm' ? onFocusOut : undefined}
         onClick={onClickInput}
+        readOnly={readOnly}
+        placeholder={placeholder}
+        onBlur={inputName === 'newPasswordConfirm' ? onFocusOut : undefined}
       />
-      {inputName === 'nickname' &&
-        editInformationErrorMessage?.nicknameErrorMessage && (
-          <div className="text-red-40 text-xs ml-1">
-            {editInformationErrorMessage.nicknameErrorMessage}
-          </div>
+      {inputName === 'nickname' && editProfileErrorMessages?.nicknameErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">
+          <p>{editProfileErrorMessages.nicknameErrorMessage}</p>
+        </div>
       )}
 
-      {inputName === 'newPassword' &&
-        editInformationErrorMessage?.passwordErrorMessage && (
-          <div className="text-red-40 text-xs ml-1">
-            {editInformationErrorMessage.passwordErrorMessage}
-          </div>
+      {inputName === 'newPassword' && editProfileErrorMessages?.newPasswordErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">
+          <p>{editProfileErrorMessages.newPasswordErrorMessage}</p>
+        </div>
       )}
       {inputName === 'newPasswordConfirm' &&
-        editInformationErrorMessage?.passwordConfirmErrorMessage && (
+        editProfileErrorMessages?.newPasswordConfirmErrorMessage && (
           <div className="text-red-40 text-xs ml-1">
-            {editInformationErrorMessage.passwordConfirmErrorMessage}
+            <p>{editProfileErrorMessages.newPasswordConfirmErrorMessage}</p>
           </div>
-      )}
+        )}
     </div>
   );
 };

@@ -1,26 +1,34 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface PageMenuProp {
   linkTo: string;
   icon: any;
   activeIcon: any;
   name: string;
+  setIsMyProfilePage?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PageMenu = ({ linkTo, icon, activeIcon, name }: PageMenuProp) => {
+const PageMenu = ({ linkTo, icon, activeIcon, name, setIsMyProfilePage }: PageMenuProp) => {
   const location = useLocation();
   const isActive = location.pathname.startsWith(linkTo);
+  const handleClick = () => {
+    if (linkTo === '/my/profile' && setIsMyProfilePage) {
+      setIsMyProfilePage(true);
+    }
+  };
+
   return (
-    <a
-      href={linkTo}
+    <Link
+      to={linkTo}
       className={`flex h-11 p-[9px] pr-[16px] pb-[9px] pl-[16px] items-center self-stretch rounded-xl hover:bg-green-10
       ${isActive ? ' bg-green-10 text-black' : ' text-gray-60'}`}
+      onClick={handleClick}
     >
       <div className="flex gap-[14px]">
         <img src={isActive ? activeIcon : icon} alt="Icon" />
         <span className=" text-base font-bold">{name}</span>
       </div>
-    </a>
+    </Link>
   );
 };
 
