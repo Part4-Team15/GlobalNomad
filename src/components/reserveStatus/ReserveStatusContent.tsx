@@ -119,13 +119,15 @@ const ReserveStatusContent = () => {
     if (matchedReservation) {
       const { completed, confirmed, pending } = matchedReservation.reservations;
       return (
-        <div onClick={() => onClickCalendarTile(date)}>
-          {pending !== 0 && <PendingTileBlock count={pending} />}
-          <br />
-          {completed !== 0 && <CompletedTileBlock count={completed} />}
-          <br />
-          {confirmed !== 0 && <ConfimedTileBlock count={confirmed} />}
-          <br />
+        <div className="w-full h-full text-left flex flex-col-reverse">
+          <div onClick={() => onClickCalendarTile(date)}>
+            {pending !== 0 && <PendingTileBlock count={pending} />}
+            {/* <br /> */}
+            {completed !== 0 && <CompletedTileBlock count={completed} />}
+            {/* <br /> */}
+            {confirmed !== 0 && <ConfimedTileBlock count={confirmed} />}
+            {/* <br /> */}
+          </div>
         </div>
       );
     }
@@ -134,7 +136,7 @@ const ReserveStatusContent = () => {
   };
 
   return (
-    <div className="w-[800px] relative">
+    <div className="w-full min-w-[21.375rem] relative">
       <h1 className="text-[32px] font-bold text-black mb-8">예약 현황</h1>
       {/* 드롭다운 박스에 선택된 activity title 표시 */}
       <ActivityDropDownBox
