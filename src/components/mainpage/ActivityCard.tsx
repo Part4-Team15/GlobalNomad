@@ -9,8 +9,18 @@ interface ActivityCardProps {
 const ActivityCard = ({
   cardData: { id, title, price, bannerImageUrl, rating, reviewCount }
 }: ActivityCardProps) => {
+
+  const handleClick = () => {
+    localStorage.setItem('currentViewedActivity', JSON.stringify({ id, title, price, bannerImageUrl, rating, reviewCount }));
+  };
+
   return (
-    <Link to={`/activity/${id}`} className="group h-[435px] md:h-[373px] sm:h-[295px]" target="_blank">
+    <Link
+      to={`/activity/${id}`}
+      className="group h-[435px] md:h-[373px] sm:h-[295px]"
+      target="_blank"
+      onClick={handleClick}
+    >
       <div className="flex flex-col gap-4">
         <div
           className="w-[282px] h-[282px] bg-cover bg-center rounded-3xl group-hover:bg-extend md:w-[221px] md:h-[221px] sm:w-[168px] sm:h-[168px]"
