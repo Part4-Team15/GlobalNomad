@@ -34,7 +34,6 @@ const ActivityCard = ({
     <Link
       to={`/activity/${id}`}
       className="group h-[435px] md:h-[373px] sm:h-[295px]"
-      target="_blank"
       onClick={handleClick}
     >
       <div className="flex flex-col gap-4">
