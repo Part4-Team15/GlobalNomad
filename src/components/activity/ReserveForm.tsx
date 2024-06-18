@@ -19,6 +19,7 @@ import {
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import CalendarModal from './CalendarModal';
+import ReserveFormSkeleton from '../skeletonUI/activity/ReserveFormSkeleton';
 
 interface ReserveFormProps {
   activity: ActivityType;
@@ -142,7 +143,7 @@ const ReserveForm: React.FC<ReserveFormProps> = ({ activity }) => {
   }, [attendeeCount]);
 
   if (availableSchedulesLoading || reservationLoading) {
-    return <div>예약 가능한 시간을 불러오고 있습니다...</div>;
+    return <ReserveFormSkeleton />;
   }
 
   if (availableSchedulesError || reservationError) {
