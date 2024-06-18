@@ -1,4 +1,4 @@
-type CurrentViewedActivity = {
+export type CurrentViewedActivity = {
   id: number;
   title: string;
   price: number;
