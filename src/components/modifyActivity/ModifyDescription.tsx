@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import { ModifyData } from '@/types/modifyActivityPage';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface ModifyDescriptionProps {
   description: string;
 }
 
 const ModifyDescription = ({ description }: ModifyDescriptionProps) => {
-  const queryClient = useQueryClient();
+  const { mergeDescription } = useMergeModifyData();
   const [localDescription, setLocalDescription] = useState(description);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
-      return mergeModifyData(oldData, { description });
-    });
+    mergeDescription(description);
   }, []);
 
   const handleChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newDescription = e.target.value;
     setLocalDescription(newDescription);
-    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
-      return mergeModifyData(oldData, { description: newDescription });
-    });
+    mergeDescription(newDescription);
   };
 
   return (

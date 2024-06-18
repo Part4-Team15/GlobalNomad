@@ -1,21 +1,19 @@
 import React from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 import { AssignData, Schedule } from '@/types/assignActivityPage';
-import mergeAssignData from '../utils/mergeAssignData';
 
 // 추가된 시간대 내역들 보여주는 컴포넌트
 const ReservationForm = () => {
-  const queryClient = useQueryClient();
+  const { resetSchedule } = useMergeAssignData();
 
   const data = useQuery({ queryKey: queryKeys.assignData() }).data as AssignData;
   const time: Schedule[] = data ? data.schedules : [];
 
   const handleRemoveReservationTime = (index: number): void => {
     const updatedTimes = time.filter((_, i) => i !== index);
-    queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
-      return mergeAssignData(oldData, { schedules: updatedTimes });
-    });
+    resetSchedule(updatedTimes);
   };
 
   return (

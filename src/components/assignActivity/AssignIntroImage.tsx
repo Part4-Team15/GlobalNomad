@@ -1,15 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
-import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
-import mergeAssignData from './utils/mergeAssignData';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 
 const MAX_SIZE = 4;
 
 const AssignIntroImage = () => {
-  const queryClient = useQueryClient();
+  const { mergeIntroImage, resetIntroImage } = useMergeAssignData();
   const [introImage, setIntroImage] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,11 +29,7 @@ const AssignIntroImage = () => {
 
           setIntroImage((prevImages) => {
             const updatedImages = [...prevImages, imageUrl];
-            queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
-              return mergeAssignData(oldData, {
-                subImageUrls: updatedImages,
-              });
-            });
+            mergeIntroImage(updatedImages);
             return updatedImages;
           });
         }
@@ -53,9 +46,7 @@ const AssignIntroImage = () => {
   const handleRemoveImage = (index: number): void => {
     setIntroImage((prevImages: string[]) => {
       const updatedImages = prevImages.filter((_: string, i: number) => i !== index);
-      queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
-        return mergeAssignData(oldData, { subImageUrls: updatedImages });
-      });
+      resetIntroImage(updatedImages);
       return updatedImages;
     });
   };

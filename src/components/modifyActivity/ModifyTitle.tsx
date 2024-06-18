@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import { ModifyData } from '@/types/modifyActivityPage';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface ModifyTitleProps {
   title: string;
 }
 
 const ModifyTitle = ({ title }: ModifyTitleProps) => {
-  const queryClient = useQueryClient();
+  const { mergeTitle } = useMergeModifyData();
   const [localTitle, setLocalTitle] = useState(title);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
-      return mergeModifyData(oldData, { title });
-    });
+    mergeTitle(title);
   }, []);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setLocalTitle(newTitle);
-    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
-      return mergeModifyData(oldData, { title: newTitle });
-    });
+    mergeTitle(newTitle);
   };
 
   return (

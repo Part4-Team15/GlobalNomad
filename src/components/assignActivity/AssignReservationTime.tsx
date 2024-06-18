@@ -1,16 +1,16 @@
 import React from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AssignData, Schedule } from '@/types/assignActivityPage';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 import Toast from '@/utils/Toast';
-import mergeAssignData from './utils/mergeAssignData';
 import ReservationDate from './reservation/ReservationDate';
 import ReservationStartTime from './reservation/ReservationStartTime';
 import ReservationEndTime from './reservation/ReservationEndTime';
 import ReservationForm from './reservation/ReservationForm';
 
 const AssignReservationTime = () => {
-  const queryClient = useQueryClient();
+  const { mergeSchedule, initialTimes } = useMergeAssignData();
   const data = useQuery({ queryKey: queryKeys.assignData() }).data as AssignData;
   const time: Schedule[] = data ? data.schedules : [];
   const { data: reservationDate } = useQuery({ queryKey: queryKeys.assignDate() });
@@ -37,19 +37,11 @@ const AssignReservationTime = () => {
       );
       if (isDuplicate) {
         Toast.error('동일한 날짜 및 시간대는 중복될 수 없습니다.');
-        queryClient.setQueryData(queryKeys.assignDate(), '');
-        queryClient.setQueryData(queryKeys.assignStartTime(), '');
-        queryClient.setQueryData(queryKeys.assignEndTime(), '');
+        initialTimes();
         return;
       }
-      queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
-        return mergeAssignData(oldData, {
-          schedules: [...(oldData?.schedules || []), newReservationTime],
-        });
-      });
-      queryClient.setQueryData(queryKeys.assignDate(), '');
-      queryClient.setQueryData(queryKeys.assignStartTime(), '');
-      queryClient.setQueryData(queryKeys.assignEndTime(), '');
+      mergeSchedule(newReservationTime);
+      initialTimes();
     } else {
       Toast.error('날짜와 시간대는 필수 입력 사항입니다.');
     }

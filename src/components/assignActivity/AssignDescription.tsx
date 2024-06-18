@@ -1,16 +1,12 @@
 import React from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import mergeAssignData from './utils/mergeAssignData';
+
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 
 const AssignDescription = () => {
-  const queryClient = useQueryClient();
+  const { mergeDescription } = useMergeAssignData();
 
   const handleChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    queryClient.setQueryData<AssignData>(queryKeys.assignData(), (oldData) => {
-      return mergeAssignData(oldData, { description: e.target.value });
-    });
+    mergeDescription(e.target.value);
   };
 
   return (
