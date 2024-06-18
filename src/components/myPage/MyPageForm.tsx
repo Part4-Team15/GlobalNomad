@@ -3,15 +3,10 @@ import { FormEvent, useEffect } from 'react';
 import useMyProfileInput from '@/hooks/useMyProfileInput';
 import useEditProfile from '@/hooks/useEditProfile';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
+import { MyPageFormProps } from '@/types/myProfile';
 import MyPageInputBox from './MyPageInputBox';
 
-const MyPageForm = ({
-  uploadedImage,
-  isMyProfilePage,
-}: {
-  uploadedImage: string | null;
-  isMyProfilePage: boolean;
-}) => {
+const MyPageForm = ({ uploadedImage, isShowProfileForm, isShowDefaultImage }: MyPageFormProps) => {
   const { inputs, setInputs, onChangeInput } = useMyProfileInput();
 
   const { nickname, email, newPassword, newPasswordConfirm } = inputs;
@@ -46,7 +41,6 @@ const MyPageForm = ({
   };
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const profileImageUrl = uploadedImage ?? userInfo?.profileImageUrl ?? null;
 
     if (newPassword !== newPasswordConfirm && newPassword.length >= 8) {
       setEditProfileErrorMessages((prev) => ({
@@ -55,6 +49,11 @@ const MyPageForm = ({
       }));
 
       return;
+    }
+    let profileImageUrl: string | null = null;
+
+    if (!isShowDefaultImage && userInfo) {
+      profileImageUrl = uploadedImage || userInfo.profileImageUrl || null;
     }
 
     mutate({
@@ -65,9 +64,7 @@ const MyPageForm = ({
   };
 
   return (
-    <div
-      className={`flex flex-col gap-4 ${isMyProfilePage ? '' : 'sm:hidden'} w-[729px] md:flex-grow sm:w-full`}
-    >
+    <div className={`flex flex-col gap-4 ${isShowProfileForm ? '' : 'sm:hidden'} w-full`}>
       <div className="flex justify-between font-bold">
         <h1 className="text-[#1b1b1b] text-[32px] w-[91px] h-[38px]">내정보</h1>
         <button

@@ -1,19 +1,13 @@
+import { PageMenuProps } from '@/types/myPageProfile';
 import { Link, useLocation } from 'react-router-dom';
 
-interface PageMenuProp {
-  linkTo: string;
-  icon: any;
-  activeIcon: any;
-  name: string;
-  setIsMyProfilePage?: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const PageMenu = ({ linkTo, icon, activeIcon, name, setIsMyProfilePage }: PageMenuProp) => {
+const PageMenu = ({ linkTo, icon, activeIcon, name, setIsShowProfileForm }: PageMenuProps) => {
   const location = useLocation();
   const isActive = location.pathname.startsWith(linkTo);
+
   const handleClick = () => {
-    if (linkTo === '/my/profile' && setIsMyProfilePage) {
-      setIsMyProfilePage(true);
+    if (linkTo === '/my/profile' && setIsShowProfileForm) {
+      setIsShowProfileForm(true);
     }
   };
 
@@ -24,10 +18,12 @@ const PageMenu = ({ linkTo, icon, activeIcon, name, setIsMyProfilePage }: PageMe
       ${isActive ? ' bg-green-10 text-black' : ' text-gray-60'}`}
       onClick={handleClick}
     >
-      <div className="flex gap-[14px]">
-        <img src={isActive ? activeIcon : icon} alt="Icon" />
-        <span className=" text-base font-bold">{name}</span>
-      </div>
+      <li className="list-none">
+        <div className="flex gap-[14px]">
+          <img src={isActive ? activeIcon : icon} alt="Icon" />
+          <span className=" text-base font-bold">{name}</span>
+        </div>
+      </li>
     </Link>
   );
 };

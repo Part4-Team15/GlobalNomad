@@ -26,3 +26,9 @@ export interface EditProfileErrorMessages {
   newPasswordErrorMessage: string;
   newPasswordConfirmErrorMessage: string;
 }
+
+export interface MyPageFormProps {
+  uploadedImage: string | null;
+  isShowProfileForm: boolean;
+  isShowDefaultImage: boolean;
+}

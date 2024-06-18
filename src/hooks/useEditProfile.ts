@@ -47,7 +47,7 @@ const useEditProfile = () => {
               newPasswordErrorMessage: errorMessage,
             }));
           } else if (errorMessage.includes('형식')) {
-            toast.error(error.message);
+            toast.error(errorMessage);
           } else if (errorMessage.includes('없습니다')) {
             setEditProfileErrorMessages((prev) => ({
               ...prev,
