@@ -1,6 +1,7 @@
 import { ActivityInfo } from '@/types/mainPage';
 import { Link } from 'react-router-dom';
 import priceToWon from '@/utils/priceToWon';
+import { getCurrentViewedActivity, getRecentlyViewedActivities, setCurrentViewedActivity, setRecentlyViewedActivities } from '@/utils/saveRecentActivities';
 
 interface ActivityCardProps {
   cardData: ActivityInfo;
@@ -11,7 +12,22 @@ const ActivityCard = ({
 }: ActivityCardProps) => {
 
   const handleClick = () => {
-    localStorage.setItem('currentViewedActivity', JSON.stringify({ id, title, price, bannerImageUrl, rating, reviewCount }));
+    setCurrentViewedActivity({ id, title, price, bannerImageUrl, rating, reviewCount });
+    const viewedActivity = getCurrentViewedActivity();
+
+    if (viewedActivity) {
+      let viewedList = getRecentlyViewedActivities();
+
+      // 추가하려는 최근 본 체험과 중복된 체험이 목록에 있는지 확인
+      viewedList = viewedList.filter((activity: any) => activity.id !== viewedActivity.id);
+      viewedList.unshift(viewedActivity);
+
+      if (viewedList.length > 6) {
+        viewedList = viewedList.slice(0, 6);
+      }
+
+      setRecentlyViewedActivities(viewedList);
+    }
   };
 
   return (
