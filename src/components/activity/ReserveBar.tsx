@@ -10,6 +10,7 @@ import useReservedScheduleQuery from '@/hooks/useReservedScheduleQuery';
 import useSubmitReserve from '@/hooks/useSubmitReserve';
 import { AvailableReservationsType, AvailableSchedulesType } from '@/types/activityPage';
 import MobileCalendarModal from './MobileCalendarModal';
+import ReserveBarSkeleton from '../skeletonUI/activity/ReserveBarSkeleton';
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
@@ -121,7 +122,7 @@ const ReserveBar = ({ price }: { price: number }) => {
   }, [attendeeCount]);
 
   if (availableSchedulesLoading || reservationLoading) {
-    return <div>예약 가능한 시간을 불러오고 있습니다...</div>;
+    return <ReserveBarSkeleton />;
   }
 
   if (availableSchedulesError || reservationError) {
