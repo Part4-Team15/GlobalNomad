@@ -1,17 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-
-import getActivity from '@/api/getActivity';
-import getUserInfo from '@/api/getUserInfo';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import { ActivityType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import useActivity from '@/hooks/useActivityQuery';
 
-import TopBanner from '@/components/activity/TopBanner';
+import Title from '@/components/activity/Title';
 import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
 import ReserveForm from '@/components/activity/ReserveForm';
 import ReserveBar from '@/components/activity/ReserveBar';
+import ImageDashBoard from '@/components/activity/ImageDashBoard';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -23,33 +20,17 @@ const ActivityPage = () => {
   }
 
   // 유저 정보 가져오기
-  const {
-    data: userInfo,
-    isLoading: userLoading,
-    isError: userError,
-  } = useQuery({
-    queryKey: queryKeys.user(),
-    queryFn: getUserInfo,
-  });
+  const { userInfo, isLoading: userLoading, isError: userError } = useUserInfoQuery();
 
   // 체험 상세 정보 가져오기
   const {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useQuery<ActivityType>({
-    queryKey: queryKeys.activity(id || ''),
-    queryFn: async () => {
-      if (!id) {
-        throw new Error('해당 체험은 존재하지 않습니다');
-      }
-      return getActivity(id);
-    },
-    enabled: !!id,
-  });
+  } = useActivity(id || '');
 
   if (userLoading || activityLoading) {
-    return <div>프로필을 불러오고 있습니다</div>;
+    return <div>체험을 불러오고 있습니다</div>;
   }
 
   if (userError || !userInfo || activityError || !activity) {
@@ -59,13 +40,14 @@ const ActivityPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-20 mt-10 mb-40 md:gap-10 sm:gap-0">
-        <TopBanner activity={activity} />
+      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-16 mb-40 md:gap-10 sm:gap-0">
+        <Title />
+        <ImageDashBoard />
         {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}
         <div className="flex w-full gap-6 sm:gap-4">
           {activity.userId === userInfo.id ? (
             <div className="flex w-full flex-col">
-              <Description activity={activity} />
+              <Description />
               <Reviews />
             </div>
           ) : (
@@ -74,18 +56,18 @@ const ActivityPage = () => {
               {windowWidth > 767 ? (
                 <>
                   <div className="flex w-2/3 flex-col">
-                    <Description activity={activity} />
+                    <Description />
                     <Reviews />
                   </div>
                   <div className="w-1/3">
-                    <ReserveForm activity={activity} />
+                    <ReserveForm price={activity.price} />
                   </div>
                 </>
               ) : (
                 <div className="relative flex w-11/12 flex-col">
-                  <Description activity={activity} />
+                  <Description />
                   <Reviews />
-                  <ReserveBar activity={activity} />
+                  <ReserveBar price={activity.price} />
                 </div>
               )}
             </>
