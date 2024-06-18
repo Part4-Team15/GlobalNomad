@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import MapSkeleton from '../skeletonUI/activity/MapSkeleton';
 
 interface MapProps {
   location: string;
@@ -21,7 +22,7 @@ const KakaoMap: React.FC<MapProps> = ({ location }) => {
   }, [location]);
 
   if (!latLng) {
-    return <div>Loading...</div>;
+    return <MapSkeleton />;
   }
 
   return (
