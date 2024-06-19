@@ -1,8 +1,8 @@
 import { MouseEvent, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { CurrentViewedActivity, getRecentlyViewedActivities } from '@/utils/saveRecentActivities';
 import '../../styles/customScrollbar.css';
 import ModalPortal from '../review/ModalPortal';
+import RecentViewedActivityCard from './RecentViewedActivityCard';
 
 const RecentViewedActivity = () => {
   const [showList, setShowList] = useState(false);
@@ -49,13 +49,7 @@ const RecentViewedActivity = () => {
               >
                 {recentViewedList.length ?
                   (recentViewedList.map((activity: CurrentViewedActivity) => (
-                    <Link key={activity.id} to={`/activity/${activity.id}`}>
-                      <div
-                        className="w-28 h-28 bg-cover bg-center rounded-3xl
-                          hover:border hover:border-green-300 hover:shadow-green-700 hover:shadow-custom"
-                        style={{ backgroundImage: `url(${activity.bannerImageUrl})` }}
-                      />
-                    </Link>
+                    <RecentViewedActivityCard {...activity} />
                   ))
                   ) : (
                     <div>최근에 방문한 체험 내역이 없습니다.</div>
