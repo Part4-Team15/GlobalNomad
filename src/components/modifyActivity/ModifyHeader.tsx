@@ -1,35 +1,53 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { ModifyData } from '@/types/modifyActivityPage';
+import { ModifyData, Schedule } from '@/types/modifyActivityPage';
 import patchModifyMyActivity from '@/api/patchMyActivity';
 import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
 import useCheckModifyData from '@/hooks/useCheckModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface ModifyHeaderProps {
   id: string;
+  schedules: Schedule[];
 }
 
-const ModifyHeader = ({ id }: ModifyHeaderProps) => {
+const ModifyHeader = ({ id, schedules }: ModifyHeaderProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { checkRequireData } = useCheckModifyData();
+  const { mergeSchedule, initialModifySchedule, initialScheduleId, initialModifyData } =
+    useMergeModifyData();
   const data = useQuery({ queryKey: queryKeys.modifyData() }).data as ModifyData;
+
+  const mutation = useMutation({
+    mutationFn: async ({ data: modifyData, id: modifyId }: { data: ModifyData; id: string }) => {
+      return patchModifyMyActivity(modifyData, modifyId);
+    },
+    onSuccess: () => {
+      Toast.success('수정 성공!!'); // 성공 시 모달 열기
+      queryClient.invalidateQueries({ queryKey: queryKeys.activities() }); // 쿼리 무효화
+      initialModifyData();
+      navigate('/my/activity');
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message;
+        Toast.error(errorMessage);
+        mergeSchedule(schedules);
+        initialModifySchedule();
+        initialScheduleId();
+      } else {
+        Toast.error('수정 중 오류가 발생했습니다.');
+      }
+    },
+  });
 
   const handleModifyData = async () => {
     if (checkRequireData(data)) {
-      // 1차 검사 (비어있는 폼 검사)
-      try {
-        const response = await patchModifyMyActivity(data, id);
-        // 2차 검사 (예약이 있는 시간대를 삭제했는지 -> 삭제되면 안되는것이 삭제되었는지)
-        // 이때는 오류가 나면 시간대를 다시 돌려줘야하므로 새로고침을 하도록
-        if (response) {
-          Toast.success('수정 완료!!');
-          navigate('/my/activity');
-        }
-      } catch (e) {
-        console.error('Error:', e);
-      }
+      mutation.mutate({ data, id });
     }
   };
 
