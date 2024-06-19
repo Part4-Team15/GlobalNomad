@@ -31,7 +31,7 @@ const ActivitySearch = () => {
               alt="search-icon"
             />
             <input
-              className="outline-none w-[930px] lg:w-[804px] md:w-[436px] sm:w-[124px]"
+              className="outline-none w-[930px] lg:w-[730px] md:w-[436px] sm:w-[124px]"
               type="search"
               ref={searchWord}
               defaultValue={keyword || ''}
@@ -39,7 +39,7 @@ const ActivitySearch = () => {
             />
           </div>
           <button
-            className="bg-nomad-black rounded-md w-[136px] h-14 px-10 py-2 text-white font-bold sm:w-24 sm:px-5"
+            className="bg-nomad-black rounded-md min-w-[136px] h-14 px-10 py-2 text-white font-bold sm:min-w-24 sm:px-5"
             type="submit"
           >
             검색하기
