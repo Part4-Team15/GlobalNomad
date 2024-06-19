@@ -9,18 +9,17 @@ interface ReservationFilterProps {
 
 const ReservationFilter = ({ setStatus }: ReservationFilterProps) => {
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(dropdownRef, () => setDropdownIsOpen(false));
   const toggleDropdown = () => {
     setDropdownIsOpen((prev) => !prev);
   };
   return (
-    <button
+    <div
       onClick={toggleDropdown}
-      type="button"
       ref={dropdownRef}
-      className="flex relative justify-between px-5 py-4 border-green-80 rounded-[15px] w-40 text-green-80 font-medium text-[18px] border-[1.5px] md:hidden sm:hidden"
+      className="flex relative justify-between px-5 py-4 border-green-80 rounded-[15px] w-40 text-green-80 font-medium text-[18px] border-[1.5px] md:hidden sm:hidden cursor-pointer"
     >
       필터
       <img src="/assets/arrow_down.svg" alt="arrow_down" />
@@ -38,7 +37,7 @@ const ReservationFilter = ({ setStatus }: ReservationFilterProps) => {
           })}
         </ul>
       )}
-    </button>
+    </div>
   );
 };
 
