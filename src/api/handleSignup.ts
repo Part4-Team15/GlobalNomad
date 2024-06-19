@@ -1,36 +1,26 @@
 import axiosInstance from '@/lib/axiosInstance';
-
-export interface HandleSignupType {
-  email: string;
-  nickname: string;
-  password: string;
-}
-
-class SignupError extends Error {
-  status: number;
-
-  constructor(status: number) {
-    super('Signup Error');
-    this.status = status;
-    this.name = 'SignupError';
-  }
-}
+import { HandleSignupParams, UserProfile } from '@/types/signupPage';
 
 const handleSignup = async ({
   email,
   nickname,
   password,
-}: HandleSignupType): Promise<any> => {
-  const response = await axiosInstance.post('/users', {
-    email,
-    nickname,
-    password,
-  });
+}: HandleSignupParams): Promise<UserProfile> => {
+  try {
+    const response = await axiosInstance.post<UserProfile>('/users', {
+      email,
+      nickname,
+      password,
+    });
 
-  if (response.status !== 201) {
-    throw new SignupError(response.status);
+    if (response.status !== 201) {
+      throw new Error(`Signup Error ${response.status}`);
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Login Error', error);
+    throw error;
   }
-  return response;
 };
 
 export default handleSignup;

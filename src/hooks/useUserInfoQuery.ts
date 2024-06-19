@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import getUserInfo from '@/api/getUserInfo';
 import { UserInformation } from '@/types/header';
+import queryKeys from '@/api/reactQuery/queryKeys';
 
 const useUserInfoQuery = () => {
   const { data, isLoading, isError } = useQuery<UserInformation>({
-    queryKey: ['user'],
+    queryKey: queryKeys.user(),
     queryFn: getUserInfo,
   });
   return { userInfo: data, isLoading, isError };

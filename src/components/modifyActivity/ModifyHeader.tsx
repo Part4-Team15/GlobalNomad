@@ -3,8 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { ModifyData } from '@/types/modifyActivityPage';
 import patchModifyMyActivity from '@/api/patchMyActivity';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import Toast from '@/utils/Toast';
-import useCheckRequireData from './utils/checkRequireData';
+import useCheckModifyData from '@/hooks/useCheckModifyData';
 
 interface ModifyHeaderProps {
   id: string;
@@ -12,15 +13,18 @@ interface ModifyHeaderProps {
 
 const ModifyHeader = ({ id }: ModifyHeaderProps) => {
   const navigate = useNavigate();
-  const { checkRequireData } = useCheckRequireData();
-  const data = useQuery({ queryKey: ['modifyData'] }).data as ModifyData;
+  const { checkRequireData } = useCheckModifyData();
+  const data = useQuery({ queryKey: queryKeys.modifyData() }).data as ModifyData;
 
   const handleModifyData = async () => {
     if (checkRequireData(data)) {
+      // 1차 검사 (비어있는 폼 검사)
       try {
         const response = await patchModifyMyActivity(data, id);
+        // 2차 검사 (예약이 있는 시간대를 삭제했는지 -> 삭제되면 안되는것이 삭제되었는지)
+        // 이때는 오류가 나면 시간대를 다시 돌려줘야하므로 새로고침을 하도록
         if (response) {
-          Toast.success('수정 완료!!'); // 성공 시 모달 열기
+          Toast.success('수정 완료!!');
           navigate('/my/activity');
         }
       } catch (e) {

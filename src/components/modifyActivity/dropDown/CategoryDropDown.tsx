@@ -1,20 +1,16 @@
 import React from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { ModifyData } from '@/types/modifyActivityPage';
 import { Category, CATEGORIES } from '@/types/category';
-import mergeModifyData from '../utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface CategoryProps {
   onSelect: (value: Category) => void;
 }
 
 const CategoryDropDown = ({ onSelect }: CategoryProps) => {
-  const queryClient = useQueryClient();
+  const { mergeCategory } = useMergeModifyData();
 
   const handleSelectedCategory = (item: Category) => () => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { category: item });
-    });
+    mergeCategory(item);
     onSelect(item);
   };
 

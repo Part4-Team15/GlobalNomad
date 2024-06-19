@@ -1,23 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import postAssignImage from '@/api/postAssignImage';
-import { ModifyData } from '@/types/modifyActivityPage';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface ModifyBannerImageProps {
   bannerImageUrl: string;
 }
 
 const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
-  const queryClient = useQueryClient();
+  const { mergeBannerImage, deleteBannerImage } = useMergeModifyData();
   const [localBannerImage, setLocalBannerImage] = useState<string | null>(bannerImageUrl);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { bannerImageUrl });
-    });
+    mergeBannerImage(bannerImageUrl);
   }, []);
 
   const handleBannerImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,9 +26,7 @@ const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
         if (response && response.activityImageUrl) {
           const imageUrl = response.activityImageUrl;
           setLocalBannerImage(imageUrl);
-          queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-            return mergeModifyData(oldData, { bannerImageUrl: imageUrl });
-          });
+          mergeBannerImage(imageUrl);
         }
         if (inputRef.current) {
           inputRef.current.value = '';
@@ -45,9 +39,7 @@ const ModifyBannerImage = ({ bannerImageUrl }: ModifyBannerImageProps) => {
 
   const handleRemoveImage = () => {
     setLocalBannerImage(null);
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { bannerImageUrl: undefined });
-    });
+    deleteBannerImage();
   };
 
   return (

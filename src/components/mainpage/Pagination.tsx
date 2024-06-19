@@ -9,7 +9,6 @@ interface PaginationProp {
   offsetLimit: number;
   pageNumberLimit?: number;
   setPageNum: (pageNum: number) => void;
-  setPageGroup: (pageGroupNum: number) => void;
 }
 
 /**
@@ -29,7 +28,6 @@ const Pagination = ({
   offsetLimit,
   pageNumberLimit = 5,
   setPageNum,
-  setPageGroup,
 }: PaginationProp) => {
   // 총 페이지의 개수
   const totalPage = Math.ceil(totalCount / offsetLimit);
@@ -52,10 +50,8 @@ const Pagination = ({
 
   // 왼쪽 arrow 버튼으로 이동 시 실행할 함수
   const handleLeftArrowBtnClick = () => {
-    const isFirstPage = (currentPage % pageNumberLimit) === 0;
 
     if (currentPage === 0) return;
-    if (isFirstPage) setPageGroup(currentPageGroup - 1);
 
     setPageNum(currentPage - 1);
   };
@@ -63,10 +59,8 @@ const Pagination = ({
   // 오른쪽 arrow 버튼으로 이동 시 실행할 함수
   const handleRightArrowBtnClick = () => {
     const lastPageNumber = pageNumber.length - 1;
-    const isLastPage = (currentPage % pageNumberLimit) === pageNumberLimit - 1;
 
     if (currentPage === lastPageNumber) return;
-    if (isLastPage) setPageGroup(currentPageGroup + 1);
 
     setPageNum(currentPage + 1);
   };

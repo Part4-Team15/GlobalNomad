@@ -1,11 +1,24 @@
-import { ActivityType } from '@/types/activityPage';
+import { useParams } from 'react-router-dom';
+import useActivityQuery from '@/hooks/useActivityQuery';
 import Map from './Map';
 
-interface DescriptionProps {
-  activity: ActivityType;
-}
+const Description = () => {
+  const { id } = useParams<{ id: string }>();
 
-const Description: React.FC<DescriptionProps> = ({ activity }) => {
+  const {
+    data: activity,
+    isLoading: activityLoading,
+    isError: activityError,
+  } = useActivityQuery(id || '');
+
+  if (activityLoading) {
+    return <div>설명을 불러오고 있습니다</div>;
+  }
+
+  if (activityError || !activity) {
+    return <div>설명을 불러오지 못했습니다</div>;
+  }
+
   const { address, description } = activity;
 
   return (

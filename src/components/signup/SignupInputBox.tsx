@@ -1,82 +1,56 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 
-import { SignupErrorType } from '@/types/signupPage';
-import AuthLabel from '../common/AuthLabel';
-
-interface SignupInputBoxProps {
-  inputName: string;
-  onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-  labelName: string;
-  inputType: string;
-  signupErrorMessage: SignupErrorType | null;
-  setSignupErrorMessage: React.Dispatch<React.SetStateAction<SignupErrorType>>;
-}
+import { SignupInputBoxProps } from '@/types/signupPage';
+import AuthLabel from '../common/auth/AuthLabel';
 
 const SignupInputBox = ({
   inputName,
   onChangeInput,
   value,
   labelName,
-  inputType,
-  signupErrorMessage,
-  setSignupErrorMessage,
+  signupErrorMessages,
+  setSignupErrorMessages,
 }: SignupInputBoxProps) => {
   const [isShowInputValue, setIsShowInputValue] = useState(false);
-  const [changeInputType, setChangeInputType] = useState(inputType);
-
+  const [inputType, setInputType] = useState(
+    inputName.includes('password') ? 'password' : inputName,
+  );
   const onClickInput = () => {
-    if (inputName === 'email') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        emailErrorMessage: null,
-      }));
-    } else if (inputName === 'nickname') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        nicknameErrorMessage: null,
-      }));
-    } else if (inputName === 'password') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        passwordErrorMessage: null,
-      }));
-    } else if (inputName === 'passwordConfirm') {
-      setSignupErrorMessage((prev) => ({
-        ...prev,
-        passwordConfirmErrorMessage: null,
-      }));
-    }
+    setSignupErrorMessages((prev) => ({
+      ...prev,
+      [`${inputName}ErrorMessage`]: '',
+    }));
   };
   const onClickEyeIcon = () => {
-    if (labelName.includes('비밀번호')) {
-      setChangeInputType('text');
+    if (inputType.includes('password')) {
+      setInputType('text');
     } else if (inputType === 'text') {
-      setChangeInputType('password');
+      setInputType('password');
     }
     setIsShowInputValue((prev) => !prev);
   };
   let borderColorClass = '';
-  if (inputName === 'email' && signupErrorMessage?.emailErrorMessage) {
+  if (inputName === 'email' && signupErrorMessages?.emailErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'nickname' && signupErrorMessage?.nicknameErrorMessage) {
+  } else if (inputName === 'nickname' && signupErrorMessages?.nicknameErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'password' && signupErrorMessage?.passwordErrorMessage) {
+  } else if (inputName === 'password' && signupErrorMessages?.passwordErrorMessage) {
     borderColorClass = 'border-red-40';
-  } else if (inputName === 'passwordConfirm' && signupErrorMessage?.passwordConfirmErrorMessage) {
+  } else if (inputName === 'passwordConfirm' && signupErrorMessages?.passwordConfirmErrorMessage) {
     borderColorClass = 'border-red-40';
   }
   return (
     <div className="flex flex-col gap-2 relative">
-      <AuthLabel labelName={labelName} />
+      <AuthLabel labelName={labelName} inputName={inputName} />
+
       <div className="relative">
         <input
           name={inputName}
-          type={changeInputType}
+          type={inputType}
           id={inputName}
           onChange={onChangeInput}
           value={value}
-          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass}`}
+          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500`}
           onClick={onClickInput}
         />
         {labelName.includes('비밀번호') === true ? (
@@ -97,29 +71,21 @@ const SignupInputBox = ({
           </button>
         ) : null}
       </div>
-      {inputName === 'email' && signupErrorMessage?.emailErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{signupErrorMessage.emailErrorMessage}</div>
+      {inputName === 'email' && signupErrorMessages?.emailErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{signupErrorMessages.emailErrorMessage}</div>
       )}
-      {inputName === 'nickname' && signupErrorMessage?.nicknameErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{signupErrorMessage.nicknameErrorMessage}</div>
+      {inputName === 'nickname' && signupErrorMessages?.nicknameErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{signupErrorMessages.nicknameErrorMessage}</div>
       )}
 
-      {inputName === 'password' && signupErrorMessage?.passwordErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">{signupErrorMessage.passwordErrorMessage}</div>
+      {inputName === 'password' && signupErrorMessages?.passwordErrorMessage && (
+        <div className="text-red-40 text-xs ml-1">{signupErrorMessages.passwordErrorMessage}</div>
       )}
-      {inputName === 'passwordConfirm' && signupErrorMessage?.passwordConfirmErrorMessage && (
+      {inputName === 'passwordConfirm' && signupErrorMessages?.passwordConfirmErrorMessage && (
         <div className="text-red-40 text-xs ml-1">
-          {signupErrorMessage.passwordConfirmErrorMessage}
+          {signupErrorMessages.passwordConfirmErrorMessage}
         </div>
       )}
-
-      {inputName === 'passwordConfirm' &&
-        signupErrorMessage?.passwordConfirmErrorMessage && (
-          <div className="text-red-40 text-xs ml-1">
-            {signupErrorMessage.passwordConfirmErrorMessage}
-          </div>
-      )}
-
     </div>
   );
 };

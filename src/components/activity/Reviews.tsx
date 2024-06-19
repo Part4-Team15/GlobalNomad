@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { REVIEW_OFFSET_LIMIT } from '@/constants/pagination_config';
+import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
 import getActivityReviews from '@/api/getActivityReviews';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
 import Pagination from '../mainpage/Pagination';
 
 const usePageReview = (id: number, pageNum: number, size: number) => {
   return useQuery({
-    queryKey: ['pageActivity', id, pageNum, size],
+    queryKey: queryKeys.reviews(id, pageNum, size),
     queryFn: () => getActivityReviews(id, pageNum, size),
     placeholderData: keepPreviousData,
   });
@@ -18,20 +20,16 @@ const usePageReview = (id: number, pageNum: number, size: number) => {
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
   const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
+  const currentPageGroup = calculatePageGroupNumber(currentPageNum);
 
-  const { data: reviewData, isLoading, isError } = usePageReview(
-    Number(id),
-    currentPageNum + 1,
-    REVIEW_OFFSET_LIMIT,
-  );
+  const {
+    data: reviewData,
+    isLoading,
+    isError,
+  } = usePageReview(Number(id), currentPageNum + 1, REVIEW_OFFSET_LIMIT);
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
-  };
-
-  const handlePageGroupChange = (page: number) => {
-    setCurrentPageGroup(page);
   };
 
   if (isLoading) {
@@ -70,14 +68,14 @@ const Reviews = () => {
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
                     <div
-                      className="w-1/12 h-10 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+                      className="w-12 h-12 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
                       style={{
                         backgroundImage: `url(${review.user.profileImageUrl})`,
                         backgroundColor: '#E3E5E8',
                       }}
                     />
                   ) : (
-                    <div className="w-1/6 h-8 bg-slate-400 rounded-full flex items-center justify-center text-white">
+                    <div className="w-12 h-12 bg-slate-400 rounded-full flex items-center justify-center text-white">
                       {review.user.nickname[0]}
                     </div>
                   )}
@@ -100,7 +98,6 @@ const Reviews = () => {
             totalCount={totalCount}
             offsetLimit={REVIEW_OFFSET_LIMIT}
             setPageNum={handlePageChange}
-            setPageGroup={handlePageGroupChange}
           />
         </div>
       ) : null}

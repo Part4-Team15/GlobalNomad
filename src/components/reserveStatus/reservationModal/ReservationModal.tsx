@@ -119,7 +119,7 @@ const ReservationModal = ({
       <div className="flex justify-between">
         <div className="font-bold text-[28px] text-[#1b1b1b]">예약정보</div>
         <button type="button" onClick={handleCloseModal}>
-          <img src="assets/x_btn.svg" alt="cancel_icon" />
+          <img src="/assets/x_btn.svg" alt="cancel_icon" />
         </button>
       </div>
       <div className="flex gap-3 mt-[34px] text-[20px] text-[#4b4b4b]">

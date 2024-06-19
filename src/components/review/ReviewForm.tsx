@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
+import { ReviewFormProps } from '@/types/reviewModal';
 import StarRating from './StarRating';
 import ReviewModalBtn from './ReviewModalBtn';
-
-interface ReviewFormProps {
-  onSubmit: (review: string, rating: number) => void;
-  showWarning: boolean;
-  setShowWarning: React.Dispatch<React.SetStateAction<boolean>>;
-  message: string;
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
-}
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
   onSubmit,

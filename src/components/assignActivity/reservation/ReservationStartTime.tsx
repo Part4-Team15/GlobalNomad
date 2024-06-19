@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 import StartTimeDropDown from '../dropDown/StartTimeDropDown';
 
 const ReservationStartTime = () => {
-  const queryClient = useQueryClient();
+  const { mergeStartTime } = useMergeAssignData();
   const [isStartTimeDropDown, setIsStartTimeDropDown] = useState<boolean>(false);
 
   const { data: startTime = '' } = useQuery<string>({
-    queryKey: ['assign/StartTime'],
+    queryKey: queryKeys.assignStartTime(),
   });
 
   // 시작 시간 밑의 드랍다운
@@ -16,7 +18,7 @@ const ReservationStartTime = () => {
   };
 
   const handleSelectStart = (time: string) => {
-    queryClient.setQueryData(['assign/StartTime'], time);
+    mergeStartTime(time);
     setIsStartTimeDropDown(!isStartTimeDropDown);
   };
 

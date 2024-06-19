@@ -1,20 +1,16 @@
 import React from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
 import { CATEGORIES, Category } from '@/types/category';
-import mergeAssignData from '../utils/mergeAssignData';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 
 interface CategoryProps {
   onSelect: (value: Category) => void;
 }
 
 const CategoryDropDown = ({ onSelect }: CategoryProps) => {
-  const queryClient = useQueryClient();
+  const { mergeCategory } = useMergeAssignData();
 
   const handleSelectedCategory = (item: Category) => () => {
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { category: item });
-    });
+    mergeCategory(item);
     onSelect(item);
   };
 

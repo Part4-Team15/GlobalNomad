@@ -1,15 +1,12 @@
 import React from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
-import mergeAssignData from './utils/mergeAssignData';
+
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 
 const AssignPrice = () => {
-  const queryClient = useQueryClient();
+  const { mergePrice } = useMergeAssignData();
 
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { price: Number(e.target.value) });
-    });
+    mergePrice(e.target.value);
   };
 
   return (

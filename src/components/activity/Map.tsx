@@ -1,44 +1,43 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 interface MapProps {
   location: string;
 }
 
-const Map: React.FC<MapProps> = ({ location }) => {
-  const { naver } = window;
+const KakaoMap: React.FC<MapProps> = ({ location }) => {
+  const { kakao } = window as any;
+  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(null);
 
   useEffect(() => {
-    const mapDiv = document.getElementById('map');
-    const map = new naver.maps.Map(mapDiv as HTMLElement);
+    const geocoder = new kakao.maps.services.Geocoder();
 
-    if (location) {
-      naver.maps.Service.geocode(
-        {
-          query: location,
-        },
-        (status: any, res: any) => {
-          if (status === naver.maps.Service.Status.OK) {
-            const { x, y } = res.v2.addresses[0];
-
-            const position = new naver.maps.LatLng(y, x);
-
-            map.setCenter(position);
-
-            (() => new naver.maps.Marker({ position, map }))();
-          } else {
-            console.error(
-              'Geocode was not successful for the following reason:',
-              status,
-            );
-          }
-        },
-      );
-    }
+    geocoder.addressSearch(location, (result: any, status: any) => {
+      if (status === kakao.maps.services.Status.OK) {
+        const { y, x } = result[0];
+        setLatLng({ lat: parseFloat(y), lng: parseFloat(x) });
+      }
+    });
   }, [location]);
+
+  if (!latLng) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="w-full py-8">
-      <div id="map" className="w-full h-[450px]" />
+      <div className="w-full h-[450px]">
+        <Map
+          center={latLng}
+          style={{
+            width: '100%',
+            height: '450px',
+          }}
+          level={3}
+        >
+          <MapMarker position={latLng} />
+        </Map>
+      </div>
       <div className="flex">
         <img src="/assets/location_icon.svg" alt="location icon" />
         <div className="text-gray-80">{location}</div>
@@ -47,4 +46,4 @@ const Map: React.FC<MapProps> = ({ location }) => {
   );
 };
 
-export default Map;
+export default KakaoMap;

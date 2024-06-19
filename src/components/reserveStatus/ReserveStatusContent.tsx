@@ -5,6 +5,8 @@ import { useInView } from 'react-intersection-observer';
 import Calendar from 'react-calendar';
 import moment from 'moment';
 import getReservationYearAndMonth from '@/api/getReservationYearAndMonth';
+import queryKeys from '@/api/reactQuery/queryKeys';
+import { StyledReserveStatusCalendarWrapper } from '@/styles/StyledReserveStatusCalendar';
 import ActivityDropDownBox from './ActivityDropDownBox';
 import ActivityDropDown from './ActivityDropDown';
 import PendingTileBlock from './PendingTileBlock';
@@ -64,7 +66,8 @@ const ReserveStatusContent = () => {
 
   // useInfiniteQuery를 사용해 무한 스크롤 구현
   const { data: activityData, fetchNextPage } = useInfiniteQuery<ActivityData>({
-    queryKey: ['activity', 7],
+    // queryKey: ['activity', 7],
+    queryKey: queryKeys.activities(),
     queryFn: getMyActivity,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,
@@ -72,7 +75,11 @@ const ReserveStatusContent = () => {
 
   // 년도와 월을 이용해 예약 목록을 불러오는 함수
   const { data: reservationData } = useQuery({
-    queryKey: ['reservationTimeTable', selectedActivity?.id, selectedDate.year, selectedDate.month],
+    queryKey: queryKeys.reservationTimeTable(
+      selectedActivity?.id || 0,
+      selectedDate.year,
+      selectedDate.month,
+    ),
     queryFn: getReservationYearAndMonth,
   });
   const activities = activityData?.pages.flatMap((page) => page.activities) || [];
@@ -112,13 +119,12 @@ const ReserveStatusContent = () => {
     if (matchedReservation) {
       const { completed, confirmed, pending } = matchedReservation.reservations;
       return (
-        <div onClick={() => onClickCalendarTile(date)}>
-          {pending !== 0 && <PendingTileBlock count={pending} />}
-          <br />
-          {completed !== 0 && <CompletedTileBlock count={completed} />}
-          <br />
-          {confirmed !== 0 && <ConfimedTileBlock count={confirmed} />}
-          <br />
+        <div className="w-full h-full text-left flex flex-col-reverse">
+          <div onClick={() => onClickCalendarTile(date)}>
+            {pending !== 0 && <PendingTileBlock count={pending} />}
+            {completed !== 0 && <CompletedTileBlock count={completed} />}
+            {confirmed !== 0 && <ConfimedTileBlock count={confirmed} />}
+          </div>
         </div>
       );
     }
@@ -127,7 +133,7 @@ const ReserveStatusContent = () => {
   };
 
   return (
-    <div className="w-[800px] relative">
+    <div className="w-full min-w-[21.375rem] relative">
       <h1 className="text-[32px] font-bold text-black mb-8">예약 현황</h1>
       {/* 드롭다운 박스에 선택된 activity title 표시 */}
       <ActivityDropDownBox
@@ -149,15 +155,18 @@ const ReserveStatusContent = () => {
           />
         </div>
       )}
-      <Calendar
-        className="w-full p-0"
-        locale="ko"
-        formatShortWeekday={(locale, date) =>
-          ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]}
-        calendarType="hebrew"
-        onActiveStartDateChange={({ activeStartDate }) => getActiveMonth(activeStartDate)}
-        tileContent={tileContent}
-      />
+      <StyledReserveStatusCalendarWrapper>
+        <Calendar
+          className="w-full p-0"
+          locale="ko"
+          formatShortWeekday={(locale, date) =>
+            ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]
+          }
+          calendarType="hebrew"
+          onActiveStartDateChange={({ activeStartDate }) => getActiveMonth(activeStartDate)}
+          tileContent={tileContent}
+        />
+      </StyledReserveStatusCalendarWrapper>
       {viewReservationModal && selectedActivity && (
         <ReservationModal
           setViewReservationModal={setViewReservationModal}

@@ -2,17 +2,19 @@ import MainBanner from '@/components/mainpage/MainBanner';
 import ActivitySearch from '@/components/mainpage/ActivitySearch';
 import PopularActivityList from '@/components/mainpage/PopularActivityList';
 import ActivityCardList from '@/components/mainpage/ActivityCardList';
+import RecentViewedActivity from '@/components/mainpage/RecentViewedActivity';
 
 const MainPage = () => (
   <>
     <MainBanner />
-    <div className="flex flex-col items-center">
+    <section className="flex flex-col items-center">
       <div className="w-pc mb-32 md:w-tab sm:w-mob">
+        <RecentViewedActivity />
         <ActivitySearch />
         <PopularActivityList />
         <ActivityCardList />
       </div>
-    </div>
+    </section>
   </>
 );
 

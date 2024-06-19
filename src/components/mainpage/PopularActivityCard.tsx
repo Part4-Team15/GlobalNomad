@@ -1,9 +1,13 @@
+import { ActivityInfo } from '@/types/mainPage';
 import { Link } from 'react-router-dom';
-import { ActivityCardProps } from './ActivityCard';
 
-const PopularActivityCard = ({ cardData }: ActivityCardProps) => {
-  const { id, title, price, bannerImageUrl, rating, reviewCount } = cardData;
+interface PopularActivityCardProps {
+  cardData: ActivityInfo;
+}
 
+const PopularActivityCard = ({
+  cardData: { id, title, price, bannerImageUrl, rating, reviewCount }
+}: PopularActivityCardProps) => {
   return (
     <Link to={`/activity/${id}`}>
       <div className="relative">

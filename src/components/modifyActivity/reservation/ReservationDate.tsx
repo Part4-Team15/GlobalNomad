@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 import CalendarModal from '../modal/CalendarModal';
 
 const ReservationDate = () => {
-  const queryClient = useQueryClient();
+  const { mergeDate } = useMergeModifyData();
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
 
   // 초기값 지정
   const { data: selectedDate = '' } = useQuery<string>({
-    queryKey: ['modifyData/Schedule/Date'],
+    queryKey: queryKeys.modifyScheduleDate(),
   });
 
   // 날짜 모달
@@ -21,7 +23,7 @@ const ReservationDate = () => {
   };
 
   const handleDateSelect = (date: string) => {
-    queryClient.setQueryData(['modifyData/Schedule/Date'], date);
+    mergeDate(date);
     setIsOpenCalendar(false);
   };
 

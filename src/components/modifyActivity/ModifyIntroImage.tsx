@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { ModifyData } from '@/types/modifyActivityPage';
 import { SubImage } from '@/types/activityPage';
 import postAssignImage from '@/api/postAssignImage';
 import Toast from '@/utils/Toast';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 const MAX_SIZE = 4;
 
@@ -13,7 +11,8 @@ interface ModifyIntroImageProps {
 }
 
 const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
-  const queryClient = useQueryClient();
+  const { mergeIntroImage, deleteIntroImageId, deleteIntroImageUrl } = useMergeModifyData();
+
   const [introImage, setIntroImage] = useState<SubImage[]>(subImages);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -39,12 +38,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
             return updatedImages;
           });
 
-          queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-            const updatedData = mergeModifyData(oldData, {
-              subImageUrlsToAdd: [...(oldData?.subImageUrlsToAdd || []), imageUrl],
-            });
-            return updatedData;
-          });
+          mergeIntroImage(imageUrl);
         }
 
         if (inputRef.current) {
@@ -64,24 +58,9 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
     });
 
     if (removeIntroImage.id) {
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-        return mergeModifyData(oldData, {
-          subImageIdsToRemove: [
-            ...(oldData?.subImageIdsToRemove || []),
-            removeIntroImage.id as number,
-          ],
-        });
-      });
+      deleteIntroImageId(removeIntroImage);
     } else {
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-        const updatedSubImage = oldData?.subImageUrlsToAdd?.filter(
-          (imageUrl) => imageUrl !== removeIntroImage.imageUrl,
-        );
-
-        return mergeModifyData(oldData, {
-          subImageUrlsToAdd: updatedSubImage,
-        });
-      });
+      deleteIntroImageUrl(removeIntroImage);
     }
   };
 

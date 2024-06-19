@@ -1,11 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
-import mergeAssignData from './utils/mergeAssignData';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 
 const AssignBannerImage = () => {
-  const queryClient = useQueryClient();
+  const { mergeBannerImage, deleteBannerImage } = useMergeAssignData();
   const [bannerImage, setBannerImage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -19,9 +17,7 @@ const AssignBannerImage = () => {
         if (response && response.activityImageUrl) {
           const imageUrl = response.activityImageUrl;
           setBannerImage(imageUrl);
-          queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-            return mergeAssignData(oldData, { bannerImageUrl: imageUrl });
-          });
+          mergeBannerImage(imageUrl);
         }
         if (inputRef.current) {
           inputRef.current.value = '';
@@ -34,9 +30,7 @@ const AssignBannerImage = () => {
 
   const handleRemoveImage = () => {
     setBannerImage(null);
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { bannerImageUrl: undefined });
-    });
+    deleteBannerImage();
   };
 
   return (

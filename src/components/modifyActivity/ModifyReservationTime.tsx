@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { ModifyData, Schedule } from '@/types/modifyActivityPage';
+import { useQuery } from '@tanstack/react-query';
+import { Schedule } from '@/types/modifyActivityPage';
+import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 import Toast from '@/utils/Toast';
-import mergeModifyData from './utils/mergeModifyData';
 import ReservationDate from './reservation/ReservationDate';
 import ReservationStartTime from './reservation/ReservationStartTime';
 import ReservationEndTime from './reservation/ReservationEndTime';
@@ -13,26 +14,27 @@ interface ModifyReservationTimeProps {
 }
 
 const ModifyReservationTime = ({ schedules }: ModifyReservationTimeProps) => {
-  const queryClient = useQueryClient();
+  const { mergeSchedule, mergeAddSchedule, mergeModifySchedule, initialTimes } =
+    useMergeModifyData();
 
   // 새로운 쿼리 키로 데이터 추가
   useEffect(() => {
-    queryClient.setQueryData(['modifyData/Schedule'], { schedules });
+    mergeSchedule(schedules);
   }, []);
 
   // 스케줄 데이터 실시간으로 가져오기
   const { data: scheduleData } = useQuery<{ schedules: Schedule[] }>({
-    queryKey: ['modifyData/Schedule'],
+    queryKey: queryKeys.modifySchedule(),
   });
   const times = scheduleData ? scheduleData.schedules : [];
 
   // 추가하기 전 선택한 날짜, 시간대를 가져오기
-  const { data: reservationDate } = useQuery({ queryKey: ['modifyData/Schedule/Date'] });
+  const { data: reservationDate } = useQuery({ queryKey: queryKeys.modifyScheduleDate() });
   const { data: reservationStartTime } = useQuery({
-    queryKey: ['modifyData/Schedule/StartTime'],
+    queryKey: queryKeys.modifyScheduleStartTime(),
   });
   const { data: reservationEndTime } = useQuery({
-    queryKey: ['modifyData/Schedule/EndTime'],
+    queryKey: queryKeys.modifyScheduleEndTime(),
   });
 
   // 시간대 추가함수
@@ -52,25 +54,14 @@ const ModifyReservationTime = ({ schedules }: ModifyReservationTimeProps) => {
       );
       if (isDuplicate) {
         Toast.error('동일한 날짜 및 시간대는 중복될 수 없습니다.');
-        queryClient.setQueryData(['modifyData/Schedule/Date'], '');
-        queryClient.setQueryData(['modifyData/Schedule/StartTime'], '');
-        queryClient.setQueryData(['modifyData/Schedule/EndTime'], '');
+        initialTimes();
         return;
       }
       // 쿼리에 데이터 추가
-      queryClient.setQueryData<{ schedules: Schedule[] }>(['modifyData/Schedule'], (oldData) => {
-        const updatedSchedules = [...(oldData?.schedules || []), newReservationTime];
-        return { schedules: updatedSchedules };
-      });
+      mergeAddSchedule(newReservationTime);
       // 요청보낼 쿼리에도 데이터 추가
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-        return mergeModifyData(oldData, {
-          schedulesToAdd: [...(oldData?.schedulesToAdd || []), newReservationTime],
-        });
-      });
-      queryClient.setQueryData(['modifyData/Schedule/Date'], '');
-      queryClient.setQueryData(['modifyData/Schedule/StartTime'], '');
-      queryClient.setQueryData(['modifyData/Schedule/EndTime'], '');
+      mergeModifySchedule(newReservationTime);
+      initialTimes();
     } else {
       Toast.error('날짜와 시간대는 필수 입력 사항입니다.');
     }
