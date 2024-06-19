@@ -122,11 +122,8 @@ const ReserveStatusContent = () => {
         <div className="w-full h-full text-left flex flex-col-reverse">
           <div onClick={() => onClickCalendarTile(date)}>
             {pending !== 0 && <PendingTileBlock count={pending} />}
-            {/* <br /> */}
             {completed !== 0 && <CompletedTileBlock count={completed} />}
-            {/* <br /> */}
             {confirmed !== 0 && <ConfimedTileBlock count={confirmed} />}
-            {/* <br /> */}
           </div>
         </div>
       );
