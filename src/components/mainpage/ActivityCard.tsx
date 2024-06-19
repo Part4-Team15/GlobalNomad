@@ -38,7 +38,7 @@ const ActivityCard = ({
     >
       <div className="flex flex-col gap-4">
         <div
-          className="w-[282px] h-[282px] bg-cover bg-center rounded-3xl group-hover:bg-extend md:w-[221px] md:h-[221px] sm:w-[168px] sm:h-[168px]"
+          className="w-[282px] h-[282px] bg-cover bg-center rounded-3xl group-hover:bg-extend lg:w-[238px] lg:h-[238px] md:w-[221px] md:h-[221px] sm:w-[168px] sm:h-[168px]"
           style={{ backgroundImage: `url(${bannerImageUrl})` }}
         />
         <div className="flex flex-col gap-[10px] w-[282px] text-black leading-none px-2 py-2 group-hover:bg-blue-10 group-hover:rounded-2xl group-hover:text-blue-800 md:w-[221px] sm:w-[168px]">

@@ -65,7 +65,7 @@ const PopularActivityList = () => {
           onRightClick={handleRightClick}
         />
       </div>
-      <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
+      <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
         {isFetching
           ? Array.from({ length: OFFSET }, (_, index) => <PopularCardSkeleton key={index} />)
           : pageActivityList.map((activity) => (

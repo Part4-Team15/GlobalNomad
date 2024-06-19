@@ -22,7 +22,7 @@ const PopularActivityCard = ({
             <span className="text-sm">/인</span>
           </div>
         </div>
-        <div className="relative w-96 h-96 bg-cover bg-center bg-no-repeat rounded-3xl hover:bg-extend sm:w-[186px] sm:h-[186px]" style={{ backgroundImage: `url('${bannerImageUrl}')` }}>
+        <div className="relative w-96 h-96 bg-cover bg-center bg-no-repeat rounded-3xl hover:bg-extend lg:w-[317px] lg:h-[317px] sm:w-[186px] sm:h-[186px]" style={{ backgroundImage: `url('${bannerImageUrl}')` }}>
           <div className="absolute inset-0 bg-black opacity-30 rounded-3xl" />
         </div>
       </div>
