@@ -11,13 +11,11 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'custom-tab-gradient' : 'linear-gradient(270deg, #FAFBFC 0%, rgba(250, 251, 252, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
-        'custom-mob-gradient': 'linear-gradient(270deg, #FAFBFC 0%, #FAFBFC 71.87%, rgba(250, 251, 252, 0.00) 100%)',
-
-
-
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'custom-tab-gradient':
+          'linear-gradient(270deg, #FAFBFC 0%, rgba(250, 251, 252, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
+        'custom-mob-gradient':
+          'linear-gradient(270deg, #FAFBFC 0%, #FAFBFC 71.87%, rgba(250, 251, 252, 0.00) 100%)',
       },
       backgroundSize: {
         extend: '200%',
@@ -50,6 +48,15 @@ module.exports = {
         'blue-30': '#0085FF',
         'blue-20': '#2EB4FF',
         'blue-10': '#E5F3FF',
+        'darkMode-black-10': '#191919',
+        'darkMode-black-20': '#242424',
+        'darkMode-black-30': '#1C1C1E',
+        'darkMode-black-40': '#2D2D2D',
+        'darkMode-white-10': '#FFFFFF',
+        'darkMode-white-20': '#F8F8FF',
+        'darkMode-white-30': '#E5E4E2',
+        'darkMode-gray-10': '#B2BEB5',
+        'darkMode-gray-20': '#36454F',
       },
     },
     screens: {
