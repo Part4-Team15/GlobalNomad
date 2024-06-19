@@ -9,6 +9,8 @@ import ReserveForm from '@/components/activity/ReserveForm';
 import ReserveBar from '@/components/activity/ReserveBar';
 import ImageDashBoard from '@/components/activity/ImageDashBoard';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
+import ImageDashBoardSkeleton from '@/components/skeletonUI/activity/ImageDashBoardSkeleton';
+import TitleSkeleton from '@/components/skeletonUI/activity/TitleSkeleton';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -30,7 +32,14 @@ const ActivityPage = () => {
   } = useActivity(id || '');
 
   if (userLoading || activityLoading) {
-    return <div>체험을 불러오고 있습니다</div>;
+    return (
+      <div className="flex flex-col justify-center items-center w-screen">
+        <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-16 mb-40 md:gap-10 sm:gap-0">
+          <TitleSkeleton />
+          <ImageDashBoardSkeleton />
+        </div>
+      </div>
+    );
   }
 
   if (userError || !userInfo || activityError || !activity) {
@@ -39,8 +48,8 @@ const ActivityPage = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-screen">
-      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-16 mb-40 md:gap-10 sm:gap-0">
+    <div className="flex flex-col justify-center items-center w-full">
+      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-12 sm:mt-4 mb-40 md:gap-10 sm:gap-4">
         <Title />
         <ImageDashBoard />
         {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}

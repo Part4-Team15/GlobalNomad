@@ -13,6 +13,7 @@ import useReservedScheduleQuery from '@/hooks/useReservedScheduleQuery';
 import useSubmitReserve from '@/hooks/useSubmitReserve';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
 import CalendarModal from './CalendarModal';
+import ReserveFormSkeleton from '../skeletonUI/activity/ReserveFormSkeleton';
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
@@ -125,7 +126,7 @@ const ReserveForm = ({ price }: { price: number }) => {
   }, [attendeeCount]);
 
   if (availableSchedulesLoading || reservationLoading) {
-    return <div>예약 가능한 시간을 불러오고 있습니다...</div>;
+    return <ReserveFormSkeleton />;
   }
 
   if (availableSchedulesError || reservationError) {
@@ -172,7 +173,7 @@ const ReserveForm = ({ price }: { price: number }) => {
                         key={time.id}
                         className={`w-28 border-2 border-solid rounded-lg text-center p-2.5
                     ${isSelected ? 'bg-nomad-black text-white' : 'bg-white text-nomad-black'}
-                    hover:bg-nomad-black hover:text-white`}
+                    hover:bg-nomad-black hover:text-white cursor-pointer`}
                         onClick={handleSelectTime}
                         data-time-id={time.id}
                       >
