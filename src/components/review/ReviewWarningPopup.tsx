@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { ReviewDWarningPopupProps } from '@/types/reviewModal';
 import ReviewWarningPopupContent from './StyledReviewWarningPopup';
-
-interface ReviewDWarningPopupProps {
-  message: string;
-  isVisible: boolean;
-}
 
 const ReviewWarningPopup: React.FC<ReviewDWarningPopupProps> = ({ message, isVisible }) => {
   const popupRef = useRef<HTMLDivElement>(null);

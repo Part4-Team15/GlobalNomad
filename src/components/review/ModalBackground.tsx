@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface ModalBackgroundProps {
-  onClose: () => void;
-  children: React.ReactNode;
-}
+import { ModalBackgroundProps } from '@/types/reviewModal';
 
 const ModalBackground: React.FC<ModalBackgroundProps> = ({ onClose, children }) => {
   return (

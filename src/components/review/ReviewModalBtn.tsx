@@ -1,13 +1,8 @@
 import React from 'react';
+import { ReviewModalBtnProps } from '@/types/reviewModal';
 import ReviewWarningPopup from './ReviewWarningPopup';
 
-interface IProps {
-  handleSubmit: () => void;
-  showWarning: boolean;
-  message: string;
-}
-
-const ReviewModalBtn = ({ handleSubmit, showWarning, message }: IProps) => {
+const ReviewModalBtn = ({ handleSubmit, showWarning, message }: ReviewModalBtnProps) => {
   return (
     <div className="relative">
       <ReviewWarningPopup message={message} isVisible={showWarning} />

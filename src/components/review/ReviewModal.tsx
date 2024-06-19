@@ -1,17 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import useClickOutside from '@/hooks/useClickOutside';
-import { BookingData } from '@/types/myReservationHistory';
 import useSubmitReview from '@/hooks/useSubmitReview';
 import { isAxiosError } from 'axios';
+import { ReviewModalProps } from '@/types/reviewModal';
 import ModalBackground from './ModalBackground';
 import ReviewForm from './ReviewForm';
 import BookingHistory from './BookingHistory';
-
-interface ReviewModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  booking: BookingData | null;
-}
 
 const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) => {
   const modalRef = useRef<HTMLDivElement>(null);

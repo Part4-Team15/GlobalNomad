@@ -1,10 +1,6 @@
-import priceToWon from '@/utils/priceToWon';
 import React from 'react';
-import { BookingData } from '@/types/myReservationHistory';
-
-interface BookingHistoryProps {
-  booking: BookingData;
-}
+import priceToWon from '@/utils/priceToWon';
+import { BookingHistoryProps } from '@/types/reviewModal';
 
 const BookingHistory: React.FC<BookingHistoryProps> = ({ booking }) => {
   return (
