@@ -1,20 +1,20 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { CurrentViewedActivity, getRecentlyViewedActivities } from '@/utils/saveRecentActivities';
+import useClickOutside from '@/hooks/useClickOutside';
 import '../../styles/customScrollbar.css';
-import ModalPortal from '../review/ModalPortal';
 import RecentViewedActivityCard from './RecentViewedActivityCard';
+import ModalPortal from '../review/ModalPortal';
 
 const RecentViewedActivity = () => {
   const [showList, setShowList] = useState(false);
   const [recentViewedList, setRecentViewedList] = useState([]);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
     setShowList(!showList);
   }
 
-  const handleOutsideClick = () => {
-    setShowList(false);
-  }
+  useClickOutside(listRef, handleClick);
 
   const handleNotClose = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -28,7 +28,7 @@ const RecentViewedActivity = () => {
   return (
     <>
       <button
-        className="fixed top-1/4 -right-[2px] border border-green-10 rounded-l-md shadow-sm cursor-pointer"
+        className="fixed top-1/4 -right-[2px] border border-green-10 rounded-l-md shadow-sm z-10"
         type='button'
         onClick={handleClick}
       >
@@ -39,27 +39,27 @@ const RecentViewedActivity = () => {
         />
       </button>
       {showList && (
-      <ModalPortal>
-        <div className="fixed inset-0 z-10 bg-black bg-opacity-0" onClick={handleOutsideClick}>
-          <div onClick={handleNotClose}>
-            <div className="fixed top-1/4 right-12 rounded-2xl bg-white border border-green-700 shadow-green-10 shadow-custom px-4 pt-3 pb-4 z-10">
-              <p className="text-lg text-center font-medium pb-3">내가 최근 둘러본 체험</p>
-              <div
-                className="w-40 h-72 flex flex-col items-center gap-4 overflow-y-scroll custom-scrollbar pb-4"
-              >
-                {recentViewedList.length ?
-                  (recentViewedList.map((activity: CurrentViewedActivity) => (
-                    <RecentViewedActivityCard {...activity} />
-                  ))
-                  ) : (
-                    <div>최근에 방문한 체험 내역이 없습니다.</div>
-                  )
-                }
+        <ModalPortal>
+          <div className="fixed inset-0 bg-black bg-opacity-0">
+            <div onClick={handleNotClose} ref={listRef}>
+              <div className="fixed top-1/4 right-12 rounded-2xl bg-white border border-green-700 shadow-green-10 shadow-custom px-4 pt-3 pb-4">
+                <p className="text-lg text-center font-medium pb-3">내가 최근 둘러본 체험</p>
+                <div
+                  className="w-40 h-72 flex flex-col items-center gap-4 overflow-y-scroll custom-scrollbar pt-2 pb-4"
+                >
+                  {recentViewedList.length ?
+                    (recentViewedList.map((activity: CurrentViewedActivity) => (
+                      <RecentViewedActivityCard {...activity} />
+                    ))
+                    ) : (
+                      <div>최근에 방문한 체험 내역이 없습니다.</div>
+                    )
+                  }
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </ModalPortal>
+        </ModalPortal>
       )}
     </>
   );
