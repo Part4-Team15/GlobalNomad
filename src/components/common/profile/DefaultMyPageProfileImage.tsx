@@ -1,26 +1,25 @@
-import { ChangeEvent, useRef } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import uploadProfileImage from '@/api/uploadProfileImage';
+import { DefaultMyPageProfileImageProps } from '@/types/myPageProfile';
+import { useLocation } from 'react-router-dom';
 
-const InformationNoImage = ({
+const DefaultMyPageProfileImage = ({
   nickname,
-  uploadedImage = null,
   setUploadedImage = () => null,
-}: {
-  nickname: string;
-  uploadedImage: string | null;
-  setUploadedImage: React.Dispatch<React.SetStateAction<string | null>>;
-}) => {
+  setIsShowDefaultImage,
+}: DefaultMyPageProfileImageProps) => {
   const nicknameInitial = nickname[0];
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const location = useLocation();
   const mutation = useMutation({
     mutationFn: uploadProfileImage,
     onSuccess: (data) => {
       setUploadedImage(data.profileImageUrl);
+      setIsShowDefaultImage(false);
     },
     onError: (error) => {
-      console.error('Failed to upload image:', error);
+      console.error(error.message);
     },
   });
 
@@ -35,29 +34,23 @@ const InformationNoImage = ({
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setUploadedImage(imageUrl);
-
       mutation.mutate(file);
     }
   };
 
   return (
     <div className="relative w-40 h-40 bg-slate-400 rounded-full flex items-center justify-center text-white">
-      {uploadedImage ? (
-        <img
-          src={uploadedImage}
-          alt="Uploaded"
-          className="w-full h-full object-cover rounded-full"
-        />
-      ) : (
-        <span>{nicknameInitial}</span>
-      )}
+      <span className="text-[80px]">{nicknameInitial}</span>
 
-      <div
-        onClick={handleFileInputClick}
-        className="absolute p-[10px] w-11 h-11 inline-flex items-start top-[115px] right-3 z-10 rounded-full bg-green-80 cursor-pointer"
-      >
-        <img className="w-6 h-6" src="/assets/pen_icon.svg" alt="penIcon" />
-      </div>
+      {location.pathname === '/my/profile' && (
+        <button
+          type="button"
+          onClick={handleFileInputClick}
+          className="absolute p-[10px] w-11 h-11 inline-flex items-start top-[115px] right-3 z-10 rounded-full bg-green-80 cursor-pointer"
+        >
+          <img className="w-6 h-6" src="/assets/pen_icon.svg" alt="penIcon" />
+        </button>
+      )}
 
       <input
         ref={fileInputRef}
@@ -69,4 +62,4 @@ const InformationNoImage = ({
   );
 };
 
-export default InformationNoImage;
+export default DefaultMyPageProfileImage;

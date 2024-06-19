@@ -1,153 +1,61 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import getUserInfo from '@/api/getUserInfo';
+import { FormEvent, useEffect } from 'react';
 
-import editMyInformation from '@/api/editMyInformation';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import queryClient from '@/lib/queryClient';
-import { EditInformationErrorMessageType } from '@/types/signupPage';
-import { AxiosError } from 'axios';
+import useMyProfileInput from '@/hooks/useMyProfileInput';
+import useEditProfile from '@/hooks/useEditProfile';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
+import { MyPageFormProps } from '@/types/myProfile';
 import MyPageInputBox from './MyPageInputBox';
 
-const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
-  const [inputs, setInputs] = useState({
-    nickname: '',
-    email: '',
-    newPassword: '',
-    newPasswordConfirm: '',
-  });
-  const [editInformationErrorMessage, setEditInformationErrorMessage] =
-    useState<EditInformationErrorMessageType>({
-      nicknameErrorMessage: null,
-      passwordErrorMessage: null,
-      passwordConfirmErrorMessage: null,
-      unexpectedErrorMessage: null,
-    });
-  const PASSWORD_MIN_LENGTH = 8;
-  const { data, isSuccess } = useQuery({
-    queryKey: queryKeys.user(),
-    queryFn: getUserInfo,
-  });
+const MyPageForm = ({ uploadedImage, isShowProfileForm, isShowDefaultImage }: MyPageFormProps) => {
+  const { inputs, setInputs, onChangeInput } = useMyProfileInput();
 
-  const newPasswordConfirmFocusOut = () => {
-    if (inputs.newPassword !== inputs.newPasswordConfirm) {
-      setEditInformationErrorMessage((prev) => ({
-        ...prev,
-        passwordErrorMessage: '비밀번호가 일치하지 않습니다.',
-      }));
-    } else {
-      setEditInformationErrorMessage((prev) => ({
-        ...prev,
-        passwordErrorMessage: null,
-      }));
-    }
-  };
+  const { nickname, email, newPassword, newPasswordConfirm } = inputs;
 
-  const { mutate } = useMutation({
-    mutationFn: editMyInformation,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.user() });
-    },
-    onError: (error: AxiosError) => {
-      if (error.response) {
-        const { nickname, newPassword } = inputs;
-        if (error.request.status === 400) {
-          // 닉네임 확인
+  const { mutation, editProfileErrorMessages, setEditProfileErrorMessages } = useEditProfile();
 
-          if (nickname.length === 0 && newPassword.length === 0) {
-            setEditInformationErrorMessage((prev) => ({
-              ...prev,
-              nicknameErrorMessage: '닉네임을 입력해주세요.',
-              passwordErrorMessage: '비밀번호를 입력해주세요.',
-            }));
-          }
-          if (nickname.length === 0) {
-            setEditInformationErrorMessage((prev) => ({
-              ...prev,
-              nicknameErrorMessage: '닉네임을 입력해주세요.',
-            }));
-          } else if (nickname.length > 10) {
-            setEditInformationErrorMessage((prev) => ({
-              ...prev,
-              nicknameErrorMessage: '닉네임은 10자 이하로 작성해주세요.',
-            }));
-          } else {
-            setEditInformationErrorMessage((prev) => ({
-              ...prev,
-              nicknameErrorMessage: null,
-            }));
-            // 비밀번호 확인
-            if (newPassword.length === 0) {
-              setEditInformationErrorMessage((prev) => ({
-                ...prev,
-                passwordErrorMessage: '비밀번호를 입력해주세요.',
-              }));
-            } else if (newPassword.length > 0 && newPassword.length < PASSWORD_MIN_LENGTH) {
-              setEditInformationErrorMessage((prev) => ({
-                ...prev,
-                passwordErrorMessage: '8자 이상 작성해 주세요.',
-              }));
-            } else {
-              setEditInformationErrorMessage((prev) => ({
-                ...prev,
-                passwordErrorMessage: null,
-              }));
-            }
-          }
-        }
-      }
-    },
-  });
+  const { mutate } = mutation;
 
+  const { userInfo } = useUserInfoQuery();
   useEffect(() => {
-    if (data) {
+    if (userInfo) {
       setInputs({
-        nickname: data.nickname,
-        email: data.email,
+        nickname: userInfo.nickname,
+        email: userInfo.email,
         newPassword: '',
         newPasswordConfirm: '',
       });
     }
-  }, [isSuccess, data]);
-  const { nickname, email, newPassword, newPasswordConfirm } = inputs;
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
+  }, [userInfo]);
+  const newPasswordConfirmFocusOut = () => {
+    if (inputs.newPassword !== inputs.newPasswordConfirm) {
+      setEditProfileErrorMessages((prev) => ({
+        ...prev,
+        newPasswordConfirmErrorMessage: '비밀번호가 일치하지 않습니다.',
+      }));
+    } else {
+      setEditProfileErrorMessages((prev) => ({
+        ...prev,
+        newPasswordConfirmErrorMessage: '',
+      }));
+    }
   };
-
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const profileImageUrl = uploadedImage ?? data?.profileImageUrl ?? null;
-    if (newPassword !== newPasswordConfirm) {
-      if (newPassword.length > 0 && newPassword.length < PASSWORD_MIN_LENGTH) {
-        setEditInformationErrorMessage((prev) => ({
-          ...prev,
-          passwordErrorMessage: '8자 이상 작성해 주세요.',
-        }));
-      }
-      if (newPasswordConfirm.length === 0) {
-        setEditInformationErrorMessage((prev) => ({
-          ...prev,
-          passwordConfirmErrorMessage: '비밀번호 확인값을 입력해주세요.',
-        }));
-      } else {
-        setEditInformationErrorMessage((prev) => ({
-          ...prev,
-          passwordErrorMessage: '비밀번호가 일치하지 않습니다.',
-        }));
-      }
+
+    if (newPassword !== newPasswordConfirm && newPassword.length >= 8) {
+      setEditProfileErrorMessages((prev) => ({
+        ...prev,
+        newPasswordConfirmErrorMessage: '비밀번호가 일치하지 않습니다.',
+      }));
 
       return;
     }
+    let profileImageUrl: string | null = null;
 
-    // 비밀번호가 일치하면 에러 메시지 초기화
-    setEditInformationErrorMessage((prev) => ({
-      ...prev,
-      passwordConfirmErrorMessage: null,
-    }));
+    if (!isShowDefaultImage && userInfo) {
+      profileImageUrl = uploadedImage || userInfo.profileImageUrl || null;
+    }
+
     mutate({
       nickname,
       profileImageUrl,
@@ -155,11 +63,10 @@ const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
     });
   };
 
-  console.log(editInformationErrorMessage);
   return (
-    <div className="flex flex-col gap-4">
+    <div className={`flex flex-col gap-4 ${isShowProfileForm ? '' : 'sm:hidden'} w-full`}>
       <div className="flex justify-between font-bold">
-        <div className="text-[#1b1b1b] text-[32px]">내정보</div>
+        <h1 className="text-[#1b1b1b] text-[32px] w-[91px] h-[38px]">내정보</h1>
         <button
           type="submit"
           form="myPageForm"
@@ -168,15 +75,21 @@ const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
           저장하기
         </button>
       </div>
-      <form className="flex flex-col gap-8" noValidate onSubmit={onSubmit} id="myPageForm">
+      <form
+        className="flex flex-col gap-8 sm:pb-[230px]"
+        noValidate
+        onSubmit={onSubmit}
+        id="myPageForm"
+      >
         <MyPageInputBox
           inputName="nickname"
           onChangeInput={onChangeInput}
           value={nickname}
           labelName="닉네임"
           inputType="text"
-          editInformationErrorMessage={editInformationErrorMessage}
-          setEditInformationErrorMessage={setEditInformationErrorMessage}
+          placeholder="닉네임을 입력해주세요"
+          editProfileErrorMessages={editProfileErrorMessages}
+          setEditProfileErrorMessages={setEditProfileErrorMessages}
         />
         <MyPageInputBox inputName="email" value={email} labelName="이메일" inputType="email" />
         <MyPageInputBox
@@ -185,8 +98,9 @@ const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
           value={newPassword}
           labelName="비밀번호"
           inputType="password"
-          editInformationErrorMessage={editInformationErrorMessage}
-          setEditInformationErrorMessage={setEditInformationErrorMessage}
+          editProfileErrorMessages={editProfileErrorMessages}
+          setEditProfileErrorMessages={setEditProfileErrorMessages}
+          placeholder="8자 이상 입력해 주세요"
         />
         <MyPageInputBox
           inputName="newPasswordConfirm"
@@ -194,9 +108,10 @@ const MyPageForm = ({ uploadedImage }: { uploadedImage: string | null }) => {
           value={newPasswordConfirm}
           labelName="비밀번호 재입력"
           inputType="password"
-          editInformationErrorMessage={editInformationErrorMessage}
-          setEditInformationErrorMessage={setEditInformationErrorMessage}
+          editProfileErrorMessages={editProfileErrorMessages}
+          setEditProfileErrorMessages={setEditProfileErrorMessages}
           onFocusOut={newPasswordConfirmFocusOut}
+          placeholder="비밀번호를 한번 더 입력해 주세요"
         />
       </form>
     </div>

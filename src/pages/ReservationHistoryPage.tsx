@@ -40,7 +40,7 @@ const ReservationHistoryPage = () => {
   };
 
   return (
-    <main className="md:flex-1">
+    <main className="w-full">
       <ReservationContent status={status} setStatus={setStatus} onReviewClick={handleReviewClick} />
       <ModalPortal>
         <ReviewModal isOpen={isModalOpen} onClose={handleModalClose} booking={selectedBooking} />

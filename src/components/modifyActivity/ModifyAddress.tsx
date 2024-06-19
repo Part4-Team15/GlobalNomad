@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
-import { useQueryClient } from '@tanstack/react-query';
-import queryKeys from '@/api/reactQuery/queryKeys';
-import { ModifyData } from '@/types/modifyActivityPage';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface ModifyAddressProps {
   address: string;
 }
 
 const ModifyAddress = ({ address }: ModifyAddressProps) => {
-  const queryClient = useQueryClient();
+  const { mergeAddress } = useMergeModifyData();
   const [isOpenPost, setIsOpenPost] = useState<boolean>(false);
   const [localAddress, setLocalAddress] = useState<string>(address);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
-      return mergeModifyData(oldData, { address });
-    });
+    mergeAddress(address);
   }, []);
 
   const handleOpenPost = () => {
@@ -27,9 +22,7 @@ const ModifyAddress = ({ address }: ModifyAddressProps) => {
 
   const handleAddressSelect = (data: Address) => {
     setLocalAddress(data.address);
-    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
-      return mergeModifyData(oldData, { address: data.address });
-    });
+    mergeAddress(data.address);
     setIsOpenPost(false);
   };
 

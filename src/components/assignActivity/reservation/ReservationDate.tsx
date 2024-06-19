@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 import CalendarModal from '../modal/CalendarModal';
 
 const ReservationDate = () => {
-  const queryClient = useQueryClient();
+  const { mergeDate } = useMergeAssignData();
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
   const { data: selectedDate = '' } = useQuery<string>({
     queryKey: queryKeys.assignDate(),
@@ -20,7 +21,7 @@ const ReservationDate = () => {
   };
 
   const handleDateSelect = (date: string) => {
-    queryClient.setQueryData(queryKeys.assignDate(), date);
+    mergeDate(date);
     setIsOpenCalendar(false);
   };
 

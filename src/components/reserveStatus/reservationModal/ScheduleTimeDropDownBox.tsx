@@ -31,7 +31,7 @@ const ScheduleTimeDropDownBox = ({
       />
       <button type="button" className="cursor-pointer" onClick={handleClickDropDown}>
         <img
-          src="assets/chevron_down.svg"
+          src="/assets/chevron_down.svg"
           alt="drop_down_icon"
           className="absolute top-[18px] right-[10px]"
         />

@@ -58,7 +58,7 @@ export const StyledReserveStatusCalendarWrapper = styled.div`
   .react-calendar__month-view__days__day {
     font-size: 13px;
     font-weight: 600;
-    padding: 10px;
+    padding: 2px;
   }
 
   /* 달력 타일 */
@@ -84,6 +84,13 @@ export const StyledReserveStatusCalendarWrapper = styled.div`
   /* 오늘 날짜 스타일 */
   .react-calendar__tile--now {
     border: 1px solid #0085ff;
+  }
+
+  @media (max-width: 768px) {
+    .react-calendar__month-view__days__day-names,
+    .react-calendar__month-view__days__day {
+      font-size: 11px;
+    }
   }
 `;
 

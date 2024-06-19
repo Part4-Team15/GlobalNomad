@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import queryKeys from '@/api/reactQuery/queryKeys';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 import EndTimeDropDown from '../dropDown/EndTimeDropDown';
 
 const ReservationEndTime = () => {
-  const queryClient = useQueryClient();
+  const { mergeEndTime } = useMergeModifyData();
   const [isEndTimeDropDown, setIsEndTimeDropDown] = useState<boolean>(false);
   const { data: endTime = '' } = useQuery<string>({
     queryKey: queryKeys.modifyScheduleEndTime(),
@@ -16,7 +17,7 @@ const ReservationEndTime = () => {
   };
 
   const handleSelectEnd = (time: string) => {
-    queryClient.setQueryData(queryKeys.modifyScheduleEndTime(), time);
+    mergeEndTime(time);
     setIsEndTimeDropDown(!isEndTimeDropDown);
   };
 

@@ -69,7 +69,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
                     key={time.id}
                     className={`w-28 border-2 border-solid rounded-lg text-center p-2.5
                     ${isSelected ? 'bg-green-80 text-white' : 'bg-white text-nomad-black'}
-                    hover:bg-green-80 hover:text-white`}
+                    hover:bg-green-80 hover:text-white cursor-pointer`}
                     onClick={handleSelectTime}
                     data-time-id={time.id}
                   >

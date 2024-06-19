@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-
-interface StarRatingProps {
-  onRatingChange: (rating: number) => void;
-}
+import { StarRatingProps } from '@/types/reviewModal';
 
 const StarRating: React.FC<StarRatingProps> = ({ onRatingChange }) => {
   const [rating, setRating] = useState(0);
