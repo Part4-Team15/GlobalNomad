@@ -173,7 +173,7 @@ const ReserveForm = ({ price }: { price: number }) => {
                         key={time.id}
                         className={`w-28 border-2 border-solid rounded-lg text-center p-2.5
                     ${isSelected ? 'bg-nomad-black text-white' : 'bg-white text-nomad-black'}
-                    hover:bg-nomad-black hover:text-white`}
+                    hover:bg-nomad-black hover:text-white cursor-pointer`}
                         onClick={handleSelectTime}
                         data-time-id={time.id}
                       >
