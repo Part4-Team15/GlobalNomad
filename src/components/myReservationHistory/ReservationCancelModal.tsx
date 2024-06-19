@@ -21,6 +21,7 @@ const ReservationCancelModal: React.FC<ReservationCancelModalProps> = ({
 
   const handleDeleteClick = async () => {
     mutate(reservationId);
+    onClose();
   };
 
   if (!isOpen) return null;
