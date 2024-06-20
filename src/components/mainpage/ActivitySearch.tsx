@@ -40,7 +40,7 @@ const ActivitySearch = () => {
           </div>
           <button
             className="bg-nomad-black rounded-md min-w-[136px] h-14 px-10 py-2 text-white font-bold
-              dark:bg-darkMode-gray-10 dark:text-darkMode-black-40 sm:min-w-24 sm:px-5"
+              dark:bg-darkMode-gray-10 dark:text-darkMode-white-10 sm:min-w-24 sm:px-5"
             type="submit"
           >
             검색하기
