@@ -1,4 +1,6 @@
+import axios from 'axios';
 import axiosInstance from '@/lib/axiosInstance';
+import Toast from '@/utils/Toast';
 
 const postAssignImage = async (assignImage: FormData) => {
   try {
@@ -10,6 +12,10 @@ const postAssignImage = async (assignImage: FormData) => {
     return res.data;
   } catch (e) {
     console.error('Error: ', e);
+    if (axios.isAxiosError(e)) {
+      const errorMessage = e.response?.data?.message;
+      Toast.error(errorMessage);
+    }
     return null;
   }
 };

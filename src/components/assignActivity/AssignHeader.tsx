@@ -1,28 +1,19 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { AssignData } from '@/types/assignActivityPage';
-import postAssignMyActivity from '@/api/postMyActivity';
 import queryKeys from '@/api/reactQuery/queryKeys';
-import Toast from '@/utils/Toast';
 import useCheckAssignData from '@/hooks/useCheckAssignData';
 
+import useMutationAssignData from '@/hooks/useMutateAssignData';
+
 const AssignHeader = () => {
-  const navigate = useNavigate();
+  const { assignMutation } = useMutationAssignData();
   const { checkRequireData } = useCheckAssignData();
   const data = useQuery({ queryKey: queryKeys.assignData() }).data as AssignData;
 
   const handleAssignData = async () => {
     if (checkRequireData(data)) {
-      try {
-        const response = await postAssignMyActivity(data);
-        if (response) {
-          Toast.success('등록 성공!!'); // 성공 시 모달 열기
-          navigate('/my/activity');
-        }
-      } catch (e) {
-        console.error('Error:', e);
-      }
+      assignMutation.mutate(data);
     }
   };
 
