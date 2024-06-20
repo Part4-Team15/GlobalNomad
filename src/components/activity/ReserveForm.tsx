@@ -136,13 +136,16 @@ const ReserveForm = ({ price }: { price: number }) => {
   return (
     <div className="w-full border-2 border-solid rounded-lg border-gray-30">
       <div className="flex flex-col gap-4 p-4">
-        <div className="font-bold text-3xl md:text-xl">
+        <div className="font-bold text-3xl md:text-xl dark:text-darkMode-white-10">
           {priceToWon(price)}
-          <span className="font-normal text-xl md:text-base"> / 인</span>
+          <span className="font-normal text-xl md:text-base dark:text-darkMode-white-10">
+            {' '}
+            / 인
+          </span>
         </div>
         <div className="w-full h-[1px] bg-gray-40" />
         {/* 예약 현황 캘린더 */}
-        <div className="font-bold text-xl">날짜</div>
+        <div className="font-bold text-xl dark:text-darkMode-white-10">날짜</div>
         {windowWidth > 1023 ? (
           <>
             <StyledReserveCalendarWrapper>
@@ -161,7 +164,7 @@ const ReserveForm = ({ price }: { price: number }) => {
                 prev2Label={null}
               />
             </StyledReserveCalendarWrapper>
-            <div className="font-bold text-lg">예약 가능한 시간</div>
+            <div className="font-bold text-lg dark:text-darkMode-white-10">예약 가능한 시간</div>
             {/* 예약 시간 선택 */}
             <div className="flex flex-wrap gap-2">
               {actualAvailableTimes?.map((availableSchedule) => {
@@ -189,11 +192,17 @@ const ReserveForm = ({ price }: { price: number }) => {
         ) : (
           <div className="relative">
             {!selectedTime ? (
-              <div className="font-bold w-24 underline cursor-pointer" onClick={handleModalOpen}>
+              <div
+                className="font-bold w-24 underline cursor-pointer dark:text-darkMode-white-20"
+                onClick={handleModalOpen}
+              >
                 날짜 선택하기
               </div>
             ) : (
-              <div className="font-bold w-full underline cursor-pointer" onClick={handleModalOpen}>
+              <div
+                className="font-bold w-full underline cursor-pointer dark:text-darkMode-white-30"
+                onClick={handleModalOpen}
+              >
                 {`${yearMonthDay} ${selectedTime}`}
               </div>
             )}
@@ -213,8 +222,8 @@ const ReserveForm = ({ price }: { price: number }) => {
 
         <div className="w-full h-[1px] bg-gray-40" />
         {/* 참여 인원 수 */}
-        <div className="font-bold text-xl">참여 인원 수</div>
-        <div className="flex justify-between items-center w-[120px] border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3 pb-1">
+        <div className="font-bold text-xl dark:text-darkMode-white-10">참여 인원 수</div>
+        <div className="flex justify-between items-center w-[120px] border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3 pb-1 dark:bg-darkMode-black-40 dark:text-darkMode-white-20">
           <button
             className={`${isReduceDisabled ? 'disabled:opacity-50' : ''}`}
             type="button"
@@ -231,7 +240,7 @@ const ReserveForm = ({ price }: { price: number }) => {
         {/* 예약하기 버튼 */}
         <button
           type="submit"
-          className="w-full bg-nomad-black rounded text-white text-center p-3 font-bold text-base"
+          className="w-full bg-nomad-black rounded text-white text-center p-3 font-bold text-base dark:bg-darkMode-black-40"
           onClick={handleSubmit}
         >
           예약하기
@@ -239,8 +248,8 @@ const ReserveForm = ({ price }: { price: number }) => {
         <div className="w-full h-[1px] bg-gray-40" />
         {/* 총 합계 가격 */}
         <div className="flex justify-between font-bold text-xl">
-          <div>총 합계</div>
-          <div>{priceToWon(totalPrice)}</div>
+          <div className="dark:text-darkMode-white-10">총 합계</div>
+          <div className="dark:text-darkMode-white-10">{priceToWon(totalPrice)}</div>
         </div>
       </div>
     </div>

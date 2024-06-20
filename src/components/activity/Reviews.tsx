@@ -44,20 +44,22 @@ const Reviews = () => {
 
   return (
     <div className="flex flex-col w-full gap-4">
-      <h2 className="text-xl font-bold pt-6">후기</h2>
+      <h2 className="text-xl font-bold pt-6 dark:text-darkMode-white-10">후기</h2>
       {totalCount ? (
         <div className="flex gap-4">
-          <p className="text-5xl font-bold">{averageRating}</p>
+          <p className="text-5xl font-bold dark:text-darkMode-white-20">{averageRating}</p>
           <div>
-            <p className="text-base font-normal">{ratingToText(averageRating)}</p>
-            <p className="flex gap-2 text-base font-normal">
+            <p className="text-base font-normal dark:text-darkMode-white-20">
+              {ratingToText(averageRating)}
+            </p>
+            <p className="flex gap-2 text-base font-normal dark:text-darkMode-white-20">
               <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
               {totalCount}개 후기
             </p>
           </div>
         </div>
       ) : (
-        <div>후기 없음</div>
+        <div className="dark:text-darkMode-white-20">후기 없음</div>
       )}
       {/* 리뷰 List */}
       {totalCount > 0 ? (
@@ -81,11 +83,13 @@ const Reviews = () => {
                   )}
                   <div className="flex flex-col gap-2">
                     <div className="flex gap-1">
-                      <div className="font-bold">{review.user.nickname}</div>
-                      <div>|</div>
+                      <div className="font-bold dark:text-darkMode-white-20">
+                        {review.user.nickname}
+                      </div>
+                      <div className="dark:text-darkMode-gray-10">|</div>
                       <div className="text-gray-60">{getFormatDate(review.updatedAt)}</div>
                     </div>
-                    <div>{review.content}</div>
+                    <div className="dark:text-darkMode-white-20">{review.content}</div>
                   </div>
                 </div>
                 <div className="w-full h-[1px] bg-gray-40" />

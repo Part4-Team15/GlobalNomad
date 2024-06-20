@@ -11,6 +11,7 @@ import ImageDashBoard from '@/components/activity/ImageDashBoard';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import ImageDashBoardSkeleton from '@/components/skeletonUI/activity/ImageDashBoardSkeleton';
 import TitleSkeleton from '@/components/skeletonUI/activity/TitleSkeleton';
+import { toast } from 'react-toastify';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -42,13 +43,20 @@ const ActivityPage = () => {
     );
   }
 
-  if (userError || !userInfo || activityError || !activity) {
+  if (userError || !userInfo) {
+    toast.error('로그인이 필요합니다');
+    navigate('/login');
+    return null;
+  }
+
+  if (activityError || !activity) {
+    toast.error('존재하지 않는 체험입니다');
     navigate('/Error404');
     return null;
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
+    <div className="flex flex-col justify-center items-center w-full dark:bg-darkMode-black-10">
       <div className="w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-12 sm:mt-4 mb-40 md:gap-10 sm:gap-4">
         <Title />
         <ImageDashBoard />
