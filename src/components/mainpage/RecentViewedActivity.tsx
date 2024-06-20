@@ -43,7 +43,7 @@ const RecentViewedActivity = () => {
           <div className="fixed inset-0 bg-black bg-opacity-0" onClick={handleClickOutside}>
             <div onClick={handleNotClose}>
               <div className="fixed top-1/4 right-12 rounded-2xl bg-white border border-green-700 shadow-green-10 shadow-custom px-4 pt-3 pb-4">
-                <p className="text-lg text-center font-medium pb-3">내가 최근 둘러본 체험</p>
+                <p className="text-lg text-center font-medium pb-3">최근에 방문한 체험</p>
                 <div
                   className="w-40 h-72 flex flex-col items-center gap-4 overflow-y-scroll custom-scrollbar pt-2 pb-4"
                 >
