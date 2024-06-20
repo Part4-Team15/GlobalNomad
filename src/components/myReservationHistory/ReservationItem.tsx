@@ -24,7 +24,7 @@ const ReservationItem = ({
   const formatDate = `${year}. ${month.replace(/^0/, '')}. ${day.replace(/^0/, '')}`;
 
   return (
-    <li className="flex rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white md:h-[157px] md:gap-2 sm:h-[128px]">
+    <li className="flex rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white min-w-[21.5rem] md:h-[157px] md:gap-2 sm:h-[128px]">
       <img
         className="w-[204px] h-[204px] md:w-[157px] md:h-[157px] sm:w-[128px] sm:h-[128px]"
         src={`${bannerImageUrl}`}
