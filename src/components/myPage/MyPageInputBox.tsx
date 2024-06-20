@@ -39,7 +39,7 @@ const MyPageInputBox = ({
     <div className="flex flex-col gap-4">
       <MyPageInputLabel labelName={labelName} inputName={inputName} />
       <input
-        className={`py-4 pl-4 border border-gray-50 rounded ${borderColorClass} outline-none focus:border-blue-500 `}
+        className={`py-4 pl-4 border border-gray-50 rounded ${borderColorClass} outline-none focus:border-blue-500 dark:bg-darkMode-black-20 dark:text-darkMode-white-10`}
         type={inputType}
         id={inputName}
         onChange={onChangeInput}
@@ -51,19 +51,19 @@ const MyPageInputBox = ({
         onBlur={inputName === 'newPasswordConfirm' ? onFocusOut : undefined}
       />
       {inputName === 'nickname' && editProfileErrorMessages?.nicknameErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">
+        <div className="text-red-40 text-xs ml-1 dark:text-darkMode-white-10">
           <p>{editProfileErrorMessages.nicknameErrorMessage}</p>
         </div>
       )}
 
       {inputName === 'newPassword' && editProfileErrorMessages?.newPasswordErrorMessage && (
-        <div className="text-red-40 text-xs ml-1">
+        <div className="text-red-40 text-xs ml-1 dark:text-darkMode-white-10">
           <p>{editProfileErrorMessages.newPasswordErrorMessage}</p>
         </div>
       )}
       {inputName === 'newPasswordConfirm' &&
         editProfileErrorMessages?.newPasswordConfirmErrorMessage && (
-          <div className="text-red-40 text-xs ml-1">
+          <div className="text-red-40 text-xs ml-1 dark:text-darkMode-white-10">
             <p>{editProfileErrorMessages.newPasswordConfirmErrorMessage}</p>
           </div>
         )}

@@ -15,7 +15,7 @@ const ReservationDropdownFilterBox = ({
     <li>
       <button
         type="button"
-        className="px-[46px] py-[18px] w-[160px] text-[#4B4B4B]"
+        className="px-[46px] py-[18px] w-[160px] text-[#4B4B4B] dark:text-darkMode-white-10"
         onClick={handleFilterClick}
       >
         {statusKoreanName}

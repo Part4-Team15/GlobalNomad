@@ -49,6 +49,7 @@ const SignupForm = () => {
         labelName="이메일"
         signupErrorMessages={signupErrorMessages}
         setSignupErrorMessages={setSignupErrorMessages}
+        placeholder="이메일을 입력해 주세요"
       />
       <SignupInputBox
         inputName="nickname"
@@ -57,6 +58,7 @@ const SignupForm = () => {
         labelName="닉네임"
         signupErrorMessages={signupErrorMessages}
         setSignupErrorMessages={setSignupErrorMessages}
+        placeholder="닉네임을 입력해 주세요"
       />
       <SignupInputBox
         inputName="password"
@@ -65,6 +67,7 @@ const SignupForm = () => {
         labelName="비밀번호"
         signupErrorMessages={signupErrorMessages}
         setSignupErrorMessages={setSignupErrorMessages}
+        placeholder="8자 이상 입력해 주세요"
       />
       <SignupInputBox
         inputName="passwordConfirm"
@@ -73,6 +76,7 @@ const SignupForm = () => {
         labelName="비밀번호 확인"
         signupErrorMessages={signupErrorMessages}
         setSignupErrorMessages={setSignupErrorMessages}
+        placeholder="비밀번호를 한번 더 입력해 주세요"
       />
       <SignupSubmitButton disabled={isButtonDisabled}>회원가입</SignupSubmitButton>
     </form>

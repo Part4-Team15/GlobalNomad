@@ -55,7 +55,7 @@ const LoginInputBox = ({
           id={inputName}
           onChange={onChangeInput}
           value={value}
-          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500`}
+          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500 dark:bg-darkMode-black-20 dark:text-darkMode-white-10`}
           onClick={onClickInput}
           placeholder={inputName === 'email' ? '이메일을 입력해주세요' : '비밀번호를 입력해 주세요'}
         />

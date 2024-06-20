@@ -42,7 +42,7 @@ const ModifyActivityPage = () => {
 
   return (
     <div className="w-[100%] max-w-[792px] flex flex-col items-start gap-6">
-      {id && <ModifyHeader id={id} />}
+      {id && <ModifyHeader id={id} schedules={activityData.schedules} />}
       <ModifyTitle title={activityData.title} />
       <ModifyCategory category={activityData.category} />
       <ModifyDescription description={activityData.description} />

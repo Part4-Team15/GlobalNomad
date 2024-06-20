@@ -43,17 +43,17 @@ const ReservationDescription = ({
       <div className="font-bold mb-2 md:mb-0 sm:text-sm sm:mb-0" style={{ color: textColor }}>
         <p>{reservationStatusText}</p>
       </div>
-      <h2 className="text-xl font-bold text-[#112211] mb-3 md:mb-1 md:text-lg sm:text-sm">
+      <h2 className="text-xl font-bold text-[#112211] mb-3 md:mb-1 md:text-lg sm:text-sm dark:text-darkMode-white-10">
         {title}
       </h2>
       <div className="mb-4 text-[18px] text-[#112211] md:text-[14px] md:mb-[10px] sm:text-[12px] sm:mb-2">
-        <p>
+        <p className="dark:text-darkMode-white-10">
           {date} · {startTime} - {endTime} {headCount}명
         </p>
       </div>
       <div className="flex align-middle justify-between">
         <div className="text-[#1B1B1B] text-2xl font-bold py-[5px] md:text-[20px] sm:text-base sm:pt-0 sm:pb-[15px]">
-          <p>{priceToWon(totalPrice)}</p>
+          <p className="dark:text-darkMode-white-20">{priceToWon(totalPrice)}</p>
         </div>
         {status === 'completed' && (
           <button
