@@ -41,16 +41,20 @@ const Title = () => {
 
   return (
     <div className="flex flex-col w-full gap-2.5">
-      <span className="text-gray-80 font-normal md:text-sm sm:text-sm">{category}</span>
-      <h1 className="text-4xl font-bold md:text-3xl sm:text-2xl">{title}</h1>
+      <span className="text-gray-80 font-normal md:text-sm sm:text-sm dark:text-darkMode-gray-10">
+        {category}
+      </span>
+      <h1 className="text-4xl font-bold md:text-3xl sm:text-2xl dark:text-darkMode-white-10">
+        {title}
+      </h1>
       <div className="flex justify-between items-center md:text-sm sm:text-sm">
         <div className="flex gap-1">
-          <div className="flex">
+          <div className="flex dark:text-darkMode-white-10">
             <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
             {rating}({reviewCount})
           </div>
           <img src="/assets/location_icon.svg" alt="location icon" />
-          <span className="text-gray-80">{address}</span>
+          <span className="text-gray-80 dark:text-darkMode-gray-10">{address}</span>
         </div>
         {userInfo.id === userId && (
           <CustomKebabMenu

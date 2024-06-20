@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import useClickOutside from '@/hooks/useClickOutside';
 import { AvailableDate } from '@/types/activityPage';
 import { StyledReserveCalendarWrapper } from '@/styles/StyledReserveCalendar';
+import { ReactComponent as CloseBtn } from './assets/x_btn.svg';
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
@@ -35,14 +36,14 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
 
   return (
     <div
-      className="flex flex-col absolute top-[-124px] right-[-20px] z-20 w-[400px] rounded-md bg-white shadow-md border-1 py-6 px-4 gap-3 h-auto overflow-y-auto"
+      className="flex flex-col absolute top-[-124px] right-[-20px] z-20 w-[400px] rounded-md bg-white shadow-md border-1 py-6 px-4 gap-3 h-auto overflow-y-auto dark:bg-darkMode-black-20"
       ref={modalRef}
     >
       <div className="w-full flex justify-between">
-        <div className="font-bold text-2xl">날짜</div>
-        <button type="button" onClick={handleModalClose}>
-          <img className="w-5 cursor-pointer" src="/assets/x_btn.svg" alt="Close Box Button" />
-        </button>
+        <div className="font-bold text-2xl dark:text-darkMode-white-10">날짜</div>
+        <div onClick={handleModalClose}>
+          <CloseBtn className="w-6 h-6 cursor-pointer stroke-black dark:stroke-white" />
+        </div>
       </div>
       <StyledReserveCalendarWrapper>
         <Calendar
@@ -59,7 +60,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
           prev2Label={null}
         />
       </StyledReserveCalendarWrapper>
-      <div className="font-bold text-lg">예약 가능한 시간</div>
+      <div className="font-bold text-lg dark:text-darkMode-white-10">예약 가능한 시간</div>
       {/* 예약 시간 선택 */}
       <div className="flex flex-wrap gap-2">
         {actualAvailableTimes?.map((availableSchedule) => {

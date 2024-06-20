@@ -41,7 +41,7 @@ const KakaoMap: React.FC<MapProps> = ({ location }) => {
       </div>
       <div className="flex">
         <img src="/assets/location_icon.svg" alt="location icon" />
-        <div className="text-gray-80">{location}</div>
+        <div className="text-gray-80 dark:text-darkMode-gray-10">{location}</div>
       </div>
     </div>
   );

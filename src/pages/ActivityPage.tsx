@@ -48,7 +48,7 @@ const ActivityPage = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
+    <div className="flex flex-col justify-center items-center w-full dark:bg-darkMode-black-10">
       <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-12 sm:mt-4 mb-40 md:gap-10 sm:gap-4">
         <Title />
         <ImageDashBoard />
