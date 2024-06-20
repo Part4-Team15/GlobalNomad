@@ -28,12 +28,12 @@ const RecentViewedActivity = () => {
   return (
     <>
       <button
-        className="fixed top-1/4 -right-[2px] border border-green-10 rounded-l-md z-10"
+        className="fixed top-1/4 -right-[2px] z-10"
         type='button'
         onClick={handleClick}
       >
         <img
-          className="w-8 rounded-l-md"
+          className="w-8 border border-green-10 rounded-l-md"
           src={showList ? '/assets/pagination_arrow_right.svg' : '/assets/pagination_arrow_left.svg'}
           alt='show or hide recent activity List'
         />
