@@ -22,7 +22,7 @@ const AssignCategory = () => {
         onClick={handleDropDown}
       >
         <input
-          className="w-[100%] outline-none"
+          className="w-[100%] outline-none cursor-pointer"
           value={selectedValue || ''}
           placeholder="카테고리"
           readOnly
