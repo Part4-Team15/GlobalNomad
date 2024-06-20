@@ -39,16 +39,16 @@ const ActivityCard = ({
   return (
     <Link
       to={`/activity/${id}`}
-      className="group h-[435px] md:h-[373px] sm:h-[295px]"
+      className="group h-[435px] md:h-[374px] sm:h-[295px]"
       onClick={handleClick}
     >
       <div className="flex flex-col gap-4">
         <div
-          className="w-[282px] h-[282px] bg-green-10 bg-cover bg-center rounded-3xl group-hover:bg-extend lg:w-[238px] lg:h-[238px] md:w-[221px] md:h-[221px] sm:w-[168px] sm:h-[168px]"
+          className="w-[278px] h-[278px] bg-green-10 bg-cover bg-center rounded-3xl group-hover:bg-extend lg:w-[232px] lg:h-[232px] md:w-[221px] md:h-[221px] sm:w-[168px] sm:h-[168px]"
           style={{ backgroundImage: `url(${bannerImageUrl})` }}
         />
-        <div className="flex flex-col gap-[10px] w-[282px] text-black leading-none px-2 py-2 rounded-2xl
-        group-hover:bg-green-5 group-hover:text-green-80 dark:text-darkMode-white-10 md:w-[221px] sm:w-[168px]">
+        <div className="flex flex-col gap-[10px] w-[278px] text-black leading-none px-2 py-2 rounded-2xl
+        group-hover:bg-green-5 group-hover:text-green-80 dark:text-darkMode-white-10 lg:w-[232px] md:w-[221px] sm:w-[168px]">
           <div className="flex items-center gap-1">
             <img src="/assets/bold_star.svg" alt="little-star" />
             <p className="font-medium group-hover:text-green-20 sm:text-sm">

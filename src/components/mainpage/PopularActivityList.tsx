@@ -54,7 +54,7 @@ const PopularActivityList = () => {
         />}
       </div>
       {totalCount ? (
-        <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
+        <div className="flex gap-6 w-full overflow-x-scroll hide-scrollbar lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
           {isFetching
             ? Array.from({ length: OFFSET }, (_, index) => <PopularCardSkeleton key={index} />)
             : activityList.map((activity) => (

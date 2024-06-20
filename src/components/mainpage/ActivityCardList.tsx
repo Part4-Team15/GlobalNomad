@@ -120,8 +120,8 @@ const ActivityCardList = () => {
       {totalCount ? (
         <>
           <div
-            className="grid grid-cols-4 gap-x-6 gap-y-12 h-[918px] mb-[72px]
-            md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:h-[1183px] sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:h-[614px] sm:mb-[62px]"
+            className="grid grid-cols-4 gap-x-6 gap-y-12 w-full h-[918px] mb-[72px]
+            md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:h-[1184px] sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:h-[638px] sm:mb-[62px]"
           >
             {isFetching
               ? Array.from({ length: offset }, (_, index) => <ActivityCardSkeleton key={index} />)
