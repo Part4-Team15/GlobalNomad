@@ -28,7 +28,8 @@ const RecentViewedActivityCard = ({ id, bannerImageUrl }: RecentViewedActivityCa
     <Link key={id} to={`/activity/${id}`} onClick={handleClick}>
       <div
         className="w-28 h-28 bg-cover bg-center rounded-3xl
-          hover:border hover:border-green-300 hover:shadow-green-700 hover:shadow-custom"
+          hover:border hover:border-green-300 hover:shadow-green-700 hover:shadow-custom
+          hover:dark:border-gray-20 hover:dark:shadow-darkMode-gray-10"
         style={{ backgroundImage: `url(${bannerImageUrl})` }}
       />
     </Link>
