@@ -31,8 +31,8 @@ const useSignup = () => {
       });
 
       // 회원가입 성공후 알림, 로그인 페이지로 이동
-      toast.success('회원가입에 성공했습니다!', {
-        onClose: () => navigate('/login'),
+      navigate('/');
+      toast.success('회원가입에 성공 했습니다!', {
         autoClose: 2000,
       });
     },

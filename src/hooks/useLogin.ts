@@ -31,8 +31,8 @@ const useLogin = () => {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
 
+      navigate('/');
       toast.success('로그인에 성공했습니다!', {
-        onClose: () => navigate('/'),
         autoClose: 2000,
       });
     },
