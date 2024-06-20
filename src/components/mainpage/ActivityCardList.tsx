@@ -114,7 +114,7 @@ const ActivityCardList = () => {
         onSelectCategory={handleCategoryClick}
         onSetSort={handleSortClick}
       />
-      <h2 className="text-4xl font-bold mt-10 mb-8 sm:text-lg sm:my-6 sm:leading-none">
+      <h2 className="text-4xl font-bold mt-10 mb-8 dark:text-darkMode-white-10 sm:text-lg sm:my-6 sm:leading-none">
         {currentCategory || '🛼 모든 체험'}
       </h2>
       {totalCount ? (
