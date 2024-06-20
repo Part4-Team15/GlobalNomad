@@ -16,6 +16,10 @@ module.exports = {
           'linear-gradient(270deg, #FAFBFC 0%, rgba(250, 251, 252, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
         'custom-mob-gradient':
           'linear-gradient(270deg, #FAFBFC 0%, #FAFBFC 71.87%, rgba(250, 251, 252, 0.00) 100%)',
+        'darkMode-tab-gradient':
+          'linear-gradient(270deg, #191919 0%, rgba(25, 25, 25, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
+        'darkMode-mob-gradient':
+          'linear-gradient(270deg, #191919 0%, #191919 71.87%, rgba(250, 251, 252, 0.00) 100%)',
       },
       backgroundSize: {
         extend: '200%',
