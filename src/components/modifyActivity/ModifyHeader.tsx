@@ -1,13 +1,9 @@
 import React from 'react';
-import axios from 'axios';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { ModifyData, Schedule } from '@/types/modifyActivityPage';
-import patchModifyMyActivity from '@/api/patchMyActivity';
 import queryKeys from '@/api/reactQuery/queryKeys';
-import Toast from '@/utils/Toast';
 import useCheckModifyData from '@/hooks/useCheckModifyData';
-import useMergeModifyData from '@/hooks/useMergeModifyData';
+import useMutationModifyData from '@/hooks/useMutateModifyData';
 
 interface ModifyHeaderProps {
   id: string;
@@ -15,39 +11,14 @@ interface ModifyHeaderProps {
 }
 
 const ModifyHeader = ({ id, schedules }: ModifyHeaderProps) => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { checkRequireData } = useCheckModifyData();
-  const { mergeSchedule, initialModifySchedule, initialScheduleId, initialModifyData } =
-    useMergeModifyData();
-  const data = useQuery({ queryKey: queryKeys.modifyData() }).data as ModifyData;
+  const { modifyMutation } = useMutationModifyData({ schedules });
 
-  const mutation = useMutation({
-    mutationFn: async ({ data: modifyData, id: modifyId }: { data: ModifyData; id: string }) => {
-      return patchModifyMyActivity(modifyData, modifyId);
-    },
-    onSuccess: () => {
-      Toast.success('수정 성공!!'); // 성공 시 모달 열기
-      queryClient.invalidateQueries({ queryKey: queryKeys.activities() }); // 쿼리 무효화
-      initialModifyData();
-      navigate('/my/activity');
-    },
-    onError: (error) => {
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message;
-        Toast.error(errorMessage);
-        mergeSchedule(schedules);
-        initialModifySchedule();
-        initialScheduleId();
-      } else {
-        Toast.error('수정 중 오류가 발생했습니다.');
-      }
-    },
-  });
+  const data = useQuery({ queryKey: queryKeys.modifyData() }).data as ModifyData;
 
   const handleModifyData = async () => {
     if (checkRequireData(data)) {
-      mutation.mutate({ data, id });
+      modifyMutation.mutate({ data, id });
     }
   };
 
