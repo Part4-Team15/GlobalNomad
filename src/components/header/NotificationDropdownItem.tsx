@@ -22,7 +22,7 @@ const NotificationDropdownItem = ({
 
   const reservationStatus = content.slice(content.length - 8, content.length - 6);
   return (
-    <li className="w-full px-3 py-4 bg-white rounded-md sm:text-[20px]">
+    <li className="w-full px-3 py-4 bg-white rounded-md sm:text-[20px] dark:bg-darkMode-black-30">
       <div className="flex justify-between">
         <img
           src={`/assets/circle_${reservationStatus === '승인' ? 'blue' : 'red'}.svg`}
