@@ -68,19 +68,20 @@ const Pagination = ({
   return (
     <div className="flex justify-center gap-[10px]">
       <button
-        className={`flex justify-center items-center w-[55px] h-[55px] bg-white rounded-2xl sm:w-10 sm:h-10
-        ${currentPage === 0 ? 'border border-gray-30' : 'border border-green-80'}`}
+        className={`flex justify-center items-center w-[55px] h-[55px] bg-white rounded-2xl dark:bg-darkMode-black-40 sm:w-10 sm:h-10
+        ${currentPage === 0 ? 'border border-gray-30 dark:border-darkMode-gray-20' : 'border border-green-80 dark:border-darkMode-gray-10'}`}
         onClick={handleLeftArrowBtnClick}
         type="button"
         disabled={currentPage === 0}
         aria-label="Go to previous page"
       >
-        <LeftArrow fill={currentPage === 0 ? '#A4A1AA' : '#0B3B2D'} />
+        <LeftArrow className={currentPage === 0 ? 'fill-gray-60 dark:fill-darkMode-gray-20' : 'fill-green-80 dark:fill-darkMode-white-10'} />
       </button>
       {pageGroup[currentPageGroup] && pageGroup[currentPageGroup].map((pageNum) => (
         <button
-          className={`w-[55px] h-[55px] text-lg border border-green-80 rounded-2xl hover:bg-green-80 hover:text-white sm:w-10 sm:h-10
-          ${currentPage === pageNum ? 'bg-green-80 text-white' : 'bg-white text-green-80'}`}
+          className={`w-[55px] h-[55px] text-lg border border-green-80 rounded-2xl hover:bg-green-80 hover:text-white
+            dark:border-darkMode-gray-10 dark:text-darkMode-white-10 dark:hover:bg-darkMode-gray-10 sm:w-10 sm:h-10
+          ${currentPage === pageNum ? 'bg-green-80 text-white dark:bg-darkMode-gray-10' : 'bg-white text-green-80 dark:bg-darkMode-black-40'}`}
           onClick={handlePageBtnClick}
           type="button"
           id={pageNum}
@@ -90,14 +91,14 @@ const Pagination = ({
         </button>
       ))}
       <button
-        className={`flex justify-center items-center w-[55px] h-[55px] bg-white rounded-2xl sm:w-10 sm:h-10
-          ${currentPage === pageNumber[pageNumber.length - 1] ? 'border border-gray-30' : 'border border-green-80'}`}
+        className={`flex justify-center items-center w-[55px] h-[55px] bg-white rounded-2xl dark:bg-darkMode-black-40 sm:w-10 sm:h-10
+          ${currentPage === pageNumber[pageNumber.length - 1] ? 'border border-gray-30 dark:border-darkMode-gray-20' : 'border border-green-80 dark:border-darkMode-gray-10'}`}
         onClick={handleRightArrowBtnClick}
         type="button"
         disabled={currentPage === pageNumber[pageNumber.length - 1]}
         aria-label="Go to next page"
       >
-        <RightArrow fill={currentPage === pageNumber[pageNumber.length - 1] ? '#A4A1AA' : '#0B3B2D'} />
+        <RightArrow className={currentPage === pageNumber[pageNumber.length - 1] ? 'fill-gray-60 dark:fill-darkMode-gray-20' : 'fill-green-80 dark:fill-darkMode-white-10'} />
       </button>
     </div>
   );
