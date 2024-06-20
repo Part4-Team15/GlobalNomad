@@ -10,6 +10,7 @@ const SignupInputBox = ({
   labelName,
   signupErrorMessages,
   setSignupErrorMessages,
+  placeholder
 }: SignupInputBoxProps) => {
   const [isShowInputValue, setIsShowInputValue] = useState(false);
   const [inputType, setInputType] = useState(
@@ -50,8 +51,9 @@ const SignupInputBox = ({
           id={inputName}
           onChange={onChangeInput}
           value={value}
-          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500`}
+          className={`border border-gray-60 rounded-[6px] px-5 py-4 focus:outline-none w-full ${borderColorClass} focus:border-blue-500 dark:bg-darkMode-black-20 dark:text-darkMode-white-10`}
           onClick={onClickInput}
+          placeholder={placeholder}
         />
         {labelName.includes('비밀번호') === true ? (
           <button

@@ -44,4 +44,5 @@ export interface SignupInputBoxProps {
   labelName: string;
   signupErrorMessages: SignupErrorMessages;
   setSignupErrorMessages: React.Dispatch<React.SetStateAction<SignupErrorMessages>>;
+  placeholder: string;
 }
