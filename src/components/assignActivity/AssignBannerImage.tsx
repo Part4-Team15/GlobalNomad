@@ -36,7 +36,7 @@ const AssignBannerImage = () => {
   return (
     <div className=" flex w-[100%] flex-col items-start gap-6">
       <span className=" text-black text-2xl font-bold">배너 이미지</span>
-      <div className=" grid w-[100%] grid-flow-row auto-rows-[minmax(0,2fr)] lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-6">
+      <div className=" grid w-[100%] grid-flow-row auto-rows-[minmax(0,2fr)] grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-6">
         <div>
           <label
             className=" flex flex-col items-center justify-center p-[38px] gap-[30px] rounded-xl border border-dashed border-gray-80 cursor-pointer"
