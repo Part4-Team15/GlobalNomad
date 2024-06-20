@@ -49,7 +49,7 @@ const RecentViewedActivity = () => {
                 >
                   {recentViewedList.length ?
                     (recentViewedList.map((activity: CurrentViewedActivity) => (
-                      <RecentViewedActivityCard {...activity} />
+                      <RecentViewedActivityCard key={activity.id} {...activity} />
                     ))
                     ) : (
                       <div>최근에 방문한 체험 내역이 없습니다.</div>
