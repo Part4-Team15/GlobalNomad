@@ -1,20 +1,20 @@
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { CurrentViewedActivity, getRecentlyViewedActivities } from '@/utils/saveRecentActivities';
-import useClickOutside from '@/hooks/useClickOutside';
-import '../../styles/customScrollbar.css';
 import RecentViewedActivityCard from './RecentViewedActivityCard';
 import ModalPortal from '../review/ModalPortal';
+import '../../styles/customScrollbar.css';
 
 const RecentViewedActivity = () => {
   const [showList, setShowList] = useState(false);
   const [recentViewedList, setRecentViewedList] = useState([]);
-  const listRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
     setShowList(!showList);
   }
 
-  useClickOutside(listRef, handleClick);
+  const handleClickOutside = () => {
+    setShowList(false);
+  }
 
   const handleNotClose = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -40,8 +40,8 @@ const RecentViewedActivity = () => {
       </button>
       {showList && (
         <ModalPortal>
-          <div className="fixed inset-0 bg-black bg-opacity-0">
-            <div onClick={handleNotClose} ref={listRef}>
+          <div className="fixed inset-0 bg-black bg-opacity-0" onClick={handleClickOutside}>
+            <div onClick={handleNotClose}>
               <div className="fixed top-1/4 right-12 rounded-2xl bg-white border border-green-700 shadow-green-10 shadow-custom px-4 pt-3 pb-4">
                 <p className="text-lg text-center font-medium pb-3">내가 최근 둘러본 체험</p>
                 <div
