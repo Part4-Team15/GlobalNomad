@@ -96,6 +96,10 @@ const useMergeAssignData = () => {
     queryClient.setQueryData(queryKeys.assignEndTime(), '');
   };
 
+  const initialAssignData = () => {
+    queryClient.setQueryData(queryKeys.assignData(), null);
+  };
+
   return {
     mergeAddress,
     mergeTitle,
@@ -111,6 +115,7 @@ const useMergeAssignData = () => {
     mergeEndTime,
     mergeSchedule,
     initialTimes,
+    initialAssignData,
     resetSchedule,
   };
 };

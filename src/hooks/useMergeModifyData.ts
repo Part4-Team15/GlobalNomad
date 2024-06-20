@@ -150,6 +150,26 @@ const useMergeModifyData = () => {
     queryClient.setQueryData(queryKeys.modifyScheduleEndTime(), '');
   };
 
+  const initialModifySchedule = () => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
+      return mergeModifyData(oldData, {
+        schedulesToAdd: [],
+      });
+    });
+  };
+
+  const initialScheduleId = () => {
+    queryClient.setQueryData<ModifyData>(queryKeys.modifyData(), (oldData) => {
+      return mergeModifyData(oldData, {
+        scheduleIdsToRemove: [],
+      });
+    });
+  };
+
+  const initialModifyData = () => {
+    queryClient.setQueryData(queryKeys.modifyData(), null);
+  };
+
   return {
     mergeTitle,
     mergeCategory,
@@ -171,6 +191,9 @@ const useMergeModifyData = () => {
     deleteScheduleId,
     deleteScheduleAdd,
     initialTimes,
+    initialModifySchedule,
+    initialScheduleId,
+    initialModifyData,
   };
 };
 

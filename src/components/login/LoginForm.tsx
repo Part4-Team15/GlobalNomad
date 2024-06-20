@@ -34,7 +34,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col gap-7 w-[40rem] mx-auto mt-[40px] md:w-[640px] sm:w-[350px] sm:mt-6"
+      className="flex flex-col gap-7 w-[40rem] mx-auto mt-[40px] md:w-[640px] sm:w-[350px] sm:mt-6 "
       noValidate
     >
       <LoginInputBox

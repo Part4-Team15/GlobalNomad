@@ -1,7 +1,6 @@
 import AuthLinkBox from './AuthLinkBox';
 import HeaderUserInformation from './HeaderUserInformation';
 import HeaderLogo from './HeaderLogo';
-import DarkModeButton from './DarkModeButton';
 
 const Header = () => {
   const accessToken = localStorage.getItem('accessToken');
@@ -11,7 +10,6 @@ const Header = () => {
   return (
     <header className="flex h-[70px] justify-around sm:px-[24px] sm:justify-between md:px-[24px] md:justify-between items-center dark:bg-darkMode-black-20 [&_*]:dark:text-darkMode-white-10">
       <HeaderLogo />
-      <DarkModeButton />
       {!isLogin ? <AuthLinkBox /> : <HeaderUserInformation />}
     </header>
   );

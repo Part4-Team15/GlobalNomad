@@ -1,3 +1,4 @@
+import DarkModeButton from './DarkModeButton';
 import HeaderProfile from './HeaderProfile';
 import Notification from './Notification';
 
@@ -6,6 +7,7 @@ const HeaderUserInformation = () => (
     <Notification />
     <img src="/assets/header_bar_icon.svg" alt="header_bar_icon" />
     <HeaderProfile />
+    <DarkModeButton />
   </div>
 );
 

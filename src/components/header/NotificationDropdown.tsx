@@ -33,7 +33,7 @@ const NotificationDropdown = ({
   }, [inView, fetchNextPage]);
 
   return (
-    <div className="flex flex-col absolute top-[63px] right-[-100px] md:right-[-30px] z-20 w-[368px] rounded-md bg-green-10 shadow-md border-1 py-6 px-4 gap-3 h-[300px] overflow-y-auto sm:w-screen sm:top-0 sm:right-0 sm:fixed sm:inset-0 sm:h-screen sm:rounded-none">
+    <div className="flex flex-col absolute top-[63px] right-[-100px] md:right-[-30px] z-20 w-[368px] rounded-md bg-green-10 shadow-md border-1 py-6 px-4 gap-3 h-[300px] overflow-y-auto sm:w-screen sm:top-0 sm:right-0 sm:fixed sm:inset-0 sm:h-screen sm:rounded-none dark:bg-darkMode-black-20">
       {totalCount === 0 ? (
         <div>모든 알림을 확인했습니다!</div>
       ) : (
