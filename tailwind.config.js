@@ -2,7 +2,7 @@
 
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
-
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -11,13 +11,11 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'custom-tab-gradient' : 'linear-gradient(270deg, #FAFBFC 0%, rgba(250, 251, 252, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
-        'custom-mob-gradient': 'linear-gradient(270deg, #FAFBFC 0%, #FAFBFC 71.87%, rgba(250, 251, 252, 0.00) 100%)',
-
-
-
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'custom-tab-gradient':
+          'linear-gradient(270deg, #FAFBFC 0%, rgba(250, 251, 252, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
+        'custom-mob-gradient':
+          'linear-gradient(270deg, #FAFBFC 0%, #FAFBFC 71.87%, rgba(250, 251, 252, 0.00) 100%)',
       },
       backgroundSize: {
         extend: '200%',
@@ -50,6 +48,23 @@ module.exports = {
         'blue-30': '#0085FF',
         'blue-20': '#2EB4FF',
         'blue-10': '#E5F3FF',
+
+        // 다크모드에서 쓰는 주요 색상변수
+
+        // 10번색은 페이지 배경화면으로 지정해주시면 됩니다
+        'darkMode-black-10': '#191919',
+
+        // 20~40번까지는 페이지 배경색 이외에 모달창 색상, 버튼 색상, 페이지와 겹치는 레이어 창의 색상등을 자유롭게 선택하셔서 디자인 하시면 됩니다
+        'darkMode-black-20': '#242424',
+        'darkMode-black-30': '#1C1C1E',
+        'darkMode-black-40': '#2D2D2D',
+
+        // 다크모드에서 사용할 텍스트 색상들입니다 역시 자유롭게 사용하시면됩니다 (hover효과 , active효과 등에도 사용하시면 됩니다)
+        'darkMode-white-10': '#FFFFFF',
+        'darkMode-white-20': '#F8F8FF',
+        'darkMode-white-30': '#E5E4E2',
+        'darkMode-gray-10': '#B2BEB5',
+        'darkMode-gray-20': '#36454F',
       },
     },
     screens: {
