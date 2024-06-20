@@ -7,7 +7,8 @@ const ReservationDropdownFilterBox = ({
   statusName: string;
   setStatus: (status: string) => void;
 }) => {
-  const handleFilterClick = () => {
+  const handleFilterClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
     setStatus(statusName);
   };
   return (
