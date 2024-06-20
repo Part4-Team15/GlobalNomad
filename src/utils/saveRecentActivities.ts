@@ -1,10 +1,10 @@
 export type CurrentViewedActivity = {
   id: number;
-  title: string;
-  price: number;
+  title?: string;
+  price?: number;
   bannerImageUrl: string;
-  rating: number;
-  reviewCount: number;
+  rating?: number;
+  reviewCount?: number;
 };
 
 // 현재 본 게시물을 localStorage에 저장하는 함수

@@ -71,7 +71,7 @@ module.exports = {
       mob: '500px',
       sm: { max: '768px' },
       md: { min: '769px', max: '1023px' },
-      lg: { min: '1024px' },
+      lg: { min: '1024px', max: '1200px' },
     },
     boxShadow: {
       custom: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',

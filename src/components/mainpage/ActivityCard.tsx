@@ -1,7 +1,13 @@
 import { ActivityInfo } from '@/types/mainPage';
+import {
+  CurrentViewedActivity,
+  getCurrentViewedActivity,
+  getRecentlyViewedActivities,
+  setCurrentViewedActivity,
+  setRecentlyViewedActivities
+} from '@/utils/saveRecentActivities';
 import { Link } from 'react-router-dom';
 import priceToWon from '@/utils/priceToWon';
-import { getCurrentViewedActivity, getRecentlyViewedActivities, setCurrentViewedActivity, setRecentlyViewedActivities } from '@/utils/saveRecentActivities';
 
 interface ActivityCardProps {
   cardData: ActivityInfo;
@@ -19,7 +25,7 @@ const ActivityCard = ({
       let viewedList = getRecentlyViewedActivities();
 
       // 추가하려는 최근 본 체험과 중복된 체험이 목록에 있는지 확인
-      viewedList = viewedList.filter((activity: any) => activity.id !== viewedActivity.id);
+      viewedList = viewedList.filter((activity: CurrentViewedActivity) => activity.id !== viewedActivity.id);
       viewedList.unshift(viewedActivity);
 
       if (viewedList.length > 6) {
@@ -38,7 +44,7 @@ const ActivityCard = ({
     >
       <div className="flex flex-col gap-4">
         <div
-          className="w-[282px] h-[282px] bg-cover bg-center rounded-3xl group-hover:bg-extend md:w-[221px] md:h-[221px] sm:w-[168px] sm:h-[168px]"
+          className="w-[282px] h-[282px] bg-cover bg-center rounded-3xl group-hover:bg-extend lg:w-[238px] lg:h-[238px] md:w-[221px] md:h-[221px] sm:w-[168px] sm:h-[168px]"
           style={{ backgroundImage: `url(${bannerImageUrl})` }}
         />
         <div className="flex flex-col gap-[10px] w-[282px] text-black leading-none px-2 py-2 group-hover:bg-blue-10 group-hover:rounded-2xl group-hover:text-blue-800 md:w-[221px] sm:w-[168px]">
