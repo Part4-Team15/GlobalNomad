@@ -59,19 +59,6 @@ const ActivityCardList = () => {
     navigate(`?${searchParams}`);
   }, [currentCategory, sortActivity, currentPageNum, setSearchParams, navigate]);
 
-  useEffect(() => {
-    const handlePageShow = () => {
-      if (currentCategory) searchParams.delete('category');
-      if (sortActivity) searchParams.delete('sort');
-    };
-
-    window.addEventListener('pageshow', handlePageShow);
-
-    return () => {
-      window.removeEventListener('pageshow', handlePageShow);
-    };
-  }, []);
-
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
   };
