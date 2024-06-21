@@ -2,7 +2,7 @@ import Skeleton from '../Skeleton';
 
 const PopularCardSkeleton = () => {
   return (
-    <Skeleton className="w-96 h-96 bg-gray-300 rounded-3xl shadow-custom sm:w-[186px] sm:h-[186px]">
+    <Skeleton className="w-[380px] h-[380px] bg-gray-300 rounded-3xl shadow-custom lg:w-[317px] lg:h-[317px] sm:w-[186px] sm:h-[186px]">
       <div className="absolute bottom-8 left-5 flex flex-col gap-5 z-10 sm:bottom-6 sm:w-[146px] sm:gap-[6px]">
         <div className="flex gap-1 items-center">
           <img src="/assets/bold_star.svg" alt="little-star" />
