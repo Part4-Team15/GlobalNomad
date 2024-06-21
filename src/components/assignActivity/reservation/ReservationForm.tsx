@@ -27,8 +27,12 @@ const ReservationForm = () => {
         >
           {/* 날짜 */}
           <div className="flex w-[100%] flex-col">
-            <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
-              <input className="w-[100%] outline-none" value={reservation.date} readOnly />
+            <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
+              <input
+                className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
+                value={reservation.date}
+                readOnly
+              />
             </div>
           </div>
           {/* 날짜 */}
@@ -36,17 +40,25 @@ const ReservationForm = () => {
           <div className=" flex h-[70px] w-[100%] items-center gap-3">
             {/* 시작 시간 */}
             <div className="flex w-[100%] flex-col ">
-              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
-                <input className="w-[100%] outline-none" value={reservation.startTime} readOnly />
+              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
+                <input
+                  className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
+                  value={reservation.startTime}
+                  readOnly
+                />
               </div>
             </div>
             {/* 시작 시간 */}
 
-            <span>~</span>
+            <span className="dark:text-darkMode-gray-10">~</span>
             {/* 종료 시간 */}
             <div className="flex w-[100%] flex-col ">
-              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
-                <input className="w-[100%] outline-none" value={reservation.endTime} readOnly />
+              <div className=" flex h-[46px] w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
+                <input
+                  className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
+                  value={reservation.endTime}
+                  readOnly
+                />
               </div>
             </div>
             {/* 종료 시간 */}

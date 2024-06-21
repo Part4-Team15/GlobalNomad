@@ -41,7 +41,7 @@ const EndTimeDropDown = ({ onSelect }: EndTimeProps) => {
   };
 
   return (
-    <ul className=" absolute z-10 flex flex-col w-[100%] p-2 items-start gap-[4px] shrink-0 rounded-md bg-white shadow-md">
+    <ul className=" absolute z-10 flex flex-col w-[100%] p-2 items-start gap-[4px] shrink-0 rounded-md bg-white shadow-md dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
       {filteredTimes.map((time) => (
         <button
           key={time.endTime}
