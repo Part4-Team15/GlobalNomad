@@ -136,13 +136,15 @@ const ActivityCardList = () => {
           </div>
         }
       </div>
-      <Pagination
-        currentPage={currentPageNum}
-        currentPageGroup={currentPageGroup}
-        totalCount={totalCount}
-        offsetLimit={offset}
-        setPageNum={handlePageChange}
-      />
+      {totalCount !== 0 &&
+        <Pagination
+          currentPage={currentPageNum}
+          currentPageGroup={currentPageGroup}
+          totalCount={totalCount}
+          offsetLimit={offset}
+          setPageNum={handlePageChange}
+        />
+      }
     </>
   );
 };
