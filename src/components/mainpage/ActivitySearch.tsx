@@ -22,15 +22,16 @@ const ActivitySearch = () => {
         onSubmit={handleSubmit}
       >
         <label className="text-black text-xl font-bold dark:text-darkMode-white-10 sm:text-base">무엇을 체험하고 싶으신가요?</label>
-        <div className="flex items-center gap-3">
-          <div className="group flex items-center w-[1004px] h-14 border border-gray-60 border-solid rounded-md
+        <div className="flex items-center gap-3 peer">
+          <div className="relative flex items-center w-[1004px] h-14 border border-gray-60 border-solid rounded-md
           lg:w-[952px] md:w-[500px] sm:w-[187px] focus-within:border-green-40 focus-within:dark:border-darkMode-white-30"
           >
             <div className="w-6 h-6 m-3 md:m-2 sm:m-2">
               <SearchIcon className="fill-green-80 dark:fill-darkMode-gray-10"/>
             </div>
+            {keyword && <p className="absolute -top-3 left-9 bg-white px-1 text-gray-70 dark:bg-darkMode-black-40 dark:text-darkMode-white-30">내가 원하는 체험은</p>}
             <input
-              className="outline-none w-[930px] dark:bg-darkMode-black-40 dark:text-darkMode-white-10 
+              className="outline-none w-[916px] placeholder:pl-1 dark:bg-darkMode-black-40 dark:text-darkMode-white-10 
               placeholder:dark:text-darkMode-white-10 lg:w-[730px] md:w-[436px] sm:w-[124px]"
               type="search"
               ref={searchWord}

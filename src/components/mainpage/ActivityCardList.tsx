@@ -15,6 +15,7 @@ const usePageActivity = (pageNum: number, size: number, category: string, sort: 
   return useQuery({
     queryKey: queryKeys.currentPageActivity(pageNum, size, category, sort),
     queryFn: () => getCurrentPageActivity(pageNum, size, category, sort),
+    staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData,
   });
 };
