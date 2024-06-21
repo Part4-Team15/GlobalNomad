@@ -55,12 +55,21 @@ const PopularActivityList = () => {
           onRightClick={handleRightClick}
         />}
       </div>
-      <div className="flex gap-6 w-full overflow-x-scroll hide-scrollbar lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
-        {isFetching
-          ? Array.from({ length: OFFSET }, (_, index) => <PopularCardSkeleton key={index} />)
-          : activityList.map((activity) => (
-              <PopularActivityCard key={activity.id} cardData={activity} />
+      <div
+        className="flex gap-6 w-full overflow-x-scroll hide-scrollbar
+        lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob"
+      >
+        {isFetching ? (
+          <div className="flex space-x-6 min-w-max md:space-x-8 sm:space-x-4">
+            {Array.from({ length: OFFSET }, (_, index) => (
+              <PopularCardSkeleton key={index} />
             ))}
+          </div>
+          ) : (
+          activityList.map((activity) => (
+            <PopularActivityCard key={activity.id} cardData={activity} />
+          ))
+        )}
       </div>
       {totalCount === 0 && !isFetching &&
         <div
