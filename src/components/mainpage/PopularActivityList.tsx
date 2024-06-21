@@ -46,7 +46,7 @@ const PopularActivityList = () => {
   return (
     <div className="mt-10 mb-[60px] sm:mt-6 sm:mb-10">
       <div className="flex justify-between">
-        <h2 className="text-4xl font-bold mb-8 sm:text-lg sm:mb-6">🔥인기 체험</h2>
+        <h2 className="text-4xl font-bold mb-8 sm:text-lg sm:mb-6 dark:text-darkMode-white-10">🔥인기 체험</h2>
         {isPCSize && <PopularActivityButton
           idx={startIdx}
           onLeftClick={handleLeftClick}
@@ -54,7 +54,7 @@ const PopularActivityList = () => {
         />}
       </div>
       {totalCount ? (
-        <div className="flex gap-6 w-pc overflow-x-scroll hide-scrollbar lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
+        <div className="flex gap-6 w-full overflow-x-scroll hide-scrollbar lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
           {isFetching
             ? Array.from({ length: OFFSET }, (_, index) => <PopularCardSkeleton key={index} />)
             : activityList.map((activity) => (
