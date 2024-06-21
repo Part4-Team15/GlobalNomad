@@ -17,7 +17,7 @@ const ActivitySearch = () => {
   return (
     <div className="relative flex justify-center bg-none pb-[118px] sm:pb-[73px]">
       <form
-        className="absolute -top-14 flex flex-col gap-8 w-[1188px] px-6 py-8 shadow-custom rounded-2xl bg-white
+        className="absolute -top-14 flex flex-col gap-8 w-[1184px] px-6 py-8 shadow-custom rounded-2xl bg-white
         dark:bg-darkMode-black-40 dark:shadow-darkMode-black-40 lg:w-[1000px] md:w-tab sm:w-mob sm:gap-[15px] sm:py-4"
         onSubmit={handleSubmit}
       >
