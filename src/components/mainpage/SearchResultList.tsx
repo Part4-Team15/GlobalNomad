@@ -13,6 +13,7 @@ const useSearchResult = (keyword: string, pageNum: number, size: number) => {
   return useQuery({
     queryKey: queryKeys.searchPageActivity(keyword, pageNum, size),
     queryFn: () => getSearchResult(keyword, pageNum, size),
+    staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData,
   });
 };

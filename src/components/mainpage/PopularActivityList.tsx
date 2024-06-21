@@ -22,6 +22,7 @@ const PopularActivityList = () => {
   } = useQuery({
     queryKey: queryKeys.popularActivity(),
     queryFn: getPopularActivity,
+    staleTime: 5 * 60 * 1000,
   });
 
   if (isError || !popularActivityList) {
