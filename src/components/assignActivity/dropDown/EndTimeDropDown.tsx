@@ -46,7 +46,7 @@ const EndTimeDropDown = ({ onSelect }: EndTimeProps) => {
         <button
           key={time.endTime}
           type="button"
-          className="w-[100%]  hover:bg-gray-30 "
+          className="w-[100%]  hover:bg-gray-30 dark:hover:bg-darkMode-gray-20"
           onClick={handleSelectedTime(time.endTime)}
         >
           <li className="flex text-base">{time.endTime}</li>
