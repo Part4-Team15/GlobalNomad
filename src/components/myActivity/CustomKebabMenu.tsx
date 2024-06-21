@@ -42,7 +42,7 @@ const CustomKebabMenu = ({ options }: IProps) => {
       </div>
       {/* 옵션 리스트 */}
       {dropdownIsOpen && (
-        <ul className=" text-gray-80 text-[1.125rem] shadow-md absolute top-[calc(100%+0.5rem)] right-0 w-40 rounded border border-gray-30 bg-white z-50 list-none">
+        <ul className=" text-gray-80 text-[1.125rem] shadow-md absolute top-[calc(100%+0.5rem)] right-0 w-40 rounded border-[1.5px] border-green-10 bg-white z-50 list-none">
           {options.map((option) => (
             <li
               key={`${option.label}`}
@@ -56,7 +56,7 @@ const CustomKebabMenu = ({ options }: IProps) => {
               tabIndex={0}
               role="option"
               aria-selected={option === selectedOption}
-              className={`py-4 flex items-center justify-center cursor-pointer ${
+              className={`py-4 flex items-center justify-center dark:bg-darkMode-black-20 dark:text-darkMode-white-10 cursor-pointer ${
                 option !== options[options.length - 1] ? 'border-b border-gray-300' : ''
               } hover:bg-gray-100`}
             >
