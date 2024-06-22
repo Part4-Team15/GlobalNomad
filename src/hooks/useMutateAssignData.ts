@@ -18,6 +18,7 @@ const useMutationAssignData = () => {
       Toast.success('등록 성공!!'); // 성공 시 모달 열기
       initialAssignData(); // 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: queryKeys.activities() }); // 쿼리 무효화
+      queryClient.invalidateQueries({ queryKey: ['currentPageActivity'] });
       navigate('/my/activity');
     },
     onError: (error) => {
