@@ -47,7 +47,9 @@ const Reviews = () => {
       <h2 className="text-xl font-bold pt-6 dark:text-darkMode-white-10">후기</h2>
       {totalCount ? (
         <div className="flex gap-4">
-          <p className="text-5xl font-bold dark:text-darkMode-white-20">{averageRating}</p>
+          <data value={averageRating} className="text-5xl font-bold dark:text-darkMode-white-20">
+            {averageRating}
+          </data>
           <div>
             <p className="text-base font-normal dark:text-darkMode-white-20">
               {ratingToText(averageRating)}
