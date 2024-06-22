@@ -69,7 +69,9 @@ const ModifyReservationTime = ({ schedules }: ModifyReservationTimeProps) => {
 
   return (
     <div className=" flex w-[100%] flex-col items-start gap-6">
-      <span className=" text-black text-2xl font-bold">예약 가능한 시간대</span>
+      <span className=" text-black text-2xl font-bold dark:text-darkMode-white-10">
+        예약 가능한 시간대
+      </span>
       <div className=" flex w-[100%] flex-col items-start gap-[21px]">
         <div className="flex w-[100%] items-start gap-5">
           <ReservationDate />
@@ -77,7 +79,7 @@ const ModifyReservationTime = ({ schedules }: ModifyReservationTimeProps) => {
           <div className=" flex h-[70px] w-[100%] items-center gap-3">
             <ReservationStartTime />
 
-            <span className=" mt-4">~</span>
+            <span className=" mt-4 dark:text-darkMode-gray-10">~</span>
 
             <ReservationEndTime />
           </div>

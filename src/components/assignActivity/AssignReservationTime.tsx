@@ -49,7 +49,9 @@ const AssignReservationTime = () => {
 
   return (
     <div className=" flex w-[100%] flex-col items-start gap-6">
-      <span className=" text-black text-2xl font-bold">예약 가능한 시간대</span>
+      <span className=" text-black text-2xl font-bold dark:text-darkMode-white-10">
+        예약 가능한 시간대
+      </span>
       <div className=" flex w-[100%] flex-col items-start gap-[21px]">
         <div className="flex w-[100%] items-start gap-5">
           {/* 날짜 */}
@@ -61,7 +63,8 @@ const AssignReservationTime = () => {
             <ReservationStartTime />
             {/* 시작 시간 */}
 
-            <span className=" mt-4">~</span>
+            <span className=" mt-4 dark:text-darkMode-gray-10">~</span>
+
             {/* 종료 시간 */}
             <ReservationEndTime />
             {/* 종료 시간 */}
