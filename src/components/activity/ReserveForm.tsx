@@ -143,7 +143,7 @@ const ReserveForm = ({ price }: { price: number }) => {
             / 인
           </span>
         </div>
-        <div className="w-full h-[1px] bg-gray-40" />
+        <hr className="w-full h-[1px] bg-gray-40" />
         {/* 예약 현황 캘린더 */}
         <div className="font-bold text-xl dark:text-darkMode-white-10">날짜</div>
         {windowWidth > 1023 ? (
@@ -220,7 +220,7 @@ const ReserveForm = ({ price }: { price: number }) => {
           </div>
         )}
 
-        <div className="w-full h-[1px] bg-gray-40" />
+        <hr className="w-full h-[1px] bg-gray-40" />
         {/* 참여 인원 수 */}
         <div className="font-bold text-xl dark:text-darkMode-white-10">참여 인원 수</div>
         <div className="flex justify-between items-center w-[120px] border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3 pb-1 dark:bg-darkMode-black-40 dark:text-darkMode-white-20">
@@ -245,7 +245,7 @@ const ReserveForm = ({ price }: { price: number }) => {
         >
           예약하기
         </button>
-        <div className="w-full h-[1px] bg-gray-40" />
+        <hr className="w-full h-[1px] bg-gray-40" />
         {/* 총 합계 가격 */}
         <div className="flex justify-between font-bold text-xl">
           <div className="dark:text-darkMode-white-10">총 합계</div>
