@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import queryKeys from '@/api/reactQuery/queryKeys';
 import useMergeAssignData from '@/hooks/useMergeAssignData';
+import useClickOutside from '@/hooks/useClickOutside';
 import StartTimeDropDown from '../dropDown/StartTimeDropDown';
 
 const ReservationStartTime = () => {
   const { mergeStartTime } = useMergeAssignData();
   const [isStartTimeDropDown, setIsStartTimeDropDown] = useState<boolean>(false);
+  const dropDownRef = useRef<HTMLDivElement>(null);
 
   const { data: startTime = '' } = useQuery<string>({
     queryKey: queryKeys.assignStartTime(),
@@ -22,8 +24,10 @@ const ReservationStartTime = () => {
     setIsStartTimeDropDown(!isStartTimeDropDown);
   };
 
+  useClickOutside(dropDownRef, () => setIsStartTimeDropDown(false));
+
   return (
-    <div className=" w-[100%] relative">
+    <div className=" w-[100%] relative" ref={dropDownRef}>
       <div className="flex w-[100%] flex-col ">
         <label className="dark:text-darkMode-gray-10">시작 시간</label>
         <div

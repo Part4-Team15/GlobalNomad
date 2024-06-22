@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import queryKeys from '@/api/reactQuery/queryKeys';
 import useMergeAssignData from '@/hooks/useMergeAssignData';
+import useClickOutside from '@/hooks/useClickOutside';
 import EndTimeDropDown from '../dropDown/EndTimeDropDown';
 
 const ReservationEndTime = () => {
   const { mergeEndTime } = useMergeAssignData();
   const [isEndTimeDropDown, setIsEndTimeDropDown] = useState<boolean>(false);
+  const dropDownRef = useRef<HTMLDivElement>(null);
   const { data: endTime = '' } = useQuery<string>({
     queryKey: queryKeys.assignEndTime(),
   });
@@ -21,8 +23,10 @@ const ReservationEndTime = () => {
     setIsEndTimeDropDown(!isEndTimeDropDown);
   };
 
+  useClickOutside(dropDownRef, () => setIsEndTimeDropDown(false));
+
   return (
-    <div className=" w-[100%] relative">
+    <div className=" w-[100%] relative" ref={dropDownRef}>
       <div className="flex w-[100%] flex-col ">
         <label className="dark:text-darkMode-gray-10">종료 시간</label>
         <div
