@@ -1,4 +1,5 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
+import useClickOutside from '@/hooks/useClickOutside';
 import FilterPopover from './FilterPopover';
 import { ReactComponent as PopoverArrow } from './assets/arrow_down.svg';
 
@@ -12,6 +13,7 @@ interface CategoryFilterProps {
 
 const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: CategoryFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const popoverRef = useRef<HTMLDivElement>(null);
 
   const handleFilterClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -21,6 +23,8 @@ const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: Catego
   const handleSortClick = () => {
     setIsOpen(false);
   };
+
+  useClickOutside(popoverRef, handleSortClick);
 
   return (
     <div className="flex justify-between text-green-80 dark:text-darkMode-white-10">
@@ -54,7 +58,7 @@ const CategoryFilter = ({ currentCategory, onSelectCategory, onSetSort }: Catego
           <p>가격</p>
           <PopoverArrow className="fill-green-80 dark:fill-darkMode-gray-10"/>
         </button>
-        <div onClick={handleSortClick}>
+        <div onClick={handleSortClick} ref={popoverRef}>
           <FilterPopover isOpen={isOpen} onSetSort={onSetSort} />
         </div>
       </div>

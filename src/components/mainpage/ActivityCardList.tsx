@@ -77,7 +77,6 @@ const ActivityCardList = () => {
 
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
-    setSortActivity(button.value);
     setCurrentSort(button.value);
     searchParams.set('sort', button.value);
     setCurrentPageNum(0);
