@@ -13,8 +13,9 @@ const postAssignImage = async (assignImage: FormData) => {
   } catch (e) {
     console.error('Error: ', e);
     if (axios.isAxiosError(e)) {
-      const errorMessage = e.response?.data?.message;
-      Toast.error(errorMessage);
+      if (e.message === 'Network Error') {
+        Toast.error('이미지 파일 용량이 큽니다.');
+      } else Toast.error(e.message);
     }
     return null;
   }

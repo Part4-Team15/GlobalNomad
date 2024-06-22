@@ -24,6 +24,7 @@ const useMutationModifyData = ({ schedules }: MutationModifyDataProps) => {
     onSuccess: () => {
       Toast.success('수정 성공!!'); // 성공 시 모달 열기
       queryClient.invalidateQueries({ queryKey: queryKeys.activities() }); // 쿼리 무효화
+      queryClient.invalidateQueries({ queryKey: ['currentPageActivity'] });
       initialModifyData();
       navigate('/my/activity');
     },

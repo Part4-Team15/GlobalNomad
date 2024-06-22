@@ -8,7 +8,7 @@ const MyPageLayout = () => {
   const [isShowDefaultImage, setIsShowDefaultImage] = useState<boolean>(false);
 
   return (
-    <div className="flex gap-6 justify-center bg-[#FAFAFA] pt-[72px] md:px-6 md:justify-normal md:gap-4 sm:block sm:px-[16px] md:pt-[24px] sm:pt-[24px] dark:bg-darkMode-black-10">
+    <div className="flex gap-6 justify-center bg-[#FAFAFA] pt-[72px] pb-[72px] md:px-6 md:justify-normal md:gap-4 sm:block sm:px-[16px] md:pt-[24px] sm:pt-[24px] md:pb-[24px] sm:pb-[24px] dark:bg-darkMode-black-10">
       <MyPageProfile
         uploadedImage={uploadedImage}
         setUploadedImage={setUploadedImage}

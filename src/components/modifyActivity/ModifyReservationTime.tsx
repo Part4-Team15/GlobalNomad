@@ -85,7 +85,7 @@ const ModifyReservationTime = ({ schedules }: ModifyReservationTimeProps) => {
           </div>
 
           <img
-            className="mt-6 h-[46px]"
+            className="mt-6 h-[46px] cursor-pointer"
             src="/assets/plus_time_btn.svg"
             alt="plusTimeBtn"
             onClick={handleAssignTime}
