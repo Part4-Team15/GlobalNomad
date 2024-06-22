@@ -58,7 +58,7 @@ const ReservationDescription = ({
         {status === 'completed' && (
           <button
             type="button"
-            className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm font-bold md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
+            className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm font-bold md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px] dark:border-[1px] dark:border-green-10"
             onClick={handleReviewButtonClick}
           >
             <p>{reviewSubmitted ? '후기 작성 완료' : '후기 작성'}</p>
@@ -68,7 +68,7 @@ const ReservationDescription = ({
           <button
             onClick={handleCancelClick}
             type="button"
-            className="border-[1.5px] font-bold w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-white text-black border-black rounded-md sm:text-sm md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px]"
+            className="border-[1.5px] font-bold w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-white text-black border-black rounded-md sm:text-sm md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px] dark:bg-green-10"
           >
             <p>예약 취소</p>
           </button>
