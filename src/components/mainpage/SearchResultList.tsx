@@ -13,6 +13,7 @@ const useSearchResult = (keyword: string, pageNum: number, size: number) => {
   return useQuery({
     queryKey: queryKeys.searchPageActivity(keyword, pageNum, size),
     queryFn: () => getSearchResult(keyword, pageNum, size),
+    staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData,
   });
 };
@@ -55,11 +56,11 @@ const SearchResultList = () => {
   return (
     <>
       <div className="flex flex-col gap-3 text-nomad-black mt-10 mb-6 md:my-6 sm:mt-6 sm:mb-4">
-        <h2 className="text-[2rem] sm:text-2xl sm:leading-normal">
-          <span className="font-bold text-green-40">{keyword}</span>
+        <h2 className="text-[2rem] dark:text-darkMode-white-10 sm:text-2xl sm:leading-normal">
+          <span className="font-bold text-green-40 ">{keyword}</span>
           으로 검색한 결과입니다.
         </h2>
-        <p className="sm:leading-[26px]">총 {totalCount}개의 결과</p>
+        <p className="dark:text-darkMode-white-10 sm:leading-[26px]">총 {totalCount}개의 결과</p>
       </div>
       {totalCount ? (
         <>

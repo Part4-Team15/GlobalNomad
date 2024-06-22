@@ -16,15 +16,18 @@ const AssignCategory = () => {
   };
 
   return (
-    <div className=" w-[100%] relative bg-white">
-      <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60">
+    <div className=" w-[100%] relative bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
+      <div
+        className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60"
+        onClick={handleDropDown}
+      >
         <input
-          className="w-[100%] outline-none"
+          className="w-[100%] outline-none cursor-pointer dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
           value={selectedValue || ''}
           placeholder="카테고리"
           readOnly
         />
-        <button type="button" onClick={handleDropDown}>
+        <button type="button">
           <img
             src={isDropDown ? '/assets/arrow_up.svg' : '/assets/arrow_down.svg'}
             alt="arrowDownIcon"

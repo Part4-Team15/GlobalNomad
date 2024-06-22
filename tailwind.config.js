@@ -16,6 +16,10 @@ module.exports = {
           'linear-gradient(270deg, #FAFBFC 0%, rgba(250, 251, 252, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
         'custom-mob-gradient':
           'linear-gradient(270deg, #FAFBFC 0%, #FAFBFC 71.87%, rgba(250, 251, 252, 0.00) 100%)',
+        'darkMode-tab-gradient':
+          'linear-gradient(270deg, #191919 0%, rgba(25, 25, 25, 0.80) 50%, rgba(250, 251, 252, 0.00) 100%);',
+        'darkMode-mob-gradient':
+          'linear-gradient(270deg, #191919 0%, #191919 71.87%, rgba(250, 251, 252, 0.00) 100%)',
       },
       backgroundSize: {
         extend: '200%',
@@ -44,7 +48,9 @@ module.exports = {
         yellow: '#FFC23D',
         'green-80': '#0B3B2D',
         'green-40': '#00AC07',
+        'green-20': '#86977e',
         'green-10': '#CED8D5',
+        'green-5': '#ecf3ea',
         'blue-30': '#0085FF',
         'blue-20': '#2EB4FF',
         'blue-10': '#E5F3FF',
@@ -71,7 +77,7 @@ module.exports = {
       mob: '500px',
       sm: { max: '768px' },
       md: { min: '769px', max: '1023px' },
-      lg: { min: '1024px' },
+      lg: { min: '1024px', max: '1200px' },
     },
     boxShadow: {
       custom: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',

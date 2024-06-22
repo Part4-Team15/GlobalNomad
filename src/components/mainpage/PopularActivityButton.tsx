@@ -16,7 +16,7 @@ const PopularActivityButton = ({ idx, onLeftClick, onRightClick }: PopularActivi
         disabled={idx === 0}
         aria-label="Go to previous Activity"
       >
-        <LeftArrowBtn stroke={idx === 0 ? '#A1A1A1' : '#4B4B4B'} />
+        <LeftArrowBtn className={idx === 0 ? 'stroke-gray-60 dark:stroke-gray-80' : 'stroke-gray-80 dark:stroke-gray-60'} />
       </button>
       <button
         type="button"
@@ -24,7 +24,7 @@ const PopularActivityButton = ({ idx, onLeftClick, onRightClick }: PopularActivi
         disabled={idx === 8}
         aria-label="Go to next Activity"
       >
-        <RightArrowBtn stroke={idx === 8 ? '#A1A1A1' : '#4B4B4B'} />
+        <RightArrowBtn className={idx === 8 ? 'stroke-gray-60 dark:stroke-gray-80' : 'stroke-gray-80 dark:stroke-gray-60'} />
       </button>
     </div>
   );

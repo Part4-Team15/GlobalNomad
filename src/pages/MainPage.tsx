@@ -5,17 +5,15 @@ import ActivityCardList from '@/components/mainpage/ActivityCardList';
 import RecentViewedActivity from '@/components/mainpage/RecentViewedActivity';
 
 const MainPage = () => (
-  <>
+  <div className="flex flex-col justify-center items-center w-full">
     <MainBanner />
-    <section className="flex flex-col items-center">
-      <div className="w-pc mb-32 md:w-tab sm:w-mob">
-        <RecentViewedActivity />
-        <ActivitySearch />
-        <PopularActivityList />
-        <ActivityCardList />
-      </div>
-    </section>
-  </>
+    <div className="min-w-pc mb-32 bg-gray-10 dark:bg-darkMode-black-10 lg:w-[1000px] md:w-tab sm:w-mob">
+      <RecentViewedActivity />
+      <ActivitySearch />
+      <PopularActivityList />
+      <ActivityCardList />
+    </div>
+  </div>
 );
 
 export default MainPage;

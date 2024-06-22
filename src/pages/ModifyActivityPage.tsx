@@ -42,7 +42,7 @@ const ModifyActivityPage = () => {
 
   return (
     <div className="w-[100%] max-w-[792px] flex flex-col items-start gap-6">
-      {id && <ModifyHeader id={id} />}
+      {id && <ModifyHeader id={id} schedules={activityData.schedules} />}
       <ModifyTitle title={activityData.title} />
       <ModifyCategory category={activityData.category} />
       <ModifyDescription description={activityData.description} />
@@ -51,7 +51,9 @@ const ModifyActivityPage = () => {
       <ModifyReservationTime schedules={activityData.schedules} />
       <ModifyBannerImage bannerImageUrl={activityData.bannerImageUrl} />
       <ModifyIntroImage subImages={activityData.subImages} />
-      <span className=" text-gray-80 text-lg">*이미지는 최대 4개까지 등록 가능합니다.</span>
+      <span className=" text-gray-80 text-lg dark:text-darkMode-gray-10">
+        *이미지는 최대 4개까지 등록 가능합니다.
+      </span>
     </div>
   );
 };

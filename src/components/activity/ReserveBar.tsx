@@ -130,13 +130,15 @@ const ReserveBar = ({ price }: { price: number }) => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 w-full border-2 border-solid border-gray-30 bg-white z-30">
+    <div className="fixed bottom-0 left-0 w-full border-2 border-solid border-gray-30 bg-white z-30 dark:bg-darkMode-black-20 dark:border-darkMode-black-10">
       <div className="flex justify-between p-4">
         <div className="w-[240px] flex flex-col">
           <div className="flex justify-between items-center gap-3">
-            <div className="font-bold text-3xl md:text-xl sm:text-xl">{priceToWon(totalPrice)}</div>
+            <div className="font-bold text-3xl md:text-xl sm:text-xl dark:text-darkMode-white-20">
+              {priceToWon(totalPrice)}
+            </div>
             {/* 참여 인원 수 */}
-            <div className="flex justify-between items-center w-[100px] border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3">
+            <div className="flex justify-between items-center w-[100px] border-2 border-gray border-solid bg-white rounded-lg text-black text-center text-4xl px-3 dark:bg-darkMode-black-40 dark:text-darkMode-white-20">
               <button
                 className={`${isReduceDisabled ? 'disabled:opacity-50' : ''} text-3xl`}
                 type="button"
@@ -154,11 +156,17 @@ const ReserveBar = ({ price }: { price: number }) => {
 
           {/* 예약 현황 캘린더 */}
           {!selectedTime ? (
-            <div className="font-bold w-24 underline cursor-pointer" onClick={handleModalOpen}>
+            <div
+              className="font-bold w-24 underline cursor-pointer dark:text-darkMode-white-20"
+              onClick={handleModalOpen}
+            >
               날짜 선택하기
             </div>
           ) : (
-            <div className="font-bold w-full underline cursor-pointer" onClick={handleModalOpen}>
+            <div
+              className="font-bold w-full underline cursor-pointer dark:text-darkMode-white-20"
+              onClick={handleModalOpen}
+            >
               {`${yearMonthDay} ${selectedTime}`}
             </div>
           )}
@@ -177,7 +185,7 @@ const ReserveBar = ({ price }: { price: number }) => {
         {/* 예약하기 버튼 */}
         <button
           type="submit"
-          className="w-1/3 h-auto bg-green-80 rounded-xl text-white text-center font-bold"
+          className="w-1/3 h-auto bg-green-80 rounded-xl text-white text-center font-bold dark:bg-darkMode-black-40"
           onClick={handleSubmit}
         >
           예약하기
