@@ -32,7 +32,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     <div className="w-full flex flex-col flex-grow">
       <StarRating onRatingChange={(value) => setRating(value)} />
       <textarea
-        className="w-full mob:h-[15rem] flex-grow pt-2 pr-4 pb-2 pl-4 border border-gray-300 rounded mb-6 resize-none"
+        className="w-full mob:h-[15rem] flex-grow pt-2 pr-4 pb-2 pl-4 border border-gray-300 rounded mb-6 resize-none dark:border-green-80 dark:bg-darkMode-black-40 dark:text-green-10"
         placeholder="후기를 작성해주세요"
         value={content}
         onChange={(e) => setContent(e.target.value)}
