@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import useActivity from '@/hooks/useActivityQuery';
+import { Helmet } from 'react-helmet';
 
 import Title from '@/components/activity/Title';
 import Description from '@/components/activity/Description';
