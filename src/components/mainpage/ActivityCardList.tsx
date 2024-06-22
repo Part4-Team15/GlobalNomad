@@ -23,7 +23,7 @@ const usePageActivity = (pageNum: number, size: number, category: string, sort: 
 const ActivityCardList = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [currentCategory, setCurrentCategory] = useState('');
-  const [sortActivity, setSortActivity] = useState('');
+  const [currentSort, setCurrentSort] = useState('');
   const [offset, setOffset] = useState(calculateOffsetLimit(...ALL_ACTIVITY_OFFSET_LIST));
   const currentPageGroup = calculatePageGroupNumber(currentPageNum);
 
@@ -47,17 +47,17 @@ const ActivityCardList = () => {
     const sortParam = searchParams.get('sort');
 
     if (categoryParam) setCurrentCategory(categoryParam);
-    if (sortParam) setSortActivity(sortParam);
+    if (sortParam) setCurrentSort(sortParam);
     if (pageParams) setCurrentPageNum(Number(pageParams) - 1);
   }, []);
 
   useEffect(() => {
     if (currentCategory) searchParams.set('category', currentCategory);
-    if (sortActivity) searchParams.set('sort', sortActivity);
+    if (currentSort) searchParams.set('sort', currentSort);
     searchParams.set('page', String(currentPageNum + 1));
 
     navigate(`?${searchParams}`);
-  }, [currentCategory, sortActivity, currentPageNum, setSearchParams, navigate]);
+  }, [currentCategory, currentSort, currentPageNum, setSearchParams, navigate]);
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
@@ -78,6 +78,7 @@ const ActivityCardList = () => {
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     setSortActivity(button.value);
+    setCurrentSort(button.value);
     searchParams.set('sort', button.value);
     setCurrentPageNum(0);
   };
@@ -87,7 +88,7 @@ const ActivityCardList = () => {
     isFetching,
     isError,
     error,
-  } = usePageActivity(currentPageNum, offset, currentCategory, sortActivity);
+  } = usePageActivity(currentPageNum, offset, currentCategory, currentSort);
 
   if (isError) {
     return <div>{error?.message}</div>;
