@@ -95,6 +95,7 @@ const ActivityCardList = () => {
 
   const activities = allActivityList?.activities || [];;
   const totalCount = allActivityList?.totalCount || 0;
+
   return (
     <>
       <CategoryFilter
