@@ -91,7 +91,7 @@ const Reviews = () => {
                       <div className="dark:text-darkMode-gray-10">|</div>
                       <div className="text-gray-60">{getFormatDate(review.updatedAt)}</div>
                     </div>
-                    <div className="dark:text-darkMode-white-20">{review.content}</div>
+                    <p className="dark:text-darkMode-white-20">{review.content}</p>
                   </div>
                 </div>
                 <div className="w-full h-[1px] bg-gray-40" />
