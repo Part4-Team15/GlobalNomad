@@ -3,6 +3,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 import { ExperienceDeleteModalProps } from '@/types/myActivityPage';
 import { useMutation } from '@tanstack/react-query';
 import deleteMyActivity from '@/api/deleteMyActivity';
+import queryClient from '@/lib/queryClient';
 import ModalBackground from '../review/ModalBackground';
 
 const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
@@ -19,6 +20,7 @@ const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
   const { mutate } = useMutation<void, Error, string>({
     mutationFn: deleteMyActivity,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['activities'] });
       refetchActivities();
       onDelete();
       onClose();
