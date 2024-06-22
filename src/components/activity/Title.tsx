@@ -54,7 +54,9 @@ const Title = () => {
             {rating}({reviewCount})
           </div>
           <img src="/assets/location_icon.svg" alt="location icon" />
-          <span className="text-gray-80 dark:text-darkMode-gray-10">{address}</span>
+          <address className="text-gray-80 not-italic dark:text-darkMode-gray-10">
+            {address}
+          </address>
         </div>
         {userInfo.id === userId && (
           <CustomKebabMenu
