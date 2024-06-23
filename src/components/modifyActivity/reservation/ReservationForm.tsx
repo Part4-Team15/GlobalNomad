@@ -76,7 +76,7 @@ const ReservationForm = () => {
           </div>
 
           <img
-            className="h-[46px]"
+            className="h-[46px] cursor-pointer"
             src="/assets/minus_time_btn.svg"
             alt="minusTimeBtn"
             onClick={() => handleRemoveReservationTime(index)}

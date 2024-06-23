@@ -31,9 +31,12 @@ const ReservationDate = () => {
     <div className=" w-[100%] relative">
       <div className="flex w-[100%] flex-col">
         <label className="dark:text-darkMode-gray-10">날짜</label>
-        <div className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
+        <div
+          className=" flex w-[100%] pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white cursor-pointer dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
+          onClick={handleCalendar}
+        >
           <input
-            className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
+            className="w-[100%] outline-none cursor-pointer dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
             placeholder="YYYY-MM-DD"
             value={selectedDate}
             readOnly
