@@ -11,7 +11,6 @@ const ReservationDate = () => {
     queryKey: queryKeys.assignDate(),
   });
 
-  // 날짜 모달
   const handleCalendar = () => {
     setIsOpenCalendar(true);
   };
