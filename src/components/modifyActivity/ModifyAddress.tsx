@@ -56,9 +56,12 @@ const ModifyAddress = ({ address }: ModifyAddressProps) => {
           주소 찾기
         </button>
       </div>
-      <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
+      <div
+        className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white cursor-pointer dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
+        onClick={handleOpenPost}
+      >
         <input
-          className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
+          className="w-[100%] outline-none cursor-pointer dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
           placeholder="주소를 입력해주세요"
           value={localAddress}
           readOnly

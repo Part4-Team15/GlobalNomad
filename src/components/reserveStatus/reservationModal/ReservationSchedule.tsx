@@ -2,28 +2,7 @@ import getUpdateMyReservation from '@/api/getUpdateMyReservation';
 import queryClient from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 import { forwardRef, useEffect } from 'react';
-
-interface ScheduleType {
-  scheduleId: number;
-  startTime: string;
-  endTime: string;
-  count: {
-    declined: number;
-    confirmed: number;
-    pending: number;
-  };
-}
-
-interface ReservationScheduleProps {
-  reservationStatus: string;
-  nickname: string;
-  headCount: number;
-  activityId: number;
-  reservationId: number;
-  setSelelctedSchedule: React.Dispatch<React.SetStateAction<ScheduleType | null>>;
-  fetchNextPage: () => void;
-  inView: boolean;
-}
+import { ReservationScheduleProps } from '@/types/reservationStatus';
 
 const ReservationSchedule = forwardRef<HTMLDivElement, ReservationScheduleProps>(
   (
@@ -64,7 +43,8 @@ const ReservationSchedule = forwardRef<HTMLDivElement, ReservationScheduleProps>
           count: {
             ...prev.count,
             confirmed: prev.count.confirmed + 1,
-            pending: prev.count.pending - 1,
+            pending: 0,
+            declined: prev.count.pending - 1,
           },
         };
       });
@@ -90,7 +70,7 @@ const ReservationSchedule = forwardRef<HTMLDivElement, ReservationScheduleProps>
     switch (reservationStatus) {
       case 'pending':
         reservationButton = (
-          <div className="flex gap-[6px] justify-end">
+          <div className="flex gap-[6px] justify-end ">
             <button
               className="px-5 py-[10px] rounded-[6px] bg-[#112211] text-white font-bold"
               type="button"
@@ -133,15 +113,17 @@ const ReservationSchedule = forwardRef<HTMLDivElement, ReservationScheduleProps>
     }
 
     return (
-      <div className="pt-4 px-[16.43px] pb-3 pr-4 border border-[#DDD] h-[135px]  rounded">
+      <div className="pt-4 px-[16.43px] pb-3 pr-4 border border-[#DDD] h-[135px]  rounded dark:bg-darkMode-black-40">
         <div className="flex flex-col gap-[6px]">
           <div className="flex gap-[10px]">
-            <div className="text-[#79747E] font-semibold">닉네임</div>
-            <div className="text-[#1B1B1B] font-medium">{nickname}</div>
+            <div className="text-[#79747E] font-semibold dark:text-darkMode-white-30">닉네임</div>
+            <div className="text-[#1B1B1B] font-medium dark:text-darkMode-white-10">{nickname}</div>
           </div>
           <div className="flex gap-[10px]">
-            <div className="text-[#79747E] font-semibold">인원</div>
-            <div className="text-[#1B1B1B] font-medium">{headCount}</div>
+            <div className="text-[#79747E] font-semibold dark:text-darkMode-white-30">인원</div>
+            <div className="text-[#1B1B1B] font-medium dark:text-darkMode-white-10">
+              {headCount}
+            </div>
           </div>
         </div>
         <div className="mt-[6px] text-right">{reservationButton}</div>
