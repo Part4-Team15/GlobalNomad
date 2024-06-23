@@ -18,7 +18,7 @@ const ActivityDropDownBox = ({
       </label>
       <input
         type="text"
-        className="border border-black pl-4 py-5 rounded outline-none dark:bg-darkMode-black-20 dark:text-white"
+        className="border border-black pl-4 py-5 pr-10 rounded outline-none dark:bg-darkMode-black-20 dark:text-white whitespace-normal overflow-hidden text-ellipsis"
         value={selectedActivityTitle || ''}
       />
 
