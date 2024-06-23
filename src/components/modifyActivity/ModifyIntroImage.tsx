@@ -102,7 +102,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
               }}
             >
               <img
-                className=" absolute top-[-10px] right-[-10px]"
+                className=" absolute top-[-10px] right-[-10px] cursor-pointer"
                 src="/assets/white_x_btn.svg"
                 alt="whiteXBtn"
                 onClick={() => handleRemoveImage(index)}

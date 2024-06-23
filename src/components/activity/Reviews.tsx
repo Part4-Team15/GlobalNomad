@@ -47,7 +47,9 @@ const Reviews = () => {
       <h2 className="text-xl font-bold pt-6 dark:text-darkMode-white-10">후기</h2>
       {totalCount ? (
         <div className="flex gap-4">
-          <p className="text-5xl font-bold dark:text-darkMode-white-20">{averageRating}</p>
+          <data value={averageRating} className="text-5xl font-bold dark:text-darkMode-white-20">
+            {averageRating}
+          </data>
           <div>
             <p className="text-base font-normal dark:text-darkMode-white-20">
               {ratingToText(averageRating)}
@@ -63,10 +65,10 @@ const Reviews = () => {
       )}
       {/* 리뷰 List */}
       {totalCount > 0 ? (
-        <div className="flex flex-col justify-center items-center gap-8">
+        <div className="flex flex-col justify-center items-center gap-4">
           <div className="w-full">
             {reviews.map((review) => (
-              <div key={review.id} className="flex flex-col gap-4">
+              <div key={review.id} className="flex w-full flex-col gap-4 pb-6">
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
                     <div
@@ -81,7 +83,7 @@ const Reviews = () => {
                       {review.user.nickname[0]}
                     </div>
                   )}
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col w-full gap-2">
                     <div className="flex gap-1">
                       <div className="font-bold dark:text-darkMode-white-20">
                         {review.user.nickname}
@@ -89,10 +91,10 @@ const Reviews = () => {
                       <div className="dark:text-darkMode-gray-10">|</div>
                       <div className="text-gray-60">{getFormatDate(review.updatedAt)}</div>
                     </div>
-                    <div className="dark:text-darkMode-white-20">{review.content}</div>
+                    <p className="dark:text-darkMode-white-20">{review.content}</p>
                   </div>
                 </div>
-                <div className="w-full h-[1px] bg-gray-40" />
+                <hr className="w-full h-[1px] bg-gray-40" />
               </div>
             ))}
           </div>

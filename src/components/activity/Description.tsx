@@ -23,14 +23,14 @@ const Description = () => {
 
   return (
     <div className="flex flex-col w-full gap-4 sm:gap-0">
-      <div className="w-full h-[1px] bg-gray-40" />
+      <hr className="w-full h-[1px] bg-gray-40" />
       <h2 className="text-xl font-bold pt-6 sm:pt-4 dark:text-darkMode-white-10">체험 설명</h2>
       <p className="text-base font-normal text-gray-80 pb-6 dark:text-darkMode-white-20">
         {description}
       </p>
-      <div className="w-full h-[1px] bg-gray-40" />
+      <hr className="w-full h-[1px] bg-gray-40" />
       <Map location={address} />
-      <div className="w-full h-[1px] bg-gray-40" />
+      <hr className="w-full h-[1px] bg-gray-40" />
     </div>
   );
 };

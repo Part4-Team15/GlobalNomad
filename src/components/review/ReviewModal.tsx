@@ -54,7 +54,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, booking }) =
   return (
     <ModalBackground onClose={onClose}>
       <div
-        className="w-full h-full mob:w-[30rem] mob:h-[46.875rem] mob:rounded-3xl bg-white pt-7 pr-6 pb-[2.875rem] pl-6"
+        className="w-full h-full mob:w-[30rem] mob:h-[46.875rem] mob:rounded-3xl bg-white pt-7 pr-6 pb-[2.875rem] pl-6 dark:border-[1.5px] dark:border-green-80 dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
         ref={modalRef}
         onClick={handleClick}
       >

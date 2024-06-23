@@ -16,7 +16,7 @@ export interface Activities {
 export interface MyActivityType {
   cursorId: number;
   totalCount: number;
-  activities: Activities;
+  activities: Activities[];
 }
 
 export interface MyActivityCardProps {
