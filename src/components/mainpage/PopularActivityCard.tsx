@@ -49,7 +49,7 @@ const PopularActivityCard = ({
             <img src="/assets/bold_star.svg" alt="little-star" />
             <p className="text-sm font-bold">{`${rating} (${reviewCount})`}</p>
           </div>
-          <div className="text-3xl font-bold sm:text-lg">{title}</div>
+          <div className="text-3xl font-bold line-clamp-2 lg:text-2xl sm:text-lg sm:line-clamp-1">{title}</div>
           <div className="flex items-center gap-1 text-xl font-bold sm:text-base">
             {`₩ ${price}`}
             <span className="text-sm">/인</span>

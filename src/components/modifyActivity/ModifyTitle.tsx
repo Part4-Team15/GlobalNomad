@@ -27,7 +27,7 @@ const ModifyTitle = ({ title }: ModifyTitleProps) => {
         value={localTitle}
         onChange={handleChangeTitle}
         placeholder="제목"
-        maxLength={25}
+        maxLength={60}
       />
     </div>
   );
