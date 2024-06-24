@@ -15,7 +15,7 @@ const ReservationList = ({ status, onReviewClick }: ReservationListProps) => {
   useEffect(() => {
     if (inView) {
       fetchNextPage();
-    }
+    } 
   }, [inView, fetchNextPage]);
 
   const reservations = reservationData?.pages.flatMap((page) => page.reservations) || [];
