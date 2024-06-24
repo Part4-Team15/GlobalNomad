@@ -56,7 +56,7 @@ const ActivityCard = ({
               <span className="text-gray-60 group-hover:text-green-80">{` (${reviewCount})`}</span>
             </p>
           </div>
-          <div className="text-2xl font-semibold pb-[5px] sm:text-lg sm:leading-tight">{title}</div>
+          <div className="text-2xl font-semibold mb-[5px] line-clamp-2 sm:text-lg sm:leading-tight">{title}</div>
           <div className="flex items-center gap-1 text-[28px] font-bold group-hover:text-green-20 sm:text-xl sm:leading-none">
             {priceToWon(price)}
             <span className="text-xl text-gray-80 font-normal group-hover:text-green-80 dark:text-darkMode-gray-10 sm:text-base">/인</span>
