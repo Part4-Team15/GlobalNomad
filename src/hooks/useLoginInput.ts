@@ -1,13 +1,15 @@
-import { useState, ChangeEvent } from 'react';
+// useLoginInput.ts (예시)
+import { useState } from 'react';
 
-const useLoginInput = () => {
-  const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
-  });
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setInputs({ ...inputs, [name]: value });
+const useLoginInput = (initialValues = { email: '', password: '' }) => {
+  const [inputs, setInputs] = useState(initialValues);
+
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInputs((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return { inputs, onChangeInput };
