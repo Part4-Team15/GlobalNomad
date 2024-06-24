@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { MyPageProfileProps } from '@/types/myPageProfile';
 import uploadProfileImage from '@/api/uploadProfileImage';
+import { toast } from 'react-toastify';
 
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import React, { ChangeEvent } from 'react';
@@ -39,7 +40,7 @@ const MyPageProfile = ({
         const imageData = await uploadProfileImage(file);
         setUploadedImage(imageData.profileImageUrl);
       } catch (error) {
-        console.error(error);
+        toast.error('이미지 업로드에 실패했습니다. 파일 크기를 확인하세요.');
       }
     }
   };

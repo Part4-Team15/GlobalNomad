@@ -39,11 +39,11 @@ const ReservationDescription = ({
     setIsCancelModalOpen(true);
   };
   return (
-    <div className="flex flex-col py-[25.5px] mr-6 flex-1 md:py-3 md:mr-[18px] sm:py-[9px] sm:mr-[14px]">
+    <div className="flex flex-col py-[25.5px] mr-6 flex-1 md:py-3 md:mr-[18px] sm:py-[9px] sm:mr-[14px] pl-6">
       <div className="font-bold mb-2 md:mb-0 sm:text-sm sm:mb-0" style={{ color: textColor }}>
         <p>{reservationStatusText}</p>
       </div>
-      <h2 className="text-xl font-bold text-[#112211] mb-3 md:mb-1 md:text-lg sm:text-sm dark:text-darkMode-white-10">
+      <h2 className="text-xl font-bold text-[#112211] mb-3 md:mb-1 md:text-lg sm:text-sm dark:text-darkMode-white-10 ">
         {title}
       </h2>
       <div className="mb-4 text-[18px] text-[#112211] md:text-[14px] md:mb-[10px] sm:text-[12px] sm:mb-2">
@@ -61,7 +61,7 @@ const ReservationDescription = ({
             className="w-36 h-10 md:w-28 sm:w-20 sm:h-8 bg-[#121] text-white rounded-md sm:text-sm font-bold md:px-[24.51px] md:py-[8px] md:text-[16px] sm:px-[12px] sm:py-[4px] dark:border-[1px] dark:border-green-10"
             onClick={handleReviewButtonClick}
           >
-            <p>{reviewSubmitted ? '후기 작성 완료' : '후기 작성'}</p>
+            <p className="sm:text-[8px]">{reviewSubmitted ? '후기 작성 완료' : '후기 작성'}</p>
           </button>
         )}
         {status === 'pending' && (

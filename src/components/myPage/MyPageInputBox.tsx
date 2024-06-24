@@ -13,7 +13,7 @@ const MyPageInputBox = ({
   placeholder,
 }: MyPageInputBoxProps) => {
   let borderColorClass = '';
-  const readOnly = inputType === 'email';
+  const disabled = inputType === 'email';
 
   const onClickInput = () => {
     if (setEditProfileErrorMessages) {
@@ -46,7 +46,7 @@ const MyPageInputBox = ({
         value={value}
         name={inputName}
         onClick={onClickInput}
-        readOnly={readOnly}
+        disabled={disabled}
         placeholder={placeholder}
         onBlur={inputName === 'newPasswordConfirm' ? onFocusOut : undefined}
       />
