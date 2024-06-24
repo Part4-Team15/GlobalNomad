@@ -6,7 +6,9 @@ import queryKeys from '@/api/reactQuery/queryKeys';
 const useUserInfoQuery = () => {
   const { data, isLoading, isError } = useQuery<UserInformation>({
     queryKey: queryKeys.user(),
+
     queryFn: getUserInfo,
+    retry: false,
   });
   return { userInfo: data, isLoading, isError };
 };
