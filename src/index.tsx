@@ -6,9 +6,7 @@ import App from './App';
 import './index.css';
 import queryClient from './lib/queryClient';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>
