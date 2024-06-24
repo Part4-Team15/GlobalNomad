@@ -13,7 +13,6 @@ const ReservationEndTime = () => {
     queryKey: queryKeys.modifyScheduleEndTime(),
   });
 
-  // 종료 시간 밑의 드랍다운
   const handleEndTimeDropDown = () => {
     setIsEndTimeDropDown(!isEndTimeDropDown);
   };
