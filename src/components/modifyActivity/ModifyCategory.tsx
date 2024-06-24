@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useMergeModifyData from '@/hooks/useMergeModifyData';
 import { Category } from '@/types/category';
+import useClickOutside from '@/hooks/useClickOutside';
 import CategoryDropDown from './dropDown/CategoryDropDown';
 
 interface ModifyCategoryProps {
@@ -11,6 +12,7 @@ const ModifyCategory = ({ category }: ModifyCategoryProps) => {
   const { mergeCategory } = useMergeModifyData();
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string | null>(category);
+  const dropDownRef = useRef<HTMLDivElement>(null);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
@@ -26,8 +28,10 @@ const ModifyCategory = ({ category }: ModifyCategoryProps) => {
     setIsDropDown(false);
   };
 
+  useClickOutside(dropDownRef, () => setIsDropDown(false));
+
   return (
-    <div className=" w-[100%] relative ">
+    <div className=" w-[100%] relative " ref={dropDownRef}>
       <div
         className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
         onClick={handleDropDown}

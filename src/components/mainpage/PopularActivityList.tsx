@@ -25,11 +25,12 @@ const PopularActivityList = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  if (isError || !popularActivityList) {
+  if (isError) {
     return <div>{error?.message}</div>;
   }
 
-  const { activities, totalCount } = popularActivityList;
+  const activities = popularActivityList?.activities || [];
+  const totalCount = popularActivityList?.totalCount || 0;
 
   const pageActivityList = activities.slice(startIdx, startIdx + 3);
   const activityList = isPCSize ? pageActivityList : activities;
@@ -54,19 +55,29 @@ const PopularActivityList = () => {
           onRightClick={handleRightClick}
         />}
       </div>
-      {totalCount ? (
-        <div className="flex gap-6 w-full overflow-x-scroll hide-scrollbar lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob">
-          {isFetching
-            ? Array.from({ length: OFFSET }, (_, index) => <PopularCardSkeleton key={index} />)
-            : activityList.map((activity) => (
-                <PopularActivityCard key={activity.id} cardData={activity} />
-              ))}
-        </div>
-        ) : (
-          <div className="flex justify-center items-center h-[918px] text-xl md:h-[1183px] sm:h-[614px]">
-            인기 체험 내역이 없습니다.
+      <div
+        className="flex gap-6 w-full overflow-x-scroll hide-scrollbar
+        lg:w-[1000px] md:gap-8 md:w-tab sm:gap-4 sm:w-mob"
+      >
+        {isFetching ? (
+          <div className="flex space-x-6 min-w-max md:space-x-8 sm:space-x-4">
+            {Array.from({ length: OFFSET }, (_, index) => (
+              <PopularCardSkeleton key={index} />
+            ))}
           </div>
-        )
+          ) : (
+          activityList.map((activity) => (
+            <PopularActivityCard key={activity.id} cardData={activity} />
+          ))
+        )}
+      </div>
+      {totalCount === 0 && !isFetching &&
+        <div
+          className="flex justify-center items-center h-[380px] text-xl dark:text-darkMode-white-10
+          lg:h-[317px] sm:h-[186px] sm:text-base"
+        >
+        인기 체험 내역이 없습니다.
+      </div>
       }
     </div>
   );
