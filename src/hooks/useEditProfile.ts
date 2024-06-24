@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import Toast from '@/utils/Toast';
 import { EditProfileResponse, EditProfileErrorMessages } from '@/types/myProfile';
 import editMyInformation, { EditMyInformationParams } from '@/api/editMyInformation';
 import queryClient from '@/lib/queryClient';
@@ -27,7 +27,7 @@ const useEditProfile = () => {
         newPasswordConfirmErrorMessage: '',
       });
 
-      toast.success('내 정보 수정 성공');
+      Toast.success('내 정보 수정 성공');
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: (error) => {
@@ -47,7 +47,7 @@ const useEditProfile = () => {
               newPasswordErrorMessage: errorMessage,
             }));
           } else if (errorMessage.includes('형식')) {
-            toast.error(errorMessage);
+            Toast.error(errorMessage);
           } else if (errorMessage.includes('없습니다')) {
             setEditProfileErrorMessages((prev) => ({
               ...prev,

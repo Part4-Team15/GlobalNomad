@@ -14,7 +14,6 @@ const ReservationStartTime = () => {
     queryKey: queryKeys.assignStartTime(),
   });
 
-  // 시작 시간 밑의 드랍다운
   const handleStartTimeDropDown = () => {
     setIsStartTimeDropDown(!isStartTimeDropDown);
   };
