@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import uploadProfileImage from '@/api/uploadProfileImage';
 import { DefaultMyPageProfileImageProps } from '@/types/myPageProfile';
 import { useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import Toast from '@/utils/Toast';
 
 const DefaultMyPageProfileImage = ({
   nickname,
@@ -20,7 +20,7 @@ const DefaultMyPageProfileImage = ({
       setIsShowDefaultImage(false);
     },
     onError: () => {
-      toast.error('이미지 업로드에 실패했습니다. 파일 크기를 확인하세요.');
+      Toast.error('이미지 업로드에 실패했습니다. 파일 크기를 확인하세요.');
     },
   });
 

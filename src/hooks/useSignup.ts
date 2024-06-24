@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import Toast from '@/utils/Toast';
 
 interface ErrorResponse {
   message: string;
@@ -32,7 +32,7 @@ const useSignup = () => {
 
       // 회원가입 성공후 알림, 로그인 페이지로 이동
       navigate('/login');
-      toast.success('회원가입에 성공 했습니다!', {
+      Toast.success('회원가입에 성공 했습니다!', {
         autoClose: 2000,
       });
     },

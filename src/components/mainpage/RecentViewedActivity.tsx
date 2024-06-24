@@ -33,7 +33,7 @@ const RecentViewedActivity = () => {
         onClick={handleClick}
       >
         <img
-          className="w-8 border border-green-10 rounded-l-md"
+          className="w-8 h-[72px] bg-green-80 opacity-90 border border-green-10 rounded-l-md"
           src={showList ? '/assets/pagination_arrow_right.svg' : '/assets/pagination_arrow_left.svg'}
           alt='show or hide recent activity List'
         />

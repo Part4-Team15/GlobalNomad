@@ -15,15 +15,15 @@ const ActivitySearch = () => {
   };
 
   return (
-    <div className="relative bg-none pb-[118px] sm:pb-[73px]">
+    <div className="relative flex justify-center bg-none pb-[118px] sm:pb-[73px]">
       <form
-        className="absolute -top-14 flex flex-col gap-8 w-full px-6 py-8 shadow-custom rounded-2xl bg-white
-        dark:bg-darkMode-black-40 dark:shadow-darkMode-black-40 lg:w-[1000px] sm:gap-[15px] sm:py-4"
+        className="absolute -top-14 flex flex-col gap-8 w-[1184px] px-6 py-8 shadow-custom rounded-2xl bg-white
+        dark:bg-darkMode-black-40 dark:shadow-darkMode-black-40 lg:w-[1000px] md:w-tab sm:w-mob sm:gap-[15px] sm:py-4"
         onSubmit={handleSubmit}
       >
         <label className="text-black text-xl font-bold dark:text-darkMode-white-10 sm:text-base">무엇을 체험하고 싶으신가요?</label>
-        <div className="flex items-center gap-3 peer">
-          <div className="relative flex items-center w-[1004px] h-14 border border-gray-60 border-solid rounded-md
+        <div className="flex items-center gap-3 w-full">
+          <div className="relative flex items-center w-[992px] h-14 border border-gray-60 border-solid rounded-md
           lg:w-[952px] md:w-[500px] sm:w-[187px] focus-within:border-green-40 focus-within:dark:border-darkMode-white-30"
           >
             <div className="w-6 h-6 m-3 md:m-2 sm:m-2">
@@ -40,7 +40,7 @@ const ActivitySearch = () => {
             />
           </div>
           <button
-            className="bg-nomad-black rounded-md min-w-[136px] h-14 px-10 py-2 text-white font-bold
+            className="bg-green-80 rounded-md min-w-[136px] h-14 px-10 py-2 text-white font-bold
               dark:bg-darkMode-gray-10 dark:text-darkMode-white-10 sm:min-w-24 sm:px-5"
             type="submit"
           >

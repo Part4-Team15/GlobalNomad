@@ -37,10 +37,10 @@ const PopularActivityCard = ({
 
   return (
     <Link to={`/activity/${id}`} onClick={handleClick}>
-      <div className="relative">
+      <div className="relative group">
         <div
-          className="relative w-[380px] h-[380px] bg-cover bg-center bg-no-repeat rounded-3xl
-          hover:bg-extend lg:w-[317px] lg:h-[317px] sm:w-[186px] sm:h-[186px]"
+          className="relative w-[378px] h-[378px] bg-cover bg-center bg-no-repeat rounded-3xl
+          group-hover:bg-extend lg:w-[317px] lg:h-[317px] sm:w-[186px] sm:h-[186px]"
           style={{ backgroundImage: `url('${bannerImageUrl}')` }}>
           <div className="absolute inset-0 bg-black opacity-30 rounded-3xl" />
         </div>

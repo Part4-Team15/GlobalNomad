@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import { ReactComponent as Logo } from './assets/logo_small.svg';
 
 const HeaderLogo = () => (
   <Link to="/">
-    <img className="cursor-pointer" src="/assets/logo_small.svg" alt="header_logo" />
+    <Logo className="fill-green-80 dark:fill-green-5"/>
   </Link>
 );
 

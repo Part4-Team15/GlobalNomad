@@ -14,6 +14,7 @@ const AssignTitle = () => {
         className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
         onChange={handleChangeTitle}
         placeholder="제목"
+        maxLength={25}
       />
     </div>
   );
