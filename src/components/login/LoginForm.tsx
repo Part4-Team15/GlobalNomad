@@ -5,8 +5,12 @@ import AuthButton from '../common/auth/AuthButton';
 import LoginInputBox from './LoginInputBox';
 
 const LoginForm = () => {
+  const TEST_ACCOUNT = {
+    email: 'codeit-team-15@test.com',
+    password: 'as123456',
+  };
   // custom hook
-  const { inputs, onChangeInput } = useLoginInput();
+  const { inputs, onChangeInput } = useLoginInput(TEST_ACCOUNT);
 
   const { email, password } = inputs;
 
