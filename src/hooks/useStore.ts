@@ -6,7 +6,7 @@ interface ToggleState {
 }
 
 const useStore = create<ToggleState>((set) => ({
-  darkMode: false,
+  darkMode: true,
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
 }));
 

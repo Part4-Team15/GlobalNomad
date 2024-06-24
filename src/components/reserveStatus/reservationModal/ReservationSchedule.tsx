@@ -43,8 +43,8 @@ const ReservationSchedule = forwardRef<HTMLDivElement, ReservationScheduleProps>
           count: {
             ...prev.count,
             confirmed: prev.count.confirmed + 1,
-            pending: 0,
             declined: prev.count.pending - 1,
+            pending: 0,
           },
         };
       });
