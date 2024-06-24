@@ -7,11 +7,11 @@ const App = () => {
   const { darkMode, toggleDarkMode } = useStore();
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches && !darkMode) {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       toggleDarkMode();
     }
   }, []);
-  
+
   useEffect(() => {
     const html = document.documentElement;
     if (darkMode) {
