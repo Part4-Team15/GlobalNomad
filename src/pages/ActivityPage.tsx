@@ -12,7 +12,7 @@ import ImageDashBoard from '@/components/activity/ImageDashBoard';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import ImageDashBoardSkeleton from '@/components/skeletonUI/activity/ImageDashBoardSkeleton';
 import TitleSkeleton from '@/components/skeletonUI/activity/TitleSkeleton';
-import { toast } from 'react-toastify';
+import Toast from '@/utils/Toast';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -45,13 +45,13 @@ const ActivityPage = () => {
   }
 
   if (userError || !userInfo) {
-    toast.error('로그인이 필요합니다');
+    Toast.error('로그인이 필요합니다');
     navigate('/login');
     return null;
   }
 
   if (activityError || !activity) {
-    toast.error('존재하지 않는 체험입니다');
+    Toast.error('존재하지 않는 체험입니다');
     navigate('/Error404');
     return null;
   }
