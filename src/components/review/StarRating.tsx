@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-
-interface StarRatingProps {
-  onRatingChange: (rating: number) => void;
-}
+import { StarRatingProps } from '@/types/reviewModal';
+import useStore from '@/hooks/useStore';
 
 const StarRating: React.FC<StarRatingProps> = ({ onRatingChange }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+  const { darkMode } = useStore();
+
+  const getStarIcon = (ratingValue: number) => {
+    if (ratingValue <= (hover || rating)) {
+      return 'star_on_icon.svg';
+    }
+    if (darkMode) {
+      return 'star_off_icon_dark.svg';
+    }
+    return 'star_off_icon.svg';
+  };
 
   return (
     <div className="h-[6.25rem] flex justify-around mob:justify-center items-center mb-6">
@@ -22,10 +31,10 @@ const StarRating: React.FC<StarRatingProps> = ({ onRatingChange }) => {
                 setRating(ratingValue);
                 onRatingChange(ratingValue);
               }}
-              className="hidden"
+              className="hidden text-green-10"
             />
             <img
-              src={`/assets/${ratingValue <= (hover || rating) ? 'star_on_icon.svg' : 'star_off_icon.svg'}`}
+              src={`/assets/${getStarIcon(ratingValue)}`}
               alt="star"
               className="cursor-pointer"
               onMouseEnter={() => setHover(ratingValue)}

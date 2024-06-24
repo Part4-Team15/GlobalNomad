@@ -2,34 +2,22 @@ import { useRef, useState } from 'react';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import getMyNotification from '@/api/getMyNotofication';
+import queryClient from '@/lib/queryClient';
+import { NotificationDataType } from '@/types/notification';
 import NotificationDropdown from './NotificationDropdown';
 
-interface Notifications {
-  id: number;
-  teamId: string;
-  userId: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-}
-
-interface NotificationDataType {
-  totalCount: number;
-  notifications: Notifications[];
-  cursorId: number;
-}
 const Notification = () => {
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
+    queryClient.resetQueries({ queryKey: ['notifications', 10] });
     setDropdownIsOpen((prev) => !prev);
   };
 
   useClickOutside(dropdownRef, () => setDropdownIsOpen(false));
   const { data } = useInfiniteQuery<NotificationDataType>({
-    queryKey: ['notifications'],
+    queryKey: ['notifications', 10],
     queryFn: getMyNotification,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.cursorId,

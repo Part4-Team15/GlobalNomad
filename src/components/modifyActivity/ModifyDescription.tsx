@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { ModifyData } from '@/types/modifyActivityPage';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface ModifyDescriptionProps {
   description: string;
 }
 
 const ModifyDescription = ({ description }: ModifyDescriptionProps) => {
-  const queryClient = useQueryClient();
+  const { mergeDescription } = useMergeModifyData();
   const [localDescription, setLocalDescription] = useState(description);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { description });
-    });
+    mergeDescription(description);
   }, []);
 
   const handleChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newDescription = e.target.value;
     setLocalDescription(newDescription);
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { description: newDescription });
-    });
+    mergeDescription(newDescription);
   };
 
   return (
-    <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
+    <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
       <textarea
-        className="w-[100%] h-[346px] outline-none resize-none"
+        className="w-[100%] h-[346px] outline-none resize-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
         value={localDescription}
         onChange={handleChangeDescription}
         placeholder="설명"

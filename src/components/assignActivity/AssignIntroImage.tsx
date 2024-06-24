@@ -1,14 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
 import postAssignImage from '@/api/postAssignImage';
 import Toast from '@/utils/Toast';
-import mergeAssignData from './utils/mergeAssignData';
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 
 const MAX_SIZE = 4;
 
 const AssignIntroImage = () => {
-  const queryClient = useQueryClient();
+  const { mergeIntroImage, resetIntroImage } = useMergeAssignData();
   const [introImage, setIntroImage] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -31,11 +29,7 @@ const AssignIntroImage = () => {
 
           setIntroImage((prevImages) => {
             const updatedImages = [...prevImages, imageUrl];
-            queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-              return mergeAssignData(oldData, {
-                subImageUrls: updatedImages,
-              });
-            });
+            mergeIntroImage(updatedImages);
             return updatedImages;
           });
         }
@@ -52,24 +46,24 @@ const AssignIntroImage = () => {
   const handleRemoveImage = (index: number): void => {
     setIntroImage((prevImages: string[]) => {
       const updatedImages = prevImages.filter((_: string, i: number) => i !== index);
-      queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-        return mergeAssignData(oldData, { subImageUrls: updatedImages });
-      });
+      resetIntroImage(updatedImages);
       return updatedImages;
     });
   };
 
   return (
     <div className=" flex w-[100%] flex-col items-start gap-6">
-      <span className=" text-black text-2xl font-bold">소개 이미지</span>
-      <div className=" grid w-[100%] grid-flow-row auto-rows-[minmax(0,2fr)] lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-6">
+      <span className=" text-black text-2xl font-bold dark:text-darkMode-white-10">
+        소개 이미지
+      </span>
+      <div className=" grid w-[100%] grid-flow-row auto-rows-[minmax(0,2fr)] grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-6">
         <div>
           <label
             className=" flex flex-col items-center justify-center p-[38px] gap-[30px] rounded-xl border border-dashed border-gray-80 cursor-pointer"
             htmlFor="introImageInput"
           >
             <img src="/assets/plus_icon.svg" alt="plusIcon" />
-            <span>이미지 등록</span>
+            <span className="dark:text-darkMode-gray-10">이미지 등록</span>
           </label>
           <input
             ref={inputRef}
@@ -95,7 +89,7 @@ const AssignIntroImage = () => {
               }}
             >
               <img
-                className=" absolute top-[-10px] right-[-10px]"
+                className=" absolute top-[-10px] right-[-10px] cursor-pointer"
                 src="/assets/white_x_btn.svg"
                 alt="whiteXBtn"
                 onClick={() => handleRemoveImage(index)}

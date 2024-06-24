@@ -7,7 +7,7 @@ const patchModifyMyActivity = async (myActivity: ModifyData, id: string) => {
     return res.data;
   } catch (e) {
     console.error('Error: ', e);
-    return null;
+    throw e;
   }
 };
 

@@ -1,33 +1,39 @@
 import React, { useRef } from 'react';
-import axios from '@/lib/axiosInstance';
 import useClickOutside from '@/hooks/useClickOutside';
+import { ExperienceDeleteModalProps } from '@/types/myActivityPage';
+import { useMutation } from '@tanstack/react-query';
+import deleteMyActivity from '@/api/deleteMyActivity';
+import Toast from '@/utils/Toast';
+import queryClient from '@/lib/queryClient';
 import ModalBackground from '../review/ModalBackground';
-
-interface ExperienceDeleteModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  activityId: number;
-  onDelete: () => void;
-}
 
 const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
   isOpen,
   onClose,
   activityId,
   onDelete,
+  refetchActivities,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(modalRef, onClose);
 
-  const handleDeleteClick = async () => {
-    try {
-      await axios.delete(`/my-activities/${activityId}`);
+  const { mutate } = useMutation<void, Error, string>({
+    mutationFn: deleteMyActivity,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['activities'] });
+      queryClient.invalidateQueries({ queryKey: ['currentPageActivity'] });
+      refetchActivities();
       onDelete();
       onClose();
-    } catch (error) {
-      console.error('삭제 실패:', error);
-    }
+    },
+    onError: (error: unknown) => {
+      Toast.error(error);
+    },
+  });
+
+  const handleDeleteClick = () => {
+    mutate(`${activityId}`);
   };
 
   if (!isOpen) return null;
@@ -37,7 +43,7 @@ const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
   return (
     <ModalBackground onClose={onClose}>
       <div
-        className="w-full h-full mob:w-[18.625rem] mob:h-[11.5rem] mob:rounded-xl bg-white p-6"
+        className="w-full h-full mob:w-[18.625rem] mob:h-[11.5rem] mob:rounded-xl bg-white p-6 dark:border-[1.5px] dark:border-green-80 dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
         ref={modalRef}
         onClick={handleClick}
       >
@@ -49,14 +55,14 @@ const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="w-20 h-[2.375rem] flex justify-center items-center gap-2 py-[0.625rem] border border-[#121] rounded-md text-[0.875rem]"
+              className="w-20 h-[2.375rem] flex justify-center items-center gap-2 py-[0.625rem] border border-[#121] rounded-md text-[0.875rem] dark:bg-green-80 dark:border-0"
               onClick={onClose}
             >
               아니오
             </button>
             <button
               type="button"
-              className="w-20 h-[2.375rem] flex justify-center items-center gap-2 py-[0.625rem] rounded-md bg-[#121] text-white text-[0.875rem]"
+              className="w-20 h-[2.375rem] flex justify-center items-center gap-2 py-[0.625rem] rounded-md bg-[#121] text-white text-[0.875rem] dark:bg-green-10 dark:text-darkMode-black-20"
               onClick={handleDeleteClick}
             >
               예

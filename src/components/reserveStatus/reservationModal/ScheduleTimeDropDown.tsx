@@ -1,22 +1,6 @@
-import { useRef, useEffect, Dispatch, SetStateAction } from 'react';
-
-interface ScheduleType {
-  scheduleId: number;
-  startTime: string;
-  endTime: string;
-  count: {
-    declined: number;
-    confirmed: number;
-    pending: number;
-  };
-}
-
-interface ScheduleTimeDropDownProps {
-  schedule: ScheduleType[];
-  setSelelctedSchedule: React.Dispatch<React.SetStateAction<ScheduleType | null>>;
-  viewScheduleTimeDropDown: boolean;
-  setVieScheduleTimeDropDown: Dispatch<SetStateAction<boolean>>;
-}
+import { useRef, useEffect } from 'react';
+import { ScheduleType, ScheduleTimeDropDownProps } from '@/types/reservationStatus';
+import '../../../styles/customScrollbar.css';
 
 const ScheduleTimeDropDown = ({
   schedule,
@@ -46,7 +30,7 @@ const ScheduleTimeDropDown = ({
   return (
     <div
       ref={dropdownRef}
-      className="w-full border border-gray-50 h-[170px] absolute z-50 bg-white rounded overflow-y-auto"
+      className="w-full border border-gray-50 h-[170px] absolute z-50 bg-white rounded overflow-y-auto dark:bg-darkMode-black-30 dark:text-white custom-scrollbar"
     >
       <ul>
         {schedule.map((item) => {

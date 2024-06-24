@@ -3,51 +3,12 @@ import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { useState, useEffect, useRef } from 'react';
 import getScheduleBoardByStatus from '@/api/getScheduleBoardByStatus';
 import { useInView } from 'react-intersection-observer';
+import { ReservationsResponse, Schedule, ReservationModalProps } from '@/types/reservationStatus';
 import ScheduleTimeDropDownBox from './ScheduleTimeDropDownBox';
 import ScheduleTimeDropDown from './ScheduleTimeDropDown';
 import ReservationSchedule from './ReservationSchedule';
+import '../../../styles/customScrollbar.css';
 
-interface Reservation {
-  id: number;
-  status: string;
-  totalPrice: number;
-  headCount: number;
-  nickname: string;
-  userId: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-  createdAt: string;
-  updatedAt: string;
-  activityId: number;
-  scheduleId: number;
-  reviewSubmitted: boolean;
-  teamId: string;
-}
-
-interface ReservationsResponse {
-  reservations: Reservation[];
-  totalCount: number;
-  cursorId: number | null;
-}
-
-interface Schedule {
-  scheduleId: number;
-  startTime: string;
-  endTime: string;
-  count: {
-    declined: number;
-    confirmed: number;
-    pending: number;
-  };
-}
-
-interface ReservationModalProps {
-  setViewReservationModal: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedDate: { year: string; month: string; day: string | null };
-  activitiyId: number;
-  viewReservationModal: boolean;
-}
 const ReservationModal = ({
   setViewReservationModal,
   selectedDate,
@@ -79,6 +40,7 @@ const ReservationModal = ({
       document.removeEventListener('mousedown', clickOutside);
     };
   }, [viewReservationModal, setViewReservationModal]);
+
   const { data: scheduleByStatus, fetchNextPage } = useInfiniteQuery<ReservationsResponse>({
     queryKey: ['scheduleByStatus', activitiyId, selectedSchedule?.scheduleId, reservationStatus],
     queryFn: getScheduleBoardByStatus,
@@ -92,8 +54,9 @@ const ReservationModal = ({
   });
 
   const reservation = scheduleByStatus?.pages.flatMap((page) => page.reservations);
+
+  console.log(reservation);
   useEffect(() => {
-    // scheduleData가 있고, 배열의 길이가 1 이상일 때 첫 번째 요소를 selectedSchedule로 설정
     if (scheduleData) {
       const firstSchedule = scheduleData[0];
       setSelelctedSchedule(firstSchedule);
@@ -103,7 +66,7 @@ const ReservationModal = ({
   const { inView, ref } = useInView();
   return (
     <div
-      className="border border-[#ddd] absolute top-1/2 right-[150px] w-[429px] h-[697px] bg-white rounded-3xl shadow-[0px_4px_16px_0px_rgba(17, 34, 17, 0.05)] px-[24px] pt-[31px] z-[10]"
+      className="border border-[#ddd] absolute top-[200px] right-[190px] w-[429px] h-[697px] bg-white rounded-3xl shadow-[0px_4px_16px_0px_rgba(17, 34, 17, 0.05)] px-[24px] pt-[31px] z-[10] sm:w-screen sm:top-0 sm:right-0 sm:fixed sm:inset-0 sm:h-screen sm:rounded-none dark:bg-darkMode-black-20"
       ref={modalRef}
     >
       <svg
@@ -117,12 +80,12 @@ const ReservationModal = ({
         <path d="M1 1L428 1.00004" stroke="#DDDDDD" strokeLinecap="square" />
       </svg>
       <div className="flex justify-between">
-        <div className="font-bold text-[28px] text-[#1b1b1b]">예약정보</div>
+        <div className="font-bold text-[28px] text-[#1b1b1b] dark:text-white">예약정보</div>
         <button type="button" onClick={handleCloseModal}>
-          <img src="assets/x_btn.svg" alt="cancel_icon" />
+          <img src="/assets/x_btn.svg" alt="cancel_icon" />
         </button>
       </div>
-      <div className="flex gap-3 mt-[34px] text-[20px] text-[#4b4b4b]">
+      <div className="flex gap-3 mt-[34px] text-[20px] text-[#4b4b4b] dark:text-darkMode-white-20">
         <div className="flex flex-col gap-[13px]">
           <button
             type="button"
@@ -161,44 +124,55 @@ const ReservationModal = ({
           ) : null}
         </div>
       </div>
-      <div className="mt-[25px] text-[#1b1b1b] font-semibold text-[20px]">예약날짜</div>
-      <div className="mt-[14px] text-[#1b1b1b]  text-[20px] mb-[10px]">{`${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일`}</div>
-      <ScheduleTimeDropDownBox
-        selectedSchedule={selectedSchedule}
-        setVieScheduleTimeDropDown={setVieScheduleTimeDropDown}
-      />
-      {viewScheduleTimeDropDown && (
-        <div className="relative">
-          <ScheduleTimeDropDown
-            schedule={scheduleData || []}
-            setSelelctedSchedule={setSelelctedSchedule}
-            viewScheduleTimeDropDown={viewScheduleTimeDropDown}
+      <div className="mt-[25px] text-[#1b1b1b] font-semibold text-[20px] dark:text-white">
+        예약날짜
+      </div>
+      <div className="mt-[14px] text-[#1b1b1b]  text-[20px] mb-[10px] dark:text-white">{`${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일`}</div>
+
+      {selectedSchedule ? (
+        <>
+          <ScheduleTimeDropDownBox
+            selectedSchedule={selectedSchedule}
             setVieScheduleTimeDropDown={setVieScheduleTimeDropDown}
           />
-        </div>
-      )}
-
-      <div className="mt-8 flex flex-col gap-4">
-        <div className="text-[#1b1b1b] font-semibold text-[20px]">예약 내역</div>
-        <div className="flex flex-col gap-[14px] h-[186px] overflow-y-auto">
-          {reservation?.map((item) => {
-            return (
-              <ReservationSchedule
-                reservationStatus={reservationStatus}
-                key={item.id}
-                nickname={item.nickname}
-                headCount={item.headCount}
-                activityId={activitiyId}
-                reservationId={item.id}
+          {viewScheduleTimeDropDown && (
+            <div className="relative">
+              <ScheduleTimeDropDown
+                schedule={scheduleData || []}
                 setSelelctedSchedule={setSelelctedSchedule}
-                fetchNextPage={fetchNextPage}
-                ref={ref}
-                inView={inView}
+                viewScheduleTimeDropDown={viewScheduleTimeDropDown}
+                setVieScheduleTimeDropDown={setVieScheduleTimeDropDown}
               />
-            );
-          })}
-        </div>
-      </div>
+            </div>
+          )}
+
+          <div className="mt-8 flex flex-col gap-4">
+            <div className="text-[#1b1b1b] font-semibold text-[20px] dark:text-white">
+              예약 내역
+            </div>
+            <div className="flex flex-col gap-[14px] h-[186px] overflow-y-auto custom-scrollbar">
+              {reservation?.map((item) => {
+                return (
+                  <ReservationSchedule
+                    reservationStatus={reservationStatus}
+                    key={item.id}
+                    nickname={item.nickname}
+                    headCount={item.headCount}
+                    activityId={activitiyId}
+                    reservationId={item.id}
+                    setSelelctedSchedule={setSelelctedSchedule}
+                    fetchNextPage={fetchNextPage}
+                    ref={ref}
+                    inView={inView}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div>일정이 없습니다</div>
+      )}
     </div>
   );
 };

@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { ReviewDWarningPopupProps } from '@/types/reviewModal';
 import ReviewWarningPopupContent from './StyledReviewWarningPopup';
-
-interface ReviewDWarningPopupProps {
-  message: string;
-  isVisible: boolean;
-}
 
 const ReviewWarningPopup: React.FC<ReviewDWarningPopupProps> = ({ message, isVisible }) => {
   const popupRef = useRef<HTMLDivElement>(null);
@@ -23,7 +19,7 @@ const ReviewWarningPopup: React.FC<ReviewDWarningPopupProps> = ({ message, isVis
       <ReviewWarningPopupContent
         ref={popupRef}
         isVisible={isVisible}
-        className={`bg-white rounded-full p-4 px-6 border-2 border-solid shadow-xl text-red-400 transition-opacity duration-300 ${
+        className={`bg-white rounded-full p-4 px-6 border-2 border-solid shadow-xl text-red-400 dark:border-0 dark:bg-darkMode-black-20 transition-opacity duration-300 ${
           isVisible ? 'opacity-100' : 'opacity-0'
         } transform -translate-x-1/2 max-w-full whitespace-nowrap`}
       >

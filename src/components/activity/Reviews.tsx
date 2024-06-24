@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { REVIEW_OFFSET_LIMIT } from '@/constants/pagination_config';
+import calculatePageGroupNumber from '@/utils/calculatePageGroupNumber';
 import getActivityReviews from '@/api/getActivityReviews';
+import queryKeys from '@/api/reactQuery/queryKeys';
 import getFormatDate from '@/utils/getFormatDate';
 import ratingToText from '@/utils/ratingToText';
 import Pagination from '../mainpage/Pagination';
 
 const usePageReview = (id: number, pageNum: number, size: number) => {
   return useQuery({
-    queryKey: ['pageActivity', id, pageNum, size],
+    queryKey: queryKeys.reviews(id, pageNum, size),
     queryFn: () => getActivityReviews(id, pageNum, size),
     placeholderData: keepPreviousData,
   });
@@ -18,20 +20,16 @@ const usePageReview = (id: number, pageNum: number, size: number) => {
 const Reviews = () => {
   const { id } = useParams<{ id: string }>();
   const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [currentPageGroup, setCurrentPageGroup] = useState(0);
+  const currentPageGroup = calculatePageGroupNumber(currentPageNum);
 
-  const { data: reviewData, isLoading, isError } = usePageReview(
-    Number(id),
-    currentPageNum + 1,
-    REVIEW_OFFSET_LIMIT,
-  );
+  const {
+    data: reviewData,
+    isLoading,
+    isError,
+  } = usePageReview(Number(id), currentPageNum + 1, REVIEW_OFFSET_LIMIT);
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
-  };
-
-  const handlePageGroupChange = (page: number) => {
-    setCurrentPageGroup(page);
   };
 
   if (isLoading) {
@@ -46,51 +44,57 @@ const Reviews = () => {
 
   return (
     <div className="flex flex-col w-full gap-4">
-      <h2 className="text-xl font-bold pt-6">후기</h2>
+      <h2 className="text-xl font-bold pt-6 dark:text-darkMode-white-10">후기</h2>
       {totalCount ? (
         <div className="flex gap-4">
-          <p className="text-5xl font-bold">{averageRating}</p>
+          <data value={averageRating} className="text-5xl font-bold dark:text-darkMode-white-20">
+            {averageRating}
+          </data>
           <div>
-            <p className="text-base font-normal">{ratingToText(averageRating)}</p>
-            <p className="flex gap-2 text-base font-normal">
+            <p className="text-base font-normal dark:text-darkMode-white-20">
+              {ratingToText(averageRating)}
+            </p>
+            <p className="flex gap-2 text-base font-normal dark:text-darkMode-white-20">
               <img className="w-4" src="/assets/star_on_icon.svg" alt="rating star" />
               {totalCount}개 후기
             </p>
           </div>
         </div>
       ) : (
-        <div>후기 없음</div>
+        <div className="dark:text-darkMode-white-20">후기 없음</div>
       )}
       {/* 리뷰 List */}
       {totalCount > 0 ? (
-        <div className="flex flex-col justify-center items-center gap-8">
+        <div className="flex flex-col justify-center items-center gap-4">
           <div className="w-full">
             {reviews.map((review) => (
-              <div key={review.id} className="flex flex-col gap-4">
+              <div key={review.id} className="flex w-full flex-col gap-4 pb-6">
                 <div className="flex w-full gap-4">
                   {review.user.profileImageUrl ? (
                     <div
-                      className="w-1/12 h-10 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
+                      className="w-12 h-12 rounded-full shadow-md bg-cover bg-no-repeat bg-center"
                       style={{
                         backgroundImage: `url(${review.user.profileImageUrl})`,
                         backgroundColor: '#E3E5E8',
                       }}
                     />
                   ) : (
-                    <div className="w-1/6 h-8 bg-slate-400 rounded-full flex items-center justify-center text-white">
+                    <div className="w-12 h-12 bg-slate-400 rounded-full flex items-center justify-center text-white">
                       {review.user.nickname[0]}
                     </div>
                   )}
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col w-full gap-2">
                     <div className="flex gap-1">
-                      <div className="font-bold">{review.user.nickname}</div>
-                      <div>|</div>
+                      <div className="font-bold dark:text-darkMode-white-20">
+                        {review.user.nickname}
+                      </div>
+                      <div className="dark:text-darkMode-gray-10">|</div>
                       <div className="text-gray-60">{getFormatDate(review.updatedAt)}</div>
                     </div>
-                    <div>{review.content}</div>
+                    <p className="dark:text-darkMode-white-20">{review.content}</p>
                   </div>
                 </div>
-                <div className="w-full h-[1px] bg-gray-40" />
+                <hr className="w-full h-[1px] bg-gray-40" />
               </div>
             ))}
           </div>
@@ -100,7 +104,6 @@ const Reviews = () => {
             totalCount={totalCount}
             offsetLimit={REVIEW_OFFSET_LIMIT}
             setPageNum={handlePageChange}
-            setPageGroup={handlePageGroupChange}
           />
         </div>
       ) : null}

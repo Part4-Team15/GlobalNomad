@@ -1,16 +1,18 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-
-import getActivity from '@/api/getActivity';
-import getUserInfo from '@/api/getUserInfo';
-import { ActivityType } from '@/types/activityPage';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import useActivity from '@/hooks/useActivityQuery';
+import { Helmet } from 'react-helmet';
 
-import TopBanner from '@/components/activity/TopBanner';
+import Title from '@/components/activity/Title';
 import Description from '@/components/activity/Description';
 import Reviews from '@/components/activity/Reviews';
 import ReserveForm from '@/components/activity/ReserveForm';
 import ReserveBar from '@/components/activity/ReserveBar';
+import ImageDashBoard from '@/components/activity/ImageDashBoard';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
+import ImageDashBoardSkeleton from '@/components/skeletonUI/activity/ImageDashBoardSkeleton';
+import TitleSkeleton from '@/components/skeletonUI/activity/TitleSkeleton';
+import Toast from '@/utils/Toast';
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -22,76 +24,80 @@ const ActivityPage = () => {
   }
 
   // 유저 정보 가져오기
-  const {
-    data: userInfo,
-    isLoading: userLoading,
-    isError: userError,
-  } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUserInfo,
-  });
+  const { userInfo, isLoading: userLoading, isError: userError } = useUserInfoQuery();
 
   // 체험 상세 정보 가져오기
   const {
     data: activity,
     isLoading: activityLoading,
     isError: activityError,
-  } = useQuery<ActivityType>({
-    queryKey: ['activity', id],
-    queryFn: async () => {
-      if (typeof id === 'undefined') {
-        throw new Error('해당 체험은 존재하지 않습니다');
-      }
-      return getActivity(id);
-    },
-    enabled: !!id,
-  });
+  } = useActivity(id || '');
 
   if (userLoading || activityLoading) {
-    return <div>프로필을 불러오고 있습니다</div>;
+    return (
+      <div className="flex flex-col justify-center items-center w-screen">
+        <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-16 mb-40 md:gap-10 sm:gap-0">
+          <TitleSkeleton />
+          <ImageDashBoardSkeleton />
+        </div>
+      </div>
+    );
   }
 
-  if (userError || !userInfo || activityError || !activity) {
+  if (userError || !userInfo) {
+    Toast.error('로그인이 필요합니다');
+    navigate('/login');
+    return null;
+  }
+
+  if (activityError || !activity) {
+    Toast.error('존재하지 않는 체험입니다');
     navigate('/Error404');
     return null;
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-screen">
-      <div className="lg:w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-20 mb-40 md:gap-10 sm:gap-0">
-        <TopBanner activity={activity} />
-        {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}
-        <div className="flex w-full gap-6 sm:gap-4">
-          {activity.userId === userInfo.id ? (
-            <div className="flex w-full flex-col">
-              <Description activity={activity} />
-              <Reviews />
-            </div>
-          ) : (
-            <>
-              <div />
-              {windowWidth > 767 ? (
-                <>
-                  <div className="flex w-2/3 flex-col">
-                    <Description activity={activity} />
+    <>
+      <Helmet>
+        <title>{activity.title} | Global Nomad</title>
+      </Helmet>
+      <div className="flex flex-col justify-center items-center w-full dark:bg-darkMode-black-10">
+        <div className="w-[1000px] md:w-11/12 sm:w-11/12 flex-col flex justify-center items-center gap-8 mt-12 sm:mt-4 mb-40 md:gap-10 sm:gap-4">
+          <Title />
+          <ImageDashBoard />
+          {/* 내가 만든 체험인 경우, 예약카드 보이지 않도록 함 */}
+          <div className="flex w-full gap-6 sm:gap-4">
+            {activity.userId === userInfo.id ? (
+              <div className="flex w-full flex-col">
+                <Description />
+                <Reviews />
+              </div>
+            ) : (
+              <>
+                <div />
+                {windowWidth > 767 ? (
+                  <>
+                    <div className="flex w-2/3 flex-col">
+                      <Description />
+                      <Reviews />
+                    </div>
+                    <div className="w-1/3">
+                      <ReserveForm price={activity.price} />
+                    </div>
+                  </>
+                ) : (
+                  <div className="relative flex w-11/12 flex-col">
+                    <Description />
                     <Reviews />
+                    <ReserveBar price={activity.price} />
                   </div>
-                  <div className="w-1/3">
-                    <ReserveForm activity={activity} />
-                  </div>
-                </>
-              ) : (
-                <div className="relative flex w-11/12 flex-col">
-                  <Description activity={activity} />
-                  <Reviews />
-                  <ReserveBar activity={activity} />
-                </div>
-              )}
-            </>
-          )}
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

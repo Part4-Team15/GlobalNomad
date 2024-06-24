@@ -8,7 +8,7 @@ const Header = () => {
   const isLogin = accessToken && refreshToken;
 
   return (
-    <header className="flex h-[70px] justify-around sm:px-[24px] sm:justify-between md:px-[24px] md:justify-between items-center">
+    <header className="flex h-[70px] justify-around sm:px-[24px] sm:justify-between md:px-[24px] md:justify-between items-center dark:bg-darkMode-black-20 [&_*]:dark:text-darkMode-white-10">
       <HeaderLogo />
       {!isLogin ? <AuthLinkBox /> : <HeaderUserInformation />}
     </header>

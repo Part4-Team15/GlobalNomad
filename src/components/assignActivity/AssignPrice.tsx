@@ -1,24 +1,21 @@
 import React from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { AssignData } from '@/types/assignActivityPage';
-import mergeAssignData from './utils/mergeAssignData';
+
+import useMergeAssignData from '@/hooks/useMergeAssignData';
 
 const AssignPrice = () => {
-  const queryClient = useQueryClient();
+  const { mergePrice } = useMergeAssignData();
 
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    queryClient.setQueryData<AssignData>(['assignData'], (oldData) => {
-      return mergeAssignData(oldData, { price: Number(e.target.value) });
-    });
+    mergePrice(e.target.value);
   };
 
   return (
     <div className=" flex w-[100%] flex-col items-start gap-4">
-      <span className=" text-black text-2xl font-bold">가격</span>
-      <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
+      <span className=" text-black text-2xl font-bold  dark:text-darkMode-white-10">가격</span>
+      <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
         <input
           type="number"
-          className="w-[100%] outline-none"
+          className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
           onChange={handleChangePrice}
           placeholder="숫자만 입력해주세요"
         />

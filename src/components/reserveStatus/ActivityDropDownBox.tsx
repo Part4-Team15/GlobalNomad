@@ -13,10 +13,12 @@ const ActivityDropDownBox = ({
   };
   return (
     <div className="flex flex-col relative">
-      <label className="absolute top-[-9px] px-1 bg-white left-5  text-[#121121]">체험명</label>
+      <label className="absolute top-[-9px] px-1 bg-white left-5  text-[#121121] dark:bg-darkMode-black-20 dark:text-white">
+        체험명
+      </label>
       <input
         type="text"
-        className="border border-black pl-4 py-5 rounded outline-none"
+        className="border border-black pl-4 py-5 pr-10 rounded outline-none dark:bg-darkMode-black-20 dark:text-white whitespace-normal overflow-hidden text-ellipsis"
         value={selectedActivityTitle || ''}
       />
 

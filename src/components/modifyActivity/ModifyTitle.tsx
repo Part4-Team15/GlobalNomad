@@ -1,38 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { ModifyData } from '@/types/modifyActivityPage';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 interface ModifyTitleProps {
   title: string;
 }
 
 const ModifyTitle = ({ title }: ModifyTitleProps) => {
-  const queryClient = useQueryClient();
+  const { mergeTitle } = useMergeModifyData();
   const [localTitle, setLocalTitle] = useState(title);
 
   // 리액트 쿼리 초기값 설정
   useEffect(() => {
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { title });
-    });
+    mergeTitle(title);
   }, []);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setLocalTitle(newTitle);
-    queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-      return mergeModifyData(oldData, { title: newTitle });
-    });
+    mergeTitle(newTitle);
   };
 
   return (
-    <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white">
+    <div className=" flex pt-2 pr-4 pb-2 pl-4 items-center self-stretch rounded-[4px] border border-gray-60 bg-white dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
       <input
-        className="w-[100%] outline-none"
+        className="w-[100%] outline-none dark:bg-darkMode-black-20 dark:text-darkMode-white-10"
         value={localTitle}
         onChange={handleChangeTitle}
         placeholder="제목"
+        maxLength={25}
       />
     </div>
   );

@@ -21,12 +21,12 @@ const StartTimeDropDown = ({ onSelect }: StartTimeProps) => {
   };
 
   return (
-    <ul className=" absolute z-10 flex flex-col w-[100%] p-2 items-start gap-[4px] shrink-0 rounded-md bg-white shadow-md">
+    <ul className=" absolute z-10 flex flex-col w-[100%] p-2 items-start gap-[4px] shrink-0 rounded-md bg-white shadow-md dark:bg-darkMode-black-20 dark:text-darkMode-white-10">
       {reservationTime.map((time) => (
         <button
           key={time.startTime}
           type="button"
-          className="w-[100%]  hover:bg-gray-30 "
+          className="w-[100%]  hover:bg-gray-30 dark:hover:bg-darkMode-gray-20"
           onClick={handleSelectedTime(time.startTime)}
         >
           <li className="flex text-base">{time.startTime}</li>

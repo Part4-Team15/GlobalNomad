@@ -1,20 +1,15 @@
 import React from 'react';
+import { ReviewModalBtnProps } from '@/types/reviewModal';
 import ReviewWarningPopup from './ReviewWarningPopup';
 
-interface IProps {
-  handleSubmit: () => void;
-  showWarning: boolean;
-  message: string;
-}
-
-const ReviewModalBtn = ({ handleSubmit, showWarning, message }: IProps) => {
+const ReviewModalBtn = ({ handleSubmit, showWarning, message }: ReviewModalBtnProps) => {
   return (
     <div className="relative">
       <ReviewWarningPopup message={message} isVisible={showWarning} />
       <button
         type="button"
         onClick={handleSubmit}
-        className="w-full h-[3.5rem] justify-center items-center rounded-md bg-[#121] text-white"
+        className="w-full h-[3.5rem] justify-center items-center rounded-md bg-[#121] text-white dark:border-[1px] dark:border-green-10 dark:text-green-10"
       >
         작성하기
       </button>

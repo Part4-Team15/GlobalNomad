@@ -1,6 +1,10 @@
 import axiosInstance from '@/lib/axiosInstance';
 
-const uploadProfileImage = async (file: File): Promise<any> => {
+interface UploadProfileImageResponse {
+  profileImageUrl: 'string';
+}
+
+const uploadProfileImage = async (file: File): Promise<UploadProfileImageResponse> => {
   const formData = new FormData();
   formData.append('image', file);
 
@@ -10,8 +14,6 @@ const uploadProfileImage = async (file: File): Promise<any> => {
         'Content-Type': 'multipart/form-data',
       },
     });
-
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error('Error Upload Image');

@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { ModifyData } from '@/types/modifyActivityPage';
 import { SubImage } from '@/types/activityPage';
 import postAssignImage from '@/api/postAssignImage';
 import Toast from '@/utils/Toast';
-import mergeModifyData from './utils/mergeModifyData';
+import useMergeModifyData from '@/hooks/useMergeModifyData';
 
 const MAX_SIZE = 4;
 
@@ -13,7 +11,8 @@ interface ModifyIntroImageProps {
 }
 
 const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
-  const queryClient = useQueryClient();
+  const { mergeIntroImage, deleteIntroImageId, deleteIntroImageUrl } = useMergeModifyData();
+
   const [introImage, setIntroImage] = useState<SubImage[]>(subImages);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -39,12 +38,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
             return updatedImages;
           });
 
-          queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-            const updatedData = mergeModifyData(oldData, {
-              subImageUrlsToAdd: [...(oldData?.subImageUrlsToAdd || []), imageUrl],
-            });
-            return updatedData;
-          });
+          mergeIntroImage(imageUrl);
         }
 
         if (inputRef.current) {
@@ -64,38 +58,25 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
     });
 
     if (removeIntroImage.id) {
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-        return mergeModifyData(oldData, {
-          subImageIdsToRemove: [
-            ...(oldData?.subImageIdsToRemove || []),
-            removeIntroImage.id as number,
-          ],
-        });
-      });
+      deleteIntroImageId(removeIntroImage);
     } else {
-      queryClient.setQueryData<ModifyData>(['modifyData'], (oldData) => {
-        const updatedSubImage = oldData?.subImageUrlsToAdd?.filter(
-          (imageUrl) => imageUrl !== removeIntroImage.imageUrl,
-        );
-
-        return mergeModifyData(oldData, {
-          subImageUrlsToAdd: updatedSubImage,
-        });
-      });
+      deleteIntroImageUrl(removeIntroImage);
     }
   };
 
   return (
     <div className=" flex w-[100%] flex-col items-start gap-6">
-      <span className=" text-black text-2xl font-bold">소개 이미지</span>
-      <div className=" grid w-[100%] grid-flow-row auto-rows-[minmax(0,2fr)] lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-6">
+      <span className=" text-black text-2xl font-bold dark:text-darkMode-white-10">
+        소개 이미지
+      </span>
+      <div className=" grid w-[100%] grid-flow-row auto-rows-[minmax(0,2fr)] grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-6">
         <div>
           <label
             className=" flex flex-col items-center justify-center p-[38px] gap-[30px] rounded-xl border border-dashed border-gray-80 cursor-pointer"
             htmlFor="introImageInput"
           >
             <img src="/assets/plus_icon.svg" alt="plusIcon" />
-            <span>이미지 등록</span>
+            <span className="dark:text-darkMode-gray-10">이미지 등록</span>
           </label>
           <input
             ref={inputRef}
@@ -121,7 +102,7 @@ const ModifyIntroImage = ({ subImages }: ModifyIntroImageProps) => {
               }}
             >
               <img
-                className=" absolute top-[-10px] right-[-10px]"
+                className=" absolute top-[-10px] right-[-10px] cursor-pointer"
                 src="/assets/white_x_btn.svg"
                 alt="whiteXBtn"
                 onClick={() => handleRemoveImage(index)}
