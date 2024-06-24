@@ -23,7 +23,7 @@ const usePageActivity = (pageNum: number, size: number, category: string, sort: 
 const ActivityCardList = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [currentCategory, setCurrentCategory] = useState('');
-  const [sortActivity, setSortActivity] = useState('');
+  const [currentSort, setCurrentSort] = useState('');
   const [offset, setOffset] = useState(calculateOffsetLimit(...ALL_ACTIVITY_OFFSET_LIST));
   const currentPageGroup = calculatePageGroupNumber(currentPageNum);
 
@@ -47,30 +47,17 @@ const ActivityCardList = () => {
     const sortParam = searchParams.get('sort');
 
     if (categoryParam) setCurrentCategory(categoryParam);
-    if (sortParam) setSortActivity(sortParam);
+    if (sortParam) setCurrentSort(sortParam);
     if (pageParams) setCurrentPageNum(Number(pageParams) - 1);
   }, []);
 
   useEffect(() => {
     if (currentCategory) searchParams.set('category', currentCategory);
-    if (sortActivity) searchParams.set('sort', sortActivity);
+    if (currentSort) searchParams.set('sort', currentSort);
     searchParams.set('page', String(currentPageNum + 1));
 
     navigate(`?${searchParams}`);
-  }, [currentCategory, sortActivity, currentPageNum, setSearchParams, navigate]);
-
-  useEffect(() => {
-    const handlePageShow = () => {
-      if (currentCategory) searchParams.delete('category');
-      if (sortActivity) searchParams.delete('sort');
-    };
-
-    window.addEventListener('pageshow', handlePageShow);
-
-    return () => {
-      window.removeEventListener('pageshow', handlePageShow);
-    };
-  }, []);
+  }, [currentCategory, currentSort, currentPageNum, setSearchParams, navigate]);
 
   const handlePageChange = (page: number) => {
     setCurrentPageNum(page);
@@ -90,7 +77,7 @@ const ActivityCardList = () => {
 
   const handleSortClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
-    setSortActivity(button.value);
+    setCurrentSort(button.value);
     searchParams.set('sort', button.value);
     setCurrentPageNum(0);
   };
@@ -100,13 +87,14 @@ const ActivityCardList = () => {
     isFetching,
     isError,
     error,
-  } = usePageActivity(currentPageNum, offset, currentCategory, sortActivity);
+  } = usePageActivity(currentPageNum, offset, currentCategory, currentSort);
 
-  if (isError || !allActivityList) {
+  if (isError) {
     return <div>{error?.message}</div>;
   }
 
-  const { activities, totalCount } = allActivityList;
+  const activities = allActivityList?.activities || [];;
+  const totalCount = allActivityList?.totalCount || 0;
 
   return (
     <>
@@ -118,31 +106,33 @@ const ActivityCardList = () => {
       <h2 className="text-4xl font-bold mt-10 mb-8 dark:text-darkMode-white-10 sm:text-lg sm:my-6 sm:leading-none">
         {currentCategory || '🛼 모든 체험'}
       </h2>
-      {totalCount ? (
-        <>
+      <div
+        className="grid grid-cols-4 gap-x-6 gap-y-12 w-full h-[918px] mb-[72px]
+        md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:h-[1184px] sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:h-[638px] sm:mb-[62px]"
+      >
+        {isFetching
+          ? Array.from({ length: offset }, (_, index) => <ActivityCardSkeleton key={index} />)
+          : activities.map((activity) => (
+              <ActivityCard key={activity.id} cardData={activity} />
+            ))}
+        {totalCount === 0 && !isFetching &&
           <div
-            className="grid grid-cols-4 gap-x-6 gap-y-12 w-full h-[918px] mb-[72px]
-            md:grid-cols-3 md:gap-x-4 md:gap-y-8 md:h-[1184px] sm:grid-cols-2 sm:gap-x-2 sm:gap-y-6 sm:h-[638px] sm:mb-[62px]"
+            className="col-span-4 flex justify-around items-center text-2xl font-medium
+            dark:text-darkMode-white-10 md:col-span-3 sm:col-span-2 sm:text-base"
           >
-            {isFetching
-              ? Array.from({ length: offset }, (_, index) => <ActivityCardSkeleton key={index} />)
-              : activities.map((activity) => (
-                  <ActivityCard key={activity.id} cardData={activity} />
-                ))}
+            신청할 수 있는 체험이 없습니다.
           </div>
-          <Pagination
-            currentPage={currentPageNum}
-            currentPageGroup={currentPageGroup}
-            totalCount={totalCount}
-            offsetLimit={offset}
-            setPageNum={handlePageChange}
-          />
-        </>
-      ) : (
-        <div className="flex justify-center items-center h-[918px] text-xl md:h-[1183px] sm:h-[614px]">
-          신청할 수 있는 체험이 없습니다.
-        </div>
-      )}
+        }
+      </div>
+      {totalCount !== 0 &&
+        <Pagination
+          currentPage={currentPageNum}
+          currentPageGroup={currentPageGroup}
+          totalCount={totalCount}
+          offsetLimit={offset}
+          setPageNum={handlePageChange}
+        />
+      }
     </>
   );
 };

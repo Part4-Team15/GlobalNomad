@@ -10,7 +10,7 @@ const ProfileDropdown = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 absolute top-12 right-0 z-20 w-56 rounded-md bg-white shadow-md border-1 p-3">
+    <div className="flex flex-col gap-3 absolute top-12 right-0 z-20 w-56 rounded-md bg-white shadow-md border-1 p-3 dark:bg-darkMode-black-40">
       <PageMenu
         linkTo="my/profile"
         icon="/assets/account_check_icon_gray.svg"
@@ -36,7 +36,7 @@ const ProfileDropdown = () => {
         name="예약 현황"
       />
       <div
-        className="text-center p-3 bg-green-80 text-white rounded-xl font-semibold hover:bg-green-10 hover:text-green-80"
+        className="text-center p-3 bg-green-80 text-white rounded-xl font-semibold hover:bg-green-10 hover:text-green-80 dark:bg-green-800 dark:hover:bg-darkMode-gray-10"
         onClick={logout}
       >
         로그아웃

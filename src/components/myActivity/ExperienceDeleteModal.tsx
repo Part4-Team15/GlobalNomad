@@ -21,6 +21,7 @@ const ExperienceDeleteModal: React.FC<ExperienceDeleteModalProps> = ({
     mutationFn: deleteMyActivity,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['activities'] });
+      queryClient.invalidateQueries({ queryKey: ['currentPageActivity'] });
       refetchActivities();
       onDelete();
       onClose();
