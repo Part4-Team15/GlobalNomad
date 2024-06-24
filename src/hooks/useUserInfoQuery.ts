@@ -7,6 +7,7 @@ const useUserInfoQuery = () => {
   const { data, isLoading, isError } = useQuery<UserInformation>({
     queryKey: queryKeys.user(),
     queryFn: getUserInfo,
+    retry: 0,
   });
   return { userInfo: data, isLoading, isError };
 };
