@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import uploadProfileImage from '@/api/uploadProfileImage';
 import { DefaultMyPageProfileImageProps } from '@/types/myPageProfile';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const DefaultMyPageProfileImage = ({
   nickname,
@@ -18,8 +19,8 @@ const DefaultMyPageProfileImage = ({
       setUploadedImage(data.profileImageUrl);
       setIsShowDefaultImage(false);
     },
-    onError: (error) => {
-      console.error(error.message);
+    onError: () => {
+      toast.error('이미지 업로드에 실패했습니다. 파일 크기를 확인하세요.');
     },
   });
 
@@ -32,8 +33,6 @@ const DefaultMyPageProfileImage = ({
   const onChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setUploadedImage(imageUrl);
       mutation.mutate(file);
     }
   };

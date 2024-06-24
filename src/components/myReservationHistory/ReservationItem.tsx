@@ -24,12 +24,15 @@ const ReservationItem = ({
   const formatDate = `${year}. ${month.replace(/^0/, '')}. ${day.replace(/^0/, '')}`;
 
   return (
-    <li className="flex rounded-3xl gap-6 overflow-hidden shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white min-w-[21.5rem] md:h-[157px] md:gap-2 sm:h-[128px] dark:bg-darkMode-black-20">
-      <img
-        className="w-[204px] h-[204px] md:w-[157px] md:h-[157px] sm:w-[128px] sm:h-[128px]"
-        src={`${bannerImageUrl}`}
-        alt="activity_banner_image"
-      />
+    <li className="rounded-3xl flex w-full h-[12.75rem] md:h-[9.75rem] sm:h-32 sm:min-w-[21.5rem] shadow-[0_4px_16px_0_rgba(17,34,17,0.05)] bg-white dark:bg-darkMode-black-20">
+      <div className="w-[12.75rem] h-[12.75rem] md:w-[9.75rem] md:h-[9.75rem] sm:w-32 sm:h-32">
+        <img
+          className="w-full h-full object-cover rounded-l-3xl"
+          src={`${bannerImageUrl}`}
+          alt="activity_banner_image"
+        />
+      </div>
+
       <ReservationDescription
         title={title}
         status={status}
