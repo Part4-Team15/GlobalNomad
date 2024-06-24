@@ -3,7 +3,7 @@ import handleLogin, { HandleLoginParams, LoginDataResponse } from '@/api/handleL
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import Toast from '@/utils/Toast';
 
 interface ErrorResponse {
   message: string;
@@ -32,7 +32,7 @@ const useLogin = () => {
       localStorage.setItem('refreshToken', refreshToken);
 
       navigate('/');
-      toast.success('로그인에 성공했습니다!', {
+      Toast.success('로그인에 성공했습니다!', {
         autoClose: 2000,
       });
     },
