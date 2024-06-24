@@ -1,10 +1,10 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MyPageProfileProps } from '@/types/myPageProfile';
 import uploadProfileImage from '@/api/uploadProfileImage';
 import Toast from '@/utils/Toast';
-
+import React, { useEffect, ChangeEvent } from 'react';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
-import React, { ChangeEvent } from 'react';
+
 import DefaultMyPageProfileImage from './DefaultMyPageProfileImage';
 import MyPageProfileWithUrl from './MyPageProfileWithUrl';
 import ProfileImageLayout from './ProfileImageLayout';
@@ -18,11 +18,16 @@ const MyPageProfile = ({
   setIsShowDefaultImage,
 }: MyPageProfileProps) => {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const isPathNameMyProfile = location.pathname === '/my/profile';
   const isShowProfile = isPathNameMyProfile && !isShowProfileForm;
 
   const { userInfo, isLoading, isError } = useUserInfoQuery();
+  useEffect(() => {
+    if (isError) {
+      navigate('/login');
+    }
+  }, [isError, navigate]);
 
   if (isLoading) {
     return <div>프로필을 불러오고 있습니다</div>;
