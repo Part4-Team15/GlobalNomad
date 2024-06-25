@@ -15,7 +15,7 @@
 
 ## 🔗 배포 링크
 
-> https://global-nomad-one.vercel.app/
+> https://global-nomad-sprint4-15.vercel.app/
 
 <br/>
 
