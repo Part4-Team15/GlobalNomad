@@ -1,3 +1,4 @@
+import useInfiniteMyActivity from '@/hooks/useInfiniteMyActivity';
 import axios from 'axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ interface MutationModifyDataProps {
 
 const useMutationModifyData = ({ schedules }: MutationModifyDataProps) => {
   const queryClient = useQueryClient();
+  const { refetch } = useInfiniteMyActivity();
   const navigate = useNavigate();
   const { mergeSchedule, initialModifySchedule, initialScheduleId, initialModifyData } =
     useMergeModifyData();
@@ -23,7 +25,8 @@ const useMutationModifyData = ({ schedules }: MutationModifyDataProps) => {
     },
     onSuccess: () => {
       Toast.success('수정 성공!!'); // 성공 시 모달 열기
-      queryClient.invalidateQueries({ queryKey: queryKeys.activities() }); // 쿼리 무효화
+      queryClient.removeQueries({ queryKey: queryKeys.activities() });
+      refetch();
       queryClient.invalidateQueries({ queryKey: ['currentPageActivity'] });
       initialModifyData();
       navigate('/my/activity');
